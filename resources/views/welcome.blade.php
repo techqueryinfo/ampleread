@@ -1,98 +1,708 @@
-<!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Ampleread</title>
+@section('content')
+<div class="ample-slider">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="ample-banner">
+                    <div class="ample-banner-left">
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image1.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image2.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image3.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image4.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image5.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image6.png"></div>
+                        </div>
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .title small {
-                font-size: 60px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
+                    </div>
+                    <div class="ample-banner-right">
+                        <div class="ample-banner-heading">10 inspiring books<br>
+                            for the autumn begining</div>
+                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            donec et quam id nunc finibus efficitur molestie</div>
+                        <div class="ample-banner-button">
+                            <button>Learn More</button>
+                        </div>
+                    </div>
+                    <div class="ample-banner-mobile">
+                        <div class="unit-1">
+                            <img src="images/image7.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image8.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image9.jpg" />
+                        </div>
+                    </div>
                 </div>
-            @endif
-            <div class="content">
-                <div class="title m-b-md">
-                    @lang('titles.app')<br />
-                    <small>@lang('titles.app2')</small>
+            </div>
+
+            <div class="item">
+                <div class="ample-banner">
+                    <div class="ample-banner-left">
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image7.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image8.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image9.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image2.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image4.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image5.jpg"></div>
+                        </div>
+
+                    </div>
+                    <div class="ample-banner-right">
+                        <div class="ample-banner-heading">10 inspiring books<br>
+                            for the autumn begining</div>
+                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            donec et quam id nunc finibus efficitur molestie</div>
+                        <div class="ample-banner-button">
+                            <button>Learn More</button>
+                        </div>
+                    </div>
+                    <div class="ample-banner-mobile">
+                        <div class="unit-1">
+                            <img src="images/image4.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image5.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image6.png" />
+                        </div>
+                    </div>
                 </div>
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+            </div>
+
+            <div class="item">
+                <div class="ample-banner">
+                    <div class="ample-banner-left">
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image9.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image8.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image7.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image5.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image4.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image3.jpg"></div>
+                        </div>
+
+                    </div>
+                    <div class="ample-banner-right">
+                        <div class="ample-banner-heading">10 inspiring books<br>
+                            for the autumn begining</div>
+                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            donec et quam id nunc finibus efficitur molestie</div>
+                        <div class="ample-banner-button">
+                            <button>Learn More</button>
+                        </div>
+                    </div>
+                    <div class="ample-banner-mobile">
+                        <div class="unit-1">
+                            <img src="images/image1.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image2.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image1.jpg" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </body>
-</html>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <!--<span class="glyphicon glyphicon-chevron-left"></span>-->
+            <i class="fas fa-chevron-left"></i>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
+            <i class="fas fa-chevron-right"></i>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+<div class="ample-book-slot-1">
+<div class="slot-1">
+    <div class="e-book1">
+        <img src="images/image4.jpg" alt=""/>
+        <img src="images/image2.jpg" alt=""/>
+        <img src="images/image6.png" alt=""/>
+    </div>
+
+    <div class="heading">Gaiman, McGuane, Chirovici</div>
+    <div class="sub-text">Lorem ipsum dolor</div>
+</div>
+<div class="slot-2">
+    <div class="e-book1">
+        <img src="images/image8.jpg" alt=""/>
+        <img src="images/image9.jpg" alt=""/>
+    </div>
+
+    <div class="heading">Gaiman, McGuane, Chirovici</div>
+    <div class="sub-text">Lorem ipsum dolor</div>
+</div>
+<div class="slot-1">
+    <div class="e-book1">
+        <img src="images/image4.jpg" alt=""/>
+        <img src="images/image2.jpg" alt=""/>
+        <img src="images/image5.jpg" alt=""/>
+    </div>
+    <div class="heading">Gaiman, McGuane, Chirovici</div>
+    <div class="sub-text">Lorem ipsum dolor</div>
+</div>
+</div>
+<div class="ample-book-slot-2">
+    <div class="slot-1">
+        <div class="heading">All about food</div>
+        <div class="sub-text">Lorem ipsum dolor</div>
+        <div class="ebook"><img src="images/image3.jpg" alt=""><img src="images/image7.jpg" alt=""></div>
+    </div>
+    <div class="slot-1">
+        <div class="heading">Ultimate classics</div>
+        <div class="sub-text">Lorem ipsum dolor</div>
+        <div class="ebook"><img src="images/image6.png" alt=""><img src="images/image2.jpg" alt=""></div>
+    </div>
+</div>
+<div class="ample-book-slot-slider">
+    <div class="ample-row">
+        <div class="ample-book-slot">New Release</div>
+        <div class="ample-book-view-all">
+            <i class="fa fa-arrow-right"></i>
+            <div class="view-all">view all</div>
+
+        </div>
+    </div>
+    <div class="owl-carousel owl-theme">
+        <div class="item">
+            <div class="image"><img src="images/image10.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image11.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image12.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image22.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image21.png" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image15.png" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image17.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image19.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image18.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image14.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+
+        </div>
+        <div class="item"><div class="image"><img src="images/image11.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+            </div>
+        <div class="item">
+            <div class="image"><img src="images/image13.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                </div>
+            </div>
+    </div>
+</div>
+<div class="ample-book-slot-slider">
+
+    <div class="ample-row">
+        <div class="ample-book-slot">Bestsellers</div>
+        <div class="ample-book-view-all">
+            <i class="fa fa-arrow-right"></i>
+            <div class="view-all">view all</div>
+
+        </div>
+    </div>
+    <div class="owl-carousel owl-theme">
+        <div class="item">
+            <div class="image"><img src="images/image11.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image23.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image24.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image25.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image18.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image26.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image27.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image35.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image29.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image12.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item"><div class="image"><img src="images/image21.png" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image11.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ample-book-slot-slider">
+   <div class="ample-row">
+        <div class="ample-book-slot">Classics</div>
+        <div class="ample-book-view-all">
+            <i class="fa fa-arrow-right"></i>
+            <div class="view-all">view all</div>
+
+        </div>
+    </div>
+    <div class="owl-carousel owl-theme">
+        <div class="item">
+            <div class="image"><img src="images/image14.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image30.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image31.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image32.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image33.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image34.png" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image35.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image36.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image12.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image24.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+
+        </div>
+        <div class="item"><div class="image"><img src="images/image18.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+        <div class="item">
+            <div class="image"><img src="images/image26.jpg" alt="img1" /></div>
+            <div class="ample-button"><button>FREE</button></div>
+            <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
+            <div class="writer">Nathan Williams</div>
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

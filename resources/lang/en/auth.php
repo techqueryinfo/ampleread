@@ -36,14 +36,14 @@ return [
     'email'           => 'E-Mail Address',
     'password'        => 'Password',
     'rememberMe'      => ' Remember Me',
-    'login'           => 'Login',
+    'login'           => 'Sign In',
     'forgot'          => 'Forgot Your Password?',
     'forgot_message'  => 'Password Troubles?',
     'name'            => 'Username',
     'first_name'      => 'First Name',
     'last_name'       => 'Last Name',
     'confirmPassword' => 'Confirm Password',
-    'register'        => 'Register',
+    'register'        => 'Sign Up',
 
     // Placeholders
     'ph_name'          => 'Username',

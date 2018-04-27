@@ -10,7 +10,7 @@
 
         <title>@if (trim($__env->yieldContent('template_title')))@yield('template_title') | @endif {{ config('app.name', Lang::get('titles.app')) }}</title>
         <meta name="description" content="">
-        <meta name="author" content="Jeremy Kenedy">
+        <meta name="author" content="Vinod Kumar">
         <link rel="shortcut icon" href="/favicon.ico">
 
         {{-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --}}
@@ -23,8 +23,13 @@
         @yield('template_linked_fonts')
 
         {{-- Styles --}}
-        <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
-
+        <!-- <link href="{{ mix('/css/all.css') }}" rel="stylesheet"> -->
+        <link rel="icon" type="image/gif" href="images/LogoOrange.png" />
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/fontawesome/css/fontawesome-all.css">
+        <link rel="stylesheet" href="/css/owl.carousel.css">
+        <link rel="stylesheet" href="/css/owl.theme.default.css">
         @yield('template_linked_css')
 
         <style type="text/css">
@@ -38,7 +43,8 @@
             @endif
 
         </style>
-
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        <script src="text/javascript" src="/js/owl.carousel.js"></script>
         {{-- Scripts --}}
         <script>
             window.Laravel = {!! json_encode([
@@ -69,8 +75,10 @@
         </div>
 
         {{-- Scripts --}}
-        <script src="{{ mix('/js/app.js') }}"></script>
-
+        <!-- <script src="{{ mix('/js/all.js') }}"></script> -->
+        <script type="text/javascript" src="/js/owl.carousel.js"></script>
+        <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/main.js"></script>
         @if(config('settings.googleMapsAPIStatus'))
             {!! HTML::script('//maps.googleapis.com/maps/api/js?key='.env("GOOGLEMAPS_API_KEY").'&libraries=places&dummy=.js', array('type' => 'text/javascript')) !!}
         @endif
