@@ -11,8 +11,8 @@
     {{-- Authentication Links --}}
     @if (Auth::guest())
     <div class="ample-login">
-        <a href="{{ route('register') }}"><button>{!! trans('titles.register') !!}</button></a>
-        <a href="{{ route('login') }}"><label>{!! trans('titles.login') !!}</label></a>
+        <button class="btn-signup" data-toggle="modal" data-target="#myModal" id="authSignUp">{!! trans('titles.register') !!}</button>
+        <label class="btn-signin" data-toggle="modal" data-target="#myModal" id="authSignIn" >{!! trans('titles.login') !!}</label>
     </div>
     @else
     <ul class="nav navbar-nav navbar-right">
@@ -132,3 +132,136 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <div class="ample-login-signup">
+                    <div class="ample-signup-login-text">
+                        <div class="ample-login" id="ampleLogin" onclick="Setactive(this)">Sign in</div>
+                        <div class="ample-login-active" id="ampleSignin" onclick="Setactive(this)">Sign up</div>
+                    </div>
+                    <div class="ample-login-section">
+                        {!! Form::open(['route' => 'register', 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'POST'] ) !!}
+
+                            {{ csrf_field() }}  
+                            <div class="form-group">
+                                <div class="heading">Name</div>
+                                {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name', 'id' => 'name']) !!}
+                            </div>
+                            <div class="form-group">
+                                <div class="heading">Email</div>
+                                {!! Form::email('email', null, ['class' => 'form-control', 'id' => 'email', 'placeholder' => 'E-Mail Address', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <div class="heading">Country</div>
+
+                            </div>
+                            <select class="js-example-basic-single" name="state">
+                                <option value="AL"><img src="../images/image1.jpg"/> Alabama</option>
+                                <option value="WY"><img src="../images/image1.jpg"/>Wyoming</option>
+                            </select>
+                            <div class="form-group">
+                                <div class="heading">Password</div>
+                                {!! Form::password('password', ['class' => 'form-control', 'id' => 'password', 'placeholder' => 'Password', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <div class="heading">Confirm Password</div>
+                                {!! Form::password('password_confirmation', ['class' => 'form-control', 'id' => 'password-confirm', 'placeholder' => 'Confirm Password', 'required']) !!}
+                            </div>
+                            @if(config('settings.reCaptchStatus'))
+                                <div class="form-group">
+                                    <div class="col-sm-6 col-sm-offset-4">
+                                        <div class="g-recaptcha" data-sitekey="{{ env('RE_CAP_SITE') }}"></div>
+                                    </div>
+                                </div>
+                            @endif
+                            <div class="form-group">
+                                <button type="submit" class="submit-button">SIGN UP</button>
+                            </div>
+                            <div class="form-group">
+                                <div class="label-signup">or sign in with</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="social"><i class="fab fa-facebook-f"></i><a href="#">Facebook</a></div>
+                                <div class="social"><i class="fab fa-google"></i> <a href="#">Google</a></div>
+                            </div>
+                        {!! Form::close() !!}
+                    </div>
+                    <div class="ample-register-section">
+                        @if (Session::has('message'))
+                            <div class="alert alert-warning">{{ Session::get('message') }}</div>
+                        @endif
+                        <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
+                        {{ csrf_field() }}
+                            <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                <div class="heading">Email</div>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                                <div class="heading">Password</div>
+                                <div class="heading-right" onclick="Showforgot()"><a href="#">Forgot password</a></div>
+                                <input id="password" type="password" class="form-control" name="password" required>
+                                @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="submit-button">SIGN IN</button>
+                            </div>
+                            <div class="form-group">
+                                <div class="label-signup">or sign in with</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="social"><i class="fab fa-facebook-f"></i> <a href="#">Facebook</a></div>
+                                <div class="social"><i class="fab fa-google"></i> <a href="#">Google</a></div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ample-forgot-password">
+                        <div class="heading-forgot-password">Forgot password</div>
+                        <div class="forgot-password-content">Enter your email address\n
+                            and we’ll send you \n
+                            password reset instructions</div>
+                        <form action="" method="">
+                            <div class="form-group">
+                                <div class="heading">Email</div>
+                                <input type="text" placeholder="Email"/>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="submit-button">SEND</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@if (count($errors) > 0)
+  {{-- Scripts --}}
+  <script>
+    setTimeout(function(){ $('#authSignIn').click(); }, 500);
+  </script>
+@endif
+
