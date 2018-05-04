@@ -103,7 +103,7 @@ class RegisterController extends Controller
     {
         $ipAddress = new CaptureIpTrait();
         $role = Role::where('slug', '=', 'unverified')->first();
-
+        // echo "<pre>"; print_r($data); exit;
         $user = User::create([
                 'name'              => $data['name'],
                 // 'first_name'        => $data['first_name'],
@@ -124,7 +124,7 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:users',
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
@@ -132,7 +132,6 @@ class RegisterController extends Controller
         $input = $request->all();
 
         if ($validator->passes()) {
-
             // Store your user in database 
             $this->create($request->all());
  
