@@ -150,32 +150,52 @@
                         <div class="ample-login-active" id="ampleSignin" onclick="Setactive(this)">Sign up</div>
                     </div>
                     <div class="ample-login-section">
-                        {!! Form::open(['route' => 'register', 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'POST'] ) !!}
+                        <div id="success-msg" class="hide">
+                            <div class="alert alert-info alert-dismissible fade in" role="alert">
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                              </button>
+                              <strong>Success!</strong> Check your mail for login confirmation!!
+                            </div>
+                        </div>
+                             <form id="formRegister" class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
 
                             {{ csrf_field() }}  
                             <div class="form-group">
                                 <div class="heading">Name</div>
                                 {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Name', 'id' => 'name']) !!}
+                                <small class="help-block"></small>
                             </div>
                             <div class="form-group">
                                 <div class="heading">Email</div>
-                                {!! Form::email('email', null, ['class' => 'form-control', 'id' => 'email', 'placeholder' => 'E-Mail Address', 'required']) !!}
+                                {!! Form::email('email', null, ['class' => 'form-control', 'id' => 'email', 'placeholder' => 'E-Mail Address']) !!}
+                                <small class="help-block"></small>
                             </div>
                             <div class="form-group">
                                 <div class="heading">Country</div>
 
                             </div>
-                            <select class="js-example-basic-single" name="state">
+                            <select name="country" class="js-example-basic-single" id="country" >
+                                <option value="" selected="">Please select country</option>
+                                @if(isset($countries))
+                                    @foreach ($countries as $optionKey => $optionValue)
+                                        <option value="{{ $optionValue->code }}"><img src="/flags/{{ $optionValue->code }}.png'"/> {{ $optionValue->countryname }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <!-- select class="js-example-basic-single" name="state">
                                 <option value="AL"><img src="../images/image1.jpg"/> Alabama</option>
                                 <option value="WY"><img src="../images/image1.jpg"/>Wyoming</option>
-                            </select>
+                            </select> -->
                             <div class="form-group">
                                 <div class="heading">Password</div>
-                                {!! Form::password('password', ['class' => 'form-control', 'id' => 'password', 'placeholder' => 'Password', 'required']) !!}
+                                {!! Form::password('password', ['class' => 'form-control', 'id' => 'password', 'placeholder' => 'Password']) !!}
+                                <small class="help-block"><strong></small>
                             </div>
                             <div class="form-group">
                                 <div class="heading">Confirm Password</div>
-                                {!! Form::password('password_confirmation', ['class' => 'form-control', 'id' => 'password-confirm', 'placeholder' => 'Confirm Password', 'required']) !!}
+                                {!! Form::password('password_confirmation', ['class' => 'form-control', 'id' => 'password-confirm', 'placeholder' => 'Confirm Password']) !!}
+                                <small class="help-block"><strong></strong></small>
                             </div>
                             @if(config('settings.reCaptchStatus'))
                                 <div class="form-group">
@@ -185,14 +205,17 @@
                                 </div>
                             @endif
                             <div class="form-group">
-                                <button type="submit" class="submit-button">SIGN UP</button>
+                                <button type="submit" id="submitForm" class="submit-button">SIGN UP</button>
                             </div>
                             <div class="form-group">
                                 <div class="label-signup">or sign in with</div>
                             </div>
                             <div class="form-group">
-                                <div class="social"><i class="fab fa-facebook-f"></i><a href="#">Facebook</a></div>
-                                <div class="social"><i class="fab fa-google"></i> <a href="#">Google</a></div>
+                                {!! HTML::icon_link(route('social.redirect',['provider' => 'facebook']), 'fab fa-facebook-f', '  Facebook', array('class' => 'social')) !!}
+
+                                {!! HTML::icon_link(route('social.redirect',['provider' => 'google']), 'fab fa-google', '  Google', array('class' => 'social')) !!}
+                                <!-- <div class="social"><i class="fab fa-facebook-f"></i><a href="#">Facebook</a></div> -->
+                                <!-- <div class="social"><i class="fab fa-google"></i> <a href="#">Google</a></div> -->
                             </div>
                         {!! Form::close() !!}
                     </div>
@@ -200,7 +223,7 @@
                         @if (Session::has('message'))
                             <div class="alert alert-warning">{{ Session::get('message') }}</div>
                         @endif
-                        <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
+                        <form id="formSignIn" class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
                             <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <div class="heading">Email</div>
@@ -213,7 +236,7 @@
                             </div>
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <div class="heading">Password</div>
-                                <div class="heading-right" onclick="Showforgot()"><a href="#">Forgot password</a></div>
+                                <div class="heading-right" id="openForgot" onclick="Showforgot()"><a href="#">Forgot password</a></div>
                                 <input id="password" type="password" class="form-control" name="password" required>
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -222,29 +245,38 @@
                                 @endif
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="submit-button">SIGN IN</button>
+                                <button type="submit" id="submitLoginForm" class="submit-button">SIGN IN</button>
                             </div>
                             <div class="form-group">
                                 <div class="label-signup">or sign in with</div>
                             </div>
                             <div class="form-group">
-                                <div class="social"><i class="fab fa-facebook-f"></i> <a href="#">Facebook</a></div>
-                                <div class="social"><i class="fab fa-google"></i> <a href="#">Google</a></div>
+                                {!! HTML::icon_link(route('social.redirect',['provider' => 'facebook']), 'fab fa-facebook-f', '  Facebook', array('class' => 'social')) !!}
+
+                                {!! HTML::icon_link(route('social.redirect',['provider' => 'google']), 'fab fa-google', '  Google', array('class' => 'social')) !!}
+                                <!-- <div class="social"><i class="fab fa-facebook-f"></i> <a href="#">Facebook</a></div>
+                                <div class="social"><i class="fab fa-google"></i> <a href="#">Google</a></div> -->
                             </div>
                         </form>
                     </div>
                     <div class="ample-forgot-password">
                         <div class="heading-forgot-password">Forgot password</div>
-                        <div class="forgot-password-content">Enter your email address\n
-                            and we’ll send you \n
-                            password reset instructions</div>
-                        <form action="" method="">
+                        <div class="forgot-password-content">Enter your email address<br>
+                            and we’ll send you password reset instructions</div>
+                        <form class="form-horizontal" id="forgotPassword" role="form" method="POST" action="{{ route('password.email') }}">
+                        {{ csrf_field() }}
                             <div class="form-group">
                                 <div class="heading">Email</div>
-                                <input type="text" placeholder="Email"/>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="submit-button">SEND</button>
+                                <button type="submit" class="submit-button">Send Password Reset Link</button>
                             </div>
                         </form>
                     </div>
@@ -257,11 +289,20 @@
 
     </div>
 </div>
-
 @if (count($errors) > 0)
+  @if ($errors->first('email') != 'We can\'t find a user with that e-mail address.')
   {{-- Scripts --}}
-  <script>
-    setTimeout(function(){ $('#authSignIn').click(); }, 500);
-  </script>
+    <script>
+        $( document ).ready(function() {
+            setTimeout(function(){ $('#authSignIn').click(); }, 500);
+        });
+    </script>
+  @else
+    <script>
+        $( document ).ready(function() {
+            setTimeout(function(){ $('#authSignIn').click(); $('#openForgot').click();}, 500);
+        });
+    </script>
+  @endif    
 @endif
 

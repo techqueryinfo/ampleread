@@ -85,9 +85,10 @@
         <script type="text/javascript" src="/js/popup.js"></script>
         <script type="text/javascript" src="/js/select.js"></script>
         <script type="text/javascript" src="/js/main.js"></script>
+        <script type="text/javascript" src="/js/ampleread.js"></script>
 
         @if(config('settings.googleMapsAPIStatus'))
-            {!! HTML::script('//maps.googleapis.com/maps/api/js?key='.env("GOOGLEMAPS_API_KEY").'&libraries=places&dummy=.js', array('type' => 'text/javascript')) !!}
+            <!-- {!! HTML::script('//maps.googleapis.com/maps/api/js?key='.env("GOOGLEMAPS_API_KEY").'&libraries=places&dummy=.js', array('type' => 'text/javascript')) !!} -->
         @endif
 
         @yield('footer_scripts')

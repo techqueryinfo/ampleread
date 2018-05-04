@@ -11,6 +11,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use jeremykenedy\LaravelRoles\Models\Role;
+use Illuminate\Http\Request;
+use Response;
 
 class RegisterController extends Controller
 {
@@ -105,7 +107,7 @@ class RegisterController extends Controller
         $user = User::create([
                 'name'              => $data['name'],
                 // 'first_name'        => $data['first_name'],
-                // 'last_name'         => $data['last_name'],
+                'country'         => $data['country'],
                 'email'             => $data['email'],
                 'password'          => Hash::make($data['password']),
                 'token'             => str_random(64),
@@ -117,5 +119,27 @@ class RegisterController extends Controller
         $this->initiateEmailActivation($user);
 
         return $user;
+    }
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $input = $request->all();
+
+        if ($validator->passes()) {
+
+            // Store your user in database 
+            $this->create($request->all());
+ 
+            return Response::json(['success' => '1']);
+
+        }
+        
+        return Response::json(['errors' => $validator->errors()]);
     }
 }

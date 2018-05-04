@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Country;
 
 class WelcomeController extends Controller
 {
@@ -11,6 +12,13 @@ class WelcomeController extends Controller
      */
     public function welcome()
     {
-        return view('welcome');
+    	$countries = Country::all();
+  //       echo "<pre>";
+  //       // print_r($countries);
+  //       foreach ($countries as $country) {
+		//     echo $country->countryname;
+		// }
+		// exit;
+        return view('welcome', compact('countries'));
     }
 }
