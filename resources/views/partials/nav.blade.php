@@ -183,10 +183,6 @@
                                     @endforeach
                                 @endif
                             </select>
-                            <!-- select class="js-example-basic-single" name="state">
-                                <option value="AL"><img src="../images/image1.jpg"/> Alabama</option>
-                                <option value="WY"><img src="../images/image1.jpg"/>Wyoming</option>
-                            </select> -->
                             <div class="form-group">
                                 <div class="heading">Password</div>
                                 {!! Form::password('password', ['class' => 'form-control', 'id' => 'password', 'placeholder' => 'Password']) !!}

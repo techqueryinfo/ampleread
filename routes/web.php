@@ -127,8 +127,9 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
 });
 
 Route::redirect('/php', '/phpinfo', 301);
-
+Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'Auth\LoginController@showLoginForm'));
 Route::resource('admin/categories', 'Admin\\CategoriesController');
 Route::resource('admin/categories', 'Admin\\CategoriesController');
 Route::resource('admin/categories', 'Admin\\CategoriesController');
 Route::resource('admin/plans', 'Admin\\PlansController');
+Route::resource('admin/settings', 'Admin\\SettingsController');
