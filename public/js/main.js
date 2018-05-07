@@ -96,16 +96,4 @@ $(".btn-signin").click(function () {
     $("#ampleSignin").addClass("ample-login");
     $("#ampleSignin").removeClass("ample-login-active");
 });
-$(".js-example-basic-single").select2({
-   templateResult: formatState
-  });
-
-function formatState (state) {
-    console.log(state);
-    // console.log(state.element.value);
-  if (!state.id) { return state.text; }
-  var $state = $(
-   '<span ><img sytle="display: inline-block;" src="./flags/' + state.id.toLowerCase() + '.png" /> ' + state.text + '</span>'
-  );
-  return $state;
- }
+$(".js-example-basic-single").select2();

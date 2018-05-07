@@ -86,6 +86,16 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Profile');
     }
 
+    /**
+     * User Country Relationships.
+     *
+     * @var array
+     */
+    public function country()
+    {
+        return $this->belongsTo('App\Country');
+    }
+
     // User Profile Setup - SHould move these to a trait or interface...
 
     public function profiles()

@@ -32,6 +32,7 @@
 
         <link rel="stylesheet" href="/css/popup.css">
         <link rel="stylesheet" href="/css/select.css">
+        <link rel="stylesheet" href="/css/ampleread.css">
     
         @yield('template_linked_css')
 

@@ -124,12 +124,14 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('routes', 'AdminDetailsController@listRoutes');
     Route::get('active-users', 'AdminDetailsController@activeUsers');
+
+    Route::resource('admin/categories', 'Admin\\CategoriesController');
+    Route::resource('admin/dashboard', 'Admin\\DashboardController');
+    Route::resource('admin/categories', 'Admin\\CategoriesController');
+    Route::resource('admin/plans', 'Admin\\PlansController');
+    Route::resource('admin/settings', 'Admin\\SettingsController');
+
 });
 
 Route::redirect('/php', '/phpinfo', 301);
 Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'Auth\LoginController@showLoginForm'));
-Route::resource('admin/categories', 'Admin\\CategoriesController');
-Route::resource('admin/categories', 'Admin\\CategoriesController');
-Route::resource('admin/categories', 'Admin\\CategoriesController');
-Route::resource('admin/plans', 'Admin\\PlansController');
-Route::resource('admin/settings', 'Admin\\SettingsController');

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Routing\Controller as BaseController;
 use App\Setting;
+use App\Category;
 
 class Controller extends BaseController
 {
@@ -31,5 +32,8 @@ class Controller extends BaseController
         	session(['site_settings' =>$site_settings]);
         }
         $site_settings = Session::get('site_settings');
+
+        $category_list = Category::where('status', 'Active')->get();
+        session(['category_list' =>$category_list]);
     }
 }

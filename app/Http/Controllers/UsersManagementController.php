@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use jeremykenedy\LaravelRoles\Models\Role;
 use Validator;
+use App\Country;
+use App\Plan;
 
 class UsersManagementController extends Controller
 {
@@ -32,7 +34,6 @@ class UsersManagementController extends Controller
     {
         $users = User::paginate(env('USER_LIST_PAGINATION_SIZE'));
         $roles = Role::all();
-
         return View('usersmanagement.show-users', compact('users', 'roles'));
     }
 
@@ -136,6 +137,9 @@ class UsersManagementController extends Controller
         $user = User::findOrFail($id);
         $roles = Role::all();
 
+        $countries = Country::all();
+        $plans = Plan::all();
+
         foreach ($user->roles as $user_role) {
             $currentRole = $user_role;
         }
@@ -144,6 +148,8 @@ class UsersManagementController extends Controller
             'user'        => $user,
             'roles'       => $roles,
             'currentRole' => $currentRole,
+            'countries' => $countries,
+            'plans' => $plans
         ];
 
         return view('usersmanagement.edit-user')->with($data);
