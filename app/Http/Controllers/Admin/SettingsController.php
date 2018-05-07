@@ -121,7 +121,10 @@ class SettingsController extends Controller
     {
         
         $requestData = $request->all();
-        if ($request->site_logo->getClientOriginalName()) {
+        // echo "<pre>";
+        // print_r($requestData);
+        // exit;
+        if ($request->site_logo && $request->site_logo->getClientOriginalName()) {
             
             $uploadPath = public_path('/uploads/site_logo');
 
