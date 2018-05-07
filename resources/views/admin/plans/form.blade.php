@@ -4,13 +4,15 @@
         <input class="form-control" name="name" type="text" id="name" value="{{ $plan->name or ''}}" required>
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('desc') ? 'has-error' : ''}}">
+</div>
+<!--<div class="form-group {{ $errors->has('desc') ? 'has-error' : ''}}">
     <label for="desc" class="col-md-4 control-label">{{ 'Desc' }}</label>
     <div class="col-md-6">
         <textarea class="form-control" rows="5" name="desc" type="textarea" id="desc" >{{ $plan->desc or ''}}</textarea>
         {!! $errors->first('desc', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('amount') ? 'has-error' : ''}}">
+</div>-->
+<div class="form-group {{ $errors->has('amount') ? 'has-error' : ''}}">
     <label for="amount" class="col-md-4 control-label">{{ 'Amount' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="amount" type="text" id="amount" value="{{ $plan->amount or ''}}" required>

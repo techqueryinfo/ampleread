@@ -26,12 +26,12 @@
 
             </select> -->
         </div>
-        <div class="sorting-right">
+        <div class="sorting-right" style="width:125px">
             <a href="{{ url('/admin/categories/create') }}">
             <div class="circle">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </div>
-            <label>Add user</label>
+            <label>Add Category</label>
             </a>
         </div>
     </div>
