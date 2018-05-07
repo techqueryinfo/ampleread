@@ -27,7 +27,7 @@
 @section('content')
     <div class="sorting-section">
         <div class="sorting-left">
-            <select id="userSorting">
+            <!-- <select id="userSorting">
                 <option>A-Z</option>
                 <option>B-Z</option>
                 <option>C-Z</option>
@@ -35,13 +35,15 @@
                 <option>E-Z</option>
                 <option>F-Z</option>
 
-            </select>
+            </select> -->
         </div>
         <div class="sorting-right">
-            <div class="circle">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-            </div>
-            <label>Add user</label>
+            <a href="{{ url('/users/create') }}">
+                <div class="circle">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </div>
+                <label>Add user</label>
+            </a>
         </div>
     </div>
     @include('partials.search-users-form')

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('template_title')
   Create New User
@@ -9,21 +9,7 @@
 
 @section('content')
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-10 col-md-offset-1">
-        <div class="panel panel-default">
-          <div class="panel-heading">
 
-            Create New User
-
-            <a href="/users" class="btn btn-info btn-xs pull-right">
-              <i class="fa fa-fw fa-mail-reply" aria-hidden="true"></i>
-              Back <span class="hidden-xs">to</span><span class="hidden-xs"> Users</span>
-            </a>
-
-          </div>
-          <div class="panel-body">
 
             {!! Form::open(array('action' => 'UsersManagementController@store')) !!}
 
@@ -143,11 +129,6 @@
 
             {!! Form::close() !!}
 
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
 @endsection
 
