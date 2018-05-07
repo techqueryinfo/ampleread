@@ -20,7 +20,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 
                 @if ((Auth::User()->profile) && Auth::user()->profile->avatar_status == 1)
-                    <img src="{{ Auth::user()->profile->avatar }}" alt="{{ Auth::user()->name }}" class="user-avatar-nav">
+                    <img src="/uploads/{{ Auth::user()->profile->avatar }}" alt="{{ Auth::user()->name }}" class="user-avatar-nav">
                 @else
                     <div class="user-avatar-nav"></div>
                 @endif
@@ -36,6 +36,7 @@
                     <li {{ Request::is('admin/categories') ? 'class=active' : null }}>{!! HTML::link(url('/admin/categories'), Lang::get('titles.adminCategoryList')) !!}</li>
                     
                     <li {{ Request::is('admin/plans') ? 'class=active' : null }}>{!! HTML::link(url('/admin/plans'), Lang::get('titles.adminPlanList')) !!}</li>
+                    <li {{ Request::is('admin/settings') ? 'class=active' : null }}>{!! HTML::link(url('/admin/settings'), 'Admin Settings') !!}</li>
 
                     <li {{ Request::is('users/create') ? 'class=active' : null }}>{!! HTML::link(url('/users/create'), Lang::get('titles.adminNewUser')) !!}</li>
                     <li {{ Request::is('themes','themes/create') ? 'class=active' : null }}>{!! HTML::link(url('/themes'), Lang::get('titles.adminThemesList')) !!}</li>
@@ -98,24 +99,33 @@
         <div class="ample-sub-menu-row">
             <div class="heading">Subjects</div>
             <ul>
-                <li><a href="#">Biography</a></li>
-                <li><a href="">Business</a></li>
+                @if (Session::get('category_list'))
+                @foreach (Session::get('category_list')->slice(0,8) as $optionKey => $optionValue)
+                    <li><a href="/books/category/{{$optionValue->name}}">{{$optionValue->name}}</a></li>
+                @endforeach
+                @endif
+                <!-- <li><a href="">Business</a></li>
                 <li><a href="">Cookbooks, Food & Wine</a></li>
                 <li><a href="">Diet, Health & Fitness</a></li>
                 <li><a href="">Fiction</a></li>
                 <li><a href="">Graphic Novels & Comics</a></li>
                 <li><a href="">History</a></li>
-                <li><a href="">Mystery & Crime</a></li>
+                <li><a href="">Mystery & Crime</a></li> -->
             </ul>
         </div>
         <div class="ample-sub-menu-row">
            <ul>
-               <li><a href="#">Romance</a></li>
+               @if (Session::get('category_list'))  
+                @foreach (Session::get('category_list')->slice(8) as $optionKey => $optionValue)
+                    <li><a href="/books/category/{{$optionValue->name}}">{{$optionValue->name}}</a></li>
+                @endforeach
+                @endif
+               <!-- <li><a href="#">Romance</a></li>
                <li><a href="">Science Fiction & Fantasy</a></li>
                <li><a href="">Self-Help & Relationships</a></li>
                <li><a href="">Social Sciences</a></li>
                <li><a href="">Travel</a></li>
-               <li><a href="">True Crime</a></li>
+               <li><a href="">True Crime</a></li> -->
 
             </ul>
         </div>
@@ -175,7 +185,7 @@
                                 <div class="heading">Country</div>
 
                             </div>
-                            <select name="country" class="js-example-basic-single" id="country" >
+                            <select name="country" class="form-control js-example-basic-single" id="country" >
                                 <option value="" selected="">Please select country</option>
                                 @if(isset($countries))
                                     @foreach ($countries as $optionKey => $optionValue)

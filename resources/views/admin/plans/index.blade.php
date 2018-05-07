@@ -1,63 +1,85 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+
+@section('template_title')
+  Showing Subscription Plans
+@endsection
+
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <!-- @include('admin.sidebar') -->
+    <form method="GET" action="{{ url('/admin/plans') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
+    <div class="search-section">
+        <div class="search-icon">
+            <i class="fas fa-search"></i>
+        </div>
+        <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
+    </div>
+    </form>
+    <div class="sorting-section">
+        <div class="sorting-left">
+            <!-- <select id="userSorting">
+                <option>A-Z</option>
+                <option>B-Z</option>
+                <option>C-Z</option>
+                <option>D-Z</option>
+                <option>E-Z</option>
+                <option>F-Z</option>
 
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-header">Plans</div>
-                    <div class="card-body">
-                        <a href="{{ url('/admin/plans/create') }}" class="btn btn-success btn-sm" title="Add New Plan">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
-
-                        <form method="GET" action="{{ url('/admin/plans') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
-                                <span class="input-group-append">
-                                    <button class="btn btn-secondary" type="submit">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </form>
-
-                        <br/>
-                        <br/>
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th><th>Name</th><th>Desc</th><th>Amount</th><th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($plans as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration or $item->id }}</td>
-                                        <td>{{ $item->name }}</td><td>{{ $item->desc }}</td><td>{{ $item->amount }}</td>
-                                        <td>
-                                            <a href="{{ url('/admin/plans/' . $item->id) }}" title="View Plan"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
-                                            <a href="{{ url('/admin/plans/' . $item->id . '/edit') }}" title="Edit Plan"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
-
-                                            <form method="POST" action="{{ url('/admin/plans' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete Plan" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <div class="pagination-wrapper"> {!! $plans->appends(['search' => Request::get('search')])->render() !!} </div>
-                        </div>
-
-                    </div>
-                </div>
+            </select> -->
+        </div>
+        <div class="sorting-right">
+            <a href="{{ url('/admin/plans/create') }}">
+            <div class="circle">
+                <i class="fa fa-plus" aria-hidden="true"></i>
             </div>
+            <label>Add Plan</label>
+            </a>
         </div>
     </div>
+        <div class="listing">
+            <div class="listing-1">Name</div>
+            <div class="listing-2">Amount</div>
+            <div class="listing-2">Status</div>
+            <div class="listing-4">
+                <div class="edit">Action</div>
+            </div>
+        </div>
+                @foreach($plans as $item)
+                    <div class="listing">
+                        <div class="listing-1">{{ $item->name }}</div>
+                        <div class="listing-2">{{ $item->amount }}</div>
+                        <div class="listing-2">{{ $item->status }}</div>
+                        <div class="listing-4">
+                            <div class="edit">
+                                <a href="{{ url('/admin/plans/' . $item->id . '/edit') }}" title="Edit Category">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </a>
+                            </div>
+                            <form method="POST" action="{{ url('/admin/plans' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                {{ method_field('DELETE') }}
+                                {{ csrf_field() }}
+                                <div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Plan' data-message = 'Are you sure you want to delete this Plan ?'><i class="far fa-trash-alt"></i></div>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
+
+        <span id="user_count"></span>
+        <span id="user_pagination">
+            {!! $plans->appends(['search' => Request::get('search')])->render() !!}
+        </span>
+    </div>
+
+    @include('modals.modal-delete')
+
+@endsection
+
+@section('footer_scripts')
+
+    @include('scripts.delete-modal-script')
+    @include('scripts.save-modal-script')
+    {{--
+        @include('scripts.tooltips')
+    --}}
+
+
 @endsection

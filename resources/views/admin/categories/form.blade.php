@@ -17,7 +17,7 @@
     </div>
 </div>
 <div class="form-group">
-    <div class="col-md-offset-4 col-md-4">
+    <div class="col-md-offset-4 col-md-4 save">
         <input class="btn btn-primary" type="submit" value="{{ $submitButtonText or 'Create' }}">
     </div>
 </div>
