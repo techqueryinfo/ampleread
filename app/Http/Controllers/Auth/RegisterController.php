@@ -116,7 +116,7 @@ class RegisterController extends Controller
             ]);
 
         $user->attachRole($role);
-        $this->initiateEmailActivation($user);
+        // $this->initiateEmailActivation($user);
 
         return $user;
     }

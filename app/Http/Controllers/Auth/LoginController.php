@@ -40,6 +40,28 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => 'logout']);
     }
 
+    protected function authenticated($request, $user)
+    {
+        if($user->isAdmin())
+        {
+           return redirect('admin/dashboard');   
+        }
+        else
+        {
+            return redirect('home');   
+        }
+    }
+
+    // protected function authenticated($request, $user)
+    // {
+    //     $user = Auth::user();
+    //     if($user->role === 'admin') {
+    //         return redirect()->intended('/admin/dashboard');
+    //     }
+
+    //     return redirect()->intended('/home');
+    // }
+
     /**
      * Logout, Clear Session, and Return.
      *
