@@ -31,3 +31,8 @@ img.user-avatar-nav {
     color: #ffffff;
     border: 1px solid #ff7335;
 }
+
+.admin-container .admin-left .logout
+{
+    margin-top: 0px !important;
+}

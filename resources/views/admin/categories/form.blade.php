@@ -5,7 +5,7 @@
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
-<div style="display: none;" class="form-group {{ $errors->has('status') ? 'has-error' : ''}}">
+<div  class="form-group {{ $errors->has('status') ? 'has-error' : ''}}">
     <label for="status" class="col-md-4 control-label">{{ 'Status' }}</label>
     <div class="col-md-6">
         <select name="status" class="form-control" id="status" >

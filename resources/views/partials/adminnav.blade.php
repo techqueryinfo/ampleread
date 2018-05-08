@@ -32,7 +32,13 @@
         </ul>
     </div>
     <div class="logout">
-        <div class="icon"><i class="fas fa-power-off"></i></div>
-        <div class="text">Log out</div>
+        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <div class="icon"><i class="fas fa-power-off"></i></div>
+            <div class="text">Log out</div>
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            {{ csrf_field() }}
+        </form>
     </div>
 </div>
