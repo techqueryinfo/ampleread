@@ -1,14 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-        <div class="row">
-            <!-- @include('admin.sidebar') -->
-
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-body">
-                        <br />
-                        <br />
+       
 
                         @if ($errors->any())
                             <ul class="alert alert-danger">
@@ -25,8 +18,5 @@
 
                         </form>
 
-                    </div>
-                </div>
-            </div>
-        </div>
+       
 @endsection

@@ -14,11 +14,11 @@
     <div class="footer-r1">
         <div class="heading">Company</div>
          <ul>
-             <li><a href="#">About us</a></li>
-             <li><a href="#">Contact us</a></li>
-             <li><a href="#">Career</a></li>
-             <li><a href="#">Terms</a></li>
-             <li><a href="#">Privacy</a></li>
+             <li>{!! HTML::link(url('/about-us'), 'About us') !!}</li>
+             <li>{!! HTML::link(url('/contact-us'), 'Contact us') !!}</li>
+             <li>{!! HTML::link(url('/career'), 'Career') !!}</li>
+             <li>{!! HTML::link(url('/terms'), 'Terms') !!}</li>
+             <li>{!! HTML::link(url('/privacy'), 'Privacy') !!}</li>
          </ul>
     </div>
     <div class="footer-r1">
@@ -27,7 +27,7 @@
             <li><a href="#">Free eBooks</a></li>
             <li><a href="#">Paid eBooks</a></li>
             <li><a href="#">Subscription</a></li>
-            <li><a href="#">Help</a></li>
+            <li>{!! HTML::link(url('/help'), 'Help') !!}</li>
         </ul>
     </div>
     <div class="footer-r1">

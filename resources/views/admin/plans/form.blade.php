@@ -1,3 +1,45 @@
+<div class="admin-edit">
+
+    <div class="edit-two">
+        <div class="unit-1">
+            <div class="form-unit">
+                <div class="heading">Name</div>
+                <div class="content">
+                    <input type="text" placeholder="Enter Name"/>
+                </div>
+            </div>
+            <div class="form-unit">
+                <div class="heading">Status</div>
+                <div class="content">
+                    <select id="status">
+                        <option>Active</option>
+                        <option>Inactive</option>
+
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="unit-2">
+            <div class="form-unit">
+                <div class="heading">Amount</div>
+                <div class="content">
+                    <input type="text" placeholder="Enter Amount"/>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<div class="save-cancel-btn">
+    <div class="save">
+        <input type="submit" value="Save" />
+    </div>
+    <div class="cancel">
+        <label>Cancel</label>
+    </div>
+</div>
 <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
     <label for="name" class="col-md-4 control-label">{{ 'Name' }}</label>
     <div class="col-md-6">
@@ -5,13 +47,6 @@
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
-<!--<div class="form-group {{ $errors->has('desc') ? 'has-error' : ''}}">
-    <label for="desc" class="col-md-4 control-label">{{ 'Desc' }}</label>
-    <div class="col-md-6">
-        <textarea class="form-control" rows="5" name="desc" type="textarea" id="desc" >{{ $plan->desc or ''}}</textarea>
-        {!! $errors->first('desc', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>-->
 <div class="form-group {{ $errors->has('amount') ? 'has-error' : ''}}">
     <label for="amount" class="col-md-4 control-label">{{ 'Amount' }}</label>
     <div class="col-md-6">
