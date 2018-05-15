@@ -97,3 +97,8 @@ $(".btn-signin").click(function () {
     $("#ampleSignin").removeClass("ample-login-active");
 });
 $(".js-example-basic-single").select2();
+
+$(".sign-in-manage-left .unit").click(function(){
+    $(".sign-in-manage-left .unit").removeClass("active");
+    $(this).addClass("active");
+});

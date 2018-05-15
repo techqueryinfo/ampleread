@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
 
 use App\Category;
+use App\Book;
 use Illuminate\Http\Request;
 
-class CategoriesController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,20 +15,21 @@ class CategoriesController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
+    	$keyword = $request->get('search');
         $perPage = 25;
 
-        if (!empty($keyword)) {
-            $categories = Category::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('status', 'LIKE', "%$keyword%")
+        if (!empty($keyword)) 
+        {
+            $books = Book::where('ebooktitle', 'LIKE', "%$keyword%")
+                ->orWhere('subtitle', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
-        } else {
-            $categories = Category::latest()->paginate($perPage);
+        } 
+        else 
+        {
+            $books = Book::latest()->paginate($perPage);
         }
-
-        return view('admin.categories.index', compact('categories'));
+       	return view('books.index', compact('books'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -38,7 +37,8 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('admin.categories.create');
+    	$categories = Category::all();
+        return view('books.create', compact('categories'));
     }
 
     /**
@@ -52,11 +52,8 @@ class CategoriesController extends Controller
     {
         
         $requestData = $request->all();
-        $slug = str_slug($request->input('name'), '-');
-        $requestData['category_slug'] = $slug;
-        Category::create($requestData);
-
-        return redirect('admin/categories')->with('flash_message', 'Category added!');
+        Book::create($requestData);
+        return redirect('book')->with('flash_message', 'E-Book added!');
     }
 
     /**
@@ -68,9 +65,8 @@ class CategoriesController extends Controller
      */
     public function show($id)
     {
-        $category = Category::findOrFail($id);
-
-        return view('admin.categories.show', compact('category'));
+        $book = Book::findOrFail($id);
+		return view('books.show', compact('book'));
     }
 
     /**
@@ -82,9 +78,8 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::findOrFail($id);
-
-        return view('admin.categories.edit', compact('category'));
+        $book = Book::findOrFail($id);
+		return view('books.edit', compact('book'));
     }
 
     /**
@@ -99,13 +94,9 @@ class CategoriesController extends Controller
     {
         
         $requestData = $request->all();
-        
-        $category = Category::findOrFail($id);
-        $slug = str_slug($request->input('name'), '-');
-        $requestData['category_slug'] = $slug;
-        $category->update($requestData);
-
-        return redirect('admin/categories')->with('flash_message', 'Category updated!');
+        $book = Book::findOrFail($id);
+        $book->update($requestData);
+        return redirect('book')->with('flash_message', 'E-Book updated!');
     }
 
     /**
@@ -117,8 +108,7 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        Category::destroy($id);
-
-        return redirect('admin/categories')->with('flash_message', 'Category deleted!');
+        Book::destroy($id);
+        return redirect('book')->with('flash_message', 'E-Book deleted!');
     }
 }

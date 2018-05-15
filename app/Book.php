@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Book extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'books';
 
     /**
     * The database primary key value.
@@ -25,7 +25,5 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'status', 'category_slug'];
-
-    
+    protected $fillable = ['id','ebooktitle', 'subtitle', 'type', 'category', 'desc'];
 }
