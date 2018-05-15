@@ -1,12 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-        <div class="row">
-            <!-- @include('admin.sidebar') -->
-
-            <div class="col-md-9">
-                <div class="card">
-                    <div class="card-body">
 
                         @if ($errors->any())
                             <ul class="alert alert-danger">
@@ -22,10 +16,4 @@
 
                             @include ('admin.plans.form', ['submitButtonText' => 'Update'])
 
-                        </form>
-
-                    </div>
-                </div>
-            </div>
-        </div>
 @endsection

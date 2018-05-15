@@ -1,17 +1,23 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use App\Models\User;
+use App\Http\Requests;
 use App\Traits\CaptureIpTrait;
 use Auth;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use jeremykenedy\LaravelRoles\Models\Role;
 use Validator;
 use App\Country;
 use App\Plan;
+
+ini_set('memory_limit', '1024M'); // or you could use 1G
 
 class UsersManagementController extends Controller
 {
@@ -45,9 +51,12 @@ class UsersManagementController extends Controller
     public function create()
     {
         $roles = Role::all();
-
+        $countries = Country::all();
+        $plans = Plan::all();
         $data = [
             'roles' => $roles,
+            'countries' => $countries,
+            'plans' => $plans
         ];
 
         return view('usersmanagement.create-user')->with($data);
@@ -65,18 +74,16 @@ class UsersManagementController extends Controller
         $validator = Validator::make($request->all(),
             [
                 'name'                  => 'required|max:255|unique:users',
-                'first_name'            => '',
-                'last_name'             => '',
                 'email'                 => 'required|email|max:255|unique:users',
                 'password'              => 'required|min:6|max:20|confirmed',
                 'password_confirmation' => 'required|same:password',
                 'role'                  => 'required',
+                'country_id'                  => 'required',
             ],
             [
                 'name.unique'         => trans('auth.userNameTaken'),
                 'name.required'       => trans('auth.userNameRequired'),
-                'first_name.required' => trans('auth.fNameRequired'),
-                'last_name.required'  => trans('auth.lNameRequired'),
+                'country_id'                  => 'required',
                 'email.required'      => trans('auth.emailRequired'),
                 'email.email'         => trans('auth.emailInvalid'),
                 'password.required'   => trans('auth.passwordRequired'),
@@ -92,17 +99,31 @@ class UsersManagementController extends Controller
 
         $ipAddress = new CaptureIpTrait();
         $profile = new Profile();
-
         $user = User::create([
             'name'             => $request->input('name'),
             'first_name'       => $request->input('first_name'),
             'last_name'        => $request->input('last_name'),
             'email'            => $request->input('email'),
+            'country_id'            => $request->input('country_id'),
+            'plan_id'            => $request->input('plan_id'),
             'password'         => bcrypt($request->input('password')),
             'token'            => str_random(64),
             'admin_ip_address' => $ipAddress->getClientIp(),
             'activated'        => 1,
         ]);
+
+        if ($request->hasFile('avatar')) {
+            $image = $request->file('avatar');
+
+            $fileName = time().'.'.$image->getClientOriginalExtension();
+
+            $destinationPath = public_path('/uploads/avatar');
+
+            $image->move($destinationPath, $fileName);
+
+            $profile['avatar'] = $fileName;
+            $profile['avatar_status'] = 1;  
+        }
 
         $user->profile()->save($profile);
         $user->attachRole($request->input('role'));
@@ -136,7 +157,6 @@ class UsersManagementController extends Controller
     {
         $user = User::findOrFail($id);
         $roles = Role::all();
-
         $countries = Country::all();
         $plans = Plan::all();
 
@@ -188,8 +208,18 @@ class UsersManagementController extends Controller
         }
 
         $user->name = $request->input('name');
-        $user->first_name = $request->input('first_name');
-        $user->last_name = $request->input('last_name');
+
+        if (!empty($request->input('counry_id'))) {
+            $user->country_id = $request->input('counry_id');
+        }
+
+        if (!empty($request->input('plan_id'))) {
+            $user->plan_id = $request->input('plan_id');
+        }
+
+        if (!empty($request->input('status'))) {
+            $user->status = $request->input('status');
+        }
 
         if ($emailCheck) {
             $user->email = $request->input('email');
@@ -217,7 +247,23 @@ class UsersManagementController extends Controller
                 break;
         }
 
-        $user->save();
+        $user->save();        
+        if ($request->hasFile('avatar')) {
+            $image = $request->file('avatar');
+
+            $fileName = $user->profile->id.'.'.$image->getClientOriginalExtension();
+
+            $destinationPath = public_path('/uploads/avatar');
+
+            $image->move($destinationPath, $fileName);
+
+            $profile['avatar'] = $fileName;
+            $profile['avatar_status'] = 1;  
+            $setting = Profile::findOrFail($user->profile->id);
+            $setting->update($profile);
+        }
+
+        
 
         return back()->with('success', trans('usersmanagement.updateSuccess'));
     }

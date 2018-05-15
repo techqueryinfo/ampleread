@@ -1,3 +1,10 @@
+$(document).ready(function() {
+
+    $('#OpenImgUpload').click(function(){ 
+        $('#user_avatar').trigger('click'); 
+    });
+})
+
 
 $('body').on('click', '#submitForm', function(e){
     var registerForm = $("#formRegister");

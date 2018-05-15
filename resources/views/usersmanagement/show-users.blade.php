@@ -65,14 +65,16 @@
                 @foreach($users as $user)
                     <div class="listing">
                         <div class="listing-1">
-                            <div class="image"><img src="../images/image1.jpg"></div>
+                            <div class="image"><img src="{{($user->profile && $user->profile->avatar) ? '/uploads/avatar/'.$user->profile->avatar : '../images/image1.jpg'}}"></div>
                             <div class="name">{{$user->name}}</div>
                             <div class="sub-name">{{$user->email}}</div>
                         </div>
                         <div class="listing-2">Free Member</div>
                         <div class="listing-3">
+                            @if($user->country)
                             <div class="map"><img src="./flags/{{strtolower($user->country->code)}}.png"/></div>
                             <div class="name">{{$user->country->countryname}}</div>
+                            @endif
                         </div>
                         <div class="listing-4">
                             <div class="edit">

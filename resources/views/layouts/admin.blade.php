@@ -60,12 +60,11 @@
 
             @include('partials.adminnav')
 
-            <!-- <div class="container">
+            
+            <div class="admin-right">
 
                 @include('partials.form-status')
 
-            </div> -->
-            <div class="admin-right">
                 @yield('content')
 
                 <!-- @include('partials.footer'); -->
@@ -75,6 +74,7 @@
         <script type="text/javascript" src="/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/popup.js"></script>
         <script type="text/javascript" src="/js/select.js"></script>
+        <script type="text/javascript" src="/js/ampleread.js"></script>
         <script type="text/javascript">
             function resizemenu(){
                 var windowheight=window.innerHeight;
@@ -87,6 +87,7 @@
             }
             $(document).ready(function(){
                 resizemenu();
+                $("#userSorting,#subcription,#status").select2();
             });
             $( window ).resize(function() {
                 resizemenu();
@@ -96,12 +97,12 @@
                 $(this).addClass("active");
 
             });
-            $("#userSorting,#subcription").select2();
+            
             function formatState (state) {
                 if (!state.id) {
                     return state.text;
                 }
-                var baseUrl = "./images";
+                var baseUrl = "/flags";
                 var $state = $(
                     '<span><img src="' + baseUrl + '/' + state.element.value.toLowerCase() + '.png" class="img-flag" /> ' + state.text + '</span>'
                 );
