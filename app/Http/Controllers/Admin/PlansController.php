@@ -132,4 +132,54 @@ class PlansController extends Controller
 
         return redirect('admin/plans')->with('flash_message', 'Plan deleted!');
     }
+    
+    /**
+     * Get all plans to show in front end for users.
+     *
+     *
+     * @return \Illuminate\View\View
+     */
+    public function fe_view_plans()
+    {
+        $plans = Plan::all();
+
+        return view('fe_views.fe_view_plans', compact('plans'));
+    }
+
+    public function do_payment(Request $request)
+    {
+        // print_r(base_path().'\2'."checkout-php\lib\Twocheckout.php");exit();
+        // require_once(base_path() . '/vendor/2checkout-php/lib/Twocheckout.php');
+        Twocheckout::privateKey('554071C2-1333-4224-B04D-C518659924B8');
+        Twocheckout::sellerId('901379979');
+        Twocheckout::sandbox(true);
+
+        try {
+            $charge = Twocheckout_Charge::auth(array(
+                "merchantOrderId" => "123",
+                "token"      => $request->input('token'),
+                "currency"   => 'USD',
+                "total"      => '10.00',
+                "billingAddr" => array(
+                    "name" => 'Testing Tester',
+                    "addrLine1" => '123 Test St',
+                    "city" => 'Columbus',
+                    "state" => 'OH',
+                    "zipCode" => '43123',
+                    "country" => 'USA',
+                    "email" => 'example@2co.com',
+                    "phoneNumber" => '555-555-5555'
+                    )
+                ));
+
+            if ($charge['response']['responseCode'] == 'APPROVED') {
+                echo "Thanks for your Order!";
+                echo "<h3>Return Parameters:</h3>";
+                echo "<pre>";
+                print_r($charge);
+                echo "</pre>";
+
+            }
+        } catch (Twocheckout_Error $e) {print_r($e->getMessage());}
+    }
 }
