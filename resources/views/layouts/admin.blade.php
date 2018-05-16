@@ -53,7 +53,7 @@
         </script>
 
         @yield('head')
-
+        @yield('angularjs')
     </head>
     <body>
         <div class="admin-container">
