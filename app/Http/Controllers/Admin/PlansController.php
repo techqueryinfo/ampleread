@@ -148,14 +148,14 @@ class PlansController extends Controller
 
     public function do_payment(Request $request)
     {
-        // print_r(base_path().'\2'."checkout-php\lib\Twocheckout.php");exit();
-        // require_once(base_path() . '/vendor/2checkout-php/lib/Twocheckout.php');
-        Twocheckout::privateKey('554071C2-1333-4224-B04D-C518659924B8');
-        Twocheckout::sellerId('901379979');
-        Twocheckout::sandbox(true);
+        
+        \Twocheckout::privateKey('554071C2-1333-4224-B04D-C518659924B8');
+        \Twocheckout::sellerId('901379979');
+        \Twocheckout::sandbox(true);
+        \Twocheckout::verifySSL(false);
 
         try {
-            $charge = Twocheckout_Charge::auth(array(
+            $charge = \Twocheckout_Charge::auth(array(
                 "merchantOrderId" => "123",
                 "token"      => $request->input('token'),
                 "currency"   => 'USD',
