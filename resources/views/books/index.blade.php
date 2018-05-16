@@ -48,7 +48,7 @@
     		<form method="POST" action="{{ url('/book' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
     			{{ method_field('DELETE') }}
     			{{ csrf_field() }}
-    			<div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Book' data-message = 'Are you sure you want to delete this Category ?'><i class="far fa-trash-alt"></i></div>
+    			<div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Book' data-message = 'Are you sure you want to delete this e-Book ?'><i class="far fa-trash-alt"></i></div>
     		</form>
     	</div>
     </div>
@@ -57,4 +57,8 @@
     {!! $books->appends(['search' => Request::get('search')])->render() !!}
     </span>
     @endforeach
+    @include('modals.modal-delete')
+@endsection
+@section('footer_scripts')
+    @include('scripts.delete-modal-script')
 @endsection

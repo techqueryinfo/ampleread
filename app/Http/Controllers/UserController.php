@@ -31,4 +31,14 @@ class UserController extends Controller
 
         return view('pages.user.home');
     }
+    /**
+
+    * Check if this user belongs to a role
+    *
+    * @return bool
+    */
+    public function hasRole($role)
+    {
+        return $this->role == $role;
+    }
 }

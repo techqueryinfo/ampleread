@@ -53,7 +53,7 @@ class BookController extends Controller
         
         $requestData = $request->all();
         Book::create($requestData);
-        return redirect('book')->with('flash_message', 'E-Book added!');
+        return view('books.ebook');
     }
 
     /**
@@ -78,8 +78,9 @@ class BookController extends Controller
      */
     public function edit($id)
     {
+        $categories = Category::all();
         $book = Book::findOrFail($id);
-		return view('books.edit', compact('book'));
+		return view('books.edit', compact('book', 'categories'));
     }
 
     /**
