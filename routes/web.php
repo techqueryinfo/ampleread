@@ -142,3 +142,9 @@ Route::get('career', 'PagesController@career');
 Route::get('terms', 'PagesController@terms');
 Route::get('privacy', 'PagesController@privacy');
 Route::get('help', 'PagesController@help');
+
+
+//show subscription plans in front end for users
+Route::get('plans', 'Admin\\PlansController@fe_view_plans');
+Route::post('payment', 'Admin\\PlansController@do_payment');
+Route::post('contact', 'PagesController@contact_us_mail');

@@ -52,7 +52,8 @@ class CategoriesController extends Controller
     {
         
         $requestData = $request->all();
-        
+        $slug = str_slug($request->input('name'), '-');
+        $requestData['category_slug'] = $slug;
         Category::create($requestData);
 
         return redirect('admin/categories')->with('flash_message', 'Category added!');
@@ -100,6 +101,8 @@ class CategoriesController extends Controller
         $requestData = $request->all();
         
         $category = Category::findOrFail($id);
+        $slug = str_slug($request->input('name'), '-');
+        $requestData['category_slug'] = $slug;
         $category->update($requestData);
 
         return redirect('admin/categories')->with('flash_message', 'Category updated!');

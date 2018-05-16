@@ -1,3 +1,4 @@
+@if (Auth::guest())
 <div class="ample-facebook-signup">
    <div class="inner-section">
       <div class="heading">Join us and get access
@@ -6,6 +7,7 @@
        <button>Sign up for free</button>
    </div>
 </div>
+@endif
 <div class="ample-footer">
 <div class="ample-logo">
     <img src="images/logo-footer.png" / alt="ample logo">

@@ -15,17 +15,32 @@
         <label class="btn-signin" data-toggle="modal" data-target="#myModal" id="authSignIn" >{!! trans('titles.login') !!}</label>
     </div>
     @else
+    <!-- <div class="ample-tools">
+        <img src="images/combined-shape.png" class="Combined-Shape">
+        <span>Tools</span>
+        <i class="fa fa-angle-down"></i>
+    </div> -->
     <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="padding-top: 10px !important">
+                <img src="/images/combined-shape.png" alt="{{ Auth::user()->name }}" class="user-avatar-nav" style="height: 16px; width: 16px">
+
+                 Tools<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                
+            </ul>
+        </li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
 
                 @if ((Auth::User()->profile) && Auth::user()->profile->avatar_status == 1)
-                    <img src="/uploads/{{ Auth::user()->profile->avatar }}" alt="{{ Auth::user()->name }}" class="user-avatar-nav">
+                    <img src="/uploads/avatar/admin.png" alt="{{ Auth::user()->name }}" class="user-avatar-nav">
                 @else
-                    <div class="user-avatar-nav"></div>
+                    <img src="/uploads/user.png" alt="{{ Auth::user()->name }}" class="user-avatar-nav">
                 @endif
 
-                {{ Auth::user()->name }} <span class="caret"></span>
+               <!--  {{ Auth::user()->name }} --> <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
                 <li {{ Request::is('profile/'.Auth::user()->name, 'profile/'.Auth::user()->name . '/edit') ? 'class=active' : null }}>

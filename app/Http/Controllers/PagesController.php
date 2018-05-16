@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Country;
+use Illuminate\Http\Request;
+use App\Mail\ContactEmail;
+use Mail;
 
 class PagesController extends Controller
 {
@@ -45,6 +48,32 @@ class PagesController extends Controller
     public function help()
     {
         return view('pages.help');
+    }
+
+    /**
+     * contact_us_mail
+     * Used to send mail to the admin for contact us page
+     * @param $name , $email , #msg
+     *
+     * @return mixed
+     */
+     public function contact_us_mail(Request $request)
+    {
+        $contact = [];
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required',
+            'msg' => 'required'
+        ]);
+
+    $contact['name'] = $request->get('name');
+    $contact['email'] = $request->get('email');
+    $contact['msg'] = $request->get('msg');
+
+    // Mail delivery logic goes here
+    Mail::to('asrathore1994@gmail.com')->send(new ContactEmail($contact));
+
+    return redirect('contact-us')->with('success','Mail sent successfully');
     }
 
 

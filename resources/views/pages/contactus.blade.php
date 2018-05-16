@@ -10,16 +10,39 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Contact Us</div>
 
+                <form method="POST" action="{{ url('/contact') }}" accept-charset="UTF-8" class="form-horizontal" >
+                    {{ csrf_field() }}
+
                 <div class="panel-body">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-
+                    <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
+                        <label for="name" class="col-md-4 control-label">Your Name</label>
+                        <div class="col-md-6">
+                            <input class="form-control" name="name" type="text">
+                            {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
+                        </div>
+                    </div>
+                    <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
+                        <label for="name" class="col-md-4 control-label">Your Email</label>
+                        <div class="col-md-6">
+                            <input class="form-control" name="email" type="text">
+                            {!! $errors->first('email', '<p class="help-block">:message</p>') !!}
+                        </div>
+                    </div>
+                    <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
+                        <label for="name" class="col-md-4 control-label">Your Message</label>
+                        <div class="col-md-6">
+                            <textarea name="msg"></textarea>
+                            {!! $errors->first('msg', '<p class="help-block">:message</p>') !!}
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-4 save">
+                            <input class="btn btn-primary" type="submit" value="Submit">
+                        </div>
+                    </div>
 
-                    
-                </div>
+                </form>
             </div>
         </div>
     </div>
