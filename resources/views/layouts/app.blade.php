@@ -61,7 +61,7 @@
         @endif
 
         @yield('head')
-
+        @yield('angularjs')
     </head>
     <body>
         <div id="app">

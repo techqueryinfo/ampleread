@@ -10,7 +10,7 @@
 @endif
 <div class="ample-footer">
 <div class="ample-logo">
-    <img src="images/logo-footer.png" / alt="ample logo">
+    <img src="/images/logo-footer.png" / alt="ample logo">
 </div>
 <div class="ample-footer-right">
     <div class="footer-r1">
