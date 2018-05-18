@@ -21,6 +21,7 @@ class CreateBooksTable extends Migration
             $table->string('type')->nullable();
             $table->string('category')->nullable();
             $table->text('desc')->nullable();
+            $table->string('ebook_logo')->nullable();
         });
     }
 

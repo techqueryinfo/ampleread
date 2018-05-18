@@ -25,5 +25,5 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = ['id','ebooktitle', 'subtitle', 'type', 'category', 'desc'];
+    protected $fillable = ['id','ebooktitle', 'subtitle', 'type', 'category', 'desc', 'ebook_logo'];
 }

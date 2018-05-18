@@ -1,7 +1,12 @@
 @extends('layouts.admin')
 @section('content')
 	<h3>Edit Page</h3>
-	<div class="container">
+	<div class="col-md-4">
+	@if ($book->ebook_logo)
+		<img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" width="180px"/><br>
+	@endif
+	</div>
+	<div class="col-md-8">
 		<form action="{{ url('/book/'.$book->id) }}" method="POST" enctype="multipart/form-data">
 			{{ method_field('PATCH') }}
 			{{ csrf_field() }}
@@ -41,6 +46,8 @@
 				<label for="desc">Description</label>
 				<textarea id="desc" name="desc" class="form-control" value="{{$book->desc}}">Enter Description...</textarea>
 			</div>
+			<label for="ebookimage">Image</label>
+			<input type="file" name="ebook_logo"><br/>
 			<button type="submit" class="btn btn-default">Update</button>
 		</form>
 	</div>

@@ -132,7 +132,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::resource('admin/categories', 'Admin\\CategoriesController');
     Route::resource('admin/plans', 'Admin\\PlansController');
     Route::resource('admin/settings', 'Admin\\SettingsController');
-    Route::resource('book', 'BookController', array('only' => array('index', 'edit')));
+    Route::resource('book', 'BookController');
 });
 
 Route::redirect('/php', '/phpinfo', 301);

@@ -126,6 +126,13 @@
 						<label for="desc">Description</label>
 						<textarea id="desc" name="desc" class="form-control">Enter Description...</textarea>
 					</div>
+					<label for="ebookimage">Image</label>
+					<input type="file" name="ebook_logo"><br/>
+					@if ($item->ebook_logo)
+				    <div class="col-md-2">
+				    	<img src="/uploads/ebook_logo/{{ $setting->ebook_logo }}" width="80px"/>
+				    </div>
+				    @endif
 					<button type="submit" class="btn btn-default">Submit</button>
 				</form>
 			</div>
