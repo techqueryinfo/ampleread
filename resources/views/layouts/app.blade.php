@@ -63,7 +63,7 @@
         @yield('head')
         @yield('angularjs')
     </head>
-    <body>
+    <body class="ample-trim">
         <div id="app">
 
             @include('partials.nav')

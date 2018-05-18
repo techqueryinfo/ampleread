@@ -23,26 +23,26 @@ $(document).ready(function () {
                 nav: true
             },
             600: {
-                items: 3,
+                items: 2,
 
             },
             768: {
-                items: 3,
+                items: 2,
                 loop: false,
                 margin: 15
             },
             992: {
-                items: 4,
+                items: 3,
                 loop: false,
                 margin: 15
             },
             1180: {
-                items: 5,
+                items: 4,
                 loop: false,
                 margin: 20
             },
             1480: {
-                items: 6,
+                items: 5,
                 loop: false,
                 margin: 15
             }
@@ -102,3 +102,5 @@ $(".sign-in-manage-left .unit").click(function(){
     $(".sign-in-manage-left .unit").removeClass("active");
     $(this).addClass("active");
 });
+
+$("#status").select2();
