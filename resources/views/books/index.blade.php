@@ -1,6 +1,12 @@
 @extends('layouts.admin')
 @section('content')
-	<form method="GET" action="{{ url('/book/') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
+	@if(Session::has('flash_message'))
+    <div class="alert alert-success alert-dismissible">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Success!</strong> {{Session::get('flash_message')}}.
+    </div>
+    @endif
+    <form method="GET" action="{{ url('/book/') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
 		<div class="search-section">
 			<div class="search-icon">
 				<i class="fas fa-search"></i>
@@ -20,44 +26,46 @@
             </a>
         </div>
     </div>
-	@if(Session::has('flash_message'))
-	<div class="alert alert-success alert-dismissible">
-	  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	  <strong>Success!</strong> {{Session::get('flash_message')}}.
-	</div>
-	@endif
-    <div class="listing">
-    	<div class="listing-2">#</div>
-    	<div class="listing-1">E-Book Title</div>
-    	<div class="listing-2">Sub Title</div>
-    	<div class="listing-4">
-    		<div class="edit">Action</div>
-    	</div>
+    <div class="container">        
+      <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>E-Book Title</th>
+                    <th>Sub Title</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($books as $item)
+                <tr>
+                    <td>{{ $loop->iteration or $item->id }}</td>
+                    <td>{{ $item->ebooktitle }}</td>
+                    <td>{{ $item->subtitle }}</td>
+                    <td>{{ $item->type }}</td>
+                    <td>
+                        <div class="edit">
+                            <a href="{{ url('/book/' . $item->id . '/edit') }}" title="Edit Book">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                        </div>
+                        <form method="POST" action="{{ url('/book' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                            {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
+                            <div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Book' data-message = 'Are you sure you want to delete this e-Book ?'><i class="far fa-trash-alt"></i></div>
+                        </form>
+                    </td>
+                </tr>
+                <span id="user_count"></span>
+                <span id="user_pagination">
+                    {!! $books->appends(['search' => Request::get('search')])->render() !!}
+                </span>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-    @foreach($books as $item)
-    <div class="listing">
-    	<div class="listing-2">{{ $loop->iteration or $item->id }}</div>
-    	<div class="listing-1">{{ $item->ebooktitle }}</div>
-    	<div class="listing-2">{{ $item->subtitle }}</div>
-    	<div class="listing-4">
-    		<div class="edit">
-    			<a href="{{ url('/book/' . $item->id . '/edit') }}" title="Edit Book">
-    				<i class="fas fa-pencil-alt"></i>
-    			</a>
-    		</div>
-    		<form method="POST" action="{{ url('/book' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
-    			{{ method_field('DELETE') }}
-    			{{ csrf_field() }}
-    			<div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Book' data-message = 'Are you sure you want to delete this e-Book ?'><i class="far fa-trash-alt"></i></div>
-    		</form>
-    	</div>
-    </div>
-    <span id="user_count"></span>
-    <span id="user_pagination">
-    {!! $books->appends(['search' => Request::get('search')])->render() !!}
-    </span>
-    @endforeach
-    @include('modals.modal-delete')
+@include('modals.modal-delete')
 @endsection
 @section('footer_scripts')
     @include('scripts.delete-modal-script')
