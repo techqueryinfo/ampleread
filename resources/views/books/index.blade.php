@@ -43,7 +43,7 @@
                     <td>{{ $loop->iteration or $item->id }}</td>
                     <td>{{ $item->ebooktitle }}</td>
                     <td>{{ $item->subtitle }}</td>
-                    <td>{{ $item->type }}</td>
+                    <td>{{ ucfirst($item->type) }}</td>
                     <td>
                         <div class="edit">
                             <a href="{{ url('/book/' . $item->id . '/edit') }}" title="Edit Book">

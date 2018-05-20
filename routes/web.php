@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     Route::get('book/create', 'BookController@create');
     Route::post('book', 'BookController@store');
     Route::resource('book', 'BookController');
+    Route::resource('paid', 'PaidController');
 });
 
 // Registered and Activated User Routes

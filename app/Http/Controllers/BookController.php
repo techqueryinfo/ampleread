@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Book;
+use App\Paid;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -87,7 +88,8 @@ class BookController extends Controller
     {
         $categories = Category::all();
         $book = Book::findOrFail($id);
-		return view('books.edit', compact('book', 'categories'));
+        $paid = Paid::where('book_id', '=', $id)->get();
+		return view('books.edit', compact('book', 'categories', 'paid'));
     }
 
     /**
