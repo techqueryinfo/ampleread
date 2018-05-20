@@ -16,6 +16,10 @@ use Image;
 use jeremykenedy\Uuid\Uuid;
 use Validator;
 use View;
+use App\Country;
+use App\Plan;
+
+
 
 class ProfilesController extends Controller
 {
@@ -76,6 +80,8 @@ class ProfilesController extends Controller
     {
         try {
             $user = $this->getUserByUsername($username);
+            $countries = Country::all();
+            $plan = Plan::find($user['plan_id']);
         } catch (ModelNotFoundException $exception) {
             abort(404);
         }
@@ -85,6 +91,8 @@ class ProfilesController extends Controller
         $data = [
             'user'         => $user,
             'currentTheme' => $currentTheme,
+            'countries'    => $countries,
+            'plan'         => $plan,
         ];
 
         return view('profiles.show')->with($data);
@@ -185,6 +193,7 @@ class ProfilesController extends Controller
      */
     public function updateUserAccount(Request $request, $id)
     {
+
         $currentUser = \Auth::user();
         $user = User::findOrFail($id);
         $emailCheck = ($request->input('email') != '') && ($request->input('email') != $user->email);
@@ -192,6 +201,7 @@ class ProfilesController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
+            'country_id' => 'required',
         ]);
 
         $rules = [];
@@ -211,16 +221,33 @@ class ProfilesController extends Controller
         $user->name = $request->input('name');
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
+        $user->country_id = $request->input('country_id');
 
         if ($emailCheck) {
             $user->email = $request->input('email');
+        }
+
+        if ($request->hasFile('avatar')) {
+            $image = $request->file('avatar');
+
+            $fileName = $user->profile->id.'.'.$image->getClientOriginalExtension();
+
+            $destinationPath = public_path('/uploads/avatar');
+
+            $image->move($destinationPath, $fileName);
+
+            $profile['avatar'] = $fileName;
+            $profile['avatar_status'] = 1;  
+            $setting = Profile::findOrFail($user->profile->id);
+            $setting->update($profile);
         }
 
         $user->updated_ip_address = $ipAddress->getClientIp();
 
         $user->save();
 
-        return redirect('profile/'.$user->name.'/edit')->with('success', trans('profile.updateAccountSuccess'));
+        // return redirect('profile/'.$user->name.'/edit')->with('success', trans('profile.updateAccountSuccess'));
+        return redirect('profile/'.$user->name)->with('success', trans('profile.updateAccountSuccess'));
     }
 
     /**
@@ -239,7 +266,7 @@ class ProfilesController extends Controller
 
         $validator = Validator::make($request->all(),
             [
-                'password'              => 'required|min:6|max:20|confirmed',
+                'password'              => 'required|min:6|max:20|confirmed|numeric',
                 'password_confirmation' => 'required|same:password',
             ],
             [
@@ -261,7 +288,8 @@ class ProfilesController extends Controller
 
         $user->save();
 
-        return redirect('profile/'.$user->name.'/edit')->with('success', trans('profile.updatePWSuccess'));
+        // return redirect('profile/'.$user->name.'/edit')->with('success', trans('profile.updatePWSuccess'));
+        return redirect('profile/'.$user->name)->with('success', trans('profile.updatePWSuccess'));
     }
 
     /**
