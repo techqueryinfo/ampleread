@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Book;
+use App\Paid;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -17,7 +18,7 @@ class BookController extends Controller
     {
     	$keyword = $request->get('search');
         $perPage = 25;
-
+        $categories = Category::all();
         if (!empty($keyword)) 
         {
             $books = Book::where('ebooktitle', 'LIKE', "%$keyword%")
@@ -28,7 +29,7 @@ class BookController extends Controller
         {
             $books = Book::latest()->paginate($perPage);
         }
-       	return view('books.index', compact('books'));
+       	return view('books.index', compact('books', 'categories'));
     }
     /**
      * Show the form for creating a new resource.
@@ -52,6 +53,13 @@ class BookController extends Controller
     {
         
         $requestData = $request->all();
+        if ($request->hasFile('ebook_logo')) 
+        {
+            $uploadPath = public_path('/uploads/ebook_logo');
+            $file = $request->file('ebook_logo');
+            $file->move($uploadPath, $file->getClientOriginalName());
+            $requestData['ebook_logo'] = $file->getClientOriginalName();
+        } 
         Book::create($requestData);
         return view('books.ebook');
     }
@@ -80,7 +88,8 @@ class BookController extends Controller
     {
         $categories = Category::all();
         $book = Book::findOrFail($id);
-		return view('books.edit', compact('book', 'categories'));
+        $paid = Paid::where('book_id', '=', $id)->get();
+		return view('books.edit', compact('book', 'categories', 'paid'));
     }
 
     /**
@@ -95,6 +104,13 @@ class BookController extends Controller
     {
         
         $requestData = $request->all();
+        if ($request->hasFile('ebook_logo')) 
+        {
+            $uploadPath = public_path('/uploads/ebook_logo');
+            $file = $request->file('ebook_logo');
+            $file->move($uploadPath, $file->getClientOriginalName());
+            $requestData['ebook_logo'] = $file->getClientOriginalName();
+        } 
         $book = Book::findOrFail($id);
         $book->update($requestData);
         return redirect('book')->with('flash_message', 'E-Book updated!');

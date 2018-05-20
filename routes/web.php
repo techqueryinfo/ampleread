@@ -43,6 +43,11 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     // Activation Routes
     Route::get('/activation-required', ['uses' => 'Auth\ActivateController@activationRequired'])->name('activation-required');
     Route::get('/logout', ['uses' => 'Auth\LoginController@logout'])->name('logout');
+
+    Route::get('book/create', 'BookController@create');
+    Route::post('book', 'BookController@store');
+    Route::resource('book', 'BookController');
+    Route::resource('paid', 'PaidController');
 });
 
 // Registered and Activated User Routes
@@ -93,8 +98,8 @@ Route::group(['middleware' => ['auth', 'activated', 'currentUser', 'activity', '
 
     // Route to upload user avatar.
     Route::post('avatar/upload', ['as' => 'avatar.upload', 'uses' => 'ProfilesController@upload']);
-    Route::get('book/create', 'BookController@create');
-    Route::post('book', 'BookController@store');
+    // Route::get('book/create', 'BookController@create');
+    // Route::post('book', 'BookController@store');
 });
 
 // Registered, activated, and is admin routes.
@@ -132,7 +137,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::resource('admin/categories', 'Admin\\CategoriesController');
     Route::resource('admin/plans', 'Admin\\PlansController');
     Route::resource('admin/settings', 'Admin\\SettingsController');
-    Route::resource('book', 'BookController', array('only' => array('index', 'edit')));
+    // Route::resource('book', 'BookController');
 });
 
 Route::redirect('/php', '/phpinfo', 301);
