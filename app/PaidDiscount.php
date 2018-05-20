@@ -4,14 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Paid extends Model
+class PaidDiscount extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'paid_ebook';
+    protected $table = 'paid_discount';
 
     /**
     * The database primary key value.
@@ -25,5 +25,5 @@ class Paid extends Model
      *
      * @var array
      */
-    protected $fillable = ['id','book_id', 'store_name', 'store_logo', 'link', 'price'];
+    protected $fillable = ['id','book_id', 'store_name', 'discount', 'additional_options', 'desc'];
 }

@@ -64,13 +64,13 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="publishDate">Publish Date</label>
-					<input type="text" name="publish_date" class="form-control" id="publishDate">
+					<input type="date" name="publish_date" class="form-control" id="publishDate">
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="lang">Language</label>
-					<input type="number" name="language" class="form-control" id="lang" min="1">
+					<input type="text" name="language" class="form-control" id="lang" min="1">
 				</div>
 			</div>
 			<div class="form-group">
@@ -81,7 +81,7 @@
 			<button type="submit" class="btn btn-default">Update</button>
 		</form>
 	</div>
-	@if($book->type == 'paid')
+@if($book->type == 'paid')
 	<div class="col-md-12">
 		<div class="sorting-section">
 			<div class="sorting-left">
@@ -110,10 +110,10 @@
 				<tbody>
 					@foreach($paid as $val)
 					<tr>
+						<td>{{ $val->store_name }}</td>
 						<td>
-							<img src="/uploads/ebook_logo/{{ $val->store_logo }}" width="50px">
+							<img src="/uploads/storeimage/{{ $val->store_logo }}" width="50px">
 						</td>
-						<td></td>
 						<td></td>
 						<td>{{ $val->price }}</td>
 						<td>
@@ -148,30 +148,7 @@
 				</a>
 			</div>
 		</div>
-		<div class="container">        
-			<table class="table">
-				<!-- <thead>
-					<tr>
-						<th>STORE</th>
-						<th>RATING</th>
-						<th>AVAILABILITY</th>
-						<th>PRICE</th>
-						<th></th>
-					</tr>
-				</thead> -->
-				<tbody>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
 	</div>
-	@endif
 <!-- Modal -->
 <div id="storeModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -184,19 +161,25 @@
       <div class="modal-body">
         <form action="{{ url('/paid') }}" method="POST" enctype="multipart/form-data">
         	{{ csrf_field() }}
-			<input type="file" id="img" name="store_logo"><br/>
+        	<div class="form-group">
+				<input type="file" id="img" name="store_logo">
+			</div>
+			<div class="form-group">
+				<label for="store_name">Store Name</label>
+				<input type="text" name="store_name" class="form-control" id="store_name" required="required" placeholder="Enter store name">
+			</div>
 			<div class="form-group">
 				<label for="link">Link</label>
-				<input type="url" class="form-control" id="link" name="link" required="required" placeholder="Enter URL" value="">
+				<input type="url" class="form-control" id="link" name="link" required="required" placeholder="Enter URL">
 			</div>
 			<div class="form-group">
 				<label for="price">Price</label>
 				<input type="number" name="price" class="form-control" min="0" id="price">
 			</div>
-			<div class="form-group">
+			<!-- <div class="form-group">
 				<label for="discount">Discount</label>
 				<input type="number" name="discount" class="form-control" min="0" id="discount">
-			</div>
+			</div> -->
 			<input type="hidden" name="book_id" value="{{ $book->id }}">
 			<button type="submit" class="btn btn-default">Submit</button>
         </form>
@@ -207,41 +190,42 @@
     </div>
   </div>
 </div>
-<!-- Modal -->
 <div id="discountModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title">EDIT DISCOUNT</h4>
       </div>
       <div class="modal-body">
-        <form method="POST" enctype="multipart/form-data">
+        <form action="{{ url('/paid/discountSave') }}" method="POST" enctype="multipart/form-data">
         	{{ csrf_field() }}
         	<div class="form-group">
         		<label for="store">Store</label>
-        		<select class="form-control" name="store" id="store">
-        			<option>Amzaon</option>
-        			<option>Flipkart</option>
-        			<option>Snapdeal</option>
+        		<select class="form-control" name="store_name" id="store">
+        			@foreach($paid as $val)
+        				<option value="{{ $val->store_name }}">{{ $val->store_name }}</option>
+        			@endforeach
         		</select>
         	</div>
         	<div class="form-group">
-        		<label for="discount">Discount</label>
-				<input type="number" name="discount" class="form-control" min="0" id="discount">
-        	</div>
+				<label for="discount">Discount</label>
+				<input type="number" name="discount" class="form-control" min="1" id="discount" placeholder="Enter Discount %" required="required">
+			</div>
         	<div class="form-group">
         		<label for="addOption">Additional Options</label>
-        		<select id="addOption" name="add_option" class="form-control">
-        			<option>Free Shipping</option>
-        			<option>Paid</option>
+        		<select id="addOption" name="additional_options" class="form-control">
+        			<option value="free_shipping">Free Shipping</option>
+        			<option value="paid">Paid</option>
         		</select>
         	</div>
         	<div class="form-group">
         		<label for="desc">Description</label>
-        		<textarea id="desc" class="form-control" name="desc">Enter Description..</textarea>
+        		<textarea id="desc" class="form-control" name="desc" placeholder="Enter Description" required="required"></textarea>
         	</div>
+        	<input type="hidden" name="book_id" value="{{ $book->id }}">
+			<button type="submit" class="btn btn-default">Save</button>
         </form>
       </div>
       <div class="modal-footer">
@@ -258,7 +242,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Modal Header</h4>
+        <h4 class="modal-title">EDIT LINK</h4>
       </div>
       <div class="modal-body">
         <form action="{{ url('/paid/'.$val->id) }}" method="POST" enctype="multipart/form-data">
@@ -268,7 +252,7 @@
 				<label for="link">Link</label>
 				<input type="url" name="link" class="form-control" required="required" value="{{$val->link}}">
 			</div>
-			<button type="submit" class="btn btn-default">Update</button>
+			<button type="submit" class="btn btn-default">Save</button>
         </form>
       </div>
       <div class="modal-footer">
@@ -279,6 +263,7 @@
 </div>
 @endforeach
 @include('modals.modal-delete')
+@endif
 @endsection
 @section('footer_scripts')
     @include('scripts.delete-modal-script')

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Book;
 use App\Paid;
+use App\PaidDiscount;
 use Illuminate\Http\Request;
 
 class PaidController extends Controller
@@ -101,5 +102,12 @@ class PaidController extends Controller
     {
         Paid::destroy($id);
         return redirect('book')->with('flash_message', 'Store deleted for "'.$id.'"!');
+    }
+
+    public function discountSave(Request $request)
+    {
+        $requestData = $request->all();
+        PaidDiscount::create($requestData);
+        return redirect('book')->with('flash_message', 'Discount added successfully.');
     }
 }

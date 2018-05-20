@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePaidEbookTable extends Migration
+class CreatePaidDiscountTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreatePaidEbookTable extends Migration
      */
     public function up()
     {
-        Schema::create('paid_ebook', function (Blueprint $table) {
+        Schema::create('paid_discount', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('book_id')->unsigned()->index();
             $table->string('store_name')->nullable();
-            $table->string('store_logo')->nullable();
-            $table->string('link')->nullable();
-            $table->string('price')->nullable();
-            // $table->string('discount')->nullable();
+            $table->string('discount')->nullable();
+            $table->string('additional_options')->nullable();
+            $table->text('desc')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreatePaidEbookTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paid_ebook');
+        Schema::dropIfExists('paid_discount');
     }
 }
