@@ -25,5 +25,5 @@ class PaidDiscount extends Model
      *
      * @var array
      */
-    protected $fillable = ['id','book_id', 'store_name', 'discount', 'additional_options', 'desc'];
+    protected $fillable = ['id', 'paid_ebook_id', 'book_id', 'discount', 'additional_options', 'desc'];
 }

@@ -48,6 +48,7 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     Route::post('book', 'BookController@store');
     Route::resource('book', 'BookController');
     Route::post('paid/discountSave', 'PaidController@discountSave');
+    Route::post('paid/deleteDiscount/{id}', 'PaidController@deleteDiscount');
     Route::resource('paid', 'PaidController');
 });
 

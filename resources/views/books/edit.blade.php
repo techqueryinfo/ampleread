@@ -44,7 +44,7 @@
 			</div>
 			<div class="form-group">
 				<label for="desc">Description</label>
-				<textarea id="desc" name="desc" class="form-control" value="{{$book->desc}}">Enter Description...</textarea>
+				<textarea id="desc" name="desc" class="form-control" placeholder="Enter Description...">{{$book->desc}}</textarea>
 			</div>
 			<label for="ebookimage">Image</label>
 			<input type="file" name="ebook_logo"><br/>
@@ -148,6 +148,29 @@
 				</a>
 			</div>
 		</div>
+		<div class="container">        
+			<table class="table">
+				<tbody>
+					@foreach($paidDiscount as $val)
+					<tr>
+						<td>
+							<img src="/uploads/storeimage/{{ $val->store_logo }}" width="50px">
+						</td>
+						<td>{{ $val->store_name }}</td>
+						<td>{{ $val->discount }} %</td>
+						<td>{{ $val->desc }}</td>
+						<td>
+							<form method="POST" action="{{ url('/paid/deleteDiscount' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
+								<!-- {{ method_field('DELETE') }} -->
+								{{ csrf_field() }}
+								<div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Discount' data-message = 'Are you sure you want to delete this discount ?'><i class="far fa-trash-alt"></i></div>
+							</form>
+						</td>
+					</tr>
+					@endforeach
+				</tbody>
+			</table>
+		</div>
 	</div>
 <!-- Modal -->
 <div id="storeModal" class="modal fade" role="dialog">
@@ -176,10 +199,6 @@
 				<label for="price">Price</label>
 				<input type="number" name="price" class="form-control" min="0" id="price">
 			</div>
-			<!-- <div class="form-group">
-				<label for="discount">Discount</label>
-				<input type="number" name="discount" class="form-control" min="0" id="discount">
-			</div> -->
 			<input type="hidden" name="book_id" value="{{ $book->id }}">
 			<button type="submit" class="btn btn-default">Submit</button>
         </form>
@@ -203,9 +222,9 @@
         	{{ csrf_field() }}
         	<div class="form-group">
         		<label for="store">Store</label>
-        		<select class="form-control" name="store_name" id="store">
+        		<select class="form-control" name="paid_ebook_id" id="store">
         			@foreach($paid as $val)
-        				<option value="{{ $val->store_name }}">{{ $val->store_name }}</option>
+        				<option value="{{ $val->id }}">{{ $val->store_name }}</option>
         			@endforeach
         		</select>
         	</div>

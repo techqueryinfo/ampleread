@@ -15,8 +15,8 @@ class CreatePaidDiscountTable extends Migration
     {
         Schema::create('paid_discount', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('paid_ebook_id')->unsigned()->index();
             $table->integer('book_id')->unsigned()->index();
-            $table->string('store_name')->nullable();
             $table->string('discount')->nullable();
             $table->string('additional_options')->nullable();
             $table->text('desc')->nullable();
