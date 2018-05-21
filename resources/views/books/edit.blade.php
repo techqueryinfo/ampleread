@@ -122,11 +122,11 @@
 									<i class="fas fa-pencil-alt"></i>
 								</a>
 							</div>
-							<!-- <form method="POST" action="{{ url('/paid' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
+							<form method="POST" action="{{ url('/paid' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
 								{{ method_field('DELETE') }}
 								{{ csrf_field() }}
 								<div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Store' data-message = 'Are you sure you want to delete this Store ?'><i class="far fa-trash-alt"></i></div>
-							</form> -->
+							</form>
 						</td>
 					</tr>
 					@endforeach
@@ -160,11 +160,6 @@
 						<td>{{ $val->discount }} %</td>
 						<td>{{ $val->desc }}</td>
 						<td>
-							<!-- <div class="edit">
-								<a href="#" title="Edit Discount" data-toggle="modal" data-target="#discountEditModal-{{$val->id}}">
-									<i class="fas fa-pencil-alt"></i>
-								</a>
-							</div> -->
 							<form method="POST" action="{{ url('/paid/deleteDiscount' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
 								<!-- {{ method_field('DELETE') }} -->
 								{{ csrf_field() }}
@@ -204,10 +199,6 @@
 				<label for="price">Price</label>
 				<input type="number" name="price" class="form-control" min="0" id="price">
 			</div>
-			<!-- <div class="form-group">
-				<label for="discount">Discount</label>
-				<input type="number" name="discount" class="form-control" min="0" id="discount">
-			</div> -->
 			<input type="hidden" name="book_id" value="{{ $book->id }}">
 			<button type="submit" class="btn btn-default">Submit</button>
         </form>
@@ -231,9 +222,9 @@
         	{{ csrf_field() }}
         	<div class="form-group">
         		<label for="store">Store</label>
-        		<select class="form-control" name="store_name" id="store">
+        		<select class="form-control" name="paid_ebook_id" id="store">
         			@foreach($paid as $val)
-        				<option value="{{ $val->store_name }}">{{ $val->store_name }}</option>
+        				<option value="{{ $val->id }}">{{ $val->store_name }}</option>
         			@endforeach
         		</select>
         	</div>

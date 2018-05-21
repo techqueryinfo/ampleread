@@ -55,14 +55,14 @@ class BookController extends Controller
     {
         
         $requestData = $request->all();
-        if ($request->hasFile('ebook_logo')) 
-        {
-            $uploadPath = public_path('/uploads/ebook_logo');
-            $file = $request->file('ebook_logo');
-            $file->move($uploadPath, $file->getClientOriginalName());
-            $requestData['ebook_logo'] = $file->getClientOriginalName();
-        } 
-        Book::create($requestData);
+        // if ($request->hasFile('ebook_logo')) 
+        // {
+        //     $uploadPath = public_path('/uploads/ebook_logo');
+        //     $file = $request->file('ebook_logo');
+        //     $file->move($uploadPath, $file->getClientOriginalName());
+        //     $requestData['ebook_logo'] = $file->getClientOriginalName();
+        // } 
+        // Book::create($requestData);
         return view('books.ebook');
     }
 
@@ -94,9 +94,9 @@ class BookController extends Controller
         $paidDiscount = DB::table('paid_discount')
         ->join('paid_ebook', function($join){
             $join->on('paid_discount.book_id', '=', 'paid_ebook.book_id')
-            ->on('paid_discount.store_name', '=', 'paid_ebook.store_name');
+            ->on('paid_discount.paid_ebook_id', '=', 'paid_ebook.id');
         })
-        ->select('paid_discount.*', 'paid_ebook.store_logo')
+        ->select('paid_discount.*', 'paid_ebook.*')
         ->where('paid_discount.book_id', '=', $id)
         ->orWhere('paid_ebook.book_id', '=', $id)
         ->get();

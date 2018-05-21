@@ -100,10 +100,9 @@ class PaidController extends Controller
      */
     public function destroy($id)
     {
-        Paid::destroy($id);
-        // $paidDiscountID = PaidDiscount::where('book_id', '=', $id)->get();
-        // echo "<pre>"; print_r($paidDiscountID); exit;
-        // PaidDiscount::destroy($paidDiscountID);
+        $user = Paid::find($id);
+        $user->discount()->delete();
+        $user->delete();
         return redirect('book')->with('flash_message', 'Store deleted for "'.$id.'"!');
     }
 
