@@ -168,30 +168,200 @@
     </div>
     {!! Form::close() !!}
     <div class="user-subscription">
-    	{{$plan}}
-        <div class="sub-form">
-           <div class="month-sub">Monthly Subscription</div>
-           <div class="sub-text">Your plan will automatically renew on <strong>31.03.2018</strong>
-and you'll be charged <strong>$9.99</strong> </div>
-<input type="button" class="button" value="change plan">
-<div class="section-1">
-<div class="text">Subscription Details</div>
-<div class="icon"><i class="fas fa-angle-right"></i></div>
-</div>
-<div class="section-2">
-    <div class="unit-1"><img src="images/invalid-name.png"></div>
-    <div class="unit-2">
-    <div class="one">XXXX XXXX XXXX 1464</div>
-<div class="two">09/21</div>
-  </div>
-    <div class="unit-3">
-<input type="button" value="Edit"/>
-    </div>
-</div>
+    	<!-- {{$plan}} -->
+      <div class="sub-form">
+       <div class="month-sub">Monthly Subscription</div>
+       <div class="sub-text">Your plan will automatically renew on <strong>31.03.2018</strong>
+        and you'll be charged <strong>$9.99</strong> </div>
+        <input type="button" class="button" id="changePlan" value="change plan">
+        <div class="section-1">
+          <div class="text">Subscription Details</div>
+          <div class="icon"><i class="fas fa-angle-right"></i></div>
         </div>
+        <div class="section-2">
+          <div class="unit-1"><img src="images/invalid-name.png"></div>
+          <div class="unit-2">
+            <div class="one">XXXX XXXX XXXX 1464</div>
+            <div class="two">09/21</div>
+          </div>
+          <div class="unit-3">
+            <input type="button" value="Edit"/>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+    <div class="plan-listing">
+      @if(!$all_plans->isEmpty())
+      @foreach($all_plans as $all_plan)
+      <div class="listing">
+        <div class="head">
+          <div class="price">${{$all_plan->amount}}</div>
+          <div class="membership">{{$all_plan->name}}</div>
+        </div>
+        @if($all_plan->name == 'Free Membership')
+        <div class="content">
+          <ul>
+            <li>Endless access</li>
+            <li>Up to 5 books downloads each month</li>
+            <li>Publish and submit eBooks for review</li>
+
+          </ul>
+        </div>
+        @elseif($all_plan->name == 'Monthly Subscription')
+        <div class="content">
+        <ul>
+          <li>1 month access</li>
+            <li>Unlimited eBook downloads</li>
+            <li>Publish and submit eBooks for downloads</li>
+            <li>Read eBooks directly from your account with no need to dowload it</li>
+            <li>Create a new eBook using our editor</li>
+            <li>Share eBooks</li>
+            <li>Access discounts available on our paid eBooks</li>
+          </ul>
+        </div>
+        @elseif($all_plan->name == 'Yearly Subscription')
+        <div class="content">
+          <ul>
+            <li>1 year access</li>
+            <li>Unlimited eBook downloads</li>
+            <li>Publish and submit eBooks for downloads</li>
+            <li>Read eBooks directly from your account with no need to dowload it</li>
+            <li>Create a new eBook using our editor</li>
+            <li>Share eBooks</li>
+            <li>Access discounts available on our paid eBooks</li>
+
+          </ul>
+        </div>
+        @elseif($all_plan->name == 'Three Year subscription')
+        <div class="content">
+          <ul>
+            <li>Endless access</li>
+            <li>Unlimited eBook downloads</li>
+            <li>Publish and submit eBooks for downloads</li>
+            <li>Read eBooks directly from your account with no need to dowload it</li>
+            <li>Create a new eBook using our editor</li>
+            <li>Share eBooks</li>
+            <li>Access discounts available on our paid eBooks</li>
+
+          </ul>
+        </div>
+        @endif
+        <div class="foot">
+          @if($plan->id == $all_plan->id)
+          <label>your plan</label>
+          @else
+         <input type="button" class="first-btn" data-toggle="modal" data-target="#paymentModal" value="GET STARTED - ${{$all_plan->amount}}">
+         @endif
+       </div>
+       </div>
+       @endforeach
+       @endif
+     </div>
+
+     <!-- Modal -->
+<div id="paymentModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">PAYMENT INFO</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="payment_form" accept-charset="UTF-8">
+          {{ csrf_field() }}
+          <input id="token" name="token" type="hidden" value="">
+          <div class="form-group">
+          <label for="ebook">Card Number</label>
+            <input id="ccNo" type="text" value="" autocomplete="off" required />
+          </div>
+          <div class="form-group">
+            <label for="subtitle">Expiration Date (MM/YYYY)</label>
+            <input id="expMonth" type="text" size="2" required />
+            <span> / </span>
+            <input id="expYear" type="text" size="4" required />
+          </div>
+          <div class="form-group">
+            <label for="type">CVV</label>
+            <input id="cvv" type="text" value="" autocomplete="off" required />
+          </div>
+          <button type="submit" class="btn btn-default">Create Token</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
+     
+<!--      <div class="listing">
+      <div class="head">
+        <div class="price">$9.<sup>99<sup></div>
+        <div class="membership">Monthly Subscription</div>
+      </div>
+      <div class="content">
+        <ul>
+          <li>1 month access</li>
+            <li>Unlimited eBook downloads</li>
+            <li>Publish and submit eBooks for downloads</li>
+            <li>Read eBooks directly from your account with no need to dowload it</li>
+            <li>Create a new eBook using our editor</li>
+            <li>Share eBooks</li>
+            <li>Access discounts available on our paid eBooks</li>
+          </ul>
+        </div>
+        <div class="foot">
+          <label>your plan</label>
+        </div>
+      </div>
+      <div class="listing">
+        <div class="head">
+          <div class="price">$89.<sup>99<sup></div>
+          <div class="membership">Yearly Subscription</div>
+        </div>
+        <div class="content">
+          <ul>
+            <li>1 year access</li>
+            <li>Unlimited eBook downloads</li>
+            <li>Publish and submit eBooks for downloads</li>
+            <li>Read eBooks directly from your account with no need to dowload it</li>
+            <li>Create a new eBook using our editor</li>
+            <li>Share eBooks</li>
+            <li>Access discounts available on our paid eBooks</li>
+
+          </ul>
+        </div>
+        <div class="foot">
+         <input type="button" value="GET STARTED - $89.99">
+       </div>
+     </div>
+     <div class="listing">
+      <div class="head">
+        <div class="price">$349.<sup>99</sup></div>
+        <div class="membership">Lifetime Subscription</div>
+      </div>
+      <div class="content">
+        <ul>
+          <li>Endless access</li>
+          <li>Unlimited eBook downloads</li>
+          <li>Publish and submit eBooks for downloads</li>
+          <li>Read eBooks directly from your account with no need to dowload it</li>
+          <li>Create a new eBook using our editor</li>
+          <li>Share eBooks</li>
+          <li>Access discounts available on our paid eBooks</li>
+        </ul>
+      </div>
+      <div class="foot">
+       <input type="button" value="GET STARTED - $349.99">
+     </div>
+   </div> -->
+ 
+
+
+<script src="https://www.2checkout.com/checkout/api/2co.min.js"></script>
 <script>
 $(".user-sections .unit").click(function(){
   $(".user-sections .unit").removeClass("active");
@@ -202,5 +372,67 @@ $(".user-sections .unit").click(function(){
   $("."+dataAttr).addClass("active");
 
 });
+
+$("#changePlan").click(function(){
+  $(".plan-listing").show();
+$(".user-subscription").hide();
+});
+
+ // Called when token created successfully.
+    var successCallback = function(data) {
+      var myForm = document.getElementById('payment_form');
+      myForm.token.value = data.response.token.token;
+      prompt("Copy token to clipboard: Ctrl+C, Enter", data.response.token.token);
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        url: "payment",
+        data : {token : data.response.token.token},
+        type: 'POST',
+      }).done(function(html) {
+        // return $("#results").append(html);
+      });
+    };
+    
+    // Called when token creation fails.
+    var errorCallback = function(data) {
+      // Retry the token request if ajax call fails
+      if (data.errorCode === 200) {
+        tokenRequest();
+      } else {
+        alert(data.errorMsg);
+      }
+    };
+
+    var tokenRequest = function() {
+      // Setup token request arguments
+      var args = {
+        sellerId: "901379979",
+        publishableKey: "BACDB929-E778-466A-B2C1-0133FC43097F",
+        ccNo: $("#ccNo").val(),
+        cvv: $("#cvv").val(),
+        expMonth: $("#expMonth").val(),
+        expYear: $("#expYear").val()
+      };
+
+      // Make the token request
+      TCO.requestToken(successCallback, errorCallback, args);
+    };
+
+    $(function() {
+      // Pull in the public encryption key for our environment
+      TCO.loadPubKey('sandbox');
+
+      $("#payment_form").submit(function(e) {
+        // Call our token request function
+        tokenRequest();
+
+        // Prevent form from submitting
+        return false;
+      });
+    });
 </script>
 @endsection

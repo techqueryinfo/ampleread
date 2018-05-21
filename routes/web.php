@@ -154,5 +154,5 @@ Route::get('help', 'PagesController@help');
 
 //show subscription plans in front end for users
 Route::get('plans', 'Admin\\PlansController@fe_view_plans');
-Route::post('payment', 'Admin\\PlansController@do_payment');
+Route::post('profile/payment', 'Admin\\PlansController@do_payment');
 Route::post('contact', 'PagesController@contact_us_mail');

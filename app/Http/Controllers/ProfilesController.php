@@ -82,6 +82,7 @@ class ProfilesController extends Controller
             $user = $this->getUserByUsername($username);
             $countries = Country::all();
             $plan = Plan::find($user['plan_id']);
+            $all_plans = Plan::all();
         } catch (ModelNotFoundException $exception) {
             abort(404);
         }
@@ -93,6 +94,7 @@ class ProfilesController extends Controller
             'currentTheme' => $currentTheme,
             'countries'    => $countries,
             'plan'         => $plan,
+            'all_plans'    => $all_plans,
         ];
 
         return view('profiles.show')->with($data);

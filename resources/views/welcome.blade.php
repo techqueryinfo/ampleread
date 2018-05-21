@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<!-- {{$books}} -->
 <div class="ample-slider">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
@@ -188,7 +189,11 @@
         <div class="ebook"><img src="images/image6.png" alt=""><img src="images/image2.jpg" alt=""></div>
     </div>
 </div>
-<div class="ample-book-slot-slider">
+
+ @include('partials.new-release')
+ @include('partials.best-seller')
+ @include('partials.classic')
+<!-- <div class="ample-book-slot-slider">
     <div class="ample-row">
         <div class="ample-book-slot">New Release</div>
         <div class="ample-book-view-all">
@@ -359,8 +364,8 @@
                 </div>
             </div>
     </div>
-</div>
-<div class="ample-book-slot-slider">
+</div> -->
+<!-- <div class="ample-book-slot-slider">
 
     <div class="ample-row">
         <div class="ample-book-slot">Bestsellers</div>
@@ -532,8 +537,8 @@
             </div>
         </div>
     </div>
-</div>
-<div class="ample-book-slot-slider">
+</div> -->
+<!-- <div class="ample-book-slot-slider">
    <div class="ample-row">
         <div class="ample-book-slot">Classics</div>
         <div class="ample-book-view-all">
@@ -704,5 +709,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 @endsection
