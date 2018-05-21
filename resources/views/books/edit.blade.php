@@ -44,7 +44,7 @@
 			</div>
 			<div class="form-group">
 				<label for="desc">Description</label>
-				<textarea id="desc" name="desc" class="form-control" value="{{$book->desc}}">Enter Description...</textarea>
+				<textarea id="desc" name="desc" class="form-control" placeholder="Enter Description...">{{$book->desc}}</textarea>
 			</div>
 			<label for="ebookimage">Image</label>
 			<input type="file" name="ebook_logo"><br/>
@@ -122,11 +122,11 @@
 									<i class="fas fa-pencil-alt"></i>
 								</a>
 							</div>
-							<form method="POST" action="{{ url('/paid' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
+							<!-- <form method="POST" action="{{ url('/paid' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
 								{{ method_field('DELETE') }}
 								{{ csrf_field() }}
 								<div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Store' data-message = 'Are you sure you want to delete this Store ?'><i class="far fa-trash-alt"></i></div>
-							</form>
+							</form> -->
 						</td>
 					</tr>
 					@endforeach
@@ -147,6 +147,34 @@
 					<label>Add Discount</label>
 				</a>
 			</div>
+		</div>
+		<div class="container">        
+			<table class="table">
+				<tbody>
+					@foreach($paidDiscount as $val)
+					<tr>
+						<td>
+							<img src="/uploads/storeimage/{{ $val->store_logo }}" width="50px">
+						</td>
+						<td>{{ $val->store_name }}</td>
+						<td>{{ $val->discount }} %</td>
+						<td>{{ $val->desc }}</td>
+						<td>
+							<!-- <div class="edit">
+								<a href="#" title="Edit Discount" data-toggle="modal" data-target="#discountEditModal-{{$val->id}}">
+									<i class="fas fa-pencil-alt"></i>
+								</a>
+							</div> -->
+							<form method="POST" action="{{ url('/paid/deleteDiscount' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
+								<!-- {{ method_field('DELETE') }} -->
+								{{ csrf_field() }}
+								<div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Discount' data-message = 'Are you sure you want to delete this discount ?'><i class="far fa-trash-alt"></i></div>
+							</form>
+						</td>
+					</tr>
+					@endforeach
+				</tbody>
+			</table>
 		</div>
 	</div>
 <!-- Modal -->

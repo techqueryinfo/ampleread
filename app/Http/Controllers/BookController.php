@@ -6,6 +6,7 @@ use App\Category;
 use App\Book;
 use App\Paid;
 use App\PaidDiscount;
+use DB;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -90,7 +91,15 @@ class BookController extends Controller
         $categories = Category::all();
         $book = Book::findOrFail($id);
         $paid = Paid::where('book_id', '=', $id)->get();
-        $paidDiscount = PaidDiscount::where('book_id', '=', $id)->get();
+        $paidDiscount = DB::table('paid_discount')
+        ->join('paid_ebook', function($join){
+            $join->on('paid_discount.book_id', '=', 'paid_ebook.book_id')
+            ->on('paid_discount.store_name', '=', 'paid_ebook.store_name');
+        })
+        ->select('paid_discount.*', 'paid_ebook.store_logo')
+        ->where('paid_discount.book_id', '=', $id)
+        ->orWhere('paid_ebook.book_id', '=', $id)
+        ->get();
 		return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount'));
     }
 
@@ -115,7 +124,7 @@ class BookController extends Controller
         } 
         $book = Book::findOrFail($id);
         $book->update($requestData);
-        return redirect('book')->with('flash_message', 'E-Book updated!');
+        return redirect('book')->with('flash_message', 'E-Book updated !');
     }
 
     /**

@@ -101,13 +101,36 @@ class PaidController extends Controller
     public function destroy($id)
     {
         Paid::destroy($id);
+        // $paidDiscountID = PaidDiscount::where('book_id', '=', $id)->get();
+        // echo "<pre>"; print_r($paidDiscountID); exit;
+        // PaidDiscount::destroy($paidDiscountID);
         return redirect('book')->with('flash_message', 'Store deleted for "'.$id.'"!');
     }
 
+    /**
+     * Store a newly created discount resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function discountSave(Request $request)
     {
         $requestData = $request->all();
         PaidDiscount::create($requestData);
         return redirect('book')->with('flash_message', 'Discount added successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function deleteDiscount($id)
+    {
+        PaidDiscount::destroy($id);
+        return redirect('book')->with('flash_message', 'Discount deleted successfully.');
     }
 }
