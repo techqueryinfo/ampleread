@@ -102,6 +102,7 @@
 					<div class="form-group">
 					<label for="ebook">E-Book Title</label>
 						<input type="text" class="form-control" id="ebook" name="ebooktitle" required="required" placeholder="E-Book title">
+						<input type="hidden" name="user_id" value="{{ Auth::user()->id}}">
 					</div>
 					<div class="form-group">
 						<label for="subtitle">Sub Title</label>

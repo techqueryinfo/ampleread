@@ -25,5 +25,13 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = ['id','ebooktitle', 'subtitle', 'type', 'category', 'desc', 'ebook_logo'];
+    protected $fillable = ['id', 'user_id', 'ebooktitle', 'subtitle', 'type', 'category', 'desc', 'ebook_logo'];
+
+    /**
+     * Get the user for the book stores.
+     */
+    public function user()
+    {
+        return $this->hasMany('App\User', 'id');
+    }
 }

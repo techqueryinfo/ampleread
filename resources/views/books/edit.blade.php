@@ -58,7 +58,7 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="publish">Publisher</label>
-					<input type="text" name="publisher" id="publish" class="form-control">
+					<input type="text" name="publisher" id="publish" class="form-control" value="{{ Auth::user()->name}}">
 				</div>
 			</div>
 			<div class="col-md-6">

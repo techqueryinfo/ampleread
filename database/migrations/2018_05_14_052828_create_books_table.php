@@ -15,13 +15,14 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->integer('user_id')->unsigned()->index();
             $table->string('ebooktitle')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('type')->nullable();
             $table->string('category')->nullable();
             $table->text('desc')->nullable();
             $table->string('ebook_logo')->nullable();
+            $table->timestamps();
         });
     }
 

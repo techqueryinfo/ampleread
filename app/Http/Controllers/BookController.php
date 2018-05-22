@@ -94,7 +94,7 @@ class BookController extends Controller
         $paidDiscount = DB::table('paid_discount')
         ->join('paid_ebook', function($join){
             $join->on('paid_discount.book_id', '=', 'paid_ebook.book_id')
-            ->on('paid_discount.paid_ebook_id', '=', 'paid_ebook.id');
+            ->on('paid_discount.book_id', '=', 'paid_ebook.id');
         })
         ->select('paid_discount.*', 'paid_ebook.*')
         ->where('paid_discount.book_id', '=', $id)
