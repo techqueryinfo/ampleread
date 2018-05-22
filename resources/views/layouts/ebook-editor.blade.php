@@ -44,7 +44,7 @@
         @yield('head')
         @yield('angularjs')
     </head>
-    <body>
+    <body ng-app="demoApp" ng-controller="AppCtrl as panel">
         <div class="admin-container">
             @include('partials.ebook')
             <div class="admin-right">
