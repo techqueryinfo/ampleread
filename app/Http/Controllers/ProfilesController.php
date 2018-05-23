@@ -18,6 +18,7 @@ use Validator;
 use View;
 use App\Country;
 use App\Plan;
+use App\Transaction;
 
 
 
@@ -83,6 +84,7 @@ class ProfilesController extends Controller
             $countries = Country::all();
             $plan = Plan::find($user['plan_id']);
             $all_plans = Plan::all();
+            $transaction = Transaction::where('user_id', $user['id'])->orderBy('id', 'desc')->first();
         } catch (ModelNotFoundException $exception) {
             abort(404);
         }
@@ -95,6 +97,8 @@ class ProfilesController extends Controller
             'countries'    => $countries,
             'plan'         => $plan,
             'all_plans'    => $all_plans,
+            'transaction'  => $transaction,
+
         ];
 
         return view('profiles.show')->with($data);
