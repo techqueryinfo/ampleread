@@ -1,21 +1,24 @@
 @extends('layouts.ebook-editor')
 @section('angularjs')
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script> 
-<!-- <script src= "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script> -->
+<link rel="stylesheet" href="http://textangular.com/dist/textAngular.css" type="text/css">
+<script src= "https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script> -->
-<!-- Angular Material Library -->
-<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>    
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
+<script src='http://textangular.com/dist/textAngular-rangy.min.js'></script>
+<script src='http://textangular.com/dist/textAngular-sanitize.min.js'></script>
+<script src='http://textangular.com/dist/textAngular.min.js'></script>    
 @endsection
 @section('content')
 <md-content flex layout-padding>
 	<div layout="column" layout-align="top center">
 		<div class='panel' ng-show='panel.isSelected(1)'>
-			<h4>Why do we use it?</h4>
-			<p>
-				It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-			</p>
+			<div ng-controller="wysiwygeditor" class="container app">
+				<h1>Editor <span>@{{version}}</span></h1>
+				<div text-angular="text-angular" name="htmlcontent" ng-model="htmlcontent" ta-disabled='disabled' style="width: 85%"></div>
+				<h1>Raw HTML in a text area</h1>
+				<textarea ng-model="htmlcontent" style="width: 85%"></textarea>
+			</div>
 		</div>
 		<div class='panel' ng-show='panel.isSelected(2)'>
 			<h4>What is Lorem Ipsum?</h4>
@@ -41,9 +44,8 @@
 @endsection
 @section('footer_scripts')
 <script type="text/javascript">
-	angular
-	.module('demoApp', ['ngMaterial'])
-	.controller('AppCtrl', function ($scope, $timeout, $mdSidenav, $log) {
+	var app = angular.module('app', ['ngMaterial', 'textAngular']);
+	app.controller('tabs', function ($scope, $timeout, $mdSidenav, $log) {
 		this.tab = 1;
 		this.selectTab = function(setTab){
 			this.tab = setTab;
@@ -52,5 +54,12 @@
 			return this.tab === checkTab;
 		}
 	});
+	app.controller('wysiwygeditor', ['$scope', 'textAngularManager', function wysiwygeditor($scope, textAngularManager) {
+		$scope.version = textAngularManager.getVersion();
+		$scope.versionNumber = $scope.version.substring(1);
+		$scope.orightml = '<h2>Try me!</h2><p>textAngular is a super cool WYSIWYG Text Editor directive for AngularJS</p><p><b>Features:</b></p><ol><li>Automatic Seamless Two-Way-Binding</li><li>Super Easy <b>Theming</b> Options</li><li style="color: green;">Simple Editor Instance Creation</li><li>Safely Parses Html for Custom Toolbar Icons</li><li class="text-danger">Doesn&apos;t Use an iFrame</li><li>Works with Firefox, Chrome, and IE9+</li></ol><p><b>Code at GitHub:</b> <a href="https://github.com/fraywing/textAngular">Here</a> </p><h4>Supports non-latin Characters</h4><p>This is text</p>';
+		$scope.htmlcontent = $scope.orightml;
+		$scope.disabled = false;
+	}]);
 </script>
 @endsection
