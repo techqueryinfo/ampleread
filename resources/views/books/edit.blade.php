@@ -48,7 +48,6 @@
 			</div>
 			<label for="ebookimage">Image</label>
 			<input type="file" name="ebook_logo"><br/>
-			@if($book->type == 'paid')
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="printPages">Print Pages</label>
@@ -58,13 +57,13 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="publish">Publisher</label>
-					<input type="text" name="publisher" id="publish" class="form-control">
+					<input type="text" name="publisher" id="publish" class="form-control" value="{{$username}}" disabled="disabled">
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<label for="publishDate">Publish Date</label>
-					<input type="date" name="publish_date" class="form-control" id="publishDate">
+					<input type="text" name="created_at" class="form-control" id="publishDate" value="{{$book->created_at->format('M-d-Y')}}" disabled="disabled">
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -77,7 +76,6 @@
 				<label  for="asin">ASIN</label>
 				<input type="text" name="asin" id="asin" class="form-control">
 			</div>
-			@endif
 			<button type="submit" class="btn btn-default">Update</button>
 		</form>
 	</div>

@@ -102,6 +102,7 @@
 					<div class="form-group">
 					<label for="ebook">E-Book Title</label>
 						<input type="text" class="form-control" id="ebook" name="ebooktitle" required="required" placeholder="E-Book title">
+						<input type="hidden" name="user_id" value="{{ Auth::user()->id}}">
 					</div>
 					<div class="form-group">
 						<label for="subtitle">Sub Title</label>
@@ -124,7 +125,7 @@
 					</div>
 					<div class="form-group">
 						<label for="desc">Description</label>
-						<textarea id="desc" name="desc" class="form-control">Enter Description...</textarea>
+						<textarea id="desc" name="desc" class="form-control" placeholder="Enter Description..." required="required"></textarea>
 					</div>
 					<label for="ebookimage">Image</label>
 					<input type="file" name="ebook_logo"><br/>

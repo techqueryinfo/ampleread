@@ -25,5 +25,13 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = ['id','ebooktitle', 'subtitle', 'type', 'category', 'desc', 'ebook_logo'];
+    protected $fillable = ['id', 'user_id', 'ebooktitle', 'subtitle', 'type', 'category', 'desc', 'ebook_logo'];
+
+    /**
+     * Get the user record associated with the book.
+     */
+    public function userName()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
 }
