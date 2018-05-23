@@ -28,10 +28,10 @@ class Book extends Model
     protected $fillable = ['id', 'user_id', 'ebooktitle', 'subtitle', 'type', 'category', 'desc', 'ebook_logo'];
 
     /**
-     * Get the user for the book stores.
+     * Get the user record associated with the book.
      */
-    public function user()
+    public function userName()
     {
-        return $this->hasMany('App\User', 'id');
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
 }

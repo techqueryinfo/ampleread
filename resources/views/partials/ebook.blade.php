@@ -1,4 +1,19 @@
 <div class="admin-left">
+    <div class="admin-img">
+        @if (Auth::User() && (Auth::User()->profile) && (Auth::User()->profile->avatar_status == 0))
+        <img src="{{ Gravatar::get(Auth::user()->email) }}"/>
+        @else
+        <img src="/uploads/{{ Auth::User()->profile->avatar }}"/>
+        @endif
+    </div>
+    <div class="admin-name">
+        <div class="name">{{Auth::user()->name}}<i class="fas fa-angle-down"></i> </div>
+
+    </div>
+    <div class="admin-pro">
+        <div class="admin-button"><a href="">Admin</a></div>
+    </div>
+    <div class="admin-line"></div>
     <div layout="column" class="admin-menu" ng-cloak>
         <ul>
             <md-sidenav

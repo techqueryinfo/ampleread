@@ -18,7 +18,7 @@ class BookController extends Controller
      */
     public function index(Request $request)
     {
-    	$keyword = $request->get('search');
+        $keyword = $request->get('search');
         $perPage = 25;
         $categories = Category::all();
         if (!empty($keyword)) 
@@ -31,7 +31,7 @@ class BookController extends Controller
         {
             $books = Book::latest()->paginate($perPage);
         }
-       	return view('books.index', compact('books', 'categories'));
+        return view('books.index', compact('books', 'categories'));
     }
     /**
      * Show the form for creating a new resource.
@@ -40,7 +40,7 @@ class BookController extends Controller
      */
     public function create()
     {
-    	$categories = Category::all();
+        $categories = Category::all();
         return view('books.create', compact('categories'));
     }
 
@@ -76,7 +76,7 @@ class BookController extends Controller
     public function show($id)
     {
         $book = Book::findOrFail($id);
-		return view('books.show', compact('book'));
+        return view('books.show', compact('book'));
     }
 
     /**
@@ -90,17 +90,18 @@ class BookController extends Controller
     {
         $categories = Category::all();
         $book = Book::findOrFail($id);
+        $username = $book->userName()->first()->first_name." ".$book->userName()->first()->last_name;
         $paid = Paid::where('book_id', '=', $id)->get();
         $paidDiscount = DB::table('paid_discount')
         ->join('paid_ebook', function($join){
             $join->on('paid_discount.book_id', '=', 'paid_ebook.book_id')
-            ->on('paid_discount.book_id', '=', 'paid_ebook.id');
+            ->on('paid_discount.paid_ebook_id', '=', 'paid_ebook.id');
         })
-        ->select('paid_discount.*', 'paid_ebook.*')
+        ->select('paid_discount.*', 'paid_ebook.store_logo', 'paid_ebook.store_name')
         ->where('paid_discount.book_id', '=', $id)
         ->orWhere('paid_ebook.book_id', '=', $id)
         ->get();
-		return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount'));
+        return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount', 'phone', 'username'));
     }
 
     /**

@@ -125,7 +125,7 @@
 					</div>
 					<div class="form-group">
 						<label for="desc">Description</label>
-						<textarea id="desc" name="desc" class="form-control">Enter Description...</textarea>
+						<textarea id="desc" name="desc" class="form-control" placeholder="Enter Description..." required="required"></textarea>
 					</div>
 					<label for="ebookimage">Image</label>
 					<input type="file" name="ebook_logo"><br/>
