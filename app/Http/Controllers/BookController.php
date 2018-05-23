@@ -54,15 +54,15 @@ class BookController extends Controller
     public function store(Request $request)
     {
         
-        // $requestData = $request->all();
-        // if ($request->hasFile('ebook_logo')) 
-        // {
-        //     $uploadPath = public_path('/uploads/ebook_logo');
-        //     $file = $request->file('ebook_logo');
-        //     $file->move($uploadPath, $file->getClientOriginalName());
-        //     $requestData['ebook_logo'] = $file->getClientOriginalName();
-        // } 
-        // Book::create($requestData);
+        $requestData = $request->all();
+        if ($request->hasFile('ebook_logo')) 
+        {
+            $uploadPath = public_path('/uploads/ebook_logo');
+            $file = $request->file('ebook_logo');
+            $file->move($uploadPath, $file->getClientOriginalName());
+            $requestData['ebook_logo'] = $file->getClientOriginalName();
+        } 
+        Book::create($requestData);
         return view('books.ebook');
     }
 
