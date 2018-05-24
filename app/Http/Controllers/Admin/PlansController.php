@@ -185,7 +185,7 @@ class PlansController extends Controller
                     'transactionId' => $charge['response']['transactionId'],
                     'orderNumber' => $charge['response']['orderNumber'],
 
-                );
+                    );
                 Transaction::create($requestData);
                 $currentUser->plan_id = $request->input('plan_id');
                 $currentUser->save();
@@ -199,5 +199,22 @@ class PlansController extends Controller
 
             }
         } catch (Twocheckout_Error $e) {print_r($e->getMessage());}
+    }
+
+    /**
+     * Get all plan transactions to show admin
+     *
+     *
+     * @return \Illuminate\View\View
+     */
+    public function transactionView()
+    {
+        $transaction = Transaction::with('userRecord')->get();
+        $transaction_new = Transaction::with('plan_transaction')->get();
+        $trans = (array)$transaction;
+        $trans_new = (array)$transaction_new;
+        $result = array_merge($trans, $trans_new);
+        //echo "<pre>"; print_r($result); exit(); 
+        return view('admin.plans.transaction', compact('result'));
     }
 }

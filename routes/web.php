@@ -140,6 +140,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::resource('admin/plans', 'Admin\\PlansController');
     Route::resource('admin/settings', 'Admin\\SettingsController');
     // Route::resource('book', 'BookController');
+    Route::get('/admin/transaction', 'Admin\\PlansController@transactionView');
 });
 
 Route::redirect('/php', '/phpinfo', 301);

@@ -27,5 +27,20 @@ class Transaction extends Model
      */
     protected $fillable = ['plan_id', 'user_id', 'merchantOrderId', 'price', 'currencyCode', 'transactionId', 'orderNumber'];
 
-    
+
+    /**
+     * Get the user record associated with the transaction.
+     */
+    public function userRecord()
+    {
+        return $this->belongsTo('App\Models\User','user_id');
+    }
+
+    /**
+     * Get the plans for the users.
+     */
+    public function plan_transaction()
+    {
+        return $this->belongsTo('App\Plan','plan_id');
+    }
 }
