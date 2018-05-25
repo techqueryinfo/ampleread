@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Plan;
 use Illuminate\Http\Request;
+use App\Transaction;
 
 class PlansController extends Controller
 {
@@ -148,6 +149,8 @@ class PlansController extends Controller
 
     public function do_payment(Request $request)
     {
+        // print_r($request->input()); exit();
+        $currentUser = \Auth::user();
         
         \Twocheckout::privateKey('554071C2-1333-4224-B04D-C518659924B8');
         \Twocheckout::sellerId('901379979');
@@ -159,27 +162,59 @@ class PlansController extends Controller
                 "merchantOrderId" => "123",
                 "token"      => $request->input('token'),
                 "currency"   => 'USD',
-                "total"      => '10.00',
+                "total"      => $request->input('charge_value'),
                 "billingAddr" => array(
-                    "name" => 'Testing Tester',
-                    "addrLine1" => '123 Test St',
-                    "city" => 'Columbus',
-                    "state" => 'OH',
-                    "zipCode" => '43123',
-                    "country" => 'USA',
-                    "email" => 'example@2co.com',
+                    "name" => $request->input('cardholdername'),
+                    "addrLine1" => $request->input('street'),
+                    "city" => $request->input('city'),
+                    "state" => $request->input('state'),
+                    "zipCode" => $request->input('zip'),
+                    "country" => $request->input('country'),
+                    "email" => $request->input('email'),
                     "phoneNumber" => '555-555-5555'
                     )
                 ));
 
             if ($charge['response']['responseCode'] == 'APPROVED') {
-                echo "Thanks for your Order!";
-                echo "<h3>Return Parameters:</h3>";
-                echo "<pre>";
-                print_r($charge);
-                echo "</pre>";
+                $requestData = array(
+                    'plan_id' => $request->input('plan_id'),
+                    'user_id' => $currentUser->id,
+                    'merchantOrderId' => $charge['response']['merchantOrderId'],
+                    'price' => $charge['response']['total'],
+                    'currencyCode' => $charge['response']['currencyCode'],
+                    'transactionId' => $charge['response']['transactionId'],
+                    'orderNumber' => $charge['response']['orderNumber'],
+
+                    );
+                Transaction::create($requestData);
+                $currentUser->plan_id = $request->input('plan_id');
+                $currentUser->save();
+
+                return redirect('profile/'.$currentUser->name)->with('success', 'Payment done successfully !');
+                // echo "Thanks for your Order!";
+                // echo "<h3>Return Parameters:</h3>";
+                // echo "<pre>";
+                // print_r($charge);
+                // echo "</pre>";
 
             }
         } catch (Twocheckout_Error $e) {print_r($e->getMessage());}
+    }
+
+    /**
+     * Get all plan transactions to show admin
+     *
+     *
+     * @return \Illuminate\View\View
+     */
+    public function transactionView()
+    {
+        $transaction = Transaction::with('userRecord')->get();
+        $transaction_new = Transaction::with('plan_transaction')->get();
+        $trans = (array)$transaction;
+        $trans_new = (array)$transaction_new;
+        $result = array_merge($trans, $trans_new);
+        //echo "<pre>"; print_r($result); exit(); 
+        return view('admin.plans.transaction', compact('result'));
     }
 }
