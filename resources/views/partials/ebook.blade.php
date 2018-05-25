@@ -16,28 +16,18 @@
     <div class="admin-line"></div>
     <div layout="column" class="admin-menu" ng-cloak>
         <ul>
-            <md-sidenav
-            class="md-sidenav-left"
-            md-component-id="left"
-            md-is-locked-open="$mdMedia('gt-md')"
-            md-whiteframe="4">
-            <section>
-                <md-list class='nav nav-pills'>
-                  <md-list-item ng-class="{active: panel.isSelected(1) }">
-                    <li><a href="#" ng-click="panel.selectTab(1)">TABLE OF CONTENTS</a></li>
-                </md-list-item>
-                <md-list-item ng-class="{active: panel.isSelected(2) }">
-                    <li><a href="#" ng-click="panel.selectTab(2)">BOOK INFO</a></li>
-                </md-list-item>
-                <md-list-item ng-class="{active: panel.isSelected(3) }">
-                    <li><a href="#" ng-click="panel.selectTab(3)">NOTES</a></li>
-                </md-list-item>
-                <md-list-item ng-class="{active: panel.isSelected(4) }">
-                    <li><a href="#" ng-click="panel.selectTab(4)">IMAGES</a></li>
-                </md-list-item>
-            </md-list>
-            </section>
-        </md-sidenav>
+            <li ng-class="{ active: isSet(1) }">
+                <a href="#" ng-click="setTab(1)">TABLE OF CONTENTS</a>
+            </li>
+            <li ng-class="{ active: isSet(2) }">
+                <a href="#" ng-click="setTab(2)">BOOK INFO</a>
+            </li>
+            <li ng-class="{ active: isSet(3) }">
+                <a href="#" ng-click="setTab(3)">NOTES</a>
+            </li>
+            <li ng-class="{ active: isSet(4) }">
+                <a href="#" ng-click="setTab(4)">IMAGES</a>
+            </li>
         </ul>
     </div>
     <!-- <div class="admin-line"></div> -->
