@@ -7,7 +7,7 @@
         @endif
     </div>
     <div class="admin-name">
-        <div class="name">{{Auth::user()->name}}<i class="fas fa-angle-down"></i> </div>
+        <div class="name">{{Auth::user()->name}}<i class="fas fa-angle-down"></i></div>
 
     </div>
     <div class="admin-pro">
@@ -29,6 +29,53 @@
                 <a href="#" ng-click="setTab(4)">IMAGES</a>
             </li>
         </ul>
+        <div class="admin-line"></div>
+        <div ng-show="isSet(1)">
+            <div class="form-group" data-ng-repeat="choice in choices">
+                <button ng-show="showAddChapter(choice)" ng-click="addNewChapter()"><i class="glyphicon glyphicon-plus"></i></button>
+                <li><a href="#" ng-modal="@{{choice.id}}">@{{choice.name}}</a></li>
+                <button ng-click="removeNewChapter()"><i class="glyphicon glyphicon-trash"></i></button>
+            </div>
+        </div>
+        <div ng-show="isSet(2)">
+            <div class="admin-line"></div>
+            <form>
+                {{ csrf_field() }}
+                <div>
+                    <label for="ebook">E-Book Title</label>
+                    <input type="text" id="ebook" name="ebooktitle" required="required" placeholder="E-Book title">
+                </div>
+                <div>
+                    <label for="subtitle">Sub Title</label>
+                    <input type="text" id="subtitle" name="subtitle" required="required" placeholder="Sub title">
+                </div>
+                <div>
+                    <label for="type">Type</label>
+                    <select name="type" id="type">
+                        <option value="paid">Paid</option>
+                        <option value="free">Free</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="category">Category</label>
+                    <select id="category" name="category">
+                        @foreach($categories as $item)
+                        <option value="{{ $item->category_slug }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="desc">Description</label>
+                    <textarea id="desc" name="desc" placeholder="Enter Description..." required="required"></textarea>
+                </div>
+            </form>
+        </div>
+        <div ng-show="isSet(3)">
+            <button class="btn btn-default">ADD NOTE</button>
+        </div>
+        <div ng-show="isSet(4)">
+            <button class="btn btn-default">UPLOAD IMAGE</button>
+        </div>
     </div>
     <!-- <div class="admin-line"></div> -->
     <div class="logout">
