@@ -335,18 +335,26 @@
 
                 <!-- Country -->
                 <div class="form-group">
-                    <label class="col-sm-4 control-label" for="textinput">Country</label>
-                    <div class="col-sm-8"> 
-                        <input type="hidden" name="country" placeholder="Country" class="country form-control">
-                        <select id="select_country" class="input-medium form-control bfh-countries" name="country_code" placeholder="Select Country" data-flags="true" data-filter="true"> </div>
+                  <label class="col-sm-4 control-label" for="textinput">Country</label>
+                  <div class="col-sm-8"> 
+                    <input type="hidden" name="country" placeholder="Country" class="country form-control">
+                    <select id="select_country" class="input-medium form-control bfh-countries" name="country_code" placeholder="Select Country" data-flags="true" data-filter="true"> 
                     </div>
-                </div>
+                  </div>
 
                 <!-- Email -->
                 <div class="form-group">
                     <label class="col-sm-4 control-label" for="textinput">Email</label>
                     <div class="col-sm-8">
                         <input type="text" name="email" maxlength="65" placeholder="Email" class="email form-control">
+                    </div>
+                </div>
+                
+                <!-- Phone no. -->
+                <div class="form-group">
+                    <label class="col-sm-4 control-label" for="textinput">Phone No. (format: xxx-xxx-xxxx)</label>
+                    <div class="col-sm-8">
+                        <input type="tel" pattern="^\d{3}-\d{3}-\d{4}$" name="phone_no" maxlength="12" placeholder="Phone No." class="form-control">
                     </div>
                 </div>
             </fieldset>
@@ -600,6 +608,13 @@ $('#payment-form').bootstrapValidator({
                                 min: 6,
                                 max: 65,
                                 message: 'The email must be more than 6 and less than 65 characters long'
+                            }
+                        }
+                    },
+                    phone_no: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The phone no. is required and can\'t be empty'
                             }
                         }
                     },

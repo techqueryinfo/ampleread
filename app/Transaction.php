@@ -31,7 +31,7 @@ class Transaction extends Model
     /**
      * Get the user record associated with the transaction.
      */
-    public function userRecord()
+    public function user_record()
     {
         return $this->belongsTo('App\Models\User','user_id');
     }

@@ -171,7 +171,7 @@ class PlansController extends Controller
                     "zipCode" => $request->input('zip'),
                     "country" => $request->input('country'),
                     "email" => $request->input('email'),
-                    "phoneNumber" => '555-555-5555'
+                    "phoneNumber" => $request->input('phone_no')
                     )
                 ));
 
@@ -190,7 +190,13 @@ class PlansController extends Controller
                 $currentUser->plan_id = $request->input('plan_id');
                 $currentUser->save();
 
-                return redirect('profile/'.$currentUser->name)->with('success', 'Payment done successfully !');
+                $data = [
+                'invoice_details'         => $requestData,
+
+                ];
+
+                // return redirect('profile/'.$currentUser->name)->with('success', 'Payment done successfully !');
+                return view('profiles/invoice_details')->with($data);
                 // echo "Thanks for your Order!";
                 // echo "<h3>Return Parameters:</h3>";
                 // echo "<pre>";
@@ -209,12 +215,7 @@ class PlansController extends Controller
      */
     public function transactionView()
     {
-        $transaction = Transaction::with('userRecord')->get();
-        $transaction_new = Transaction::with('plan_transaction')->get();
-        $trans = (array)$transaction;
-        $trans_new = (array)$transaction_new;
-        $result = array_merge($trans, $trans_new);
-        //echo "<pre>"; print_r($result); exit(); 
-        return view('admin.plans.transaction', compact('result'));
+        $transactions = Transaction::with(['user_record','plan_transaction'])->get();
+        return view('admin.plans.transaction', compact('transactions'));
     }
 }

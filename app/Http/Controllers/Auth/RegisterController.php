@@ -14,6 +14,9 @@ use jeremykenedy\LaravelRoles\Models\Role;
 use Illuminate\Http\Request;
 use Response;
 
+use App\Mail\RegisterMail;
+use Illuminate\Support\Facades\Mail;
+
 class RegisterController extends Controller
 {
     /*
@@ -110,6 +113,7 @@ class RegisterController extends Controller
                 'country'         => $data['country'],
                 'email'             => $data['email'],
                 'password'          => Hash::make($data['password']),
+                'plan_id'           => '1',
                 'token'             => str_random(64),
                 'signup_ip_address' => $ipAddress->getClientIp(),
                 'activated'         => !config('settings.activation'),
@@ -117,6 +121,7 @@ class RegisterController extends Controller
 
         $user->attachRole($role);
         // $this->initiateEmailActivation($user);
+        Mail::to($data['email'])->send(new RegisterMail($user));
 
         return $user;
     }
