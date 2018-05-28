@@ -53,7 +53,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $categories = Category::all();
         $requestData = $request->all();
         if ($request->hasFile('ebook_logo')) 
         {
@@ -63,7 +63,7 @@ class BookController extends Controller
             $requestData['ebook_logo'] = $file->getClientOriginalName();
         } 
         Book::create($requestData);
-        return view('books.ebook');
+        return view('books.ebook', compact('categories'));
     }
 
     /**
