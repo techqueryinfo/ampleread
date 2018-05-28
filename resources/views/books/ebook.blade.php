@@ -9,9 +9,9 @@
 @section('content')
 	<div layout="column" layout-align="top center">
 		<h1>Editor <span>@{{version}}</span></h1>
-		<div text-angular="text-angular" name="htmlcontent" ng-model="htmlcontent" ta-disabled='disabled' style="width: 85%"></div>
+		<div text-angular="text-angular" name="htmlcontent" ng-model="htmlcontent" ta-disabled='disabled'></div>
 		<h1>Raw HTML in a text area</h1>
-		<textarea ng-model="htmlcontent" style="width: 85%"></textarea>
+		<textarea ng-model="htmlcontent" rows="5" style="width: 100%"></textarea>
 	</div>
 @endsection
 @section('footer_scripts')
@@ -46,6 +46,9 @@
 		};
 		$scope.showAddChapter = function(choice) {
 			return choice.id === $scope.choices[$scope.choices.length-1].id;
+		};
+		$scope.chapterContent = function(choice){
+			alert(choice.id);
 		};
 	}]);
 </script>

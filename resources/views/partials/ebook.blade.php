@@ -33,7 +33,7 @@
         <div ng-show="isSet(1)">
             <div class="form-group" data-ng-repeat="choice in choices">
                 <button ng-show="showAddChapter(choice)" ng-click="addNewChapter()"><i class="glyphicon glyphicon-plus"></i></button>
-                <li><a href="#" ng-modal="@{{choice.id}}">@{{choice.name}}</a></li>
+                <li><a href="#" ng-modal="@{{choice.id}}" ng-click="chapterContent(choice)">@{{choice.name}}</a></li>
                 <button ng-click="removeNewChapter()"><i class="glyphicon glyphicon-trash"></i></button>
             </div>
         </div>

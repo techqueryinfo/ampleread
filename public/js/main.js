@@ -11,7 +11,8 @@ $(".ample-menu ul li:first-child").click(function () {
     }
 });
 $(document).ready(function () {
-    $('.owl-carousel').owlCarousel({
+
+    $('.home-slider').owlCarousel({
         nav: true,
         loop: true,
         margin: 10,
@@ -49,6 +50,39 @@ $(document).ready(function () {
         }
     });
 
+    $('.category-slider').owlCarousel({
+        nav: true,
+        loop: true,
+        margin: 10,
+        dots: false,
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 1,
+                nav: true
+            },
+            600: {
+                items: 2,
+
+            },
+            768: {
+                items: 2,
+                loop: false,
+                margin: 15
+            },
+            992: {
+                items: 3,
+                loop: false,
+                margin: 10
+            },
+
+            1480: {
+                items: 3,
+                loop: false,
+                margin: 20
+            }
+        }
+    });
 });
 function Setactive(x) {
     var y = $(x).attr("class");
@@ -103,4 +137,14 @@ $(".sign-in-manage-left .unit").click(function(){
     $(this).addClass("active");
 });
 
-$("#status").select2();
+$("#status,#userSorting").select2();
+$(".ebook-slot-1 ul li").click(function(){
+  $(".ebook-slot-1 ul li").removeClass("active");
+  $(this).addClass("active");
+
+});
+$(" ul.sub-list li").click(function(){
+  $(" ul.sub-list li").removeClass("active");
+  $(this).addClass("active");
+
+});
