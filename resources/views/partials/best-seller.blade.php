@@ -1,14 +1,12 @@
 <div class="ample-book-slot-slider">
-
     <div class="ample-row">
         <div class="ample-book-slot">Bestsellers</div>
         <div class="ample-book-view-all">
             <i class="fa fa-arrow-right"></i>
             <div class="view-all">view all</div>
-
         </div>
     </div>
-    <div class="owl-carousel owl-theme">
+    <div class="owl-carousel owl-theme home-slider">
         <div class="item">
             <div class="image"><img src="images/image11.jpg" alt="img1" /></div>
             <div class="ample-button"><button>FREE</button></div>
@@ -34,7 +32,6 @@
                 <span class="fa fa-star"></span>
                 <span class="fa fa-star"></span>
             </div>
-
         </div>
         <div class="item">
             <div class="image"><img src="images/image24.jpg" alt="img1" /></div>

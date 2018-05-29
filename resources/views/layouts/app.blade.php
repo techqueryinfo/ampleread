@@ -57,7 +57,7 @@
                 @include('partials.form-status')
             </div>
             @yield('content')
-            @include('partials.footer');
+            @include('partials.footer')
         </div>
         {{-- Scripts --}}
         <script type="text/javascript" src="/js/owl.carousel.js"></script>

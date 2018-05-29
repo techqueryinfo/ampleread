@@ -7,7 +7,7 @@
 
         </div>
     </div>
-    <div class="owl-carousel owl-theme">
+    <div class="owl-carousel owl-theme home-slider">
         <div class="item">
             <div class="image"><img src="images/image14.jpg" alt="img1" /></div>
             <div class="ample-button"><button>FREE</button></div>
