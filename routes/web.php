@@ -158,3 +158,4 @@ Route::get('help', 'PagesController@help');
 Route::get('plans', 'Admin\\PlansController@fe_view_plans');
 Route::post('profile/payment', 'Admin\\PlansController@do_payment');
 Route::post('contact', 'PagesController@contact_us_mail');
+Route::get('books/category/{category_name}', 'BookController@show_books_by_category');

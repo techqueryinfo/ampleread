@@ -30,7 +30,7 @@ class Book extends Model
     /**
      * Get the user record associated with the book.
      */
-    public function userName()
+    public function user_name()
     {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
