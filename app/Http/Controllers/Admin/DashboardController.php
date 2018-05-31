@@ -107,4 +107,14 @@ class DashboardController extends Controller
 
         return redirect('admin/categories')->with('flash_message', 'Category deleted!');
     }
+    
+    /**
+     * Display homepage.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function homepage()
+    {
+      return view('admin/homepage');
+    }
 }
