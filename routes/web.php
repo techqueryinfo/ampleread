@@ -142,6 +142,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     // Route::resource('book', 'BookController');
     Route::get('/admin/transaction', 'Admin\\PlansController@transactionView');
     Route::get('admin/homepage', 'Admin\\DashboardController@homepage');
+    Route::get('admin/books/category/{category_name}', 'BookController@show_books_by_category');
 });
 
 Route::redirect('/php', '/phpinfo', 301);

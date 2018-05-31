@@ -8,6 +8,8 @@ use App\Paid;
 use App\PaidDiscount;
 use DB;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Auth;
 
 class BookController extends Controller
 {
@@ -150,12 +152,21 @@ class BookController extends Controller
      */
     public function show_books_by_category($category_name)
     {
+        $currentUser = Auth::user();
        $books = Book::where('category', '=', $category_name)->with('user_name')->get();
-       // echo "<pre>" ; print_r($books);exit();
+       $category = Category::where('name', '=', $category_name)->first();
        $data = [
        'books' => $books,
-       'category_name' => $category_name
+       'category_name' => $category_name,
+       'category' => $category
        ];
+       if($currentUser->isAdmin())
+       {
+         return view('books.book_category')->with($data);
+       }
+       else {
+        print_r( Auth::user()->hasRole('Admin')); exit();
        return view('books.show_books_by_category')->with($data);
+       }
     }
 }

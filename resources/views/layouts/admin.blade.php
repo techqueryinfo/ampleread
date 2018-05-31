@@ -29,6 +29,9 @@
         <link rel="stylesheet" href="/css/admin.css">
         <link rel="stylesheet" href="/fontawesome/css/fontawesome-all.css">
         <link rel="stylesheet" href="/css/ampleread.css">
+        <link rel="stylesheet" href="/css/freecategory.css">
+        <link rel="stylesheet" href="/css/owl.carousel.css">
+        <link rel="stylesheet" href="/css/main.css">
 
         @yield('template_linked_css')
 
@@ -75,6 +78,8 @@
         <script type="text/javascript" src="/js/popup.js"></script>
         <script type="text/javascript" src="/js/select.js"></script>
         <script type="text/javascript" src="/js/ampleread.js"></script>
+        <script type="text/javascript" src="/js/owl.carousel.js"></script>
+        <script type="text/javascript" src="/js/main.js"></script>
         <script type="text/javascript">
             function resizemenu(){
                 var windowheight=window.innerHeight;
