@@ -31,10 +31,10 @@
         </ul>
         <div class="admin-line"></div>
         <div ng-show="isSet(1)">
-            <div class="form-group" data-ng-repeat="choice in choices">
-                <button ng-show="showAddChapter(choice)" ng-click="addNewChapter()"><i class="glyphicon glyphicon-plus"></i></button>
-                <li><a href="#" ng-modal="@{{choice.id}}" ng-click="chapterContent(choice)">@{{choice.name}}</a></li>
-                <button ng-click="removeNewChapter()"><i class="glyphicon glyphicon-trash"></i></button>
+            <button type="button" ng-click="addChapter()">Add <i class="fa fa-plus"></i></button>
+            <div ng-repeat="chapter in chapters track by $index">
+                <span ng-click="viewChapter($index)" style="color: #fff !important; cursor: pointer;">@{{ chapter.name }}</span>
+                <button type="button" ng-click="deleteChapter($index)">Delete <i class="fa fa-trash" aria-hidden="true"></i></button>
             </div>
         </div>
         <div ng-show="isSet(2)">
