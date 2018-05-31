@@ -90,7 +90,7 @@ class BookController extends Controller
     {
         $categories = Category::all();
         $book = Book::findOrFail($id);
-        $username = $book->userName()->first()->first_name." ".$book->userName()->first()->last_name;
+        $username = $book->user_name()->first()->first_name." ".$book->user_name()->first()->last_name;
         $paid = Paid::where('book_id', '=', $id)->get();
         $paidDiscount = DB::table('paid_discount')
         ->join('paid_ebook', function($join){
@@ -139,5 +139,23 @@ class BookController extends Controller
     {
         Book::destroy($id);
         return redirect('book')->with('flash_message', 'E-Book deleted!');
+    }
+    
+    /**
+     * Get All books of a particular category
+     *
+     * @param  string category_name
+     *
+     * @return \Illuminate\View\View
+     */
+    public function show_books_by_category($category_name)
+    {
+       $books = Book::where('category', '=', $category_name)->with('user_name')->get();
+       // echo "<pre>" ; print_r($books);exit();
+       $data = [
+       'books' => $books,
+       'category_name' => $category_name
+       ];
+       return view('books.show_books_by_category')->with($data);
     }
 }

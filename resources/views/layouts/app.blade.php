@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="/css/popup.css">
         <link rel="stylesheet" href="/css/select.css">
         <link rel="stylesheet" href="/css/ampleread.css">
+        <link rel="stylesheet" href="/css/freecategory.css">
         <script type="text/javascript" src="/js/jquery.min.js"></script>
         @yield('template_linked_css')
         <style type="text/css">
