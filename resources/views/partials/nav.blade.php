@@ -92,7 +92,7 @@
     <li><a href="#">Non Fiction</a></li>
     <li><a href="#">Most Popular Books</a></li>
     <li><a href="#">New Release</a> </li>
-    <!-- <li {{ Request::is('book') ? 'class=active' : null }}>{!! HTML::link(url('/book/create/'), 'Create an e-Book') !!}</li> -->
+    <li {{ Request::is('book') ? 'class=active' : null }}>{!! HTML::link(url('/book/create/'), 'Create an e-Book') !!}</li>
     <li><a href="#">Publish an e-book</a></li>
 </ul>
 </div>

@@ -160,12 +160,12 @@ class BookController extends Controller
        'category_name' => $category_name,
        'category' => $category
        ];
-       if($currentUser->isAdmin())
+       if(!empty($currentUser) && $currentUser->isAdmin())
        {
          return view('books.book_category')->with($data);
        }
        else {
-        print_r( Auth::user()->hasRole('Admin')); exit();
+        // print_r( Auth::user()->hasRole('Admin')); exit();
        return view('books.show_books_by_category')->with($data);
        }
     }

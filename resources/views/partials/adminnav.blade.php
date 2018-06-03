@@ -18,8 +18,8 @@
         <ul>
             <li {{ Request::is('admin/dashboard') ? 'class=active' : null }}>{!! HTML::link(url('/admin/plans'), 'Stats') !!}</li>
             <li {{ Request::is('admin/homepage') ? 'class=active' : null }}>{!! HTML::link(url('/admin/homepage'), 'Homepage') !!}</li>
-            <!-- <li {{ Request::is('book') ? 'class=active' : null }}>{!! HTML::link(url('/book'), 'Books') !!}</li> -->
-            <li {{ Request::is('admin/books/category/{category_name}') ? 'class=active' : null }}>{!! HTML::link(url('/admin/books/category/Classics'), 'Books') !!}</li>
+            <li {{ Request::is('book') ? 'class=active' : null }}>{!! HTML::link(url('/book'), 'Books') !!}</li>
+            <li {{ Request::is('admin/books/category/{category_name}') ? 'class=active' : null }}>{!! HTML::link(url('/admin/books/category/Classics'), 'Books Category') !!}</li>
             <li {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'class=active' : null }}>{!! HTML::link(url('/users'), Lang::get('titles.adminUserList')) !!}</li>
             <li {{ Request::is('admin/categories') ? 'class=active' : null }}>{!! HTML::link(url('/admin/categories'), 'Category Management') !!}</li>
             <li {{ Request::is('admin/plans') ? 'class=active' : null }}>{!! HTML::link(url('/admin/plans'), 'Plan Management') !!}</li>
