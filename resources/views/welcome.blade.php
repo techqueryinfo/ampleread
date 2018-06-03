@@ -182,12 +182,5 @@
 @include('partials.new-release')
 @include('partials.best-seller')
 @include('partials.classic')
-<div class="ample-facebook-signup">
-   <div class="inner-section">
-      <div class="heading">Join us and get access
-          to all your favourite books</div>
-       <div class="free">It’s free</div>
-       <button>Sign up for free</button>
-   </div>
-</div>
+
 @endsection
