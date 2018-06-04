@@ -1,108 +1,101 @@
 @extends('layouts.admin')
 @section('content')
-<div class="book-header">@if(!blank($category)) {{$category->name}} <div class="edit">
-                                <button data-toggle="modal" data-target="#editCategoryModal">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </button>
-                            </div> @endif</div>
-  <div class="ebook-slot-1">
-  	<div class="sorting-right" style="width:125px">
-            <button data-toggle="modal" data-target="#createCategoryModal">
-            <div class="circle">
+<!-- heading -->
+<div class="admin-home">
+    <!-- search bar-->
+    <div class="search-section book-search">
+        <div class="search-icon">
+            <i class="fas fa-search"></i>
+        </div>
+        <input type="text" placeholder="Search by Title, Author, ISBN">
+    </div>
+   <!-- section three-->
+    <div class="section-three">
+        <div class="left">
+              <div class="circle">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </div>
-            <label>Add Category</label>
-            </button>
-        </div>
-  <ul>
-     @if (Session::get('category_list'))
+              <div class="text">Add banner</div>
+              <div class="listing-category">
+                <ul>
+                   @if (Session::get('category_list'))
                 @foreach (Session::get('category_list') as $optionKey => $optionValue)
+                @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
                 <li @if($optionValue->name == $category_name) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->name}}">{{$optionValue->name}}</a></li>
+                @endif
                 @endforeach
                 @endif
-      <!-- <li class="active">All books</li>
-      <li>Biography</li>
-      <li>Business</li>
-      <li>Cookbooks, Food & Wine</li>
-      <li>Diet, Health & Fitness</li>
-      <li>Fiction</li>
-      <li>Graphic Novels & Comics</li>
-      <li>History</li>
-      <li>Mystery & Crime</li>
-      <li>Non-fiction
-          <ul class="sub-list">
-              <li>All books</li>
-              <li>New releases</li>
-              <li>Bestsellers<li>
-              <li>New releases</li>
-              <li>Trending now</li>
-          </ul>
-      </li> -->
+                </ul>
+              </div>
+        </div>
+        <div class="right">
 
-  </ul>
-  </div>
- <div class="ebook-slot-2">
-   <div class="ample-book-slot-slider">
-      <!-- <div class="ample-row">
-           <div class="ample-book-slot">New Releases</div>
-           <div class="ample-book-view-all">
-               <i class="fa fa-arrow-right"></i>
-               <div class="view-all">view all</div>
+            <div class="category-discription category-search">
+                <div class="category-name">
+                    <!-- <div class="name">Bestsellers<i class="fas fa-pencil-alt"></i></div> -->
+                    <div class="name">@if(!blank($category_name)) {{$category_name}} @endif<i class="fas fa-pencil-alt" data-toggle="modal" data-target="#editCategoryModal"></i></div>
+                    <div class="number">12 books</div>
+                </div>
 
-           </div>
-       </div> -->
-       <div class="owl-carousel owl-theme category-slider">
-        @if(!$books->isEmpty())
+                <div class="category-action">
+                  <i class="far fa-trash-alt"></i>
+                    <span>Delete category</span>
+                </div>
+
+                <!-- <form method="POST" action="{{ url('/admin/category/delete' . '/' .$category->name. '/'. $category->id) }}" accept-charset="UTF-8" style="display:inline">
+                                {{ csrf_field() }}
+                <div class="category-action" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Category' data-message = 'Are you sure you want to delete this Category ?'>
+                    <i class="far fa-trash-alt"></i>
+                    <span>Delete category</span>
+                </div>
+                </form> -->
+
+            </div>
+            <select id="userSorting">
+                <option>A-Z</option>
+                <option>B-Z</option>
+                <option>C-Z</option>
+                <option>D-Z</option>
+                <option>E-Z</option>
+                <option>F-Z</option>
+
+            </select>
+            <div class="right-row-one">
+                <div class="row add-banner">
+                    <div class="plus-banner">
+                        <i class="fas fa-plus"></i>
+
+                    </div>
+                    <div class="text">Upload Book</div>
+
+
+                </div>
+                @if(!$books->isEmpty())
         @foreach($books as $book)
-           <div class="item">
+           <div class="row item">
+            <div class="edit-delete">
+                        <div class="edit"><a href="{{ url('/book/' . $book->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt"></i></a></div>
+
+                        <form method="POST" action="{{ url('/book' . '/' . $book->id) }}" accept-charset="UTF-8" style="display:inline">
+                            {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
+                        <div class="delete"  data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Book' data-message = 'Are you sure you want to delete this e-Book ?'><i class="far fa-trash-alt"></i></div>
+                        </form>
+                    </div>
                    <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" /></div>
                <div class="ample-button"><button>FREE</button></div>
                <div class="title">{{$book->ebooktitle}}</div>
                <div class="writer">{{$book['user_name']['first_name']}} {{$book['user_name']['last_name']}}</div>
-               <div class="star-container">
-                   <span class="fa fa-star checked"></span>
-                   <span class="fa fa-star checked"></span>
-                   <span class="fa fa-star checked"></span>
-                   <span class="fa fa-star"></span>
-                   <span class="fa fa-star"></span>
-               </div>
            </div>
            @endforeach
            @else
            Data not available
            @endif
-           
-       </div>
-   </div>
-   
-       </div>
 
-       <!-- modal -->
-<div id="createCategoryModal" class="modal fade createbook-Modal" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-text">category info</div>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="ample-login-signup">
-        <div class="ample-login-section">
-          <form method="POST" action="{{ url('/admin/categories') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
-        {{ csrf_field() }}
-
-        @include ('admin.categories.form')
-
-    </form>
-      </div>
-
+        </div>
     </div>
-  </div>
-  <div class="modal-footer">
-  </div>
-</div>
-</div>
+    <!-- section three-->
+
 </div>
 
 <!-- modal -->

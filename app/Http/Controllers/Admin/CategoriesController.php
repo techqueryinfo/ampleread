@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Category;
 use Illuminate\Http\Request;
+use App\Book;
 
 class CategoriesController extends Controller
 {
@@ -121,4 +122,24 @@ class CategoriesController extends Controller
 
         return redirect('admin/categories')->with('flash_message', 'Category deleted!');
     }
+
+    // public function delete_category($category_name , $id)
+    // {
+    //     $book_ids = [];
+    //     $category_slug = str_slug($category_name, '-');
+    //     $books = Book::where('category', '=', $category_slug)->with('user_name')->get();
+    //     foreach ($books as $key => $book) {
+    //         # code...
+    //         $book_ids[$key] = $book->id;
+    //     }
+    //     $requestDataBooks['is_delete'] = 1;
+    //     $books->update($requestDataBooks);
+    //     Category::where('id', $id)->update(array('is_delete' => '1'));
+    //     if(!empty($book_ids))
+    //     {
+    //     Book::whereIn('id', $book_ids)->update(['is_delete' => '1']);
+    //      }
+
+    //     return redirect('admin/books/category/Classics')->with('flash_message', 'Category deleted!');
+    // }
 }

@@ -163,13 +163,13 @@ class BookController extends Controller
        'category' => $category
        ];
 
-       return view('books.show_books_by_category')->with($data);
-       // if(!empty($currentUser) && $currentUser->isAdmin())
-       // {
-       //   return view('books.book_category')->with($data);
-       // }
-       // else {
        // return view('books.show_books_by_category')->with($data);
-       // }
+       if(!empty($currentUser) && $currentUser->isAdmin())
+       {
+         return view('books.book_category')->with($data);
+       }
+       else {
+       return view('books.show_books_by_category')->with($data);
+       }
     }
 }

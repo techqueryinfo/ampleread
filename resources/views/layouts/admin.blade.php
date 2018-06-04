@@ -31,7 +31,7 @@
         <link rel="stylesheet" href="/css/ampleread.css">
         <link rel="stylesheet" href="/css/freecategory.css">
         <link rel="stylesheet" href="/css/owl.carousel.css">
-        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/admin-home.css">
 
         @yield('template_linked_css')
 
