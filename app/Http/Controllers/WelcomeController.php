@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Category;
 use App\Country;
 use App\Book;
 
@@ -15,6 +16,7 @@ class WelcomeController extends Controller
     {
     	$countries = Country::all();
         $books = Book::all();
-        return view('welcome', compact('countries','books'));
+        $category_list = Category::all();
+        return view('welcome', compact('countries', 'books', 'category_list'));
     }
 }
