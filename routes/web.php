@@ -141,8 +141,11 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::resource('admin/settings', 'Admin\\SettingsController');
     // Route::resource('book', 'BookController');
     Route::get('/admin/transaction', 'Admin\\PlansController@transactionView');
-    Route::get('admin/homepage', 'Admin\\DashboardController@homepage');
     Route::get('admin/books/category/{category_name}', 'BookController@show_books_by_category');
+    Route::resource('admin/homepage/{type}', 'Admin\\HomeController');
+    Route::post('admin/homepage/{type}/{id}', 'Admin\\HomeController@delete_banner');
+    Route::post('/admin/homepage/{type}', 'Admin\\HomeController@add_special_feature_book');
+    Route::post('/admin/homepage/{type}/{id}', 'Admin\\HomeController@delete_special_feature_book');
     // Route::post('admin/category/delete/{category_name}/{id}', 'Admin\\CategoriesController@delete_category');
 });
 
