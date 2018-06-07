@@ -16,7 +16,7 @@ class WelcomeController extends Controller
     {
     	$countries = Country::all();
         $books = Book::all();
-        $category_list = Category::all();
-        return view('welcome', compact('countries', 'books', 'category_list'));
+        $categories = Category::all();
+        return view('welcome', compact('countries', 'books', 'categories'));
     }
 }

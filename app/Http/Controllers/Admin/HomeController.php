@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Category;
 use App\Home;
 use App\Book;
 use App\HomeBook;
@@ -22,7 +22,8 @@ class HomeController extends Controller
         $banner_images = Home::all();
         $books = Book::all();
         $home_books = HomeBook::with('home_books')->get();
-        return view('admin.homepage', compact('banner_images','books','home_books'));
+        $categories = Category::all();
+        return view('admin.homepage', compact('banner_images','books','home_books', 'categories'));
     }
 
     /**

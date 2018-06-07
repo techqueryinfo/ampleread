@@ -32,7 +32,7 @@
         </div>
         <div class="ample-login-section">
           <form action="{{ url('/book') }}" method="POST" enctype="multipart/form-data">
-			{{ csrf_field() }}
+			    {{ csrf_field() }}
             <div class="unit1">
               <div class="form-group">
                 <div class="heading">eBook Title</div>
@@ -40,7 +40,6 @@
 				<input type="hidden" name="user_id" value="{{ Auth::user()->id}}"/>
               </div>
             </div>
-
             <div class="unit2">
               <div class="form-group">
                 <div class="heading">Sub Title</div>
@@ -62,7 +61,7 @@
               </div>
               <select class="js-example-basic-single" id="category" name="category">
               	@foreach($categories as $item)
-              	<option value="{{ $item->category_slug }}">{{ $item->name }}</option>
+              	<option value="{{ $item->id }}">{{ $item->name }}</option>
               	@endforeach
               </select>
             </div>

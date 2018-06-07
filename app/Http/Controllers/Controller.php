@@ -33,7 +33,7 @@ class Controller extends BaseController
         }
         $site_settings = Session::get('site_settings');
 
-        $category_list = Category::where('status', 'Active')->get();
-        session(['category_list' =>$category_list]);
+        $categories = Category::where('status', 'Active')->get();
+        session(['categories' =>$categories]);
     }
 }

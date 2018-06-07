@@ -8,7 +8,7 @@
   <div class="book-header">@if(!blank($category_name)) {{ucwords(str_replace('-', ' ', $category_name))}} @endif</div>
   <div class="ebook-slot-1">
   <ul>
-    @foreach ($category_list as $optionKey => $optionValue)
+    @foreach ($categories as $optionKey => $optionValue)
     @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
     <li @if($optionValue->category_slug == $category_name) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
     @endif

@@ -91,7 +91,7 @@ class BookController extends Controller
     public function edit($id)
     {
         $categories = Category::all();
-        $book = Book::findOrFail($id);
+        $book = Book::findOrFail($id); 
         $username = $book->user_name()->first()->first_name." ".$book->user_name()->first()->last_name;
         $paid = Paid::where('book_id', '=', $id)->get();
         $paidDiscount = DB::table('paid_discount')
@@ -155,17 +155,26 @@ class BookController extends Controller
        $currentUser = Auth::user();
        if($category_name == 'all-books')
        {
-        $books = Book::all(); 
-        $category = Category::where('category_slug', '=', $category_name)->first();
+            $records = DB::table('books')
+            ->join('users', 'users.id', '=', 'books.user_id')
+            ->join('categories', 'books.category', '=', 'categories.id')
+            ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+            ->where('categories.is_delete', '=', 0)
+            ->get(); 
        }
        else
        {
-        $books = Book::where('category', '=', $category_name)->with('user_name')->get();
-        $category = Category::where('category_slug', '=', $category_name)->first();
-       }
-       $category_list = Category::all();
-       $data = [ 'books' => $books, 'category_name' => $category_name, 'category' => $category,
-        'category_list' => $category_list ];
+            $records = DB::table('books')
+            ->join('users', 'users.id', '=', 'books.user_id')
+            ->join('categories', 'books.category', '=', 'categories.id')
+            ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+            ->where('categories.is_delete', '=', 0)
+            ->where('categories.category_slug', '=', $category_name)
+            ->get();
+       } //echo "<pre>"; print_r($records); exit();
+       $categories = Category::all();
+       $category = Category::where('category_slug', '=', $category_name)->first();
+       $data = [ 'category_name' => $category_name, 'category' => $category, 'categories' => $categories, 'records' => $records ];
        if(!empty($currentUser) && $currentUser->isAdmin())
        {
         return view('books.book_category')->with($data);

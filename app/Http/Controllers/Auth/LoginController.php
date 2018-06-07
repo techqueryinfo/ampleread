@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-
+use App\Category;
 class LoginController extends Controller
 {
     /*
@@ -42,13 +42,14 @@ class LoginController extends Controller
 
     protected function authenticated($request, $user)
     {
+        $categories = Category::all();
         if($user->isAdmin())
         {
            return redirect('admin/dashboard');   
         }
         else
         {
-            return redirect('home');   
+            return view('home', compact('categories'));   
         }
     }
 

@@ -18,7 +18,7 @@
               <div class="text">Add Category</div>
               <div class="listing-category">
                 <ul>
-                  @foreach ($category_list as $optionKey => $optionValue)
+                  @foreach ($categories as $optionKey => $optionValue)
                     @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
                     <li @if($optionValue->category_slug == $category_name) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
                     @endif
@@ -32,6 +32,7 @@
               <div class="name">@if(!blank($category_name)) {{ucwords(str_replace('-', ' ', $category_name))}} @endif<i class="fas fa-pencil-alt" data-toggle="modal" data-target="#editCategoryModal"></i></div>
               <div class="number">12 books</div>
             </div>
+            @if($category_name != 'all-books')
             <div class="category-action">
               <span>
                 <form method="POST" action="{{ url('admin/books/category' . '/' . $category->id) }}" accept-charset="UTF-8" enctype="multipart/form-data" style="display:inline">
@@ -40,6 +41,7 @@
                 </form>
               </span>
             </div>
+            @endif
             </div>
             <select id="userSorting">
               <option>A-Z</option>
@@ -56,8 +58,8 @@
                 </div>
                 <div class="text">Upload Book</div>
               </div>
-              @if(!$books->isEmpty())
-              @foreach($books as $book)
+              @if(!$records->isEmpty())
+              @foreach($records as $book)
               <div class="row item">
                 <div class="edit-delete">
                   <div class="edit"><a href="{{ url('/book/' . $book->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt"></i></a></div>
@@ -70,7 +72,7 @@
                 <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" /></div>
                 <!-- <div class="ample-button"><button>FREE</button></div> -->
                 <div class="title">{{$book->ebooktitle}}</div>
-                <div class="writer">{{$book['user_name']['first_name']}} {{$book['user_name']['last_name']}}</div>
+                <div class="writer">{{$book->first_name}} {{$book->last_name}}</div>
               </div>
               @endforeach
               @else
