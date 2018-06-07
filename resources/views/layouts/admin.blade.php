@@ -21,7 +21,6 @@
 
         {{-- Fonts --}}
         @yield('template_linked_fonts')
-
         {{-- Styles --}}
         <link rel="icon" type="image/gif" href="images/LogoOrange.png" />
         <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -32,9 +31,7 @@
         <link rel="stylesheet" href="/css/freecategory.css">
         <link rel="stylesheet" href="/css/owl.carousel.css">
         <link rel="stylesheet" href="/css/admin-home.css">
-
         @yield('template_linked_css')
-
         <style type="text/css">
             @yield('template_fastload_css')
 
@@ -44,7 +41,6 @@
                     background-size: auto 100%;
                 }
             @endif
-
         </style>
         <script type="text/javascript" src="/js/jquery.min.js"></script>
 
@@ -85,14 +81,15 @@
                 var windowheight=window.innerHeight;
                 $(".admin-container .admin-left").css("height",windowheight);
                 var rightcontainerheight=$(".admin-container .admin-right").height();
+                $(".admin-container .admin-left .logout").css("top",windowheight-50);
                 if(rightcontainerheight>windowheight){
                     rightcontainerheight=rightcontainerheight+40;
                     $(".admin-container .admin-left").css("height",rightcontainerheight);
+                    $(".admin-container .admin-left .logout").css("top",rightcontainerheight-50);
                 }
             }
             $(document).ready(function(){
                 resizemenu();
-                $("#userSorting,#subcription,#status").select2();
             });
             $( window ).resize(function() {
                 resizemenu();
@@ -102,24 +99,21 @@
                 $(this).addClass("active");
 
             });
-            
+            $("#userSorting,#subcription,#status,#ebooktype,#ebookcategory,#ebookauthor").select2();
             function formatState (state) {
                 if (!state.id) {
                     return state.text;
                 }
-                var baseUrl = "/flags";
+                var baseUrl = "../images";
                 var $state = $(
-                    '<span><img src="' + baseUrl + '/' + state.element.value.toLowerCase() + '.png" class="img-flag" /> ' + state.text + '</span>'
-                );
+                    '<span><img src="' + baseUrl + '/' + state.element.value.toLowerCase() + '.jpg" class="img-flag" /> ' + state.text + '</span>'
+                    );
                 return $state;
             };
-
             $("#selectcountry").select2({
                 templateResult: formatState
             });
         </script>
-
         @yield('footer_scripts')
-
     </body>
 </html>

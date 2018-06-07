@@ -25,7 +25,7 @@ class Category extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'status', 'category_slug'];
+    protected $fillable = ['name', 'status', 'category_slug', 'desc', 'parent', 'category_img', 'is_delete'];
 
     
 }

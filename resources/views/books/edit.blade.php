@@ -1,84 +1,132 @@
 @extends('layouts.admin')
 @section('content')
-	<h3>Edit Page</h3>
-	<div class="col-md-4">
-	@if ($book->ebook_logo)
-		<img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" width="180px"/><br>
-	@endif
-	</div>
-	<div class="col-md-8">
-		<form action="{{ url('/book/'.$book->id) }}" method="POST" enctype="multipart/form-data">
-			{{ method_field('PATCH') }}
-			{{ csrf_field() }}
-			<div class="form-group">
-				<label for="ebook">E-Book Title</label>
-				<input type="text" class="form-control" id="ebook" name="ebooktitle" required="required" placeholder="E-Book title" value="{{$book->ebooktitle}}">
+<form action="{{ url('/book/'.$book->id) }}" method="POST" enctype="multipart/form-data">
+	{{ method_field('PATCH') }}
+	{{ csrf_field() }}
+	<div class="admin-edit">
+		<div class="edit-three">
+			@if ($book->ebook_logo)
+			<div class="image"><img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" width="180px"/></div>
+			<div class="button"><input type="file" name="ebook_logo"></div>
+			@endif
+		</div>
+		<div class="edit-two">
+			<div class="unit-1">
+				<div class="form-unit">
+					<div class="heading">eBook Type</div>
+					<div class="content">
+						<select name="type" id="ebooktype" data-select2-id="ebooktype" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+							@if($book->type == 'paid')
+							<option value="paid" selected="selected">Paid</option>
+							<option value="free">Free</option>
+							@else
+							<option value="paid">Paid</option>
+							<option value="free" selected="selected">Free</option>
+							@endif
+						</select>
+					</div>
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="subtitle">Sub Title</label>
-				<input type="text" class="form-control" id="subtitle" name="subtitle" required="required" placeholder="Sub title" value="{{$book->subtitle}}">
-			</div>
-			<div class="form-group">
-				<label for="type">Type</label>
-				<select class="form-control" name="type" id="type">
-					@if($book->type == 'paid')
-						<option value="paid" selected="selected">Paid</option>
-						<option value="free">Free</option>
-					@else
-						<option value="paid">Paid</option>
-						<option value="free" selected="selected">Free</option>
-					@endif
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="category">Category</label>
-				<select class="form-control" id="category" name="category">
-					@foreach($categories as $item)
-						@if($item->category_slug === $book->category)
+			<div class="unit-2">
+				<div class="form-unit">
+					<div class="heading">Category</div>
+					<div class="content">
+						<select name="category"  id="ebookcategory" data-select2-id="ebookcategory" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+							@foreach($categories as $item)
+							@if($item->category_slug === $book->category)
 							<option value="{{ $item->category_slug }}" selected="selected">{{ $item->name }}</option>
-						@else
+							@else
 							<option value="{{ $item->category_slug }}">{{ $item->name }}</option>
-						@endif
-					@endforeach
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="desc">Description</label>
-				<textarea id="desc" name="desc" class="form-control" placeholder="Enter Description...">{{$book->desc}}</textarea>
-			</div>
-			<label for="ebookimage">Image</label>
-			<input type="file" name="ebook_logo"><br/>
-			<div class="col-md-6">
-				<div class="form-group">
-					<label for="printPages">Print Pages</label>
-					<input type="number" name="print_page" class="form-control" id="printPages" min="1">
+							@endif
+							@endforeach
+						</select>
+					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					<label for="publish">Publisher</label>
-					<input type="text" name="publisher" id="publish" class="form-control" value="{{$username}}" disabled="disabled">
+			<div class="unit-3">
+				<div class="form-unit">
+					<div class="heading">eBook Title</div>
+					<div class="content">
+						<input type="text" id="ebook" name="ebooktitle" required="required" placeholder="E-Book title" value="{{$book->ebooktitle}}">
+					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					<label for="publishDate">Publish Date</label>
-					<input type="text" name="created_at" class="form-control" id="publishDate" value="{{$book->created_at->format('M-d-Y')}}" disabled="disabled">
+			<div class="unit-1">
+				<div class="form-unit">
+					<div class="heading">Sub Title</div>
+					<div class="content">
+						<input type="text" id="subtitle" name="subtitle" required="required" placeholder="Free e-Book" value="{{$book->subtitle}}">
+					</div>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					<label for="lang">Language</label>
-					<input type="text" name="language" class="form-control" id="lang" min="1">
+			<div class="unit-2">
+				<div class="form-unit">
+					<div class="heading">Author</div>
+					<div class="content">
+						<input type="text" name="publisher" id="publish" class="form-control" value="{{$username}}" disabled="disabled">
+					</div>
 				</div>
 			</div>
-			<div class="form-group">
-				<label  for="asin">ASIN</label>
-				<input type="text" name="asin" id="asin" class="form-control">
+			<div class="unit-3">
+				<div class="form-unit">
+					<div class="heading">Description</div>
+					<div class="content">
+						<textarea id="desc" name="desc" placeholder="Enter Description...">{{$book->desc}}</textarea>
+					</div>
+				</div>
 			</div>
-			<button type="submit" class="btn btn-default">Update</button>
-		</form>
+			<div class="unit-1">
+				<div class="form-unit">
+					<div class="heading">Print Pages</div>
+					<div class="content">
+						<input type="number" name="print_page" id="printPages" min="1" placeholder="Print Pages">
+					</div>
+				</div>
+			</div>
+			<div class="unit-2">
+				<div class="form-unit">
+					<div class="heading">Publisher</div>
+					<div class="content">
+						<input type="text" name="publisher" id="publish" class="form-control" value="{{$username}}" disabled="disabled">
+					</div>
+				</div>
+			</div>
+			<div class="unit-1">
+				<div class="form-unit">
+					<div class="heading">Publication Date</div>
+					<div class="content">
+						<input type="text" name="created_at" class="form-control" id="publishDate" value="{{$book->created_at->format('M-d-Y')}}" disabled="disabled">
+					</div>
+				</div>
+			</div>
+			<div class="unit-2">
+
+				<div class="form-unit">
+					<div class="heading">Publication Date</div>
+					<div class="content">
+						<input type="text" name="created_at" class="form-control" id="publishDate" value="{{$book->created_at->format('M-d-Y')}}" disabled="disabled">
+					</div>
+				</div>
+			</div>
+			<div class="unit-3">
+				<div class="form-unit">
+					<div class="heading">ASIN</div>
+					<div class="content">
+						<input type="text" name="asin" id="asin">
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+	<div class="save-cancel-btn edit">
+		<div class="save">
+			<button type="submit" class="btn btn-default">Save</button>
+		</div>
+		<div class="cancel">
+			<label>Cancel</label>
+		</div>
+	</div>
+</form>
 @if($book->type == 'paid')
 	<div class="col-md-12">
 		<div class="sorting-section">
