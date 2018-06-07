@@ -15,32 +15,23 @@
         <label class="btn-signin" data-toggle="modal" data-target="#myModal" id="authSignIn" >{!! trans('titles.login') !!}</label>
     </div>
     @else
-    <!-- <div class="ample-tools">
-        <img src="images/combined-shape.png" class="Combined-Shape">
-        <span>Tools</span>
-        <i class="fa fa-angle-down"></i>
-    </div> -->
     <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="padding-top: 10px !important">
                 <img src="/images/combined-shape.png" alt="{{ Auth::user()->name }}" class="user-avatar-nav" style="height: 16px; width: 16px">
-
-                 Tools<span class="caret"></span>
+                Tools<span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
-                
             </ul>
         </li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-
                 @if ((Auth::User()->profile) && Auth::user()->profile->avatar_status == 1)
                     <img src="/uploads/avatar/admin.png" alt="{{ Auth::user()->name }}" class="user-avatar-nav">
                 @else
                     <img src="/uploads/user.png" alt="{{ Auth::user()->name }}" class="user-avatar-nav">
                 @endif
-
-               <!--  {{ Auth::user()->name }} --> <span class="caret"></span>
+                <span class="caret"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
                 <li {{ Request::is('profile/'.Auth::user()->name, 'profile/'.Auth::user()->name . '/edit') ? 'class=active' : null }}>
@@ -49,10 +40,8 @@
                 @role('admin')
                     <li {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'class=active' : null }}>{!! HTML::link(url('/users'), Lang::get('titles.adminUserList')) !!}</li>
                     <li {{ Request::is('admin/categories') ? 'class=active' : null }}>{!! HTML::link(url('/admin/categories'), Lang::get('titles.adminCategoryList')) !!}</li>
-                    
                     <li {{ Request::is('admin/plans') ? 'class=active' : null }}>{!! HTML::link(url('/admin/plans'), Lang::get('titles.adminPlanList')) !!}</li>
                     <li {{ Request::is('admin/settings') ? 'class=active' : null }}>{!! HTML::link(url('/admin/settings'), 'Admin Settings') !!}</li>
-
                     <li {{ Request::is('users/create') ? 'class=active' : null }}>{!! HTML::link(url('/users/create'), Lang::get('titles.adminNewUser')) !!}</li>
                     <li {{ Request::is('themes','themes/create') ? 'class=active' : null }}>{!! HTML::link(url('/themes'), Lang::get('titles.adminThemesList')) !!}</li>
                     <li {{ Request::is('logs') ? 'class=active' : null }}>{!! HTML::link(url('/logs'), Lang::get('titles.adminLogs')) !!}</li>
@@ -76,13 +65,8 @@
         </li>
     </ul>
     @endif
-    <!-- <div class="ample-login">
-        <button>Sign Up</button>
-        <label>Sign In</label>
-    </div> -->
     <div class="menu-bar">
         <i class="fas fa-bars fa-2x"></i>
-
     </div>
 </div>
 <div class="ample-menu">
@@ -98,50 +82,23 @@
 </div>
 <div class="ample-sub-menu">
     <div class="ample-sub-menu-left">
-        <!-- <div class="ample-sub-menu-row">
-            <div class="heading">Customer favourites</div>
-            <ul>
-                <li><a href="#">Classics</a></li>
-                <li><a href="">Exclusives</a></li>
-                <li><a href="">Top 100</a></li>
-                <li><a href="">By Authors</a></li>
-                <li><a href="">By Series</a></li>
-                <li><a href="">Collectible Editions</a></li>
-                <li><a href="">Coming Soon</a></li>
-                <li><a href="">New Releases</a></li>
-            </ul>
-        </div> -->
         <div class="ample-sub-menu-row">
             <div class="heading">Subjects</div>
             <ul>
-                @if (Session::get('category_list'))
-                @foreach (Session::get('category_list')->slice(0,8) as $optionKey => $optionValue)
-                    <li><a href="/books/category/{{$optionValue->name}}">{{$optionValue->name}}</a></li>
-                @endforeach
+                @foreach ($category_list->slice(0,8) as $optionKey => $optionValue)
+                @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
+                <li @if($optionValue->category_slug == 'all-books') class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
                 @endif
-                <!-- <li><a href="">Business</a></li>
-                <li><a href="">Cookbooks, Food & Wine</a></li>
-                <li><a href="">Diet, Health & Fitness</a></li>
-                <li><a href="">Fiction</a></li>
-                <li><a href="">Graphic Novels & Comics</a></li>
-                <li><a href="">History</a></li>
-                <li><a href="">Mystery & Crime</a></li> -->
+                @endforeach
             </ul>
         </div>
         <div class="ample-sub-menu-row">
            <ul>
-               @if (Session::get('category_list'))  
-                @foreach (Session::get('category_list')->slice(8) as $optionKey => $optionValue)
-                    <li><a href="/books/category/{{$optionValue->name}}">{{$optionValue->name}}</a></li>
-                @endforeach
+                @foreach ($category_list->slice(8) as $optionKey => $optionValue)
+                @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
+                <li><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
                 @endif
-               <!-- <li><a href="#">Romance</a></li>
-               <li><a href="">Science Fiction & Fantasy</a></li>
-               <li><a href="">Self-Help & Relationships</a></li>
-               <li><a href="">Social Sciences</a></li>
-               <li><a href="">Travel</a></li>
-               <li><a href="">True Crime</a></li> -->
-
+                @endforeach
             </ul>
         </div>
     </div>
@@ -157,16 +114,13 @@
         </div>
     </div>
 </div>
-
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-
             </div>
             <div class="modal-body">
                 <div class="ample-login-signup">
@@ -235,8 +189,6 @@
                                 {!! HTML::icon_link(route('social.redirect',['provider' => 'facebook']), 'fab fa-facebook-f', '  Facebook', array('class' => 'social')) !!}
 
                                 {!! HTML::icon_link(route('social.redirect',['provider' => 'google']), 'fab fa-google', '  Google', array('class' => 'social')) !!}
-                                <!-- <div class="social"><i class="fab fa-facebook-f"></i><a href="#">Facebook</a></div> -->
-                                <!-- <div class="social"><i class="fab fa-google"></i> <a href="#">Google</a></div> -->
                             </div>
                         {!! Form::close() !!}
                     </div>
@@ -275,8 +227,6 @@
                                 {!! HTML::icon_link(route('social.redirect',['provider' => 'facebook']), 'fab fa-facebook-f', '  Facebook', array('class' => 'social')) !!}
 
                                 {!! HTML::icon_link(route('social.redirect',['provider' => 'google']), 'fab fa-google', '  Google', array('class' => 'social')) !!}
-                                <!-- <div class="social"><i class="fab fa-facebook-f"></i> <a href="#">Facebook</a></div>
-                                <div class="social"><i class="fab fa-google"></i> <a href="#">Google</a></div> -->
                             </div>
                         </form>
                     </div>
@@ -304,10 +254,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-
             </div>
         </div>
-
     </div>
 </div>
 @if (count($errors) > 0)
@@ -326,4 +274,3 @@
     </script>
   @endif    
 @endif
-

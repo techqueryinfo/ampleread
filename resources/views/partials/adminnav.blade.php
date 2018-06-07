@@ -17,9 +17,12 @@
     <div class="admin-menu">
         <ul>
             <li {{ Request::is('admin/dashboard') ? 'class=active' : null }}>{!! HTML::link(url('/admin/plans'), 'Stats') !!}</li>
+
             <li {{ Request::is('admin/homepage/{type}') ? 'class=active' : null }}>{!! HTML::link(url('/admin/homepage/new_release'), 'Homepage') !!}</li>
             <li {{ Request::is('book') ? 'class=active' : null }}>{!! HTML::link(url('/book'), 'Books') !!}</li>
-            <li {{ Request::is('admin/books/category/{category_name}') ? 'class=active' : null }}>{!! HTML::link(url('/admin/books/category/Classics'), 'Books Category') !!}</li>
+
+            <!-- <li {{ Request::is('book') ? 'class=active' : null }}>{!! HTML::link(url('/book'), 'Books') !!}</li> -->
+            <li {{ Request::is('admin/books/category/{category_name}') ? 'class=active' : null }}>{!! HTML::link(url('/admin/books/category/all-books'), 'Books') !!}</li>
             <li {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'class=active' : null }}>{!! HTML::link(url('/users'), Lang::get('titles.adminUserList')) !!}</li>
             <li {{ Request::is('admin/categories') ? 'class=active' : null }}>{!! HTML::link(url('/admin/categories'), 'Category Management') !!}</li>
             <li {{ Request::is('admin/plans') ? 'class=active' : null }}>{!! HTML::link(url('/admin/plans'), 'Plan Management') !!}</li>
@@ -34,7 +37,6 @@
             <div class="icon"><i class="fas fa-power-off"></i></div>
             <div class="text">Log out</div>
         </a>
-
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>

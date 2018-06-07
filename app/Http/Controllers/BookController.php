@@ -152,24 +152,41 @@ class BookController extends Controller
      */
     public function show_books_by_category($category_name)
     {
-        $currentUser = Auth::user();
-        $category_slug = str_slug($category_name, '-');
-        // print_r($category_name); exit();
-       $books = Book::where('category', '=', $category_slug)->with('user_name')->get();
-       $category = Category::where('category_slug', '=', $category_slug)->first();
-       $data = [
-       'books' => $books,
-       'category_name' => $category_name,
-       'category' => $category
-       ];
-
-       // return view('books.show_books_by_category')->with($data);
+       $currentUser = Auth::user();
+       if($category_name == 'all-books')
+       {
+        $books = Book::all(); 
+        $category = Category::where('category_slug', '=', $category_name)->first();
+       }
+       else
+       {
+        $books = Book::where('category', '=', $category_name)->with('user_name')->get();
+        $category = Category::where('category_slug', '=', $category_name)->first();
+       }
+       $category_list = Category::all();
+       $data = [ 'books' => $books, 'category_name' => $category_name, 'category' => $category,
+        'category_list' => $category_list ];
        if(!empty($currentUser) && $currentUser->isAdmin())
        {
-         return view('books.book_category')->with($data);
+        return view('books.book_category')->with($data);
        }
-       else {
-       return view('books.show_books_by_category')->with($data);
+       else 
+       {
+        return view('books.show_books_by_category')->with($data);
        }
+    }
+
+    /**
+     * Update the specified category in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param  int  $id
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function updateCategory(Request $request, $id)
+    {
+        echo $id; exit();
+        $requestData = $request->all();
     }
 }
