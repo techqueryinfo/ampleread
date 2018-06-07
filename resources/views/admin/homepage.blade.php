@@ -28,8 +28,8 @@
         <div class="row">
             <div class="edit-delete image">
                 <!-- <div class="edit"><a href="{{ url('/admin/homepage/' . $banner_image->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt" data-toggle="modal" data-target="#editHomeBannerModal"></i></a></div> -->
-                <form method="POST" action="{{ url('/admin/homepage/' .$type. '/' . $banner_image->id) }}" accept-charset="UTF-8" style="display:inline">
-                            <!-- {{ method_field('DELETE') }} -->
+                <form method="POST" action="{{ url('/admin/homepage' . '/' . $banner_image->id) }}" accept-charset="UTF-8" style="display:inline">
+                            {{ method_field('DELETE') }}
                             {{ csrf_field() }}
                 <div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Book' data-message = 'Are you sure you want to delete this banner image ?'><i class="far fa-trash-alt"></i></div>
                 </form>
@@ -86,7 +86,7 @@
                     <i class="fas fa-pencil-alt"></i>
                     </a>
                 </div>
-                <form method="POST" action="{{ url('/admin/homepage/'.$type . '/' . $home_book->id) }}" accept-charset="UTF-8" style="display:inline">
+                <form method="POST" action="{{ url('/admin/homepage/special_feature'. '/' . $home_book->id) }}" accept-charset="UTF-8" style="display:inline">
                             {{ csrf_field() }}
                 <div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Book' data-message = 'Are you sure you want to delete this e-Book from homepage ?'><i class="far fa-trash-alt"></i></div>
                 </form>
@@ -209,7 +209,7 @@
       <div class="modal-body">
         <div class="ample-login-signup">
         <div class="ample-login-section">
-          <form action="{{ url('/admin/homepage/'.$type) }}" method="POST" enctype="multipart/form-data">
+          <form action="{{ url('/admin/homepage') }}" method="POST" enctype="multipart/form-data">
 			{{ csrf_field() }}
 
            <div class="unit1">
@@ -244,7 +244,7 @@
       <div class="modal-body">
         <div class="ample-login-signup">
         <div class="ample-login-section">
-          <form action="{{ url('/admin/homepage/'.$type) }}" method="POST">
+          <form action="{{ url('/admin/homepage/special_feature') }}" method="POST">
             {{ csrf_field() }}
 
            <div class="unit1">

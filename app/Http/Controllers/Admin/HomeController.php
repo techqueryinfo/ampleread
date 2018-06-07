@@ -17,13 +17,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index(Request $request,$type)
+    public function index(Request $request)
     {
         $banner_images = Home::all();
         $books = Book::all();
         $home_books = HomeBook::with('home_books')->get();
-        $type = $type;
-        return view('admin.homepage', compact('banner_images','books','home_books','type'));
+        return view('admin.homepage', compact('banner_images','books','home_books'));
     }
 
     /**
@@ -43,7 +42,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request,$type)
+    public function store(Request $request)
     {
         
         $requestData = $request->all();
@@ -59,7 +58,7 @@ class HomeController extends Controller
         Home::create($requestData);
 
 
-        return redirect('admin/homepage/'.$type)->with('flash_message', 'Banner Image Added!');
+        return redirect('admin/homepage')->with('flash_message', 'Banner Image Added!');
     }
 
     /**
@@ -116,11 +115,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function delete_banner($type,$id)
+    public function destroy($id)
     {
         Home::destroy($id);
 
-        return redirect('admin/homepage/'.$type)->with('flash_message', 'Banner deleted!');
+        return redirect('admin/homepage')->with('flash_message', 'Banner deleted!');
     }
     
     /**
@@ -129,18 +128,18 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function add_special_feature_book(Request $request,$type)
+    public function add_special_feature_book(Request $request)
     {
        $requestData = $request->all();
        HomeBook::create($requestData);
-       return redirect('admin/homepage/'.$type)->with('flash_message', 'Special Feature Book Added !');
+       return redirect('admin/homepage')->with('flash_message', 'Special Feature Book Added !');
     }
 
-    public function delete_special_feature_book($type,$id)
+    public function delete_special_feature_book($id)
     {
       HomeBook::destroy($id);
 
-        return redirect('admin/homepage/'.$type)->with('flash_message', 'Special feature book deleted !');   
+        return redirect('admin/homepage')->with('flash_message', 'Special feature book deleted !');   
     }
     
 

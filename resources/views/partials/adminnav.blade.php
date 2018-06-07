@@ -18,7 +18,7 @@
         <ul>
             <li {{ Request::is('admin/dashboard') ? 'class=active' : null }}>{!! HTML::link(url('/admin/plans'), 'Stats') !!}</li>
 
-            <li {{ Request::is('admin/homepage/{type}') ? 'class=active' : null }}>{!! HTML::link(url('/admin/homepage/new_release'), 'Homepage') !!}</li>
+            <li {{ Request::is('admin/homepage') ? 'class=active' : null }}>{!! HTML::link(url('/admin/homepage'), 'Homepage') !!}</li>
             <li {{ Request::is('book') ? 'class=active' : null }}>{!! HTML::link(url('/book'), 'Books') !!}</li>
 
             <!-- <li {{ Request::is('book') ? 'class=active' : null }}>{!! HTML::link(url('/book'), 'Books') !!}</li> -->
