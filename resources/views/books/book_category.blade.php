@@ -15,7 +15,7 @@
               <div class="circle">
                 <i class="fa fa-plus" aria-hidden="true"></i>
               </div>
-              <div class="text">Add banner</div>
+              <div class="text">Add Category</div>
               <div class="listing-category">
                 <ul>
                   @foreach ($category_list as $optionKey => $optionValue)
@@ -34,7 +34,7 @@
             </div>
             <div class="category-action">
               <span>
-                <form method="POST" action="{{ url('/book/updateCategory' . '/' . $category->id) }}" accept-charset="UTF-8" style="display:inline">
+                <form method="POST" action="{{ url('admin/books/category' . '/' . $category->id) }}" accept-charset="UTF-8" enctype="multipart/form-data" style="display:inline">
                   {{ csrf_field() }}
                   <div style="text-align: right;cursor: pointer;" class="delete"  data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Category' data-message = 'Are you sure you want to delete this Category ?'><i class="far fa-trash-alt"></i> Delete category</div>
                 </form>

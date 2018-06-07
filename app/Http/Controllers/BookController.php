@@ -184,9 +184,12 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function updateCategory(Request $request, $id)
+    public function deleteCategory(Request $request, $id)
     {
-        echo $id; exit();
         $requestData = $request->all();
+        $category = Category::findOrFail($id);
+        $requestData['is_delete'] = 1;
+        $category->update($requestData);
+        return redirect('/admin/books/category/all-books')->with('flash_message', 'E-Book category deleted!');
     }
 }

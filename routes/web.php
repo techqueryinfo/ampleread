@@ -143,7 +143,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::get('/admin/transaction', 'Admin\\PlansController@transactionView');
     Route::get('admin/homepage', 'Admin\\DashboardController@homepage');
     Route::get('admin/books/category/{category_name}', 'BookController@show_books_by_category');
-    // Route::post('admin/category/delete/{category_name}/{id}', 'Admin\\CategoriesController@delete_category');
+    Route::post('admin/books/category/{id}', 'BookController@deleteCategory');
 });
 
 Route::redirect('/php', '/phpinfo', 301);
