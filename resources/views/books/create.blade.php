@@ -37,7 +37,7 @@
               <div class="form-group">
                 <div class="heading">eBook Title</div>
                 <input type="text" id="ebook" name="ebooktitle" required="required" placeholder="eBook Title"/>
-				<input type="hidden" name="user_id" value="{{ Auth::user()->id}}"/>
+				        <input type="hidden" name="user_id" value="{{ Auth::user()->id}}"/>
               </div>
             </div>
             <div class="unit2">

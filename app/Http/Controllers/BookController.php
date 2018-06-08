@@ -160,6 +160,7 @@ class BookController extends Controller
             ->join('categories', 'books.category', '=', 'categories.id')
             ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
             ->where('categories.is_delete', '=', 0)
+            ->where('categories.status', '=', 'Active')
             ->get(); 
        }
        else
@@ -170,8 +171,9 @@ class BookController extends Controller
             ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
             ->where('categories.is_delete', '=', 0)
             ->where('categories.category_slug', '=', $category_name)
+            ->where('categories.status', '=', 'Active')
             ->get();
-       } //echo "<pre>"; print_r($records); exit();
+       }
        $categories = Category::all();
        $category = Category::where('category_slug', '=', $category_name)->first();
        $data = [ 'category_name' => $category_name, 'category' => $category, 'categories' => $categories, 'records' => $records ];

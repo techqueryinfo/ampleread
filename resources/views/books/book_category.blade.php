@@ -15,7 +15,7 @@
               <div class="circle">
                 <i class="fa fa-plus" aria-hidden="true"></i>
               </div>
-              <div class="text">Add Category</div>
+              <div class="text" style="cursor: pointer;"><a data-toggle="modal" data-target="#creatcategoryModal">Add Category</a></div>
               <div class="listing-category">
                 <ul>
                   @foreach ($categories as $optionKey => $optionValue)
@@ -29,7 +29,11 @@
         <div class="right">
           <div class="category-discription category-search">
             <div class="category-name">
-              <div class="name">@if(!blank($category_name)) {{ucwords(str_replace('-', ' ', $category_name))}} @endif<i class="fas fa-pencil-alt" data-toggle="modal" data-target="#editCategoryModal"></i></div>
+              <div class="name">@if(!blank($category_name)) {{ucwords(str_replace('-', ' ', $category_name))}}@endif
+              @if($category_name != 'all-books')  
+                <i class="fas fa-pencil-alt" data-toggle="modal" data-target="#editCategoryModal"></i>
+              @endif  
+              </div>
               <div class="number">12 books</div>
             </div>
             @if($category_name != 'all-books')
@@ -105,6 +109,68 @@
       </div>
     </div>
   </div>
+</div>
+<div id="creatcategoryModal" class="modal fade category-Modal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-text">eBook info</div>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="ample-login-signup">
+          <div class="crate-switch">
+           <div class="switch"><label class="switch">
+            <!-- <input type="checkbox" checked>
+            <span class="slider round"></span> -->
+          </label></div>
+        </div>
+        <div class="ample-login-section">
+          <form method="POST" action="{{ url('/admin/categories') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="admin-edit">
+              <div class="edit-two">
+                <div class="unit-1">
+                  <div class="form-unit {{ $errors->has('name') ? 'has-error' : ''}}">
+                    <div class="heading">Name</div>
+                    <div class="content">
+                     <input class="form-control" name="name" type="text" id="name" required="required">
+                     {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
+                   </div>
+                 </div>
+               </div>
+               <div class="unit-2">
+                <div class="form-unit {{ $errors->has('status') ? 'has-error' : ''}}">
+                  <div class="heading">Category</div>
+                  <div class="content">
+                    <select name="status" class="form-control" id="status" >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                      <option value="Deleted">Deleted</option>
+                    </select>
+                    {!! $errors->first('status', '<p class="help-block">:message</p>') !!}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="save-cancel-btn">
+            <div class="save">
+              <input type="submit" value="Save" />
+            </div>
+            <div class="cancel">
+              <label>Cancel</label>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+  </div>
+</div>
+</div>
 </div>
 @include('modals.modal-delete')
 @endsection
