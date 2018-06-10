@@ -15,7 +15,7 @@
 
 // Homepage Route
 Route::get('/', 'WelcomeController@welcome')->name('welcome');
-
+Route::get('/api', 'Api\ApiController@index');
 // Authentication Routes
 Auth::routes();
 
