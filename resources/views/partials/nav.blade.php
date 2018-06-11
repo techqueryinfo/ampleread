@@ -85,20 +85,24 @@
         <div class="ample-sub-menu-row">
             <div class="heading">Subjects</div>
             <ul>
+                @if(isset($categories))
                 @foreach ($categories->slice(0,8) as $optionKey => $optionValue)
                 @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
                 <li @if($optionValue->category_slug == 'all-books') class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
                 @endif
                 @endforeach
+                @endif
             </ul>
         </div>
         <div class="ample-sub-menu-row">
            <ul>
+                @if(isset($categories))
                 @foreach ($categories->slice(8) as $optionKey => $optionValue)
                 @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
                 <li><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
                 @endif
                 @endforeach
+                @endif
             </ul>
         </div>
     </div>

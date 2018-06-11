@@ -110,7 +110,45 @@
     </div>
   </div>
 </div>
-<div id="creatcategoryModal" class="modal fade category-Modal" role="dialog">
+<div id="creatcategoryModal" class="modal fade createbook-Modal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-text">Add Category</div>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="ample-login-signup">
+          <div class="ample-login-section">
+            <form method="POST" action="{{ url('/admin/categories') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+              {{ csrf_field() }}
+              <div class="unit1"  style="width: 30%">
+                <div class="form-group">
+                  <div class="heading">Name</div>
+                </div>
+              </div>
+              <div class="unit2" >
+                <div class="form-group">
+                  <input class="form-control" name="name" type="text" id="name" required="required">
+                       {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
+                </div>
+              </div>
+              <div class="unit1">
+                <div class="form-group">
+                  <button type="submit" class="submit-button">Save</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+  </div>
+</div>
+<div id="creatcategoryModals" class="modal fade category-Modal" role="dialog">
   <div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
@@ -119,13 +157,6 @@
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="ample-login-signup">
-          <div class="crate-switch">
-           <div class="switch"><label class="switch">
-            <!-- <input type="checkbox" checked>
-            <span class="slider round"></span> -->
-          </label></div>
-        </div>
         <div class="ample-login-section">
           <form method="POST" action="{{ url('/admin/categories') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
             {{ csrf_field() }}
@@ -140,7 +171,7 @@
                    </div>
                  </div>
                </div>
-               <div class="unit-2">
+               <div class="unit-2" style="display: none;">
                 <div class="form-unit {{ $errors->has('status') ? 'has-error' : ''}}">
                   <div class="heading">Category</div>
                   <div class="content">
@@ -165,7 +196,6 @@
           </div>
           </form>
         </div>
-      </div>
   </div>
   <div class="modal-footer">
   </div>
@@ -177,3 +207,9 @@
 @section('footer_scripts')
   @include('scripts.delete-modal-script')
 @endsection
+
+<style type="text/css">
+  .ample-login-signup{padding: 0px, 25px !important;}
+  .createbook-Modal .modal-body .ample-login-section{ margin-top: 0px !important }
+  .createbook-Modal .modal-footer{border: 0px !important}
+</style>

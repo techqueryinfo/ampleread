@@ -24,6 +24,8 @@
         {{-- Styles --}}
         <link rel="icon" type="image/gif" href="images/LogoOrange.png" />
         <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/popup.css">
         <link rel="stylesheet" href="/css/select.css">
         <link rel="stylesheet" href="/css/admin.css">
         <link rel="stylesheet" href="/fontawesome/css/fontawesome-all.css">
