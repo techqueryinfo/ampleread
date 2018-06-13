@@ -13,25 +13,36 @@ class ApiController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-        $client = new \GuzzleHttp\Client(); 
-        $res = $client->request('GET', 'https://www.googleapis.com/books/v1/volumes', [
-            'query' => [
-                'q' => 'search',
-                'printType' => 'books',
-                'subject' => 'fiction',
-                'filter' => 'paid-ebooks'
-        ],
-            'key' => ['AIzaSyDi_CnpM-CapvdvYJVY0dLCA_0SZXWXEcU']
-        ]);
-        $res->getStatusCode();
-        //"200"
-        $res->getHeader('content-type');
-        //'application/json; charset=utf8'
-        $posts = json_decode($res->getBody(), true);
-        //echo "<pre>"; print_r($posts); exit();
-        return $posts;
+    {   
+        //AIzaSyDi_CnpM-CapvdvYJVY0dLCA_0SZXWXEcU
+        if(isset($_GET['key']))
+        {
+            $client = new \GuzzleHttp\Client(); 
+            try 
+            {
+                $res = $client->request('GET', 'https://www.googleapis.com/books/v1/volumes', [
+                    'query' => [
+                    'q' => 'search',
+                    'printType' => isset($_GET['printType']) ? $_GET['printType'] : 'all',
+                    'subject'   => isset($_GET['subject']) ? $_GET['subject'] : 'fiction',
+                    'filter'    => 'paid-ebooks',
+                    'key'       => $_GET['key']
+                    ]
+                ]);
+                $res->getStatusCode(); //"200"
+                $res->getHeader('content-type'); //'application/json; charset=utf8'
+                $result = json_decode($res->getBody(), true);
+            } 
+            catch (\GuzzleHttp\Exception\BadResponseException $e) 
+            {
+                $result = json_encode(array('status' => $e->getResponse()->getStatusCode(), 'response' => $e->getMessage()));
+            }
+        }
+        else
+        {
+            $result = json_encode(array('status' => 500, 'response' => 'api key missing'));
+        }
+        return $result;
     }
 
     /**
