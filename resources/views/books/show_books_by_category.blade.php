@@ -25,8 +25,8 @@
            </div>
        </div>
        <div class="owl-carousel owl-theme category-slider">
-        @if(!$books->isEmpty())
-          @foreach($books as $book)
+        @if(!$records->isEmpty())
+          @foreach($records as $book)
             <div class="item">
               <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" /></div>
               <div class="ample-button"><button>FREE</button></div>
@@ -56,8 +56,8 @@
            </div>
        </div>
        <div class="owl-carousel owl-theme category-slider">
-        @if(!$books->isEmpty())
-        @foreach($books as $book)
+        @if(!$records->isEmpty())
+        @foreach($records as $book)
            <div class="item">
                @if(!blank($book->ebook_logo))
                    <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :images/image10.jpg }}" alt="img1" /></div>
@@ -89,8 +89,8 @@
            </div>
        </div>
        <div class="owl-carousel owl-theme category-slider">
-        @if(!$books->isEmpty())
-        @foreach($books as $book)
+        @if(!$records->isEmpty())
+        @foreach($records as $book)
            <div class="item">
                @if(!blank($book->ebook_logo))
                    <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :images/image10.jpg }}" alt="img1" /></div>
@@ -132,8 +132,8 @@
          </select>
        </div>
        <div class="owl-carousel owl-theme category-slider">
-          @if(!$books->isEmpty())
-          @foreach($books as $book)
+          @if(!$records->isEmpty())
+          @foreach($records as $book)
             <div class="item">
                @if(!blank($book->ebook_logo))
                 <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :images/image10.jpg }}" alt="img1" /></div>
