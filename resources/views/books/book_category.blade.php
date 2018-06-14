@@ -156,7 +156,6 @@
 @section('footer_scripts')
   @include('scripts.delete-modal-script')
 @endsection
-
 <style type="text/css">
   .ample-login-signup{padding: 0px, 25px !important;}
   .createbook-Modal .modal-body .ample-login-section{ margin-top: 0px !important }

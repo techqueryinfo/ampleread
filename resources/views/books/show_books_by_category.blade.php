@@ -31,7 +31,7 @@
               <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" /></div>
               <div class="ample-button"><button>FREE</button></div>
               <div class="title">{{$book->ebooktitle}}</div>
-              <div class="writer">{{$book['user_name']['first_name']}} {{$book['user_name']['last_name']}}</div>
+              <div class="writer">{{$book->first_name}} {{$book->last_name}}</div>
               <div class="star-container">
                 <span class="fa fa-star checked"></span>
                 <span class="fa fa-star checked"></span>
@@ -64,7 +64,7 @@
                    @endif
                <div class="ample-button"><button>FREE</button></div>
                <div class="title">{{$book->ebooktitle}}</div>
-               <div class="writer">{{$book['user_name']['first_name']}} {{$book['user_name']['last_name']}}</div>
+               <div class="writer">{{$book->first_name}} {{$book->last_name}}</div>
                <div class="star-container">
                   <span class="fa fa-star checked"></span>
                   <span class="fa fa-star checked"></span>
@@ -97,7 +97,7 @@
                    @endif
                <div class="ample-button"><button>FREE</button></div>
                <div class="title">{{$book->ebooktitle}}</div>
-               <div class="writer">{{$book['user_name']['first_name']}} {{$book['user_name']['last_name']}}</div>
+               <div class="writer">{{$book->first_name}} {{$book->last_name}}</div>
                <div class="star-container">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star checked"></span>
@@ -140,7 +140,7 @@
                 @endif
                <div class="ample-button"><button>FREE</button></div>
                <div class="title">{{$book->ebooktitle}}</div>
-               <div class="writer">{{$book['user_name']['first_name']}} {{$book['user_name']['last_name']}}</div>
+               <div class="writer">{{$book->first_name}} {{$book->last_name}}}</div>
                <div class="star-container">
                    <span class="fa fa-star checked"></span>
                    <span class="fa fa-star checked"></span>
