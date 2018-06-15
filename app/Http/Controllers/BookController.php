@@ -203,4 +203,22 @@ class BookController extends Controller
         $category->update($requestData);
         return redirect('/admin/books/category/all-books')->with('flash_message', 'E-Book category deleted!');
     }
+
+    /**
+     * View Free E-Book 
+    */
+    public function view_free_ebook($id)
+    {
+        $book = Book::findOrFail($id)->where('id', $id);
+        $book = $book->first();
+        $related_book = DB::table('books')
+        ->join('users', 'users.id', '=', 'books.user_id')
+        ->join('categories', 'books.category', '=', 'categories.id')
+        ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+        ->where('books.type', '=', 'free')
+        ->where('categories.is_delete', '=', 0)
+        ->where('categories.status', '=', 'Active')
+        ->get();
+        return view('books.free_ebook', compact('book', 'related_book'));
+    }
 }

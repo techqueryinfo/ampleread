@@ -100,8 +100,6 @@ Route::group(['middleware' => ['auth', 'activated', 'currentUser', 'activity', '
 
     // Route to upload user avatar.
     Route::post('avatar/upload', ['as' => 'avatar.upload', 'uses' => 'ProfilesController@upload']);
-    // Route::get('book/create', 'BookController@create');
-    // Route::post('book', 'BookController@store');
 });
 
 // Registered, activated, and is admin routes.
@@ -166,3 +164,4 @@ Route::get('plans', 'Admin\\PlansController@fe_view_plans');
 Route::post('profile/payment', 'Admin\\PlansController@do_payment');
 Route::post('contact', 'PagesController@contact_us_mail');
 Route::get('books/category/{category_name}', 'BookController@show_books_by_category');
+Route::get('books/ebook/{id}/{ebooktitle}', 'BookController@view_free_ebook');
