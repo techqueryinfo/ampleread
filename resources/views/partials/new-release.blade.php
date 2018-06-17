@@ -11,7 +11,7 @@
             @foreach($books as $book)
                 <div class="item">
                    @if($book->type == 'free')
-                   <div class="image"><a href="{{url('books/ebook/'.$book->id.'/'.$book->ebooktitle)}}"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :images/image10.jpg }}" alt="img1" /></a></div>
+                   <div class="image"><a href="{{url('books/ebook/'.$book->id.'/'.$book->ebooktitle)}}"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :uploads/ebook_logo/image10.jpg }}" alt="img1" /></a></div>
                    <div class="ample-button"><button>FREE</button></div>
                    <div class="title">{{$book->ebooktitle}}</div>
                    <div class="writer">{{$book->subtitle}}</div>
@@ -24,7 +24,7 @@
                     </div>
                    @endif
                    @if($book->type == 'paid')
-                   <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :images/image10.jpg }}" alt="img1" /></div>
+                   <div class="image"><a href="{{$book->buyLink}}"><img src="{{$book->ebook_logo}}" alt="img1" /></a></div>
                    <div class="ample-button"><button>PAID</button></div>
                    <div class="title">{{$book->ebooktitle}}</div>
                    <div class="writer">{{$book->subtitle}}</div>
