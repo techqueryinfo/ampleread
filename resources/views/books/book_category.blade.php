@@ -60,7 +60,7 @@
                 <div class="plus-banner">
                   <i class="fas fa-plus"></i>
                 </div>
-                <div class="text">Upload Book</div>
+                <div class="text"><a href="/book/create">Create E-Book</a></div>
               </div>
               @if(!$records->isEmpty())
               @foreach($records as $book)
@@ -73,7 +73,13 @@
                     <div class="delete"  data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Book' data-message = 'Are you sure you want to delete this e-Book ?'><i class="far fa-trash-alt"></i></div>
                   </form>
                 </div>
-                <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" /></div>
+                <div class="image">
+                  @if($book->type == 'free')
+                  <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/uploads/ebook_logo/image10.jpg' }}" alt="img1" />
+                  @else
+                  <img src="{{$book->ebook_logo}}" alt="img1" />
+                  @endif
+                </div>
                 <!-- <div class="ample-button"><button>FREE</button></div> -->
                 <div class="title">{{$book->ebooktitle}}</div>
                 <div class="writer">{{$book->first_name}} {{$book->last_name}}</div>
