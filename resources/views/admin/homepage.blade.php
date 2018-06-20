@@ -68,13 +68,14 @@
         <div class="slot-1">
             <div class="e-book1">
                 @if(isset($home_book->home_books->ebook_logo))
-                <img src="/uploads/ebook_logo/{{ $home_book->home_books->ebook_logo }}"/>
+                    @if($home_book->home_books->type == 'free')
+                        <img src="/uploads/ebook_logo/{{ $home_book->home_books->ebook_logo }}"/>
+                    @else
+                        <img src="{{ $home_book->home_books->ebook_logo }}"/>
+                    @endif
                 @endif
-                <!-- <img src="../images/image4.jpg" alt=""/>
-                <img src="../images/image2.jpg" alt=""/>
-                <img src="../images/image6.png" alt=""/>
- -->            </div>
-             @if(isset($home_book->home_books->ebooktitle))
+            </div>
+            @if(isset($home_book->home_books->ebooktitle))
             <div class="heading">{{$home_book->home_books->ebooktitle}}</div>
             @endif
             @if(isset($home_book->home_books->subtitle))
@@ -95,8 +96,6 @@
         @endforeach
         @endif
         </div>
-
-
     <!-- section three-->
     <div class="section-three">
         <div class="left">
@@ -127,11 +126,8 @@
                 <div class="row add-banner">
                     <div class="plus-banner">
                         <i class="fas fa-plus"></i>
-
                     </div>
                     <div class="text">Upload Book</div>
-
-
                 </div>
                 <div class=" row item">
                     <div class="edit-delete">
@@ -141,8 +137,6 @@
                     <div class="image"><img src="../images/image11.jpg" alt="img1"></div>
                     <div class="title">Kiss Me Someone: Stories book</div>
                     <div class="writer">Nathan Williams</div>
-
-
                 </div>
                 <div class=" row item">
                     <div class="edit-delete">
@@ -152,8 +146,6 @@
                     <div class="image"><img src="../images/image11.jpg" alt="img1"></div>
                     <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
                     <div class="writer">Nathan Williams</div>
-
-
                 </div>
             </div>
             <div class="right-row-one">
@@ -165,8 +157,6 @@
                     <div class="image"><img src="../images/image11.jpg" alt="img1"></div>
                     <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
                     <div class="writer">Nathan Williams</div>
-
-
                 </div>
                 <div class=" row item">
                     <div class="edit-delete">
@@ -176,8 +166,6 @@
                     <div class="image"><img src="../images/image11.jpg" alt="img1"></div>
                     <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
                     <div class="writer">Nathan Williams</div>
-
-
                 </div>
                 <div class=" row item">
                     <div class="edit-delete">
@@ -187,16 +175,11 @@
                     <div class="image"><img src="../images/image11.jpg" alt="img1"></div>
                     <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
                     <div class="writer">Nathan Williams</div>
-
-
                 </div>
             </div>
         </div>
     </div>
     <!-- section three-->
-
-
-
 <!-- modal for adding home banner image -->
 <div id="createHomeBannerModal" class="modal fade createbook-Modal" role="dialog">
   <div class="modal-dialog">
@@ -230,8 +213,6 @@
 </div>
 </div>
 </div>
-
-
 <!-- modal for adding home special feature books -->
 <div id="createSpecialFeatureModal" class="modal fade createbook-Modal" role="dialog">
   <div class="modal-dialog">
@@ -246,7 +227,6 @@
         <div class="ample-login-section">
           <form action="{{ url('/admin/homepage/special_feature') }}" method="POST">
             {{ csrf_field() }}
-
            <div class="unit1">
             <div class="form-group">
               <div class="form-unit">
@@ -270,7 +250,6 @@
           </div>
         </form>
       </div>
-
     </div>
   </div>
   <div class="modal-footer">
@@ -278,7 +257,6 @@
 </div>
 </div>
 </div>
-
 @include('modals.modal-delete')
 @endsection
 @section('footer_scripts')
