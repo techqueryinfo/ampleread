@@ -28,7 +28,13 @@
         @if(!$records->isEmpty())
           @foreach($records as $book)
             <div class="item">
-              <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" /></div>
+              <div class="image">
+                @if($book->type == 'free')
+                  <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" />
+                @else
+                  <img src="{{$book->ebook_logo}}" alt="img1" />
+                @endif
+              </div>
               <div class="ample-button"><button>FREE</button></div>
               <div class="title">{{$book->ebooktitle}}</div>
               <div class="writer">{{$book->first_name}} {{$book->last_name}}</div>
@@ -60,8 +66,14 @@
         @foreach($records as $book)
            <div class="item">
                @if(!blank($book->ebook_logo))
-                   <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :images/image10.jpg }}" alt="img1" /></div>
-                   @endif
+               <div class="image">
+                 @if($book->type == 'free')
+                 <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" />
+                 @else
+                 <img src="{{$book->ebook_logo}}" alt="img1" />
+                 @endif
+               </div>
+               @endif
                <div class="ample-button"><button>FREE</button></div>
                <div class="title">{{$book->ebooktitle}}</div>
                <div class="writer">{{$book->first_name}} {{$book->last_name}}</div>
@@ -93,8 +105,14 @@
         @foreach($records as $book)
            <div class="item">
                @if(!blank($book->ebook_logo))
-                   <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :images/image10.jpg }}" alt="img1" /></div>
-                   @endif
+               <div class="image">
+                 @if($book->type == 'free')
+                 <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" />
+                 @else
+                 <img src="{{$book->ebook_logo}}" alt="img1" />
+                 @endif
+               </div>
+               @endif
                <div class="ample-button"><button>FREE</button></div>
                <div class="title">{{$book->ebooktitle}}</div>
                <div class="writer">{{$book->first_name}} {{$book->last_name}}</div>
@@ -136,8 +154,14 @@
           @foreach($records as $book)
             <div class="item">
                @if(!blank($book->ebook_logo))
-                <div class="image"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :images/image10.jpg }}" alt="img1" /></div>
+               <div class="image">
+                @if($book->type == 'free')
+                <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" />
+                @else
+                <img src="{{$book->ebook_logo}}" alt="img1" />
                 @endif
+              </div>
+              @endif
                <div class="ample-button"><button>FREE</button></div>
                <div class="title">{{$book->ebooktitle}}</div>
                <div class="writer">{{$book->first_name}} {{$book->last_name}}}</div>
