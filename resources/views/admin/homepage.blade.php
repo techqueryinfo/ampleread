@@ -83,7 +83,9 @@
             @endif
             <div class="edit-delete">
                 <div class="edit">
+                    @if(isset($home_book->home_books->id))
                     <a href="{{ url('/book/' . $home_book->home_books->id . '/edit') }}" title="Edit Book">
+                    @endif
                     <i class="fas fa-pencil-alt"></i>
                     </a>
                 </div>
