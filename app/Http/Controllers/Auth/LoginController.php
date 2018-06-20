@@ -49,7 +49,8 @@ class LoginController extends Controller
         }
         else
         {
-            return view('home', compact('categories'));   
+            return redirect()->intended('/home');
+            // return view('home', compact('categories'));   
         }
     }
 
