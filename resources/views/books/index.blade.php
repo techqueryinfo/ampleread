@@ -57,11 +57,11 @@
                         </form>
                     </td>
                 </tr>
+                @endforeach
                 <span id="user_count"></span>
                 <span id="user_pagination">
                     {!! $books->appends(['search' => Request::get('search')])->render() !!}
                 </span>
-                @endforeach
             </tbody>
         </table>
     </div>

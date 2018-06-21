@@ -39,10 +39,10 @@
 					<div class="content">
 						<select name="category"  id="ebookcategory" data-select2-id="ebookcategory" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
 							@foreach($categories as $item)
-							@if($item->category_slug === $book->category)
-							<option value="{{ $item->category_slug }}" selected="selected">{{ $item->name }}</option>
+							@if($item->id === $book->category)
+							<option value="{{ $item->id }}" selected="selected">{{ $item->name }}</option>
 							@else
-							<option value="{{ $item->category_slug }}">{{ $item->name }}</option>
+							<option value="{{ $item->id }}">{{ $item->name }}</option>
 							@endif
 							@endforeach
 						</select>

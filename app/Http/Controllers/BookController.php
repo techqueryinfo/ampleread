@@ -124,9 +124,9 @@ class BookController extends Controller
             $file = $request->file('ebook_logo');
             $file->move($uploadPath, $file->getClientOriginalName());
             $requestData['ebook_logo'] = $file->getClientOriginalName();
-        } 
+        }
         $book = Book::findOrFail($id);
-        $book->update($requestData);
+        $book->update($requestData); 
         return redirect('book')->with('flash_message', 'E-Book updated !');
     }
 
