@@ -140,47 +140,32 @@
     </div>
 </div>
 <div class="ample-book-slot-1">
-<div class="slot-1">
-    <div class="e-book1">
-        <img src="images/image4.jpg" alt=""/>
-        <img src="images/image2.jpg" alt=""/>
-        <img src="images/image6.png" alt=""/>
-    </div>
-    <div class="heading">Gaiman, McGuane, Chirovici</div>
-    <div class="sub-text">Lorem ipsum dolor</div>
-</div>
-<div class="slot-2">
-    <div class="e-book1">
-        <img src="images/image8.jpg" alt=""/>
-        <img src="images/image9.jpg" alt=""/>
-    </div>
-    <div class="heading">Gaiman, McGuane, Chirovici</div>
-    <div class="sub-text">Lorem ipsum dolor</div>
-</div>
-<div class="slot-1">
-    <div class="e-book1">
-        <img src="images/image4.jpg" alt=""/>
-        <img src="images/image2.jpg" alt=""/>
-        <img src="images/image5.jpg" alt=""/>
-    </div>
-    <div class="heading">Gaiman, McGuane, Chirovici</div>
-    <div class="sub-text">Lorem ipsum dolor</div>
-</div>
+    @foreach($special_features as $key => $val)
+        @if($key <= 2)
+            <div class="slot-1">
+                <div class="e-book1">
+                    <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
+                    <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
+                    <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
+                </div>
+                <div class="heading">{{ $val->home_books->ebooktitle }}</div>
+                <div class="sub-text">{{ $val->home_books->subtitle }}</div>
+            </div>
+        @endif
+    @endforeach
 </div>
 <div class="ample-book-slot-2">
-    <div class="slot-1">
-        <div class="heading">All about food</div>
-        <div class="sub-text">Lorem ipsum dolor</div>
-        <div class="ebook"><img src="images/image3.jpg" alt=""><img src="images/image7.jpg" alt=""></div>
-    </div>
-    <div class="slot-1">
-        <div class="heading">Ultimate classics</div>
-        <div class="sub-text">Lorem ipsum dolor</div>
-        <div class="ebook"><img src="images/image6.png" alt=""><img src="images/image2.jpg" alt=""></div>
-    </div>
+    @foreach($special_features as $key => $val)
+        @if($key >= 3)
+            <div class="slot-1">
+                <div class="heading">{{ $val->home_books->ebooktitle }}</div>
+                <div class="sub-text">{{ $val->home_books->subtitle }}</div>
+                <div class="ebook"><img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""><img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""></div>
+            </div>
+        @endif
+    @endforeach
 </div>
 @include('partials.new-release')
 @include('partials.best-seller')
 @include('partials.classic')
-
 @endsection

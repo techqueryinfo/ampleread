@@ -45,9 +45,7 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        
         $requestData = $request->all();
-        
         if ($request->hasFile('home_logo')) 
         {
             $uploadPath = public_path('/uploads/ebook_logo');
@@ -57,8 +55,6 @@ class HomeController extends Controller
             $requestData['type'] = 'main_slider';
         }
         Home::create($requestData);
-
-
         return redirect('admin/homepage')->with('flash_message', 'Banner Image Added!');
     }
 
@@ -119,7 +115,6 @@ class HomeController extends Controller
     public function destroy($id)
     {
         Home::destroy($id);
-
         return redirect('admin/homepage')->with('flash_message', 'Banner deleted!');
     }
     
@@ -138,10 +133,13 @@ class HomeController extends Controller
 
     public function delete_special_feature_book($id)
     {
-      HomeBook::destroy($id);
-
-        return redirect('admin/homepage')->with('flash_message', 'Special feature book deleted !');   
+        HomeBook::destroy($id);
+        return redirect('admin/homepage')->with('flash_message', 'Special feature book deleted !');
     }
-    
 
+    public function add_book(Request $request)
+    {
+        $requestData = $request->all();
+        echo "<pre>"; print_r($requestData); echo "</pre>"; die;
+    }
 }

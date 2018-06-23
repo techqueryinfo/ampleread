@@ -11,7 +11,7 @@ class HomeBook extends Model
      *
      * @var string
      */
-    protected $table = 'home_books';
+    protected $table = 'admin_special_features';
 
     /**
     * The database primary key value.
@@ -34,5 +34,4 @@ class HomeBook extends Model
     {
         return $this->belongsTo('App\Book','book_id');
     }
-
 }

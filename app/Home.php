@@ -11,7 +11,7 @@ class Home extends Model
      *
      * @var string
      */
-    protected $table = 'home';
+    protected $table = 'admin_banner_settings';
 
     /**
     * The database primary key value.
