@@ -21,9 +21,8 @@ class HomeController extends Controller
     {
         $banner_images = Home::all();
         $books = Book::all();
-        $home_books = HomeBook::with('home_books')->get();
-        $categories = Category::all();
-        return view('admin.homepage', compact('banner_images','books','home_books', 'categories'));
+        $home_books = HomeBook::with('home_books')->where('type', 'special_feature')->get();
+        return view('admin.homepage', compact('banner_images','books','home_books'));
     }
 
     /**
@@ -127,8 +126,15 @@ class HomeController extends Controller
     public function add_special_feature_book(Request $request)
     {
        $requestData = $request->all();
-       HomeBook::create($requestData);
-       return redirect('admin/homepage')->with('flash_message', 'Special Feature Book Added !');
+       if(isset($requestData['book_id']))
+       {
+        HomeBook::create($requestData);
+        return redirect('admin/homepage')->with('flash_message', 'Special Feature Book Added !');
+       }
+       else
+       {
+        return redirect('admin/homepage')->with('flash_message', 'Select the book !');
+       }
     }
 
     public function delete_special_feature_book($id)
@@ -137,9 +143,23 @@ class HomeController extends Controller
         return redirect('admin/homepage')->with('flash_message', 'Special feature book deleted !');
     }
 
-    public function add_book(Request $request)
+
+    public function add_tags_book(Request $request)
     {
         $requestData = $request->all();
-        echo "<pre>"; print_r($requestData); echo "</pre>"; die;
+        if(isset($requestData['book_id']))
+        {
+            HomeBook::create($requestData);
+            return redirect('admin/homepage')->with('flash_message', 'Book added to '.$requestData['type']);
+        }
+        else
+        {
+            return redirect('admin/homepage')->with('flash_message', 'Select the book');
+        }
+    }
+
+    public function show_books_tag($category_name)
+    {
+        echo $category_name; die();
     }
 }

@@ -18,8 +18,10 @@ class WelcomeController extends Controller
     	$countries = Country::all();
         $books = Book::all();
         $categories = Category::all();
-        $special_features = HomeBook::with('home_books')->get(); 
-        //echo "<pre>"; print_r($special_features); die;
-        return view('welcome', compact('countries', 'books', 'categories', 'special_features'));
+        $special_features = HomeBook::with('home_books')->where('type', 'special_feature')->get();
+        $new_releases = HomeBook::with('home_books')->where('type', 'new_releases')->get();
+        $bestsellers  = HomeBook::with('home_books')->where('type', 'bestsellers')->get();
+        $classics     = HomeBook::with('home_books')->where('type', 'classics')->get(); 
+        return view('welcome', compact('countries', 'books', 'categories', 'special_features', 'new_releases', 'bestsellers', 'classics'));
     }
 }

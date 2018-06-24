@@ -1,7 +1,11 @@
 @extends('layouts.admin')
-
 @section('content')
-
+@if(Session::has('flash_message'))
+<div class="alert alert-success alert-dismissible">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Success!</strong> {{Session::get('flash_message')}}.
+</div>
+@endif
 <!-- heading -->
 <div class="admin-home">
     <!-- section one  -->
@@ -88,12 +92,12 @@
             <div class="circle">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </div>
-              <div class="text">Add banner</div>
+              <!-- <div class="text">Add banner</div> -->
               <div class="listing-category">
                 <ul>
-                    <li class="active">New Releases</li>
-                    <li>Bestsellers</li>
-                    <li>Classics</li>
+                    <li class="active"><a href="/admin/homepage/new_releases">New Releases</a></li>
+                    <li><a href="/admin/homepage/bestsellers">Bestsellers</a></li>
+                    <li><a href="/admin/homepage/classics">Classics</a></li>
                 </ul>
               </div>
         </div>
@@ -103,10 +107,10 @@
                     <div class="name">Bestsellers<i class="fas fa-pencil-alt"></i></div>
                     <div class="number">12 books</div>
                 </div>
-                <div class="category-action">
+                <!-- <div class="category-action">
                     <i class="far fa-trash-alt"></i>
                     <span>Delete category</span>
-                </div>
+                </div> -->
             </div>
             <div class="right-row-one">
                 <div class="row add-banner">
@@ -259,7 +263,6 @@
                               <div class="form-unit">
                                 <div class="heading">Books</div>
                                 <div class="content">
-                                    <input type="hidden" value="category_id" name="type">
                                     <select name="book_id" class="form-control" id="selectbook" >
                                       <option value="">Please select Book</option>
                                       @if(isset($books))
@@ -267,8 +270,13 @@
                                       <option data-value="{{ $optionValue->id }}" value="{{ $optionValue->id }}"> {{ $optionValue->ebooktitle }}</option>
                                       @endforeach
                                       @endif
-                                  </select>
-                              </div>
+                                    </select>
+                                    <select name="type" class="form-control" id="book_tag">
+                                      <option value="new_releases">New Releases</option>
+                                      <option value="bestsellers">Bestsellers</option>
+                                      <option value="classics">Classics</option>
+                                    </select>
+                                </div>
                           </div><br/>
                           <button type="submit" class="submit-button">Add</button>
                       </div>
