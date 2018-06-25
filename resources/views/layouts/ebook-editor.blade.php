@@ -20,10 +20,17 @@
         {{-- Styles --}}
         <link rel="icon" type="image/gif" href="images/LogoOrange.png" />
         <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/select.css">
-        <link rel="stylesheet" href="/css/admin.css">
+        <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/fontawesome/css/fontawesome-all.css">
+        <link rel="stylesheet" href="/css/owl.carousel.css">
+        <link rel="stylesheet" href="/css/owl.theme.default.css">
+        <link rel="stylesheet" href="/css/popup.css">
+        <link rel="stylesheet" href="/css/select.css">
         <link rel="stylesheet" href="/css/ampleread.css">
+        <link rel="stylesheet" href="/css/freecategory.css">
+        <link rel="stylesheet" href="/css/createbookinfo.css">
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+        @yield('free-book-css')
         @yield('template_linked_css')
         <style type="text/css">
             @yield('template_fastload_css')
@@ -34,7 +41,6 @@
                 }
             @endif
         </style>
-        <script type="text/javascript" src="/js/jquery.min.js"></script>
         {{-- Scripts --}}
         <script>
             window.Laravel = {!! json_encode([
@@ -44,42 +50,25 @@
         @yield('head')
         @yield('angularjs')
     </head>
-    <body ng-app="app" ng-controller="TabController">
-        <div class="admin-container">
-            @include('partials.ebook')
-            <div class="admin-right">
+    <body class="ample-trim" ng-app="app" ng-controller="TabController">
+        <div id="app">
+            @include('partials.nav')
+            <div class="container">
                 @include('partials.form-status')
-                @yield('content')
             </div>
+            @yield('content')
+            @include('partials.footer')
         </div>
         {{-- Scripts --}}
+        <script type="text/javascript" src="/js/owl.carousel.js"></script>
         <script type="text/javascript" src="/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/popup.js"></script>
         <script type="text/javascript" src="/js/select.js"></script>
+        <script type="text/javascript" src="/js/main.js"></script>
         <script type="text/javascript" src="/js/ampleread.js"></script>
-        <script type="text/javascript">
-            function resizemenu(){
-                var windowheight=window.innerHeight;
-                $(".admin-container .admin-left").css("height",windowheight);
-                var rightcontainerheight=$(".admin-container .admin-right").height();
-                if(rightcontainerheight>windowheight){
-                    rightcontainerheight=rightcontainerheight+40;
-                    $(".admin-container .admin-left").css("height",rightcontainerheight);
-                }
-            }
-            $(document).ready(function(){
-                resizemenu();
-                $("#userSorting,#subcription,#status").select2();
-            });
-            $( window ).resize(function() {
-                resizemenu();
-            });
-            $(".admin-menu ul li").click(function(){
-                $(".admin-menu ul li").removeClass("active");
-                $(this).addClass("active");
-
-            });
-        </script>
+        @if(config('settings.googleMapsAPIStatus'))
+            <!-- {!! HTML::script('//maps.googleapis.com/maps/api/js?key='.env("GOOGLEMAPS_API_KEY").'&libraries=places&dummy=.js', array('type' => 'text/javascript')) !!} -->
+        @endif
         @yield('footer_scripts')
     </body>
 </html>

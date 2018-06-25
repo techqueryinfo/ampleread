@@ -21,8 +21,10 @@ class HomeController extends Controller
     {
         $banner_images = Home::all();
         $books = Book::all();
-        $home_books = HomeBook::with('home_books')->where('type', 'special_feature')->get();
-        return view('admin.homepage', compact('banner_images','books','home_books'));
+        $home_books   = HomeBook::with('home_books')->where('type', 'special_feature')->get();
+        $new_releases = HomeBook::with('home_books')->where('type', 'new_releases')->get();
+        $count        = HomeBook::with('home_books')->where('type', 'new_releases')->get()->count();
+        return view('admin.homepage', compact('banner_images','books','home_books', 'new_releases', 'count'));
     }
 
     /**
@@ -160,6 +162,14 @@ class HomeController extends Controller
 
     public function show_books_tag($category_name)
     {
-        echo $category_name; die();
+        $banner_images = Home::all();
+        $books = Book::all();
+        $home_books = HomeBook::with('home_books')->where('type', 'special_feature')->get();
+        if(isset($category_name))
+        {
+            $new_releases = HomeBook::with('home_books')->where('type', $category_name)->get();
+            $count        = HomeBook::with('home_books')->where('type', $category_name)->get()->count();
+        }
+        return view('admin.homepage', compact('banner_images','books','home_books', 'new_releases', 'count', 'category_name'));
     }
 }

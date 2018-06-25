@@ -7,12 +7,188 @@
 <script src='/dist/textAngular.min.js'></script>    
 @endsection
 @section('content')
-	<div layout="column" layout-align="top center">
-		<h1>Editor <span>@{{version}}</span></h1>
-		<div text-angular ng-model="htmlContent" ng-model-options="{ debounce: 500 }" ng-change="updateContent()" name="demo-editor" ta-text-editor-class="clearfix border-around container" ta-html-editor-class="border-around"></div>
-		@{{ chapters | json}}
-	</div>
-@endsection
+<div class="user-bookcreateinfo" ng-cloak>
+	<div class="info-left">
+		<div class="row-one">
+			<div class="unit-one active" data-tab="bookContent" ng-class="{ active: isSet(1) }">
+				<div class="content" ng-click="setTab(1)">Table of
+					contents</div>
+				</div>
+				<div class="unit-one" data-tab="bookInfo" ng-class="{ active: isSet(2) }">
+					<div class="content" ng-click="setTab(2)">
+						Book info
+					</div>
+				</div>
+				<div class="unit-one" data-tab="bookNotes" ng-class="{ active: isSet(3) }">
+					<div class="content" ng-click="setTab(3)">
+						Notes
+					</div>
+				</div>
+				<div class="unit-one" data-tab="bookImages" ng-class="{ active: isSet(4) }">
+					<div class="content" ng-click="setTab(4)">
+						Images
+					</div>
+				</div>
+			</div>
+			<!-- first-->
+			<div id="bookContent" ng-show="isSet(1)">
+				<div class="row-two">
+					<div class="unit active">
+						<div class="first">Title page</div>
+						<div class="second">2</div>
+					</div>
+					<div class="unit">
+						<div class="first">Chapter 1</div>
+						<div class="second">2</div>
+					</div>
+					<div class="unit">
+						<div class="first">Chapter 2</div>
+						<div class="second">2</div>
+					</div>
+					<div class="unit">
+						<div class="first">Chapter 3</div>
+						<div class="second">2</div>
+					</div>
+					<div class="unit">
+						<div class="first">Chapter 4</div>
+						<div class="second">2</div>
+					</div>
+
+				</div>
+			</div>
+
+			<!--second-->
+			<div id="bookInfo" class="book-section" ng-show="isSet(2)">
+				<div class="row-three">
+					<div class="crate-switch">
+						<div class="text">Count Words Automatically</div>
+						<div class="switch"><label class="switch">
+							<input type="checkbox" checked>
+							<span class="slider round"></span>
+						</label></div>
+					</div>
+				</div>
+				<div class="row-four">
+					<div class="form-unit">
+						<div class="heading">eBook Title</div>
+						<div class="content">
+							<input type="text" placeholder="eBook Title">
+						</div>
+					</div>
+					<div class="form-unit">
+						<div class="heading">Sub Title</div>
+						<div class="content">
+							<input type="text" placeholder="Sub Title">
+						</div>
+					</div>
+					<div class="form-unit" style="margin: 0px 0px 10px 12px;">
+						<div class="heading">eBook Type</div>
+						<div class="content">
+							<select id="status">
+								<option>Active</option>
+								<option>Inactive</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-unit">
+						<div class="heading">Category</div>
+						<div class="content">
+							<select id="subcription">
+								<option>Active</option>
+								<option>Inactive</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-unit">
+						<div class="heading">Description</div>
+						<div class="content">
+							<textarea>Tara has it all. Married and about to move into her dream home, she can’t explain why she is tempted by one last fling with her ex before she settles down. David would do anything for Tara. So when he finds her with another man, his world starts to crumble around him. Ryan isn’t prepared for the punch David throws at him. Stumbling, he slips over the balcony and falls three storeys to the patio below.</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- third-->
+			<div id="bookNotes" class="book-section" ng-show="isSet(3)">
+				<div class="row-five">
+					<button type="button">
+						<img src="images/document-edit.png" alt="addnotes">Add Note</button>
+
+					</div>
+					<div class="row-six">
+						<div class="date">
+							<div class="time">Today, 15:47</div>
+							<div class="delete">
+								<img src="images/trash.png" alt="delete">
+							</div>
+						</div>
+						<label>
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eleifend suscipit felis id vestibulum. Nullam porttitor convallis tellus.
+						</label>
+					</div>
+					<div class="row-six">
+						<div class="date">
+							<div class="time">Today, 15:47</div>
+							<div class="delete">
+								<img src="images/trash.png" alt="delete">
+							</div>
+						</div>
+						<label>
+							Maecenas commodo lacus vel urna eleifend, quis lacinia nunc dapibus. Mauris eu sem turpis. Mauris et enim pretium ex dictum suscipit in a metus. Phasellus vel enim auctor, cursus nulla eu, volutpat nulla. Maecenas pellentesque ligula in mauris fringilla iaculis. Duis volutpat dignissim ligula a volutpat.</label>
+						</div>
+					</div>
+
+					<!-- forth -->
+					<div id="bookImages" class="book-section" ng-show="isSet(4)">
+						<div class="row-five">
+							<button type="button">
+								<img src="images/upload.png" alt="upload">Upload image</button>
+
+							</div>
+							<div class="row-seven">
+								<img src="images/image1.jpg" alt=""/>
+								<img src="images/image3.jpg" alt=""/>
+							</div>
+
+						</div>
+
+					</div>
+					<div class="info-right">
+						<div class="text-header">
+							<div class="thumb">
+								<div class="font-set">
+									<!-- <img src="images/group.png"> -->
+								</div>
+								<div class="font-set">
+									<!-- <img src="images/group.png"> -->
+								</div>
+							</div>
+							<div class="center-thumb">
+								<h1>Editor <span>@{{version}}</span></h1>
+							</div>
+							<div class="close">
+								<i class="fas fa-times"></i>
+							</div>
+						</div>
+						<div class="text-area">
+							<div text-angular ng-model="htmlContent" ng-model-options="{ debounce: 500 }" ng-change="updateContent()" name="demo-editor" ta-text-editor-class="clearfix border-around container" ta-html-editor-class="border-around"></div>
+							@{{ chapters | json}}
+						</div>
+						<div class="text-footer">
+							<div class="publish">
+								<button type="button">Publish</button>
+							</div>
+							<div class="cancel">
+								<button type="button">Save</button>
+							</div>
+							<div class="preview">
+								<img src="images/preview.png">
+							</div>
+							<label>Preview</label>
+						</div>
+					</div>
+				</div>
+				@endsection
 @section('footer_scripts')
 <script type="text/javascript">
 	var app = angular.module('app', ['textAngular']);

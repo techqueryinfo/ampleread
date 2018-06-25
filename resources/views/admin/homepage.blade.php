@@ -89,23 +89,29 @@
     <!-- section three-->
     <div class="section-three">
         <div class="left">
-            <div class="circle">
+            <!-- <div class="circle">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </div>
-              <!-- <div class="text">Add banner</div> -->
+            <div class="text">Add banner</div> -->
               <div class="listing-category">
                 <ul>
-                    <li class="active"><a href="/admin/homepage/new_releases">New Releases</a></li>
-                    <li><a href="/admin/homepage/bestsellers">Bestsellers</a></li>
-                    <li><a href="/admin/homepage/classics">Classics</a></li>
+                    <li @if(isset($category_name) && $category_name == 'new_releases') class="active" @elseif(!isset($category_name)) class="active" @endif><a href="/admin/homepage/new_releases">New Releases</a></li>
+                    <li @if(isset($category_name) && $category_name == 'bestsellers') class="active" @endif><a href="/admin/homepage/bestsellers">Bestsellers</a></li>
+                    <li @if(isset($category_name) && $category_name == 'classics') class="active" @endif><a href="/admin/homepage/classics">Classics</a></li>
                 </ul>
               </div>
         </div>
         <div class="right">
             <div class="category-discription">
                 <div class="category-name">
-                    <div class="name">Bestsellers<i class="fas fa-pencil-alt"></i></div>
-                    <div class="number">12 books</div>
+                    <div class="name">
+                      @if(isset($category_name))
+                        {{ ucwords(str_replace("_", " ", $category_name))}}
+                      @else
+                        New Releases
+                      @endif
+                    </div>
+                    <div class="number">@if(isset($count)){{$count}} books @endif</div>
                 </div>
                 <!-- <div class="category-action">
                     <i class="far fa-trash-alt"></i>
@@ -119,53 +125,60 @@
                     </div>
                     <div class="text">Upload Book</div>
                 </div>
-                <div class=" row item">
-                    <div class="edit-delete">
-                        <div class="edit"><i class="fas fa-pencil-alt"></i></div>
-                        <div class="delete"><i class="far fa-trash-alt"></i></div>
-                    </div>
-                    <div class="image"><img src="../images/image11.jpg" alt="img1"></div>
-                    <div class="title">Kiss Me Someone: Stories book</div>
-                    <div class="writer">Nathan Williams</div>
-                </div>
-                <div class=" row item">
-                    <div class="edit-delete">
-                        <div class="edit"><i class="fas fa-pencil-alt"></i></div>
-                        <div class="delete"><i class="far fa-trash-alt"></i></div>
-                    </div>
-                    <div class="image"><img src="../images/image11.jpg" alt="img1"></div>
-                    <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                    <div class="writer">Nathan Williams</div>
-                </div>
+                @foreach($new_releases as $key => $val)
+                  @if($key <= 1)
+                  <div class=" row item">
+                      <div class="edit-delete">
+                          <div class="edit"><a href="{{ url('/book/' . $val->home_books->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt"></i></a></div>
+                          <div class="delete">
+                            <form method="POST" action="{{ url('/admin/homepage/special_feature'. '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
+                              {{ csrf_field() }}
+                              <div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Book' data-message = 'Are you sure you want to delete this e-Book from homepage list ?'><i class="far fa-trash-alt"></i></div>
+                            </form>
+                          </div>
+                      </div>
+                      <div class="image">
+                        @if(isset($val->home_books->ebook_logo))
+                          @if($val->home_books->type == 'free')
+                          <img src="/uploads/ebook_logo/{{ $val->home_books->ebook_logo }}" alt="img1"/>
+                          @else
+                          <img src="{{ $val->home_books->ebook_logo }}" alt="img1"/>
+                          @endif
+                        @endif
+                      </div>
+                      <div class="title">{{ $val->home_books->ebooktitle }}</div>
+                      <div class="writer">{{ $val->home_books->subtitle }}</div>
+                  </div>
+                  @endif
+                @endforeach
             </div>
             <div class="right-row-one">
-                <div class=" row item">
-                    <div class="edit-delete">
-                        <div class="edit"><i class="fas fa-pencil-alt"></i></div>
-                        <div class="delete"><i class="far fa-trash-alt"></i></div>
-                    </div>
-                    <div class="image"><img src="../images/image11.jpg" alt="img1"></div>
-                    <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                    <div class="writer">Nathan Williams</div>
-                </div>
-                <div class=" row item">
-                    <div class="edit-delete">
-                        <div class="edit"><i class="fas fa-pencil-alt"></i></div>
-                        <div class="delete"><i class="far fa-trash-alt"></i></div>
-                    </div>
-                    <div class="image"><img src="../images/image11.jpg" alt="img1"></div>
-                    <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                    <div class="writer">Nathan Williams</div>
-                </div>
-                <div class=" row item">
-                    <div class="edit-delete">
-                        <div class="edit"><i class="fas fa-pencil-alt"></i></div>
-                        <div class="delete"><i class="far fa-trash-alt"></i></div>
-                    </div>
-                    <div class="image"><img src="../images/image11.jpg" alt="img1"></div>
-                    <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                    <div class="writer">Nathan Williams</div>
-                </div>
+                @foreach($new_releases as $key => $val)
+                  @if($key >= 2)
+                  <div class=" row item">
+                      <div class="edit-delete">
+                          <div class="edit"><a href="{{ url('/book/' . $val->home_books->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt"></i></a></div>
+                          <div class="delete">
+                            <form method="POST" action="{{ url('/admin/homepage/special_feature'. '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
+                              {{ csrf_field() }}
+                              <div class="delete" data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Book' data-message = 'Are you sure you want to delete this e-Book from homepage list ?'><i class="far fa-trash-alt"></i></div>
+                            </form>
+                          </div>
+                      </div>
+                      <div class="image">
+                        @if(isset($val->home_books->ebook_logo))
+                          @if($val->home_books->type == 'free')
+                          <img src="/uploads/ebook_logo/{{ $val->home_books->ebook_logo }}" alt="img1"/>
+                          @else
+                          <img src="{{ $val->home_books->ebook_logo }}" alt="img1"/>
+                          @endif
+                        @endif
+                      </div>
+                      <div class="title">{{ $val->home_books->ebooktitle }}</div>
+                      <div class="writer">{{ $val->home_books->subtitle }}</div>
+                  </div>
+                  @endif
+                @endforeach
             </div>
         </div>
     </div>
