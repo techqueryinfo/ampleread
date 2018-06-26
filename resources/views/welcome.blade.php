@@ -140,30 +140,38 @@
     </div>
 </div>
 <div class="ample-book-slot-1">
-    @foreach($special_features as $key => $val)
-        @if($key <= 2)
-            <div class="slot-1">
-                <div class="e-book1">
-                    <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
-                    <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
-                    <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
+    @if(!$special_features->isEmpty())
+        @foreach($special_features as $key => $val)
+            @if($key <= 2)
+                <div class="slot-1">
+                    <div class="e-book1">
+                        <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
+                        <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
+                        <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
+                    </div>
+                    <div class="heading">{{ $val->home_books->ebooktitle }}</div>
+                    <div class="sub-text">{{ $val->home_books->subtitle }}</div>
                 </div>
-                <div class="heading">{{ $val->home_books->ebooktitle }}</div>
-                <div class="sub-text">{{ $val->home_books->subtitle }}</div>
-            </div>
-        @endif
-    @endforeach
+            @endif
+        @endforeach
+    @else
+        Data not available !
+    @endif
 </div>
 <div class="ample-book-slot-2">
-    @foreach($special_features as $key => $val)
-        @if($key >= 3)
-            <div class="slot-1">
-                <div class="heading">{{ $val->home_books->ebooktitle }}</div>
-                <div class="sub-text">{{ $val->home_books->subtitle }}</div>
-                <div class="ebook"><img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""><img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""></div>
-            </div>
-        @endif
-    @endforeach
+    @if(!$special_features->isEmpty())
+        @foreach($special_features as $key => $val)
+            @if($key >= 3)
+                <div class="slot-1">
+                    <div class="heading">{{ $val->home_books->ebooktitle }}</div>
+                    <div class="sub-text">{{ $val->home_books->subtitle }}</div>
+                    <div class="ebook"><img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""><img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""></div>
+                </div>
+            @endif
+        @endforeach
+    @else
+        Data not available !
+    @endif
 </div>
 @include('partials.new-release')
 @include('partials.best-seller')

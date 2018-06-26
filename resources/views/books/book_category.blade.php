@@ -18,11 +18,15 @@
               <div class="text" style="cursor: pointer;"><a data-toggle="modal" data-target="#creatcategoryModal">Add Category</a></div>
               <div class="listing-category">
                 <ul>
-                  @foreach ($categories as $optionKey => $optionValue)
-                    @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
-                    <li @if($optionValue->category_slug == $category_name) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
-                    @endif
-                  @endforeach
+                  @if(!$categories->isEmpty())
+                    @foreach ($categories as $optionKey => $optionValue)
+                      @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
+                      <li @if($optionValue->category_slug == $category_name) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
+                      @endif
+                    @endforeach
+                  @else
+                    Data not available !
+                  @endif
                 </ul>
               </div>
         </div>

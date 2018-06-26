@@ -139,12 +139,24 @@ class HomeController extends Controller
        }
     }
 
+    /**
+     * Delete special feature book admin end.
+     *
+     * @param $id
+     */
+
     public function delete_special_feature_book($id)
     {
         HomeBook::destroy($id);
         return redirect('admin/homepage')->with('flash_message', 'Special feature book deleted !');
     }
 
+
+    /**
+     * Add books for frontend classics, new-realeases, bestsellers at admin end.
+     *
+     * @param $request form data
+     */
 
     public function add_tags_book(Request $request)
     {
@@ -159,6 +171,13 @@ class HomeController extends Controller
             return redirect('admin/homepage')->with('flash_message', 'Select the book');
         }
     }
+
+
+    /**
+     * Show books list for frontend classics, new-realeases, bestsellers.
+     *
+     * @param $category_name
+     */
 
     public function show_books_tag($category_name)
     {
