@@ -33,30 +33,19 @@
 			<!-- first-->
 			<div id="bookContent" ng-show="isSet(1)">
 				<div class="row-two">
-					<div class="unit active">
-						<div class="first">Title page</div>
-						<div class="second">2</div>
+					<div class="row-five" ng-click="addChapter()">
+						<button type="button">
+							<img src="images/document-edit.png" alt="addnotes">Add Chapter
+						</button>
 					</div>
-					<div class="unit">
-						<div class="first">Chapter 1</div>
-						<div class="second">2</div>
+					<div  ng-repeat="chapter in chapters track by $index">
+						<div class="unit active" ng-click="viewChapter($index)">
+							<div class="first" ng-click="viewChapter($index)">@{{ chapter.name }}</div>
+							<div class="second" ng-click="deleteChapter($index)"><img src="images/trash.png" alt="delete"></div>
+						</div>
 					</div>
-					<div class="unit">
-						<div class="first">Chapter 2</div>
-						<div class="second">2</div>
-					</div>
-					<div class="unit">
-						<div class="first">Chapter 3</div>
-						<div class="second">2</div>
-					</div>
-					<div class="unit">
-						<div class="first">Chapter 4</div>
-						<div class="second">2</div>
-					</div>
-
 				</div>
 			</div>
-
 			<!--second-->
 			<div id="bookInfo" class="book-section" ng-show="isSet(2)">
 				<div class="row-three">
@@ -107,13 +96,11 @@
 					</div>
 				</div>
 			</div>
-
 			<!-- third-->
 			<div id="bookNotes" class="book-section" ng-show="isSet(3)">
 				<div class="row-five">
 					<button type="button">
 						<img src="images/document-edit.png" alt="addnotes">Add Note</button>
-
 					</div>
 					<div class="row-six">
 						<div class="date">
@@ -137,7 +124,6 @@
 							Maecenas commodo lacus vel urna eleifend, quis lacinia nunc dapibus. Mauris eu sem turpis. Mauris et enim pretium ex dictum suscipit in a metus. Phasellus vel enim auctor, cursus nulla eu, volutpat nulla. Maecenas pellentesque ligula in mauris fringilla iaculis. Duis volutpat dignissim ligula a volutpat.</label>
 						</div>
 					</div>
-
 					<!-- forth -->
 					<div id="bookImages" class="book-section" ng-show="isSet(4)">
 						<div class="row-five">
@@ -151,7 +137,6 @@
 							</div>
 
 						</div>
-
 					</div>
 					<div class="info-right">
 						<div class="text-header">
