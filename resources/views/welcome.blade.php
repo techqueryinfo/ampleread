@@ -10,6 +10,22 @@
         </ol>
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
+            @if(!empty($banner_images))
+        
+            @foreach($banner_images as $key => $banner_image)
+            @if($banner_image->image_name !='')
+                @php
+                    $active = ($key == 0)  ? 'active' : '';
+                @endphp
+                <div class="item {{$active}}">
+                    <div class="ample-banner">
+                        <img src="/uploads/ebook_logo/{{$banner_image->image_name}}"/>
+                    </div>
+                </div>
+            @endif
+            @endforeach
+        
+            @else
             <div class="item active">
                 <div class="ample-banner">
                     <div class="ample-banner-left">
@@ -125,6 +141,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
         <!-- Left and right controls -->
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
