@@ -64,8 +64,10 @@ class BookController extends Controller
             $file->move($uploadPath, $file->getClientOriginalName());
             $requestData['ebook_logo'] = $file->getClientOriginalName();
         } 
-        Book::create($requestData);
-        return view('books.ebook', compact('categories'));
+        $book = Book::create($requestData); 
+        $category = Category::findOrFail($book->category)->where('id', $book->category)->first();
+        //echo $book->id; echo "<pre>"; print_r($book); print_r($category); echo "</pre>";  die;
+        return view('books.ebook', compact('categories', 'book', 'category'));
     }
 
     /**

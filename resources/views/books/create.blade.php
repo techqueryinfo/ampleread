@@ -58,14 +58,17 @@
                                     <div class="heading">Category</div>
                                 </div>
                                 <select class="js-example-basic-single" id="category" name="category">
-                                    @foreach($categories as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
+                                    @if(!$categories->isEmpty())
+                                        @foreach($categories as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
+                                <input type="hidden" name="status" value="1"/>
                             </div>
 
                             <div class="form-group">
-                                <div class="heading">Sub Title</div>
+                                <div class="heading">Description</div>
                                 <textarea name="desc" class="form-control" rows="5" id="comment" placeholder="Enter Description..." required="required"></textarea>
                             </div>
                             <div class="unit1">

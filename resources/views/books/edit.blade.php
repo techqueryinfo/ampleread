@@ -118,6 +118,17 @@
                     </div>
                 </div>
             </div>
+            <div class="unit-1">
+                <div class="form-unit">
+                    <div class="heading">eBook Status Type</div>
+                    <div class="content">
+                        <select id="status" name="status" data-select2-id="ebooktype" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+                            <option value="1" @if($book->status === 1) selected="selected" @endif>Active</option>
+                            <option value="0" @if($book->status === 0) selected="selected" @endif>Inactive</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="save-cancel-btn edit">

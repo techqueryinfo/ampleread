@@ -17,6 +17,7 @@
             <div class="text" style="cursor: pointer;"><a data-toggle="modal" data-target="#creatcategoryModal">Add Category</a></div>
             <div class="listing-category">
                 <ul>
+                    <li @if($category_name == 'all-books') class="active" @endif ><a style="color:black;" href="/books/category/all-books">All Books</a></li>
                     @if(!$categories->isEmpty()) @foreach ($categories as $optionKey => $optionValue) @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
                     <li @if($optionValue->category_slug == $category_name) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
                     @endif @endforeach @else Data not available ! @endif
@@ -33,12 +34,12 @@
                 </div>
                 @if($category_name != 'all-books')
                 <div class="category-action">
-                    <span>
-                <form method="POST" action="{{ url('admin/books/category' . '/' . $category->id) }}" accept-charset="UTF-8" enctype="multipart/form-data" style="display:inline">
-                  {{ csrf_field() }}
-                  <div style="text-align: right;cursor: pointer;" class="delete"  data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Category' data-message = 'Are you sure you want to delete this Category ?'><i class="far fa-trash-alt"></i> Delete category</div>
-                </form>
-              </span>
+                <span>
+                    <form method="POST" action="{{ url('admin/books/category' . '/' . $category->id) }}" accept-charset="UTF-8" enctype="multipart/form-data" style="display:inline">
+                      {{ csrf_field() }}
+                      <div style="text-align: right;cursor: pointer;" class="delete"  data-toggle = 'modal' data-target = '#confirmDelete' data-title = 'Delete Category' data-message = 'Are you sure you want to delete this Category ?'><i class="far fa-trash-alt"></i> Delete category</div>
+                    </form>
+                </span>
                 </div>
                 @endif
             </div>
@@ -80,6 +81,7 @@
         </div>
     </div>
     <!-- modal -->
+    @if($category_name != 'all-books')
     <div id="editCategoryModal" class="modal fade createbook-Modal" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -102,6 +104,7 @@
             </div>
         </div>
     </div>
+    @endif
     <div id="creatcategoryModal" class="modal fade createbook-Modal" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
@@ -145,15 +148,5 @@
 </div>
 @include('modals.modal-delete') @endsection @section('footer_scripts') @include('scripts.delete-modal-script') @endsection
 <style type="text/css">
-    .ample-login-signup {
-        padding: 0px, 25px !important;
-    }
-    
-    .createbook-Modal .modal-body .ample-login-section {
-        margin-top: 0px !important
-    }
-    
-    .createbook-Modal .modal-footer {
-        border: 0px !important
-    }
+    .ample-login-signup { padding: 0px, 25px !important; }.createbook-Modal .modal-body .ample-login-section { margin-top: 0px !important }.createbook-Modal .modal-footer { border: 0px !important }
 </style>

@@ -85,9 +85,10 @@
         <div class="ample-sub-menu-row">
             <div class="heading">Subjects</div>
             <ul>
+                <li @if(isset($category_name) && $category_name == 'all-books') class="active" @endif><a style="color:black;" href="/books/category/all-books">All Books</a></li>
                 @foreach (Session::get('categories')->slice(0,8) as $optionKey => $optionValue)
-                @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
-                <li @if($optionValue->category_slug == 'all-books') class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
+                    @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
+                    <li @if(isset($category_name) && $category_name == $optionValue->category_slug) class="active" @endif><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
                 @endif
                 @endforeach
             </ul>
@@ -96,7 +97,7 @@
            <ul>
                 @foreach (Session::get('categories')->slice(8) as $optionKey => $optionValue)
                 @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
-                <li><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
+                    <li @if(isset($category_name) && $category_name == $optionValue->category_slug) class="active" @endif><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
                 @endif
                 @endforeach
             </ul>
@@ -104,7 +105,7 @@
     </div>
     <div class="ample-sub-menu-right">
         <div class="ample-book-section">
-            <img src="images/image1.jpg"/>
+            <img src="/images/image1.jpg"/>
         </div>
         <div class="ample-text-section">
             <div class="heading">Coming soon</div>

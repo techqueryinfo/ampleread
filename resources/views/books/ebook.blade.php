@@ -61,37 +61,40 @@
                 <div class="form-unit">
                     <div class="heading">eBook Title</div>
                     <div class="content">
-                        <input type="text" placeholder="eBook Title">
+                        <input type="text" placeholder="eBook Title" name="ebooktitle" value="{{ $book->ebooktitle }}">
                     </div>
                 </div>
                 <div class="form-unit">
                     <div class="heading">Sub Title</div>
                     <div class="content">
-                        <input type="text" placeholder="Sub Title">
+                        <input type="text" placeholder="Sub Title" name="subtitle" value="{{ $book->subtitle }}">
                     </div>
                 </div>
                 <div class="form-unit" style="margin: 0px 0px 10px 12px;">
-                    <div class="heading">eBook Type</div>
+                    <div class="heading">eBook Status Type</div>
                     <div class="content">
-                        <select id="status">
-                            <option>Active</option>
-                            <option>Inactive</option>
+                        <select id="status" name="status">
+                            <option value="1" @if($book->status === 1) selected="selected" @endif>Active</option>
+                            <option value="0" @if($book->status === 0) selected="selected" @endif>Inactive</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-unit">
                     <div class="heading">Category</div>
                     <div class="content">
-                        <select id="subcription">
-                            <option>Active</option>
-                            <option>Inactive</option>
+                        <select id="subcription" name="category">
+                            @if(!$categories->isEmpty())
+                                @foreach($categories as $val)
+                                    <option @if($val->id == $category->id) selected="selected" @endif>{{ $val->name }}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                 </div>
                 <div class="form-unit">
                     <div class="heading">Description</div>
                     <div class="content">
-                        <textarea>Tara has it all. Married and about to move into her dream home, she can’t explain why she is tempted by one last fling with her ex before she settles down. David would do anything for Tara. So when he finds her with another man, his world starts to crumble around him. Ryan isn’t prepared for the punch David throws at him. Stumbling, he slips over the balcony and falls three storeys to the patio below.</textarea>
+                        <textarea>{{ $book->desc }}</textarea>
                     </div>
                 </div>
             </div>
@@ -135,7 +138,6 @@
                 <img src="images/image1.jpg" alt="" />
                 <img src="images/image3.jpg" alt="" />
             </div>
-
         </div>
     </div>
     <div class="info-right">
