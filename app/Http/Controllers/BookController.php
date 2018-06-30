@@ -223,4 +223,13 @@ class BookController extends Controller
         ->get();
         return view('books.free_ebook', compact('book', 'related_book'));
     }
+
+    /**
+     * Save Book Chapters
+    */
+    public function saveContent(Request $request)
+    {
+        $requestData = $request->all();
+        echo "<pre>"; print_r($requestData); echo "</pre>"; die();
+    }
 }

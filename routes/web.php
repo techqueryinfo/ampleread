@@ -44,6 +44,7 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     Route::get('/activation-required', ['uses' => 'Auth\ActivateController@activationRequired'])->name('activation-required');
     Route::get('/logout', ['uses' => 'Auth\LoginController@logout'])->name('logout');
 
+    Route::post('book/save', 'BookController@saveContent');
     Route::get('book/create', 'BookController@create');
     Route::post('book', 'BookController@store');
     Route::resource('book', 'BookController');
