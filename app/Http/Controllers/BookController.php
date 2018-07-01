@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Book;
 use App\Paid;
+use App\BookContents;
 use App\PaidDiscount;
 use DB;
 use Illuminate\Http\Request;
@@ -230,6 +231,22 @@ class BookController extends Controller
     public function saveContent(Request $request)
     {
         $requestData = $request->all();
+        if(isset($requestData['bookContentID']))
+        {
+            $requestData['id'] = $requestData['bookContentID'];
+            $bookContent = BookContents::findOrFail($requestData['bookContentID']);
+            $bookContent->update($requestData);
+        }
+        else
+        {
+            $bookContent = BookContents::create($requestData);
+        }
+        $categories  = Category::all();
+        $requestData['id'] = $requestData['book_id'];
+        $book = Book::findOrFail($requestData['id']);
+        $book->update($requestData);
+        $category = Category::findOrFail($book->category)->where('id', $book->category)->first();
+        return view('books.ebook', compact('categories', 'book', 'category', 'bookContent'));
         echo "<pre>"; print_r($requestData); echo "</pre>"; die();
     }
 }

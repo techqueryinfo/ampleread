@@ -34,13 +34,13 @@
                 <div class="row-two">
                     <div class="row-five" ng-click="addChapter()">
                         <button type="button">
-                            <img src="images/document-edit.png" alt="addnotes">Add Chapter
+                            <img src="/images/document-edit.png" alt="addnotes">Add Chapter
                         </button>
                     </div>
                     <div ng-repeat="chapter in chapters track by $index">
                         <div class="unit active" ng-click="viewChapter($index)">
                             <div class="first" ng-click="viewChapter($index)">@{{ chapter.name }}</div>
-                            <div class="second" ng-click="deleteChapter($index)"><img src="images/trash.png" alt="delete"></div>
+                            <div class="second" ng-click="deleteChapter($index)"><img src="/images/trash.png" alt="delete"></div>
                         </div>
                     </div>
                 </div>
@@ -63,6 +63,8 @@
                         <div class="heading">eBook Title</div>
                         <div class="content">
                             <input type="text" placeholder="eBook Title" name="ebooktitle" value="{{ $book->ebooktitle }}">
+                            <input type="hidden" name="book_id" value="@if(isset($book->id)){{ $book->id }}@endif"/>
+                            <input type="hidden" name="bookContentID" value="@if(isset($bookContent->id)){{ $bookContent->id }}@endif"/>
                         </div>
                     </div>
                     <div class="form-unit">
@@ -85,7 +87,7 @@
                         <div class="content">
                             <select id="subcription" name="category">
                                 @if(!$categories->isEmpty()) @foreach($categories as $val)
-                                <option @if($val->id == $category->id) selected="selected" @endif>{{ $val->name }}</option>
+                                <option value="{{ $val->id }}" @if($val->id == $category->id) selected="selected" @endif>{{ $val->name }}</option>
                                 @endforeach @endif
                             </select>
                         </div>
@@ -102,13 +104,13 @@
             <div id="bookNotes" class="book-section" ng-show="isSet(3)">
                 <div class="row-five">
                     <button type="button">
-                        <img src="images/document-edit.png" alt="addnotes">Add Note</button>
+                        <img src="/images/document-edit.png" alt="addnotes">Add Note</button>
                 </div>
                 <div class="row-six">
                     <div class="date">
                         <div class="time">Today, 15:47</div>
                         <div class="delete">
-                            <img src="images/trash.png" alt="delete">
+                            <img src="/images/trash.png" alt="delete">
                         </div>
                     </div>
                     <label>
@@ -119,7 +121,7 @@
                     <div class="date">
                         <div class="time">Today, 15:47</div>
                         <div class="delete">
-                            <img src="images/trash.png" alt="delete">
+                            <img src="/images/trash.png" alt="delete">
                         </div>
                     </div>
                     <label>
@@ -130,12 +132,12 @@
             <div id="bookImages" class="book-section" ng-show="isSet(4)">
                 <div class="row-five">
                     <button type="button">
-                        <img src="images/upload.png" alt="upload">Upload image</button>
-
+                        <img src="/images/upload.png" alt="upload">Upload image
+                    </button>
                 </div>
                 <div class="row-seven">
-                    <img src="images/image1.jpg" alt="" />
-                    <img src="images/image3.jpg" alt="" />
+                    <img src="/images/image1.jpg" alt="" />
+                    <img src="/images/image3.jpg" alt="" />
                 </div>
             </div>
         </div>
@@ -168,7 +170,7 @@
                     <button type="submit">Save</button>
                 </div>
                 <div class="preview">
-                    <img src="images/preview.png">
+                    <img src="/images/preview.png">
                 </div>
                 <label>Preview</label>
             </div>
