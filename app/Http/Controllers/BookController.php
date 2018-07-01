@@ -6,6 +6,7 @@ use App\Category;
 use App\Book;
 use App\Paid;
 use App\BookContents;
+use App\BookNotes;
 use App\PaidDiscount;
 use DB;
 use Illuminate\Http\Request;
@@ -226,11 +227,11 @@ class BookController extends Controller
     }
 
     /**
-     * Save Book Chapters
+     * Save Book Chapters & Notes
     */
     public function saveContent(Request $request)
-    {
-        $requestData = $request->all();
+    {   
+        $requestData = $request->all(); 
         if(isset($requestData['bookContentID']))
         {
             $requestData['id'] = $requestData['bookContentID'];
@@ -246,7 +247,20 @@ class BookController extends Controller
         $book = Book::findOrFail($requestData['id']);
         $book->update($requestData);
         $category = Category::findOrFail($book->category)->where('id', $book->category)->first();
-        return view('books.ebook', compact('categories', 'book', 'category', 'bookContent'));
-        echo "<pre>"; print_r($requestData); echo "</pre>"; die();
+        if(isset($requestData['notes']))
+        {
+            foreach ($requestData['notes'] as $row)
+            {
+                $notes[] = [ 
+                    'book_id'    => $request->input('book_id'), 
+                    'note'       => $row, 
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s') 
+                ];
+            }
+            BookNotes::insert($notes);
+            $bookNotes = BookNotes::where('book_id', $request->input('book_id'))->get();
+        }
+        return view('books.ebook', compact('categories', 'book', 'category', 'bookContent', 'bookNotes'));
     }
 }

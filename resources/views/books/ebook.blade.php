@@ -102,30 +102,20 @@
             </div>
             <!-- third-->
             <div id="bookNotes" class="book-section" ng-show="isSet(3)">
-                <div class="row-five">
+                <div class="row-five" ng-click="addNotes()">
                     <button type="button">
                         <img src="/images/document-edit.png" alt="addnotes">Add Note</button>
                 </div>
-                <div class="row-six">
-                    <div class="date">
-                        <div class="time">Today, 15:47</div>
-                        <div class="delete">
-                            <img src="/images/trash.png" alt="delete">
+                <div ng-repeat="note in notes track by $index">
+                    <div class="row-six">
+                        <div class="date">
+                            <div class="time">Today, 15:47</div>
+                            <div class="delete" ng-click="deleteNote($index)">
+                                <img src="/images/trash.png" alt="delete">
+                            </div>
                         </div>
+                        <textarea name="notes[]">Enter Note...</textarea>
                     </div>
-                    <label>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean eleifend suscipit felis id vestibulum. Nullam porttitor convallis tellus.
-                    </label>
-                </div>
-                <div class="row-six">
-                    <div class="date">
-                        <div class="time">Today, 15:47</div>
-                        <div class="delete">
-                            <img src="/images/trash.png" alt="delete">
-                        </div>
-                    </div>
-                    <label>
-                        Maecenas commodo lacus vel urna eleifend, quis lacinia nunc dapibus. Mauris eu sem turpis. Mauris et enim pretium ex dictum suscipit in a metus. Phasellus vel enim auctor, cursus nulla eu, volutpat nulla. Maecenas pellentesque ligula in mauris fringilla iaculis. Duis volutpat dignissim ligula a volutpat.</label>
                 </div>
             </div>
             <!-- forth -->
@@ -195,6 +185,8 @@
         $scope.chapters = [];
         $scope.activeChapterIndex = 0;
         $scope.counter = 0;
+        $scope.notecounter = 0;
+        $scope.notes = [];
 
         $scope.viewChapter = function(index) {
             $scope.htmlContent = $scope.chapters[index].content;
@@ -206,9 +198,7 @@
             const id      =  $scope.counter;
             const name    = 'Chapter ' + $scope.counter;
             const content = 'Enter content for '+ $scope.counter;
-            $scope.chapters.push({
-                id, name, content
-            });
+            $scope.chapters.push({ id, name, content });
         };
         $scope.updateContent = function() {
             const index = $scope.activeChapterIndex;
@@ -220,8 +210,20 @@
             $scope.chapters.splice(index, 1);
         };
 
+        $scope.addNotes = function() {
+            $scope.notecounter++;
+            const id   = $scope.notecounter;
+            const name = 'Note '+ $scope.notecounter;
+            $scope.notes.push({ id, name });
+        };
+
+        $scope.deleteNote = function(index) {
+            $scope.notes.splice(index, 1);
+        };
+
         $scope.addChapter();
         $scope.viewChapter(0);
+        $scope.addNotes();
     }]);
 </script>
 @endsection
