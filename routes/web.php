@@ -168,3 +168,5 @@ Route::post('profile/payment', 'Admin\\PlansController@do_payment');
 Route::post('contact', 'PagesController@contact_us_mail');
 Route::get('books/category/{category_name}', 'BookController@show_books_by_category');
 Route::get('books/ebook/{id}/{ebooktitle}', 'BookController@view_free_ebook');
+// Route::get('book/get/{id}', 'BookController@getBookDetail');
+// Route::post('book/save', 'BookController@saveContent');

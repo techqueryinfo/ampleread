@@ -170,7 +170,7 @@
 @endsection @section('footer_scripts')
 <script type="text/javascript">
     var app = angular.module('app', ['textAngular']);
-    app.controller('TabController', ['$scope', 'textAngularManager', function($scope, textAngularManager) {
+    app.controller('TabController', ['$scope', 'textAngularManager', '$http', function($scope, textAngularManager, $http) {
         $scope.tab = 1;
         $scope.setTab = function(newTab) {
             $scope.tab = newTab;
@@ -224,6 +224,25 @@
         $scope.addChapter();
         $scope.viewChapter(0);
         $scope.addNotes();
+        $scope.onClickGet = function() {
+            alert('Hello ');
+            $http.get("book/get/"+151)
+            .then(function successCallback(response){
+                $scope.response = response;
+                console.log(response);
+            }, function errorCallback(response){
+                console.log("Unable to perform get request");
+            });
+        }; var data = $scope.chapters;
+        $scope.onClickPost = function() {
+            alert('Post');
+            $http.post("book/save", data)
+            .then(function successCallback(response){
+                console.log("Successfully POST-ed data "+ JSON.stringify(data));
+            }, function errorCallback(response){
+                console.log("POST-ing of data failed");
+            });
+        };
     }]);
 </script>
 @endsection

@@ -231,7 +231,7 @@ class BookController extends Controller
     */
     public function saveContent(Request $request)
     {   
-        $requestData = $request->all(); 
+        $requestData = $request->all(); //return $requestData;
         if(isset($requestData['bookContentID']))
         {
             $requestData['id'] = $requestData['bookContentID'];
@@ -262,5 +262,12 @@ class BookController extends Controller
             $bookNotes = BookNotes::where('book_id', $request->input('book_id'))->get();
         }
         return view('books.ebook', compact('categories', 'book', 'category', 'bookContent', 'bookNotes'));
+    }
+
+    public function getBookDetail($id)
+    {
+        $book = Book::findOrFail($id)->where('id', $id);
+        $book = $book->first();
+        return $book;
     }
 }
