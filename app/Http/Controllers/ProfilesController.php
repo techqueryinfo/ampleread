@@ -436,4 +436,33 @@ class ProfilesController extends Controller
     {
         return $this->seperationKey;
     }
+
+    /**
+     * Subscription Page
+     *
+     * 
+     */
+    public function subscription($username)
+    {   
+        try 
+        {
+            $user = $this->getUserByUsername($username);
+            $countries = Country::all();
+            $plan   = Plan::find($user['plan_id']);
+            $all_plans = Plan::all();
+            $transaction = Transaction::where('user_id', $user['id'])->orderBy('id', 'desc')->first();
+        } catch (ModelNotFoundException $exception) {
+            abort(404);
+        }
+        $currentTheme = Theme::find($user->profile->theme_id);
+        $data = [
+            'user'         => $user,
+            'currentTheme' => $currentTheme,
+            'countries'    => $countries,
+            'plan'         => $plan,
+            'all_plans'    => $all_plans,
+            'transaction'  => $transaction,
+        ];
+        return view('profiles.subscription')->with($data);
+    }
 }

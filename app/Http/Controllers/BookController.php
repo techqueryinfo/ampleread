@@ -231,7 +231,9 @@ class BookController extends Controller
     */
     public function saveContent(Request $request)
     {   
-        $requestData = $request->all(); //return $requestData;
+        $requestData = $request->all(); 
+        echo "<pre>"; print_r($requestData); echo "</pre>"; die;
+        return $requestData;
         if(isset($requestData['bookContentID']))
         {
             $requestData['id'] = $requestData['bookContentID'];

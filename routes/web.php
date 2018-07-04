@@ -44,7 +44,7 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     Route::get('/activation-required', ['uses' => 'Auth\ActivateController@activationRequired'])->name('activation-required');
     Route::get('/logout', ['uses' => 'Auth\LoginController@logout'])->name('logout');
 
-    Route::post('book/save', 'BookController@saveContent');
+    //Route::post('book/save', 'BookController@saveContent');
     Route::get('book/create', 'BookController@create');
     Route::post('book', 'BookController@store');
     Route::resource('book', 'BookController');
@@ -63,6 +63,11 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep']], fun
     Route::get('profile/{username}', [
         'as'   => '{username}',
         'uses' => 'ProfilesController@show',
+    ]);
+    // Show users profile - viewable by other users.
+    Route::get('subscription/{username}', [
+        'as'   => '{username}',
+        'uses' => 'ProfilesController@subscription',
     ]);
 });
 
@@ -160,13 +165,15 @@ Route::get('career', 'PagesController@career');
 Route::get('terms', 'PagesController@terms');
 Route::get('privacy', 'PagesController@privacy');
 Route::get('help', 'PagesController@help');
-
-
+Route::get('subscription/{username}', [
+    'as'   => '{username}',
+    'uses' => 'ProfilesController@subscription',
+]);
 //show subscription plans in front end for users
 Route::get('plans', 'Admin\\PlansController@fe_view_plans');
 Route::post('profile/payment', 'Admin\\PlansController@do_payment');
 Route::post('contact', 'PagesController@contact_us_mail');
 Route::get('books/category/{category_name}', 'BookController@show_books_by_category');
 Route::get('books/ebook/{id}/{ebooktitle}', 'BookController@view_free_ebook');
-// Route::get('book/get/{id}', 'BookController@getBookDetail');
-// Route::post('book/save', 'BookController@saveContent');
+Route::get('book/get/{id}', 'BookController@getBookDetail');
+Route::post('book/save', 'BookController@saveContent');

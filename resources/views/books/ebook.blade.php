@@ -154,10 +154,10 @@
             </div>
             <div class="text-footer">
                 <div class="publish">
-                    <button type="button">Publish</button>
+                    <button type="button" ng-click="onClickGet()">Publish</button>
                 </div>
                 <div class="cancel">
-                    <button type="submit">Save</button>
+                    <button type="button" ng-click="onClickPost()">Save</button>
                 </div>
                 <div class="preview">
                     <img src="/images/preview.png">
@@ -171,6 +171,7 @@
 <script type="text/javascript">
     var app = angular.module('app', ['textAngular']);
     app.controller('TabController', ['$scope', 'textAngularManager', '$http', function($scope, textAngularManager, $http) {
+        var book_id = <?php echo $book->id; ?>;
         $scope.tab = 1;
         $scope.setTab = function(newTab) {
             $scope.tab = newTab;
@@ -187,7 +188,7 @@
         $scope.counter = 0;
         $scope.notecounter = 0;
         $scope.notes = [];
-
+        $scope.values  = [];
         $scope.viewChapter = function(index) {
             $scope.htmlContent = $scope.chapters[index].content;
             $scope.activeChapterIndex = index;
@@ -225,17 +226,18 @@
         $scope.viewChapter(0);
         $scope.addNotes();
         $scope.onClickGet = function() {
-            alert('Hello ');
-            $http.get("book/get/"+151)
+            $http.get("book/get/"+book_id)
             .then(function successCallback(response){
                 $scope.response = response;
                 console.log(response);
             }, function errorCallback(response){
                 console.log("Unable to perform get request");
             });
-        }; var data = $scope.chapters;
+        };  
+
         $scope.onClickPost = function() {
-            alert('Post');
+            alert('Post '+ book_id); 
+            var data = {'id': book_id, 'chapters': $scope.chapters, 'notes': $scope.notes };
             $http.post("book/save", data)
             .then(function successCallback(response){
                 console.log("Successfully POST-ed data "+ JSON.stringify(data));
