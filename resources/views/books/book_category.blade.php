@@ -68,11 +68,12 @@
                         </form>
                     </div>
                     <div class="image">
-                        @if($book->type == 'free')
-                        <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/uploads/ebook_logo/image10.jpg' }}" alt="img1" /> @else
-                        <img src="{{$book->ebook_logo}}" alt="img1" /> @endif
+                        @if(substr($book->ebook_logo, 0, 4) == "http")
+                            <img src="{{ $book->ebook_logo }}" alt="img1" />
+                        @else
+                            <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="img1" />
+                        @endif
                     </div>
-                    <!-- <div class="ample-button"><button>FREE</button></div> -->
                     <div class="title">{{$book->ebooktitle}}</div>
                     <div class="writer">{{$book->first_name}} {{$book->last_name}}</div>
                 </div>

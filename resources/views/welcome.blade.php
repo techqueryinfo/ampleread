@@ -11,7 +11,6 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
             @if(!empty($banner_images))
-        
             @foreach($banner_images as $key => $banner_image)
             @if($banner_image->image_name !='')
                 @php
@@ -24,7 +23,6 @@
                 </div>
             @endif
             @endforeach
-        
             @else
             <div class="item active">
                 <div class="ample-banner">
@@ -162,9 +160,9 @@
             @if($key <= 2)
                 <div class="slot-1">
                     <div class="e-book1">
-                        <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
-                        <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
-                        <img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""/>
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
                     </div>
                     <div class="heading">{{ $val->home_books->ebooktitle }}</div>
                     <div class="sub-text">{{ $val->home_books->subtitle }}</div>
@@ -182,7 +180,9 @@
                 <div class="slot-1">
                     <div class="heading">{{ $val->home_books->ebooktitle }}</div>
                     <div class="sub-text">{{ $val->home_books->subtitle }}</div>
-                    <div class="ebook"><img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""><img src="{{ ($val->home_books->type == 'free') ? '/uploads/ebook_logo'.$val->home_books->ebook_logo : $val->home_books->ebook_logo }}" alt=""></div>
+                    <div class="ebook">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt=""><img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="">
+                    </div>
                 </div>
             @endif
         @endforeach

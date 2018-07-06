@@ -11,7 +11,13 @@
             @foreach($bestsellers as $book)
                 <div class="item">
                    @if($book->home_books->type == 'free')
-                   <div class="image"><a href="{{url('books/ebook/'.$book->home_books->id.'/'.$book->home_books->ebooktitle)}}"><img src="{{($book->home_books->ebook_logo) ? '/uploads/ebook_logo/'.$book->home_books->ebook_logo :uploads/ebook_logo/image10.jpg }}" alt="img1" /></a></div>
+                   <div class="image"><a href="{{url('books/ebook/'.$book->home_books->id.'/'.$book->home_books->ebooktitle)}}">
+                      @if(substr($book->home_books->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $book->home_books->ebook_logo }}" alt="img1" />
+                      @else
+                        <img src="/uploads/ebook_logo/{{ $book->home_books->ebook_logo }}" alt="img1" />
+                      @endif
+                   </a></div>
                    <div class="ample-button"><button>FREE</button></div>
                    <div class="title">{{$book->home_books->ebooktitle}}</div>
                    <div class="writer">{{$book->home_books->subtitle}}</div>
@@ -24,7 +30,13 @@
                     </div>
                    @endif
                    @if($book->home_books->type == 'paid')
-                   <div class="image"><a href="{{$book->home_books->buyLink}}"><img src="{{$book->home_books->ebook_logo}}" alt="img1" /></a></div>
+                   <div class="image"><a href="{{$book->home_books->buyLink}}">
+                      @if(substr($book->home_books->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $book->home_books->ebook_logo }}" alt="img1" />
+                      @else
+                        <img src="/uploads/ebook_logo/{{ $book->home_books->ebook_logo }}" alt="img1" />
+                      @endif
+                   </a></div>
                    <div class="ample-button"><button>PAID</button></div>
                    <div class="title">{{$book->home_books->ebooktitle}}</div>
                    <div class="writer">{{$book->home_books->subtitle}}</div>

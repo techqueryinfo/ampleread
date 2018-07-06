@@ -21,9 +21,11 @@
             @if(!$records->isEmpty()) @foreach($records as $book)
             <div class="item">
                 <div class="image">
-                    @if($book->type == 'free')
-                    <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" /> @else
-                    <img src="{{$book->ebook_logo}}" alt="img1" /> @endif
+                    @if(substr($book->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $book->ebook_logo }}" alt="img1" />
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="img1" />
+                    @endif
                 </div>
                 <div class="ample-button">
                     <button>FREE</button>
@@ -55,9 +57,11 @@
             <div class="item">
                 @if(!blank($book->ebook_logo))
                 <div class="image">
-                    @if($book->type == 'free')
-                    <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" /> @else
-                    <img src="{{$book->ebook_logo}}" alt="img1" /> @endif
+                    @if(substr($book->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $book->ebook_logo }}" alt="img1" />
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="img1" />
+                    @endif
                 </div>
                 @endif
                 <div class="ample-button">
@@ -90,9 +94,11 @@
             <div class="item">
                 @if(!blank($book->ebook_logo))
                 <div class="image">
-                    @if($book->type == 'free')
-                    <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" /> @else
-                    <img src="{{$book->ebook_logo}}" alt="img1" /> @endif
+                    @if(substr($book->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $book->ebook_logo }}" alt="img1" />
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="img1" />
+                    @endif
                 </div>
                 @endif
                 <div class="ample-button">
@@ -135,9 +141,11 @@
             <div class="item">
                 @if(!blank($book->ebook_logo))
                 <div class="image">
-                    @if($book->type == 'free')
-                    <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo : '/images/image10.jpg' }}" alt="img1" /> @else
-                    <img src="{{$book->ebook_logo}}" alt="img1" /> @endif
+                    @if(substr($book->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $book->ebook_logo }}" alt="img1" />
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="img1" />
+                    @endif
                 </div>
                 @endif
                 <div class="ample-button">

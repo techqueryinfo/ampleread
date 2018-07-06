@@ -5,9 +5,11 @@
         <div class="edit-three">
             @if ($book->ebook_logo)
             <div class="image">
-                @if($book->type == 'free')
-                <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" width="180px" /> @else
-                <img src="{{ $book->ebook_logo }}" width="180px" /> @endif
+                @if(substr($book->ebook_logo, 0, 4) == "http")
+                    <img src="{{ $book->ebook_logo }}" width="180px" />
+                @else
+                    <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" width="180px" />
+                @endif
             </div>
             <div class="button">
                 <input type="file" name="ebook_logo">
