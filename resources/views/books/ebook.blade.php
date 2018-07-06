@@ -229,7 +229,7 @@
             $http.get("book/get/"+book_id)
             .then(function successCallback(response){
                 $scope.response = response;
-                console.log(response);
+                console.log(response.data);
             }, function errorCallback(response){
                 console.log("Unable to perform get request");
             });
