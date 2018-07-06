@@ -28,7 +28,7 @@
         <ul>
             <li><a href="#">Free eBooks</a></li>
             <li><a href="#">Paid eBooks</a></li>
-            @if(isset(Auth::user()->name))<li>{!! HTML::link(url('/subscription/'.Auth::user()->name), 'Subscription') !!}</li>@else<li>{!! HTML::link(url('/subscription'), 'Subscription') !!}</li>@endif
+            <li>{!! HTML::link(url('/subscription'), 'Subscription') !!}</li>
             <li>{!! HTML::link(url('/help'), 'Help') !!}</li>
         </ul>
     </div>
