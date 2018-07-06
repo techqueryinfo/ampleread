@@ -5,6 +5,7 @@ use App\Country;
 use Illuminate\Http\Request;
 use App\Mail\ContactEmail;
 use Mail;
+use App\Plan;
 
 class PagesController extends Controller
 {
@@ -57,7 +58,7 @@ class PagesController extends Controller
      *
      * @return mixed
      */
-     public function contact_us_mail(Request $request)
+    public function contact_us_mail(Request $request)
     {
         $contact = [];
         $this->validate($request, [
@@ -65,16 +66,23 @@ class PagesController extends Controller
             'email' => 'required',
             'msg' => 'required'
         ]);
-
-    $contact['name'] = $request->get('name');
-    $contact['email'] = $request->get('email');
-    $contact['msg'] = $request->get('msg');
-
-    // Mail delivery logic goes here
-    Mail::to('asrathore1994@gmail.com')->send(new ContactEmail($contact));
-
-    return redirect('contact-us')->with('success','Mail sent successfully');
+        $contact['name'] = $request->get('name');
+        $contact['email'] = $request->get('email');
+        $contact['msg'] = $request->get('msg');
+        // Mail delivery logic goes here
+        Mail::to('asrathore1994@gmail.com')->send(new ContactEmail($contact));
+        return redirect('contact-us')->with('success','Mail sent successfully');
     }
 
-
+    /**
+     * Subscription Page
+     *
+     * 
+     */
+    public function subscription()
+    {   
+        $all_plans = Plan::all();
+        $data = ['all_plans'    => $all_plans];
+        return view('pages.subscription')->with($data);
+    }
 }

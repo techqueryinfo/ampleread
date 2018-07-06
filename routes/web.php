@@ -64,11 +64,6 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep']], fun
         'as'   => '{username}',
         'uses' => 'ProfilesController@show',
     ]);
-    // Show users profile - viewable by other users.
-    Route::get('subscription/{username}', [
-        'as'   => '{username}',
-        'uses' => 'ProfilesController@subscription',
-    ]);
 });
 
 // Registered, activated, and is current user routes.
@@ -165,10 +160,7 @@ Route::get('career', 'PagesController@career');
 Route::get('terms', 'PagesController@terms');
 Route::get('privacy', 'PagesController@privacy');
 Route::get('help', 'PagesController@help');
-Route::get('subscription/{username}', [
-    'as'   => '{username}',
-    'uses' => 'ProfilesController@subscription',
-]);
+Route::get('subscription','PagesController@subscription');
 //show subscription plans in front end for users
 Route::get('plans', 'Admin\\PlansController@fe_view_plans');
 Route::post('profile/payment', 'Admin\\PlansController@do_payment');
