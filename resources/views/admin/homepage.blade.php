@@ -12,10 +12,8 @@
         <div class="row add-banner">
             <div class="plus-banner">
                 <i class="fas fa-plus" data-toggle="modal" data-target="#createHomeBannerModal"></i>
-
             </div>
             <div class="text">Add banner</div>
-
         </div>
         @if(!$banner_images->isEmpty()) @php $image_name = "../images/bg-img.jpg"; @endphp @foreach($banner_images as $banner_image) @if(!blank($banner_image->image_name)) @php $image_name = $banner_image->image_name; @endphp @endif
         <div class="row">
@@ -41,9 +39,13 @@
         @if(isset($home_books)) @foreach($home_books as $home_book)
         <div class="slot-1">
             <div class="e-book1">
-                @if(isset($home_book->home_books->ebook_logo)) @if($home_book->home_books->type == 'free')
-                <img src="/uploads/ebook_logo/{{ $home_book->home_books->ebook_logo }}" /> @else
-                <img src="{{ $home_book->home_books->ebook_logo }}" /> @endif @endif
+                @if(isset($home_book->home_books->ebook_logo)) 
+                    @if(substr($home_book->home_books->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $home_book->home_books->ebook_logo }}" alt="img1" />
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $home_book->home_books->ebook_logo }}" alt="img1" />
+                    @endif 
+                @endif
             </div>
             @if(isset($home_book->home_books->ebooktitle))
             <div class="heading">{{str_limit($home_book->home_books->ebooktitle, 20)}}</div>
@@ -113,9 +115,13 @@
                         </div>
                     </div>
                     <div class="image">
-                        @if(isset($val->home_books->ebook_logo)) @if($val->home_books->type == 'free')
-                        <img src="/uploads/ebook_logo/{{ $val->home_books->ebook_logo }}" alt="img1" /> @else
-                        <img src="{{ $val->home_books->ebook_logo }}" alt="img1" /> @endif @endif
+                        @if(isset($val->home_books->ebook_logo)) 
+                            @if(substr($val->home_books->ebook_logo, 0, 4) == "http")
+                                <img src="{{ $val->home_books->ebook_logo }}" alt="img1" />
+                            @else
+                                <img src="/uploads/ebook_logo/{{ $val->home_books->ebook_logo }}" alt="img1" />
+                            @endif 
+                        @endif
                     </div>
                     <div class="title">{{ str_limit($val->home_books->ebooktitle, 10) }}</div>
                     <div class="writer">{{ str_limit($val->home_books->subtitle, 20) }}</div>
@@ -135,9 +141,13 @@
                     </div>
                 </div>
                 <div class="image">
-                    @if(isset($val->home_books->ebook_logo)) @if($val->home_books->type == 'free')
-                    <img src="/uploads/ebook_logo/{{ $val->home_books->ebook_logo }}" alt="img1" /> @else
-                    <img src="{{ $val->home_books->ebook_logo }}" alt="img1" /> @endif @endif
+                    @if(isset($val->home_books->ebook_logo)) 
+                        @if(substr($val->home_books->ebook_logo, 0, 4) == "http")
+                            <img src="{{ $val->home_books->ebook_logo }}" alt="img1" />
+                        @else
+                            <img src="/uploads/ebook_logo/{{ $val->home_books->ebook_logo }}" alt="img1" />
+                        @endif 
+                    @endif
                 </div>
                 <div class="title">{{ $val->home_books->ebooktitle }}</div>
                 <div class="writer">{{ $val->home_books->subtitle }}</div>
