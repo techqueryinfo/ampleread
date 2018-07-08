@@ -231,6 +231,12 @@ class BookController extends Controller
     public function saveContent(Request $request)
     {   
         $requestData = $request->all(); 
+        $book        = Book::findOrFail($requestData['id'])->update($requestData);
+        $requestData['book_id']  = $requestData['id'];
+        $requestData['chapters'] = json_encode($requestData['chapters']);
+        $requestData['note']     = json_encode($requestData['notes']);
+        $bookContent = BookContents::create($requestData);
+        $bookNotes   = BookNotes::create($requestData);
         echo "<pre>"; print_r($requestData); echo "</pre>"; die;
         return $requestData;
         if(isset($requestData['bookContentID']))
@@ -291,8 +297,12 @@ class BookController extends Controller
 
     public function getBookDetail($id)
     {
-        $book = Book::findOrFail($id)->where('id', $id);
-        $book = $book->first();
-        return $book;
+        $categories  = Category::all();
+        $book        = Book::findOrFail($id)->where('id', $id)->first();
+        $category    = Category::findOrFail($book->category)->where('id', $book->category)->first();
+        $bookContent = BookContents::where('book_id', $id)->first();
+        $bookNote    = BookNotes::where('book_id', $id)->first();
+        $result      = array('book' => $book, 'category' => $category, 'categories' => $categories, 'bookContent' => $bookContent, 'bookNote' => $bookNote);
+        return $result;
     }
 }

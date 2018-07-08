@@ -62,7 +62,7 @@
                     <div class="form-unit">
                         <div class="heading">eBook Title</div>
                         <div class="content">
-                            <input type="text" placeholder="eBook Title" name="ebooktitle" value="{{ $book->ebooktitle }}">
+                            <input type="text" placeholder="eBook Title" ng-model="ebooktitle"/>
                             <input type="hidden" name="book_id" value="@if(isset($book->id)){{ $book->id }}@endif"/>
                             <input type="hidden" name="bookContentID" value="@if(isset($bookContent->id)){{ $bookContent->id }}@endif"/>
                         </div>
@@ -70,7 +70,7 @@
                     <div class="form-unit">
                         <div class="heading">Sub Title</div>
                         <div class="content">
-                            <input type="text" placeholder="Sub Title" name="subtitle" value="{{ $book->subtitle }}">
+                            <input type="text" placeholder="Sub Title" ng-model="subtitle"/>
                         </div>
                     </div>
                     <div class="form-unit" style="margin: 0px 0px 10px 12px;">
@@ -85,17 +85,24 @@
                     <div class="form-unit">
                         <div class="heading">Category</div>
                         <div class="content">
-                            <select id="subcription" name="category">
+                            <!-- <select id="subcription" name="category">
                                 @if(!$categories->isEmpty()) @foreach($categories as $val)
                                 <option value="{{ $val->id }}" @if($val->id == $category->id) selected="selected" @endif>{{ $val->name }}</option>
                                 @endforeach @endif
+                            </select> -->
+                            <!-- <select id="subcription" name="category" ng-repeat="x in category">
+                                <option value="@{{x.id}}">@{{x.name}}</option>
+                            </select> -->
+                            <select id="subcription" ng-model="category">
+                                <option ng-repeat="x in categories" value="@{{x.id}}"  ng-selected="@{{x.id == parseInt(category)}}">@{{x.name}}</option>
                             </select>
+                            <!-- <pre>@{{category | json}}</pre> -->
                         </div>
                     </div>
                     <div class="form-unit">
                         <div class="heading">Description</div>
                         <div class="content">
-                            <textarea name="desc">{{ $book->desc }}</textarea>
+                            <textarea ng-model="desc"></textarea>
                         </div>
                     </div>
                 </div>
@@ -228,8 +235,13 @@
         $scope.onClickGet = function() {
             $http.get("book/get/"+book_id)
             .then(function successCallback(response){
-                $scope.response = response;
-                console.log(response.data);
+                $scope.ebooktitle = response.data.book.ebooktitle;
+                $scope.subtitle   = response.data.book.subtitle;
+                $scope.desc       = response.data.book.desc;
+                $scope.status     = response.data.book.status;
+                $scope.categories = response.data.categories;
+                $scope.category   = response.data.book.category;
+                console.log(response.data); console.log(response.data.category.id);
             }, function errorCallback(response){
                 console.log("Unable to perform get request");
             });
@@ -237,14 +249,16 @@
 
         $scope.onClickPost = function() {
             alert('Post '+ book_id); 
-            var data = {'id': book_id, 'chapters': $scope.chapters, 'notes': $scope.notes };
+            var data = {'id': book_id, 'ebooktitle': $scope.ebooktitle, 'subtitle': $scope.subtitle, 'category': parseInt($scope.category), 'status': $scope.status, 'desc': $scope.desc, 'chapters': $scope.chapters, 'notes': $scope.notes };
             $http.post("book/save", data)
             .then(function successCallback(response){
                 console.log("Successfully POST-ed data "+ JSON.stringify(data));
+                $scope.onClickGet();
             }, function errorCallback(response){
                 console.log("POST-ing of data failed");
             });
         };
+        $scope.onClickGet();
     }]);
 </script>
 @endsection
