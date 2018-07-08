@@ -1,5 +1,10 @@
 @extends('layouts.admin') @section('content')
-<!-- heading -->
+@if(Session::has('flash_message'))
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> {{Session::get('flash_message')}}.
+    </div>
+@endif
 <div class="admin-home">
     <!-- search bar-->
     <div class="search-section book-search">
@@ -52,11 +57,11 @@
                 <option>F-Z</option>
             </select>
             <div class="right-row-one">
-                <div class="row add-banner">
+                <div class="row add-banner" data-toggle="modal" data-target="#uploadModal">
                     <div class="plus-banner">
                         <i class="fas fa-plus"></i>
                     </div>
-                    <div class="text"><a href="/book/create">Create E-Book</a></div>
+                    <div class="text">Upload E-Book</div>
                 </div>
                 @if(!$records->isEmpty()) @foreach($records as $book)
                 <div class="row item">
@@ -147,6 +152,91 @@
     </div>
 </div>
 </div>
+<div id="uploadModal" class="modal fade createbook-Modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-text">eBook Upload</div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="ample-login-signup">
+                    <div class="ample-createbook-modal-subheading">Please fill in general information about your eBook. You can edit this info later.</div>
+                    <div class="crate-switch">
+                        <div class="text">Count Words Automatically</div>
+                        <div class="switch">
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="ample-login-section">
+                        <form action="{{ url('/book/upload') }}" method="POST" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <div class="heading">eBook Title</div>
+                                    <input type="text" id="ebook" name="ebooktitle" required="required" placeholder="eBook Title" />
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id}}" />
+                                </div>
+                            </div>
+                            <div class="unit2">
+                                <div class="form-group">
+                                    <div class="heading">Sub Title</div>
+                                    <input type="text" id="subtitle" name="subtitle" required="required" placeholder="Sub title" />
+                                </div>
+                            </div>
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <div class="heading">eBook Type</div>
+                                </div>
+                                <select class="js-example-basic-single" name="type" id="type">
+                                    <option value="paid">Paid</option>
+                                    <option value="free">Free</option>
+                                </select>
+                            </div>
+                            <div class="unit2">
+                                <div class="form-group">
+                                    <div class="heading">Category</div>
+                                </div>
+                                <select class="js-example-basic-single" id="category" name="category">
+                                    @if(!$categories->isEmpty())
+                                        @foreach($categories as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                <input type="hidden" name="status" value="1"/>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="heading">Description</div>
+                                <textarea name="desc" class="form-control" rows="5" id="comment" placeholder="Enter Description..." required="required"></textarea>
+                            </div>
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <div class="heading">Image</div>
+                                    <input type="file" name="ebook_logo" accept="image/*"/>
+                                    <button type="submit" class="submit-button">Upload Ebook</button>
+                                </div>
+                            </div>
+                            <div class="unit2">
+                                <div class="form-group">
+                                    <div class="heading">Book File</div>
+                                    <input type="file" name="file_name" accept="pdf/*"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>f
 @include('modals.modal-delete') @endsection @section('footer_scripts') @include('scripts.delete-modal-script') @endsection
 <style type="text/css">
     .ample-login-signup { padding: 0px, 25px !important; }.createbook-Modal .modal-body .ample-login-section { margin-top: 0px !important }.createbook-Modal .modal-footer { border: 0px !important }

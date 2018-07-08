@@ -1,10 +1,7 @@
 @extends('layouts.admin')
-
 @section('template_title')
   Showing Subscription Plans
 @endsection
-
-
 @section('content')
     <form method="GET" action="{{ url('/admin/plans') }}" accept-charset="UTF-8" class="form-inline my-2 my-lg-0 float-right" role="search">
     <div class="search-section">
@@ -23,17 +20,16 @@
                 <option>D-Z</option>
                 <option>E-Z</option>
                 <option>F-Z</option>
-
             </select> -->
         </div>
-        <div class="sorting-right">
+        <!-- <div class="sorting-right">
             <a href="{{ url('/admin/plans/create') }}">
             <div class="circle">
                 <i class="fa fa-plus" aria-hidden="true"></i>
             </div>
             <label>Add Plan</label>
             </a>
-        </div>
+        </div> -->
     </div>
         <div class="listing">
             <div class="listing-1">Name</div>
@@ -62,24 +58,17 @@
                         </div>
                     </div>
                 @endforeach
-
         <span id="user_count"></span>
         <span id="user_pagination">
             {!! $plans->appends(['search' => Request::get('search')])->render() !!}
         </span>
     </div>
-
     @include('modals.modal-delete')
-
 @endsection
-
 @section('footer_scripts')
-
-    @include('scripts.delete-modal-script')
-    @include('scripts.save-modal-script')
+@include('scripts.delete-modal-script')
+@include('scripts.save-modal-script')
     {{--
         @include('scripts.tooltips')
     --}}
-
-
 @endsection

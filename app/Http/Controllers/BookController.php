@@ -68,7 +68,6 @@ class BookController extends Controller
         } 
         $book = Book::create($requestData); 
         $category = Category::findOrFail($book->category)->where('id', $book->category)->first();
-        //echo $book->id; echo "<pre>"; print_r($book); print_r($category); echo "</pre>";  die;
         return view('books.ebook', compact('categories', 'book', 'category'));
     }
 
@@ -264,6 +263,30 @@ class BookController extends Controller
             $bookNotes = BookNotes::where('book_id', $request->input('book_id'))->get();
         }
         return view('books.ebook', compact('categories', 'book', 'category', 'bookContent', 'bookNotes'));
+    }
+
+    /*
+    * Upload E-book file admin section
+    */
+    public function uploadBook(Request $request)
+    {
+        $requestData = $request->all(); 
+        if ($request->hasFile('ebook_logo')) 
+        {
+            $uploadPath = public_path('/uploads/ebook_logo');
+            $file = $request->file('ebook_logo');
+            $file->move($uploadPath, $file->getClientOriginalName());
+            $requestData['ebook_logo'] = $file->getClientOriginalName();
+        } 
+        if ($request->hasFile('file_name')) 
+        {
+            $uploadPath = public_path('/uploads/ebook_logo');
+            $file = $request->file('file_name');
+            $file->move($uploadPath, $file->getClientOriginalName());
+            $requestData['buyLink'] = $file->getClientOriginalName();
+        }
+        $book = Book::create($requestData); 
+        return redirect('admin/books/category/all-books')->with('flash_message', 'E-Book uploaded successfully !');
     }
 
     public function getBookDetail($id)
