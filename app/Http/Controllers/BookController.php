@@ -230,45 +230,22 @@ class BookController extends Controller
     */
     public function saveContent(Request $request)
     {   
-        $requestData = $request->all(); 
-        $book        = Book::findOrFail($requestData['id'])->update($requestData);
-        $requestData['book_id']  = $requestData['id'];
-        $requestData['chapters'] = json_encode($requestData['chapters']);
-        $requestData['note']     = json_encode($requestData['notes']);
-        $bookContent = BookContents::create($requestData);
-        $bookNotes   = BookNotes::create($requestData);
+        $requestData  = $request->all(); 
+        $book         = Book::findOrFail($requestData['id'])->update($requestData);
+        $arrayChapter = array('book_id' => $requestData['id'], 'chapters' => json_encode($requestData['chapters']));
+        $arrayNote    = array('book_id' => $requestData['id'], 'note' => json_encode($requestData['notes']));
+        //Add/Update Chapters
+        if(isset($requestData['bookContentID']))
+            $bookContent  = BookContents::findOrFail($requestData['bookContentID'])->update($arrayChapter);
+        else
+            $bookContent  = BookContents::create($arrayChapter);
+        //Add/Update Notes
+        if(isset($requestData['bookNoteID']))
+            $bookNotes = BookNotes::findOrFail($requestData['bookNoteID'])->update($arrayNote);
+        else
+            $bookNotes = BookNotes::create($arrayNote);
         echo "<pre>"; print_r($requestData); echo "</pre>"; die;
         return $requestData;
-        if(isset($requestData['bookContentID']))
-        {
-            $requestData['id'] = $requestData['bookContentID'];
-            $bookContent = BookContents::findOrFail($requestData['bookContentID']);
-            $bookContent->update($requestData);
-        }
-        else
-        {
-            $bookContent = BookContents::create($requestData);
-        }
-        $categories  = Category::all();
-        $requestData['id'] = $requestData['book_id'];
-        $book = Book::findOrFail($requestData['id']);
-        $book->update($requestData);
-        $category = Category::findOrFail($book->category)->where('id', $book->category)->first();
-        if(isset($requestData['notes']))
-        {
-            foreach ($requestData['notes'] as $row)
-            {
-                $notes[] = [ 
-                    'book_id'    => $request->input('book_id'), 
-                    'note'       => $row, 
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s') 
-                ];
-            }
-            BookNotes::insert($notes);
-            $bookNotes = BookNotes::where('book_id', $request->input('book_id'))->get();
-        }
-        return view('books.ebook', compact('categories', 'book', 'category', 'bookContent', 'bookNotes'));
     }
 
     /*
