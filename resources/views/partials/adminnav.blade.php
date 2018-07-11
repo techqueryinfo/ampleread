@@ -8,7 +8,6 @@
     </div>
     <div class="admin-name">
         <div class="name">{{Auth::user()->name}}<i class="fas fa-angle-down"></i> </div>
-
     </div>
     <div class="admin-pro">
         <div class="admin-button"><a href="">Admin</a></div>
@@ -16,8 +15,7 @@
     <div class="admin-line"></div>
     <div class="admin-menu">
         <ul>
-            <li {{ Request::is('admin/dashboard') ? 'class=active' : null }}>{!! HTML::link(url('/admin/plans'), 'Stats') !!}</li>
-
+            <li {{ Request::is('admin/dashboard') ? 'class=active' : null }}>{!! HTML::link(url('/admin/dashboard'), 'Stats') !!}</li>
             <li {{ Request::is('admin/homepage') ? 'class=active' : null }}>{!! HTML::link(url('/admin/homepage'), 'Homepage') !!}</li>
             <li {{ Request::is('admin/books/category/{category_name}') ? 'class=active' : null }}>{!! HTML::link(url('/admin/books/category/all-books'), 'Books') !!}</li>
             <li {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'class=active' : null }}>{!! HTML::link(url('/users'), Lang::get('titles.adminUserList')) !!}</li>
