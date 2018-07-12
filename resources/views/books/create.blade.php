@@ -65,6 +65,7 @@
                                     @endif
                                 </select>
                                 <input type="hidden" name="status" value="1"/>
+                                <input type="hidden" name="approve" value="0"/>
                             </div>
 
                             <div class="form-group">

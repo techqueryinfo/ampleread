@@ -164,6 +164,7 @@ class BookController extends Controller
             ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
             ->where('categories.is_delete', '=', 0)
             ->where('categories.status', '=', 'Active')
+            ->where('books.approve', '=', 1)
             ->get(); 
        }
        else
@@ -174,7 +175,7 @@ class BookController extends Controller
             ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
             ->where('categories.is_delete', '=', 0)
             ->where('categories.category_slug', '=', $category_name)
-            ->where('categories.status', '=', 'Active')
+            ->where('books.approve', '=', 1)
             ->get();
        }
        $categories = Category::all();
@@ -221,6 +222,7 @@ class BookController extends Controller
         ->where('books.type', '=', 'free')
         ->where('categories.is_delete', '=', 0)
         ->where('categories.status', '=', 'Active')
+        ->where('books.approve', '=', 1)
         ->get();
         return view('books.free_ebook', compact('book', 'related_book'));
     }
@@ -272,6 +274,7 @@ class BookController extends Controller
         return redirect('admin/books/category/all-books')->with('flash_message', 'E-Book uploaded successfully !');
     }
 
+    /* GET Book Detail By ID */
     public function getBookDetail($id)
     {
         $categories  = Category::all();
