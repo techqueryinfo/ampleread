@@ -150,13 +150,17 @@
                 </div>
                 <div class="center-thumb">
                     <h1>Editor <span>@{{version}}</span></h1>
+                    <div id="fontlinks">
+                        <a href="#" id="incfont" ng-click="incfont()" class="button buttonfont">A+</a>
+                        <a href="#" id="decfont" ng-click="decfont()" class="button buttonfont">A-</a>
+                    </div>
                 </div>
                 <div class="close">
                     <i class="fas fa-times"></i>
                 </div>
             </div>
             <div class="text-area">
-                <div text-angular ng-model="htmlContent" ng-model-options="{ debounce: 500 }" ng-change="updateContent()" name="demo-editor" ta-text-editor-class="clearfix border-around container" ta-html-editor-class="border-around"></div>
+                <div text-angular ng-model="htmlContent" ng-model-options="{ debounce: 500 }" ng-change="updateContent()" name="demo-editor" ta-text-editor-class="clearfix border-around container" ta-html-editor-class="border-around" ng-style="{'font-size': curSize + 'px'}"></div>
                 <input type="text" name="chapters" value="@{{ chapters }}" style="visibility: hidden;" />
             </div>
             <div class="text-footer">
@@ -176,7 +180,17 @@
 </form>
 @endsection @section('footer_scripts')
 <script type="text/javascript">
-    var app = angular.module('app', ['textAngular']);
+    var app = angular.module('app', ['textAngular'])
+    .config(function($provide) {
+            // this demonstrates how to register a new tool and add it to the default toolbar
+            $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions) { // $delegate is the taOptions we are decorating
+                // add the button to the default toolbar definition
+                taOptions.toolbar = [
+                    ['h1', 'h2', 'h3', 'h4', 'h5']
+                ];
+                return taOptions;
+            }]);
+        });
     app.controller('TabController', ['$scope', 'textAngularManager', '$http', function($scope, textAngularManager, $http) {
         var book_id = <?php echo $book->id; ?>;
         $scope.tab = 1;
@@ -194,7 +208,7 @@
         $scope.activeChapterIndex = 0;
         $scope.counter = 0;
         $scope.notecounter = 0;
-        $scope.notes = [];
+        $scope.notes   = [];
         $scope.values  = [];
         $scope.viewChapter = function(index) {
             $scope.htmlContent = $scope.chapters[index].content;
@@ -267,6 +281,27 @@
             });
         };
         $scope.onClickGet();
+        $scope.curSize = 12;
+        $scope.incfont = function(){
+            $scope.curSize = parseInt($scope.curSize) + 2;
+            console.log('curSize', $scope.curSize);
+            if($scope.curSize<=20)
+            {
+                $scope.myObj = {
+                    "font-size" : $scope.curSize+"px",
+                }
+            }
+        }
+        $scope.decfont = function(){
+            $scope.curSize= parseInt($scope.curSize) - 2;
+            console.log('curSize', $scope.curSize);
+            if($scope.curSize>=12)
+            {
+                $scope.myObj = {
+                    "font-size" : $scope.curSize+"px",
+                }
+            }
+        }
     }]);
 </script>
 @endsection

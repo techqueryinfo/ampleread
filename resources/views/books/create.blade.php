@@ -44,13 +44,13 @@
                                     <input type="text" id="subtitle" name="subtitle" required="required" placeholder="Sub title" />
                                 </div>
                             </div>
-                            <div class="unit1">
+                            <div class="unit1" style="display: none;">
                                 <div class="form-group">
                                     <div class="heading">eBook Type</div>
                                 </div>
                                 <select class="js-example-basic-single" name="type" id="type">
                                     <option value="paid">Paid</option>
-                                    <option value="free">Free</option>
+                                    <option value="free" selected="selected">Free</option>
                                 </select>
                             </div>
                             <div class="unit2">
@@ -67,7 +67,6 @@
                                 <input type="hidden" name="status" value="1"/>
                                 <input type="hidden" name="approve" value="0"/>
                             </div>
-
                             <div class="form-group">
                                 <div class="heading">Description</div>
                                 <textarea name="desc" class="form-control" rows="5" id="comment" placeholder="Enter Description..." required="required"></textarea>
@@ -85,7 +84,6 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div>
             <div class="modal-footer">
