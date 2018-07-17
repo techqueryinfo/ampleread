@@ -354,5 +354,21 @@
     text-align: justify;
     color: #000000;
 }
+.btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group {
+    float: none;
+}
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border: 0px;
+    margin-right: 10px;
+}
+.btn-toolbar {
+
+    margin-left: 25%;
+    text-align: center;
+    width: 60%;
+    margin-top: -5%;
+}
 </style>
 @endsection
