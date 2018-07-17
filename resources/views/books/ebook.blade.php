@@ -134,17 +134,17 @@
             <div class="text-header">
                 <div class="thumb">
                     <div class="font-set">
-                        <!-- <img src="images/group.png"> -->
+                        <img src="images/group.png">
                     </div>
                     <div class="font-set">
-                        <!-- <img src="images/group.png"> -->
+                        <img src="images/group.png">
                     </div>
                 </div>
                 <div class="center-thumb">
                     <h1>Editor <span>@{{version}}</span></h1>
                     <div id="fontlinks">
-                        <a href="#" id="incfont" ng-click="incfont()" class="button buttonfont">A+</a>
-                        <a href="#" id="decfont" ng-click="decfont()" class="button buttonfont">A-</a>
+                        <a id="incfont" ng-click="incfont()" class="button buttonfont">A+</a>
+                        <a id="decfont" ng-click="decfont()" class="button buttonfont">A-</a>
                     </div>
                 </div>
                 <div class="close">
@@ -152,7 +152,7 @@
                 </div>
             </div>
             <div class="text-area">
-                <div text-angular ng-model="htmlContent" ng-model-options="{ debounce: 500 }" ng-change="updateContent()" name="demo-editor" ta-text-editor-class="clearfix border-around container" ta-html-editor-class="border-around" ng-style="{'font-size': curSize + 'px'}"></div>
+                <div text-angular ng-model="htmlContent" ng-model-options="{ debounce: 500 }" ng-change="updateContent()" name="demo-editor" ta-text-editor-class="clearfix border-around container" ta-html-editor-class="border-around" ng-style="myObj"></div>
                 <input type="text" name="chapters" value="@{{ chapters }}" style="visibility: hidden;" />
             </div>
             <div class="text-footer">
@@ -319,27 +319,43 @@
             });
         };
         $scope.onClickGet();
-        $scope.curSize = 12;
+        $scope.curSize = 14;
         $scope.incfont = function(){
-            $scope.curSize = parseInt($scope.curSize) + 2;
+            
             console.log('curSize', $scope.curSize);
-            if($scope.curSize<=20)
+            if($scope.curSize<=32)
             {
+                $scope.curSize = parseInt($scope.curSize) + 2;
                 $scope.myObj = {
-                    "font-size" : $scope.curSize+"px",
+                    "font-size" : $scope.curSize+"px ",
                 }
             }
         }
         $scope.decfont = function(){
-            $scope.curSize= parseInt($scope.curSize) - 2;
+            
             console.log('curSize', $scope.curSize);
-            if($scope.curSize>=12)
+            if($scope.curSize>=16)
             {
+                $scope.curSize= parseInt($scope.curSize) - 2;
                 $scope.myObj = {
-                    "font-size" : $scope.curSize+"px",
+                    "font-size" : $scope.curSize+"px ",
                 }
             }
         }
     }]);
 </script>
+<style type="text/css">
+    .user-bookcreateinfo .info-right .text-area p {
+    overflow-y: scroll;
+    height: 583px;
+    font-size: auto;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.64;
+    letter-spacing: normal;
+    text-align: justify;
+    color: #000000;
+}
+</style>
 @endsection
