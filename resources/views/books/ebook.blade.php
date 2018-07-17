@@ -134,18 +134,13 @@
             <div class="text-header">
                 <div class="thumb">
                     <div class="font-set">
-                        <img src="images/group.png">
+                        <a id="incfont" ng-click="incfont()" class="button buttonfont"><img src="images/group.png"></a>
                     </div>
                     <div class="font-set">
-                        <img src="images/group.png">
+                        <a id="decfont" ng-click="decfont()" class="button buttonfont"><img src="images/group.png"></a>
                     </div>
                 </div>
-                <div class="center-thumb">
-                    <h1>Editor <span>@{{version}}</span></h1>
-                    <div id="fontlinks">
-                        <a id="incfont" ng-click="incfont()" class="button buttonfont">A+</a>
-                        <a id="decfont" ng-click="decfont()" class="button buttonfont">A-</a>
-                    </div>
+                <div class="center-thumb">  
                 </div>
                 <div class="close">
                     <i class="fas fa-times"></i>
@@ -213,7 +208,9 @@
             $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions) { 
                 // add the button to the default toolbar definition
                 taOptions.toolbar = [
-                    ['h1', 'h2', 'h3', 'h4', 'h5']
+                    ['bold', 'italics','ul'],
+                    ['justifyLeft', 'justifyCenter', 'justifyRight'],
+                    ['insertLink']
                 ];
                 return taOptions;
             }]);
