@@ -158,7 +158,7 @@
                     <button type="button" ng-click="onClickPost(0)">Save</button>
                 </div>
                 <div class="preview">
-                    <img src="/images/preview.png">
+                    <a href="#" data-toggle="modal" data-target="#previewebookModal"><img src="/images/preview.png"></a>
                 </div>
                 <label>Preview</label>
             </div>
@@ -189,6 +189,57 @@
                             <div class="unit1">
                                 <div class="form-group">
                                     <button type="button" class="submit-button" ng-click="onClickImagePost()">Upload Image</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<div id="previewebookModal" class="modal fade createbook-Modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-text">PUBLISH EBOOK</div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="ample-login-signup">
+                    <div class="ample-login-section">
+                        <form action="{{ url('/book/save') }}" method="POST" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="unit1">
+                                <img src="/uploads/ebook_logo/@{{ebook_logo}}" alt="image"/>
+                                <button type="button">
+                                    <img src="/images/upload.png" alt="upload">Change Cover
+                                </button>
+                            </div>
+                            <div class="unit2">
+                                <div class="form-group">
+                                    <div class="heading">Category</div>@{{categoryname}}
+                                    <div class="heading">File Size</div>3,263 KB
+                                    <div class="heading">Words</div>20,753
+                                    <div class="heading">Language</div>English
+                                </div>
+                            </div>
+                            <div class="unit1">
+                            </div>
+                            <div class="unit2">
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <div class="heading">@{{ebooktitle}}</div>
+                                </div>
+                                <textarea name="desc" class="form-control" rows="5" id="comment" placeholder="Enter Description..." required="required">@{{desc}}</textarea>
+                            </div>
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <button type="button" class="submit-button" ng-click="onClickPost(1)">PUBLISH</button>
                                 </div>
                             </div>
                         </form>
@@ -277,8 +328,10 @@
                 $scope.subtitle      = response.data.book.subtitle;
                 $scope.desc          = response.data.book.desc;
                 $scope.status        = response.data.book.status;
+                $scope.ebook_logo    = response.data.book.ebook_logo;
                 $scope.categories    = response.data.categories;
                 $scope.category      = response.data.book.category;
+                $scope.categoryname      = response.data.category.name;
                 if(response.data.bookContent)
                     $scope.bookContentID = response.data.bookContent.id;
                 else
@@ -294,7 +347,7 @@
         };  
 
         $scope.onClickPost = function(approve) {
-            alert('Book ID '+ book_id); 
+            //alert('Book ID '+ book_id); 
             var data = {'id': book_id, 'ebooktitle': $scope.ebooktitle, 'subtitle': $scope.subtitle, 'category': parseInt($scope.category), 'status': $scope.status, 'desc': $scope.desc, 'approve': approve, 'chapters': $scope.chapters, 'notes': $scope.notes, 'bookContentID': $scope.bookContentID, 'bookNoteID': $scope.bookNoteID };
             $http.post("book/save", data)
             .then(function successCallback(response){
@@ -305,7 +358,7 @@
             });
         };
         $scope.onClickImagePost = function() {
-            alert('Book ID '+ book_id); 
+            //alert('Book ID '+ book_id); 
             var data = {'id': book_id, 'ebook_image': $scope.ebook_image };
             $http.post("book/saveimage", data)
             .then(function successCallback(response){
@@ -342,33 +395,6 @@
     }]);
 </script>
 <style type="text/css">
-    .user-bookcreateinfo .info-right .text-area p {
-    overflow-y: scroll;
-    height: 583px;
-    font-size: auto;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.64;
-    letter-spacing: normal;
-    text-align: justify;
-    color: #000000;
-}
-.btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group {
-    float: none;
-}
-.btn-default {
-    color: #333;
-    background-color: #fff;
-    border: 0px;
-    margin-right: 10px;
-}
-.btn-toolbar {
-
-    margin-left: 25%;
-    text-align: center;
-    width: 60%;
-    margin-top: -5%;
-}
+.user-bookcreateinfo .info-right .text-area p{overflow-y:scroll;height:583px;font-size:auto;font-weight:normal;font-style:normal;font-stretch:normal;line-height:1.64;letter-spacing:normal;text-align:justify;color:#000}.btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group{float:none}.btn-default{color:#333;background-color:#fff;border:0px;margin-right:10px}.btn-toolbar{margin-left:25%;text-align:center;width:60%;margin-top:-5%}
 </style>
 @endsection
