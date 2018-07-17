@@ -7,6 +7,7 @@ use App\Book;
 use App\Paid;
 use App\BookContents;
 use App\BookNotes;
+use App\BookImages;
 use App\PaidDiscount;
 use DB;
 use Illuminate\Http\Request;
@@ -248,6 +249,23 @@ class BookController extends Controller
             $bookNotes = BookNotes::create($arrayNote);
         echo "<pre>"; print_r($requestData); echo "</pre>"; die;
         return $requestData;
+    }
+
+    /**
+     * Save Book Images
+    */
+    public function saveImage(Request $request)
+    {
+        $requestData = $request->all();
+        echo "<pre>"; print_r($requestData); print_r($request->hasFile('ebook_image')); echo "</pre>"; die;
+        if ($request->hasFile('ebook_image')) 
+        {
+            $uploadPath = public_path('/uploads/ebook_logo');
+            $file = $request->file('ebook_image');
+            $file->move($uploadPath, $file->getClientOriginalName());
+            $requestData['ebook_image'] = $file->getClientOriginalName();
+        }
+        $book = BookImages::create($requestData); 
     }
 
     /*

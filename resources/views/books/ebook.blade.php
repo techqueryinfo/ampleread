@@ -85,14 +85,6 @@
                     <div class="form-unit">
                         <div class="heading">Category</div>
                         <div class="content">
-                            <!-- <select id="subcription" name="category">
-                                @if(!$categories->isEmpty()) @foreach($categories as $val)
-                                <option value="{{ $val->id }}" @if($val->id == $category->id) selected="selected" @endif>{{ $val->name }}</option>
-                                @endforeach @endif
-                            </select> -->
-                            <!-- <select id="subcription" name="category" ng-repeat="x in category">
-                                <option value="@{{x.id}}">@{{x.name}}</option>
-                            </select> -->
                             <select id="subcription" ng-model="category">
                                 <option ng-repeat="x in categories" value="@{{x.id}}"  ng-selected="@{{x.id == parseInt(category)}}">@{{x.name}}</option>
                             </select>
@@ -128,7 +120,7 @@
             <!-- forth -->
             <div id="bookImages" class="book-section" ng-show="isSet(4)">
                 <div class="row-five">
-                    <button type="button">
+                    <button type="button" data-toggle="modal" data-target="#uploadImageModal">
                         <img src="/images/upload.png" alt="upload">Upload image
                     </button>
                 </div>
@@ -165,10 +157,10 @@
             </div>
             <div class="text-footer">
                 <div class="publish">
-                    <button type="button" ng-click="onClickGet()">Publish</button>
+                    <button type="button" ng-click="onClickPost(1)">Publish</button>
                 </div>
                 <div class="cancel">
-                    <button type="button" ng-click="onClickPost()">Save</button>
+                    <button type="button" ng-click="onClickPost(0)">Save</button>
                 </div>
                 <div class="preview">
                     <img src="/images/preview.png">
@@ -178,12 +170,47 @@
         </div>
     </div>
 </form>
+<div id="uploadImageModal" class="modal fade createbook-Modal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-text">eBook Image</div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="ample-login-signup">
+                    <div class="ample-login-section">
+                        <form action="{{ url('/book/saveimage') }}" method="POST" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id}}" />
+                                </div>
+                            </div>
+                            <div class="unit2">
+                                <input type="file" name="ebook_image" ng-model="ebook_image"/>
+                            </div>
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <button type="button" class="submit-button" ng-click="onClickImagePost()">Upload Image</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 @endsection @section('footer_scripts')
 <script type="text/javascript">
     var app = angular.module('app', ['textAngular'])
     .config(function($provide) {
             // this demonstrates how to register a new tool and add it to the default toolbar
-            $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions) { // $delegate is the taOptions we are decorating
+            $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions) { 
                 // add the button to the default toolbar definition
                 taOptions.toolbar = [
                     ['h1', 'h2', 'h3', 'h4', 'h5']
@@ -269,13 +296,24 @@
             });
         };  
 
-        $scope.onClickPost = function() {
-            alert('Post '+ book_id); 
-            var data = {'id': book_id, 'ebooktitle': $scope.ebooktitle, 'subtitle': $scope.subtitle, 'category': parseInt($scope.category), 'status': $scope.status, 'desc': $scope.desc, 'chapters': $scope.chapters, 'notes': $scope.notes, 'bookContentID': $scope.bookContentID, 'bookNoteID': $scope.bookNoteID };
+        $scope.onClickPost = function(approve) {
+            alert('Book ID '+ book_id); 
+            var data = {'id': book_id, 'ebooktitle': $scope.ebooktitle, 'subtitle': $scope.subtitle, 'category': parseInt($scope.category), 'status': $scope.status, 'desc': $scope.desc, 'approve': approve, 'chapters': $scope.chapters, 'notes': $scope.notes, 'bookContentID': $scope.bookContentID, 'bookNoteID': $scope.bookNoteID };
             $http.post("book/save", data)
             .then(function successCallback(response){
                 console.log("Successfully POST-ed data "+ JSON.stringify(data));
                 $scope.onClickGet();
+            }, function errorCallback(response){
+                console.log("POST-ing of data failed");
+            });
+        };
+        $scope.onClickImagePost = function() {
+            alert('Book ID '+ book_id); 
+            var data = {'id': book_id, 'ebook_image': $scope.ebook_image };
+            $http.post("book/saveimage", data)
+            .then(function successCallback(response){
+                console.log("Successfully POST-ed data "+ JSON.stringify(data));
+                //$scope.onClickGet();
             }, function errorCallback(response){
                 console.log("POST-ing of data failed");
             });
