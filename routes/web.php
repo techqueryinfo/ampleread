@@ -148,6 +148,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::post('/admin/homepage/special_feature/{id}', 'Admin\\HomeController@delete_special_feature_book');
     Route::get('/admin/homepage/{category_name}', 'Admin\\HomeController@show_books_tag');
     Route::resource('admin/homepage', 'Admin\\HomeController');
+    Route::resource('admin/review', 'Admin\\BookReviewController');
     Route::post('admin/books/category/{id}', 'BookController@deleteCategory');
 });
 

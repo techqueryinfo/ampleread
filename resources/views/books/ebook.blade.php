@@ -1,6 +1,8 @@
 @extends('layouts.ebook-editor') @section('angularjs')
 <link rel="stylesheet" href="/dist/textAngular.css" type="text/css">
 <script src='/dist/angular.js'></script>
+<script src='/dist/ng-file-upload-shim.js'></script>
+<script src='/dist/ng-file-upload.js'></script>
 <script src='/dist/textAngular-rangy.min.js'></script>
 <script src='/dist/textAngular-sanitize.min.js'></script>
 <script src='/dist/textAngular.min.js'></script>
@@ -125,8 +127,7 @@
                     </button>
                 </div>
                 <div class="row-seven">
-                    <img src="/images/image1.jpg" alt="" />
-                    <img src="/images/image3.jpg" alt="" />
+                    <img ng-repeat="x in bookImages" src="/uploads/ebook_logo/@{{x.image}}" alt="" />
                 </div>
             </div>
         </div>
@@ -184,11 +185,15 @@
                                 </div>
                             </div>
                             <div class="unit2">
-                                <input type="file" name="ebook_image" ng-model="ebook_image"/>
+                                <input type="file" ngf-select ng-model="picFile" name="file"    
+                                accept="image/*" ngf-max-size="2MB" required
+                                ngf-model-invalid="errorFile">
+                                <i ng-show="myForm.file.$error.required">*required</i><br>
+                                <i ng-show="myForm.file.$error.maxSize">File too large @{{errorFile.size / 1000000|number:1}}MB: max 2M</i>
                             </div>
                             <div class="unit1">
                                 <div class="form-group">
-                                    <button type="button" class="submit-button" ng-click="onClickImagePost()">Upload Image</button>
+                                    <button type="button" class="submit-button" ng-click="uploadPic(picFile)">Upload Image</button>
                                 </div>
                             </div>
                         </form>
@@ -209,51 +214,40 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="ample-login-signup">
-                    <div class="ample-login-section">
-                        <form action="{{ url('/book/save') }}" method="POST" enctype="multipart/form-data">
-                            {{ csrf_field() }}
-                            <div class="unit1">
-                                <img src="/uploads/ebook_logo/@{{ebook_logo}}" alt="image"/>
-                                <button type="button">
-                                    <img src="/images/upload.png" alt="upload">Change Cover
-                                </button>
-                            </div>
-                            <div class="unit2">
-                                <div class="form-group">
-                                    <div class="heading">Category</div>@{{categoryname}}
-                                    <div class="heading">File Size</div>3,263 KB
-                                    <div class="heading">Words</div>20,753
-                                    <div class="heading">Language</div>English
-                                </div>
-                            </div>
-                            <div class="unit1">
-                            </div>
-                            <div class="unit2">
-                            </div>
-                            <div class="form-group">
-                                <div class="form-group">
-                                    <div class="heading">@{{ebooktitle}}</div>
-                                </div>
-                                <textarea name="desc" class="form-control" rows="5" id="comment" placeholder="Enter Description..." required="required">@{{desc}}</textarea>
-                            </div>
-                            <div class="unit1">
-                                <div class="form-group">
-                                    <button type="button" class="submit-button" ng-click="onClickPost(1)">PUBLISH</button>
-                                </div>
-                            </div>
-                        </form>
+                <div class="ample-login-section">
+                    <div class="unit1">
+                        <img src="/uploads/ebook_logo/@{{ebook_logo}}" alt="image" />
+                    </div>
+                    <div class="unit2">
+                        <div class="form-group">
+                            <div class="heading">Category</div>@{{categoryname}}
+                            <div class="heading">File Size</div>3,263 KB
+                            <div class="heading">Words</div>20,753
+                            <div class="heading">Language</div>English
+                        </div>
+                    </div>
+                    <div class="unit1"></div>
+                    <div class="unit2"></div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <div class="heading">@{{ebooktitle}}</div>
+                        </div>
+                        <p style="text-align: justify;">@{{desc}}</p>
+                    </div>
+                    <div class="unit1">
+                        <div class="form-group">
+                            <button type="button" class="submit-button" ng-click="onClickPost(1)">PUBLISH</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-            </div>
+            <div class="modal-footer"></div>
         </div>
     </div>
 </div>
 @endsection @section('footer_scripts')
 <script type="text/javascript">
-    var app = angular.module('app', ['textAngular'])
+    var app = angular.module('app', ['textAngular', 'ngFileUpload'])
     .config(function($provide) {
             // this demonstrates how to register a new tool and add it to the default toolbar
             $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions) { 
@@ -266,7 +260,7 @@
                 return taOptions;
             }]);
         });
-    app.controller('TabController', ['$scope', 'textAngularManager', '$http', function($scope, textAngularManager, $http) {
+    app.controller('TabController', ['$scope', 'textAngularManager', '$http', 'Upload', '$timeout',function($scope, textAngularManager, $http, Upload, $timeout) {
         var book_id = <?php echo $book->id; ?>;
         $scope.tab = 1;
         $scope.setTab = function(newTab) {
@@ -331,7 +325,8 @@
                 $scope.ebook_logo    = response.data.book.ebook_logo;
                 $scope.categories    = response.data.categories;
                 $scope.category      = response.data.book.category;
-                $scope.categoryname      = response.data.category.name;
+                $scope.categoryname  = response.data.category.name;
+                $scope.bookImages    = response.data.bookImages;
                 if(response.data.bookContent)
                     $scope.bookContentID = response.data.bookContent.id;
                 else
@@ -340,7 +335,7 @@
                     $scope.bookNoteID    = response.data.bookNote.id;
                 else
                     $scope.bookNoteID    = undefined;
-                console.log(response.data); console.log(response.data.category.id);
+                console.log(response.data);
             }, function errorCallback(response){
                 console.log("Unable to perform get request");
             });
@@ -357,17 +352,6 @@
                 console.log("POST-ing of data failed");
             });
         };
-        $scope.onClickImagePost = function() {
-            //alert('Book ID '+ book_id); 
-            var data = {'id': book_id, 'ebook_image': $scope.ebook_image };
-            $http.post("book/saveimage", data)
-            .then(function successCallback(response){
-                console.log("Successfully POST-ed data "+ JSON.stringify(data));
-                //$scope.onClickGet();
-            }, function errorCallback(response){
-                console.log("POST-ing of data failed");
-            });
-        };
         $scope.onClickGet();
         $scope.curSize = 14;
         $scope.incfont = function(){
@@ -380,7 +364,7 @@
                     "font-size" : $scope.curSize+"px ",
                 }
             }
-        }
+        };
         $scope.decfont = function(){
             
             console.log('curSize', $scope.curSize);
@@ -391,7 +375,26 @@
                     "font-size" : $scope.curSize+"px ",
                 }
             }
-        }
+        };
+
+        $scope.uploadPic = function(file) {
+            file.upload = Upload.upload({
+              url: 'book/saveimage',
+              data: {'book_id': book_id, 'ebook_image': file},
+              method: 'POST'
+            });
+            file.upload.then(function (response) {
+              $timeout(function () {
+                file.result = response.data;
+              }); $scope.onClickGet();
+            }, function (response) {
+              if (response.status > 0)
+                $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+              // Math.min is to fix IE which reports 200% sometimes
+              file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            });
+        };
     }]);
 </script>
 <style type="text/css">

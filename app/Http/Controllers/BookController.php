@@ -247,7 +247,6 @@ class BookController extends Controller
             $bookNotes = BookNotes::findOrFail($requestData['bookNoteID'])->update($arrayNote);
         else
             $bookNotes = BookNotes::create($arrayNote);
-        echo "<pre>"; print_r($requestData); echo "</pre>"; die;
         return $requestData;
     }
 
@@ -256,16 +255,16 @@ class BookController extends Controller
     */
     public function saveImage(Request $request)
     {
-        $requestData = $request->all();
-        echo "<pre>"; print_r($requestData); print_r($request->hasFile('ebook_image')); echo "</pre>"; die;
+        $requestData = $request->all(); 
         if ($request->hasFile('ebook_image')) 
         {
             $uploadPath = public_path('/uploads/ebook_logo');
             $file = $request->file('ebook_image');
             $file->move($uploadPath, $file->getClientOriginalName());
-            $requestData['ebook_image'] = $file->getClientOriginalName();
+            $requestData['image'] = $file->getClientOriginalName();
         }
         $book = BookImages::create($requestData); 
+        return $book;
     }
 
     /*
@@ -300,7 +299,8 @@ class BookController extends Controller
         $category    = Category::findOrFail($book->category)->where('id', $book->category)->first();
         $bookContent = BookContents::where('book_id', $id)->first();
         $bookNote    = BookNotes::where('book_id', $id)->first();
-        $result      = array('book' => $book, 'category' => $category, 'categories' => $categories, 'bookContent' => $bookContent, 'bookNote' => $bookNote);
+        $bookImages  = BookImages::where('book_id', $id)->get();
+        $result      = array('book' => $book, 'category' => $category, 'categories' => $categories, 'bookContent' => $bookContent, 'bookNote' => $bookNote, 'bookImages' => $bookImages);
         return $result;
     }
 }
