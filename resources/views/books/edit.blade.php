@@ -22,13 +22,8 @@
                     <div class="heading">eBook Type</div>
                     <div class="content">
                         <select name="type" id="ebooktype" data-select2-id="ebooktype" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
-                            @if($book->type == 'paid')
-                            <option value="paid" selected="selected">Paid</option>
-                            <option value="free">Free</option>
-                            @else
-                            <option value="paid">Paid</option>
-                            <option value="free" selected="selected">Free</option>
-                            @endif
+                            <option value="paid" @if($book->type == 'paid') selected="selected" @endif>Paid</option>
+                            <option value="free" @if($book->type == 'free') selected="selected" @endif>Free</option>
                         </select>
                     </div>
                 </div>

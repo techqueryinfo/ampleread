@@ -87,10 +87,9 @@
                     <div class="form-unit">
                         <div class="heading">Category</div>
                         <div class="content">
-                            <select id="subcription" ng-model="category">
-                                <option ng-repeat="x in categories" value="@{{x.id}}"  ng-selected="@{{x.id == parseInt(category)}}">@{{x.name}}</option>
+                            <select id="subcription" ng-model="category" ng-selected="category">
+                                <option ng-repeat="x in categories" value="@{{x.id}}">@{{x.name}}</option>
                             </select>
-                            <!-- <pre>@{{category | json}}</pre> -->
                         </div>
                     </div>
                     <div class="form-unit">
@@ -135,10 +134,10 @@
             <div class="text-header">
                 <div class="thumb">
                     <div class="font-set">
-                        <a id="incfont" ng-click="incfont()" class="button buttonfont"><img src="images/group.png"></a>
+                        <img src="images/1.png">
                     </div>
-                    <div class="font-set">
-                        <a id="decfont" ng-click="decfont()" class="button buttonfont"><img src="images/group.png"></a>
+                    <div id="color_picker" class="font-set">
+                        <img src="images/group.png">
                     </div>
                 </div>
                 <div class="center-thumb">  
@@ -172,7 +171,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-text">eBook Image</div>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close btnCls" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="ample-login-signup">
@@ -205,8 +204,81 @@
         </div>
     </div>
 </div>
-<div id="previewebookModal" class="modal fade createbook-Modal" role="dialog">
-    <div class="modal-dialog">
+<div class="color-picker">
+    <div class="arrow-up"></div>
+    <div class="colorpicker-section">
+        <div class="section-one">
+            <div class="left">
+                <div class="content">Font</div>
+                <div class="select">
+                    <select>
+                        <option value="1">New Times Roman</option>
+                        <option value="2">New Times Roman</option>
+                        <option value="3">New Times Roman</option>
+                        <option value="4">New Times Roman</option>
+                    </select>
+                </div>
+            </div>
+            <div class="right">
+                <div class="content">Font Size</div>
+                <div class="select">
+                    <select>
+                        <option value="1">10</option>
+                        <option value="2">20</option>
+                        <option value="3">30</option>
+                        <option value="4">40</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="section-one">
+            <div class="left newleft">
+                <div class="content">Text Color</div>
+                <div class="select">
+                    <label class="checkbox-container">One
+                        <input type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">One
+                        <input type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">One
+                        <input type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">One
+                        <input type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="right newright">
+                <div class="content">Background Color</div>
+                <div class="select">
+                    <label class="checkbox-container">One
+                        <input type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">One
+                        <input type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">One
+                        <input type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                    <label class="checkbox-container">One
+                        <input type="checkbox" checked="checked">
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="previewebookModal" class="modal fade createbook-Modal ebook-preview-section" role="dialog">
+<div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -214,34 +286,42 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="ample-login-section">
-                    <div class="unit1">
-                        <img src="/uploads/ebook_logo/@{{ebook_logo}}" alt="image" />
-                    </div>
-                    <div class="unit2">
-                        <div class="form-group">
-                            <div class="heading">Category</div>@{{categoryname}}
-                            <div class="heading">File Size</div>3,263 KB
-                            <div class="heading">Words</div>20,753
-                            <div class="heading">Language</div>English
-                        </div>
-                    </div>
-                    <div class="unit1"></div>
-                    <div class="unit2"></div>
-                    <div class="form-group">
-                        <div class="form-group">
-                            <div class="heading">@{{ebooktitle}}</div>
-                        </div>
-                        <p style="text-align: justify;">@{{desc}}</p>
-                    </div>
-                    <div class="unit1">
-                        <div class="form-group">
-                            <button type="button" class="submit-button" ng-click="onClickPost(1)">PUBLISH</button>
-                        </div>
-                    </div>
-                </div>
+              <div class="ebook-preview">
+                  <div class="ebook-preview-row-one">
+                      <div class="left">
+                          <div class="image"><img src="/uploads/ebook_logo/@{{ebook_logo}}" alt="image" /></div>
+                          <!-- <div class="button"><input type="submit" value="CHANGE COVER"></div> -->
+                      </div>
+                      <div class="right">
+                          <div class="row">
+                              <div class="heading">Category</div>
+                              <div class="content">@{{categoryname}}</div>
+                          </div>
+                          <div class="row">
+                              <div class="heading">File Size</div>
+                              <div class="content">3.2605 KB</div>
+                          </div>
+                          <div class="row">
+                              <div class="heading">Words</div>
+                              <div class="content">10256</div>
+                          </div>
+                          <div class="row">
+                              <div class="heading">Language</div>
+                              <div class="content">English</div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="ebook-preview-row-two">
+                      <div class="head-sec-two">@{{ebooktitle}}</div>
+                      <div class="content-sec-two">
+                        @{{desc}}
+                      </div>
+                      <div class="button-publish"><input type="button" ng-click="onClickPost(1)" value="PUBLISH"></div>
+                  </div>
+              </div>
             </div>
-            <div class="modal-footer"></div>
+            <div class="modal-footer">
+            </div>
         </div>
     </div>
 </div>
@@ -386,7 +466,7 @@
             file.upload.then(function (response) {
               $timeout(function () {
                 file.result = response.data;
-              }); $scope.onClickGet();
+              }); $scope.onClickGet(); $('.btnCls').click();
             }, function (response) {
               if (response.status > 0)
                 $scope.errorMsg = response.status + ': ' + response.data;
@@ -396,6 +476,10 @@
             });
         };
     }]);
+    //$("select").select2();
+    $("#color_picker").on("click",function(){
+        $(".color-picker").toggle();
+    });
 </script>
 <style type="text/css">
 .user-bookcreateinfo .info-right .text-area p{overflow-y:scroll;height:583px;font-size:auto;font-weight:normal;font-style:normal;font-stretch:normal;line-height:1.64;letter-spacing:normal;text-align:justify;color:#000}.btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group{float:none}.btn-default{color:#333;background-color:#fff;border:0px;margin-right:10px}.btn-toolbar{margin-left:25%;text-align:center;width:60%;margin-top:-5%}
