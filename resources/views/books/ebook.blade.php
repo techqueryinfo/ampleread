@@ -211,22 +211,23 @@
             <div class="left">
                 <div class="content">Font</div>
                 <div class="select">
-                    <select>
-                        <option value="1">New Times Roman</option>
-                        <option value="2">New Times Roman</option>
-                        <option value="3">New Times Roman</option>
-                        <option value="4">New Times Roman</option>
+                    <select ng-model="font" ng-selected="font" ng-change="decfont()">
+                        <option ng-repeat="x in fonts" value="@{{x.css}}">@{{x.name}}</option>
                     </select>
                 </div>
             </div>
             <div class="right">
                 <div class="content">Font Size</div>
                 <div class="select">
-                    <select>
-                        <option value="1">10</option>
-                        <option value="2">20</option>
-                        <option value="3">30</option>
-                        <option value="4">40</option>
+                    <select ng-change="incfont()" ng-model="fontSize" ng-selected="fontSize">
+                        <option value="10">10</option>
+                        <option value="12">12</option>
+                        <option value="14">14</option>
+                        <option value="16">16</option>
+                        <option value="18">18</option>
+                        <option value="20">20</option>
+                        <option value="22">22</option>
+                        <option value="24">24</option>
                     </select>
                 </div>
             </div>
@@ -343,6 +344,46 @@
     app.controller('TabController', ['$scope', 'textAngularManager', '$http', 'Upload', '$timeout',function($scope, textAngularManager, $http, Upload, $timeout) {
         var book_id = <?php echo $book->id; ?>;
         $scope.tab = 1;
+        $scope.fonts = [{
+            name: 'Sans-Serif',
+            css: 'Arial, Helvetica, sans-serif'
+        }, {
+            name: 'Times New Roman',
+            css: "'times new roman', serif"
+        }, {
+            name: 'Arial Black',
+            css: "'arial black', sans-serif"
+        }, {
+            name: 'Arial Narrow',
+            css: "'arial narrow', sans-serif"
+        }, {
+            name: 'Comic Sans MS',
+            css: "'comic sans ms', sans-serif"
+        }, {
+            name: 'Courier New',
+            css: "'courier new', monospace"
+        }, {
+            name: 'Garamond',
+            css: 'garamond, serif'
+        }, {
+            name: 'Georgia',
+            css: 'georgia, serif'
+        }, {
+            name: 'Tahoma',
+            css: 'tahoma, sans-serif'
+        }, {
+            name: 'Trebuchet MS',
+            css: "'trebuchet ms', sans-serif"
+        }, {
+            name: "Helvetica",
+            css: "'Helvetica Neue', Helvetica, Arial, sans-serif"
+        }, {
+            name: 'Verdana',
+            css: 'verdana, sans-serif'
+        }, {
+            name: 'Proxima Nova',
+            css: 'proxima_nova_rgregular'
+        }];
         $scope.setTab = function(newTab) {
             $scope.tab = newTab;
         };
@@ -404,7 +445,7 @@
                 $scope.status        = response.data.book.status;
                 $scope.ebook_logo    = response.data.book.ebook_logo;
                 $scope.categories    = response.data.categories;
-                $scope.category      = response.data.book.category;
+                $scope.category      = response.data.book.category.toString();
                 $scope.categoryname  = response.data.category.name;
                 $scope.bookImages    = response.data.bookImages;
                 if(response.data.bookContent)
@@ -433,27 +474,20 @@
             });
         };
         $scope.onClickGet();
-        $scope.curSize = 14;
+        $scope.fontSize = "14";
+        $scope.font = "'arial narrow', sans-serif";
         $scope.incfont = function(){
-            
-            console.log('curSize', $scope.curSize);
-            if($scope.curSize<=32)
-            {
-                $scope.curSize = parseInt($scope.curSize) + 2;
-                $scope.myObj = {
-                    "font-size" : $scope.curSize+"px ",
-                }
+            //console.log('fontSize', $scope.fontSize);
+            $scope.myObj = {
+                "font-size" : $scope.fontSize+"px",
+                "font-family": $scope.font
             }
         };
         $scope.decfont = function(){
-            
-            console.log('curSize', $scope.curSize);
-            if($scope.curSize>=16)
-            {
-                $scope.curSize= parseInt($scope.curSize) - 2;
-                $scope.myObj = {
-                    "font-size" : $scope.curSize+"px ",
-                }
+            //console.log('curSize', $scope.font);
+            $scope.myObj = {
+                "font-size" : $scope.fontSize+"px",
+                "font-family": $scope.font
             }
         };
 
