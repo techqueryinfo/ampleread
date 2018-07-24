@@ -605,6 +605,7 @@
             .then(function successCallback(response){
                 console.log("Successfully POST-ed data "+ JSON.stringify(data));
                 $scope.onClickGet();
+                window.location.replace('/home');
             }, function errorCallback(response){
                 console.log("POST-ing of data failed");
             });
