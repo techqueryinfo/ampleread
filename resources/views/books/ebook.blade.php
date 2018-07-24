@@ -138,7 +138,7 @@
             <div class="text-header">
                 <div class="thumb">
                     <div class="font-set">
-                        <img src="images/1.png">
+                        <img src="images/1.PNG">
                     </div>
                     <div id="color_picker" class="font-set">
                         <img src="images/group.png">
@@ -208,7 +208,7 @@
         </div>
     </div>
 </div>
-<div class="color-picker">
+<div class="color-picker" style="display: none;">
     <div class="arrow-up"></div>
     <div class="colorpicker-section">
         <div class="section-one">
@@ -469,10 +469,10 @@
             });
                 // add the button to the default toolbar definition
                 taOptions.toolbar = [
-                    ['bold', 'italics','ul'],
-                    ['justifyLeft', 'justifyCenter', 'justifyRight'],
-                    ['insertLink'],
-                    ['backgroundColor', 'fontColor', 'fontName', 'fontSize']
+                    ['bold', 'italics','ul','justifyLeft', 'justifyCenter', 'justifyRight','insertLink','fontName', 'fontSize','backgroundColor', 'fontColor'],
+                    // ['justifyLeft', 'justifyCenter', 'justifyRight','insertLink','fontName', 'fontSize'],
+                    // ['insertLink','fontName', 'fontSize'],
+                   // [/*'backgroundColor', 'fontColor',*/ 'fontName', 'fontSize']
                 ];
                 return taOptions;
             }]);
@@ -652,6 +652,35 @@
     });
 </script>
 <style type="text/css">
-.user-bookcreateinfo .info-right .text-area p{overflow-y:scroll;height:583px;font-size:auto;font-weight:normal;font-style:normal;font-stretch:normal;line-height:1.64;letter-spacing:normal;text-align:justify;color:#000}.btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group{float:none}.btn-default{color:#333;background-color:#fff;border:0px;margin-right:10px}.btn-toolbar{margin-left:25%;text-align:center;width:60%;margin-top:-5%}
+.user-bookcreateinfo .info-right .text-area p{overflow-y:scroll;height:583px;font-size:auto;font-weight:normal;font-style:normal;font-stretch:normal;line-height:1.64;letter-spacing:normal;text-align:justify;color:#000}.btn-toolbar .btn, .btn-toolbar .btn-group, .btn-toolbar .input-group{float:none}.btn-default{color:#333;background-color:#fff;border:0px;margin-right:0px}
+/*.btn-toolbar{margin-left:25%;text-align:center;width:60%;margin-top:-5%}*/
+.btn-toolbar {
+    margin-left: 18%;
+    text-align: center;
+    width: 66%;
+    margin-top: -5%;
+}
+.sp-replacer {
+    margin: 0;
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0px;
+    display: inline-block;
+    *zoom: 1;
+    *display: inline;
+    border: 0px;
+    background: #eee;
+    color: #333;
+    vertical-align: middle;
+}
+.sp-preview {
+    width: 15px;
+    height: 15px;
+    border: solid 1px #222;
+    margin-right: 0px;
+    float: left;
+    z-index: 0;
+}
+span.btn{padding: 6px 9px;}
 </style>
 @endsection
