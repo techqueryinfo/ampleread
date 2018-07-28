@@ -26,4 +26,10 @@ class WelcomeController extends Controller
         $classics     = HomeBook::with('home_books')->where('type', 'classics')->get(); 
         return view('welcome', compact('countries', 'books', 'categories', 'special_features', 'new_releases', 'bestsellers', 'classics', 'banner_images'));
     }
+
+    /*Temporary Controller till construction*/
+    public function site()
+    {
+        return view('index');
+    }
 }

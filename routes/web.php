@@ -14,7 +14,8 @@
 */
 
 // Homepage Route
-Route::get('/', 'WelcomeController@welcome')->name('welcome');
+Route::get('/', 'WelcomeController@site')->name('site');
+Route::get('/welcome', 'WelcomeController@welcome')->name('welcome');
 Route::get('/api', 'API\ApiController@index');
 // Authentication Routes
 Auth::routes();
