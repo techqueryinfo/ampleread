@@ -12,7 +12,8 @@
                 @endif
             </div>
             <div class="button">
-                <input type="file" name="ebook_logo">
+                <input type="button" value="CHANGE COVER" onclick="document.getElementById('fileInput').click();">
+                <input type="file" id="fileInput" name="ebook_logo" style="display: none;">
             </div>
             @endif
         </div>
@@ -21,10 +22,7 @@
                 <div class="form-unit">
                     <div class="heading">eBook Type</div>
                     <div class="content">
-                        <select name="type" id="ebooktype" data-select2-id="ebooktype" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
-                            <option value="paid" @if($book->type == 'paid') selected="selected" @endif>Paid</option>
-                            <option value="free" @if($book->type == 'free') selected="selected" @endif>Free</option>
-                        </select>
+                        <input type="text" name="type" value="{{ucwords($book->type)}}" disabled="disabled">
                     </div>
                 </div>
             </div>
@@ -130,7 +128,7 @@
     </div>
     <div class="save-cancel-btn edit">
         <div class="save">
-            <button type="submit" class="btn btn-default">Save</button>
+            <input type="submit" value="Save"/>
         </div>
         <div class="cancel">
             <label>Cancel</label>

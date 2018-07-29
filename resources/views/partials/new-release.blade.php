@@ -30,7 +30,7 @@
                     </div>
                    @endif
                    @if($book->home_books->type == 'paid')
-                   <div class="image"><a href="{{$book->home_books->buyLink}}">
+                   <div class="image"><a href="{{url('books/ebook/'.$book->home_books->id.'/'.$book->home_books->ebooktitle)}}">
                         @if(substr($book->home_books->ebook_logo, 0, 4) == "http")
                           <img src="{{ $book->home_books->ebook_logo }}" alt="img1" />
                         @else

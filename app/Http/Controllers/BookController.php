@@ -105,7 +105,7 @@ class BookController extends Controller
         })
         ->select('paid_discount.*', 'paid_ebook.store_logo', 'paid_ebook.store_name')
         ->where('paid_discount.book_id', '=', $id)
-        ->orWhere('paid_ebook.book_id', '=', $id)
+        ->where('paid_ebook.book_id', '=', $id)
         ->get();
         return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount', 'phone', 'username'));
     }
@@ -155,7 +155,7 @@ class BookController extends Controller
      * @return \Illuminate\View\View
      */
     public function show_books_by_category($category_name)
-    {
+    {   
        $currentUser = Auth::user();
        if($category_name == 'all-books')
        {
@@ -166,6 +166,19 @@ class BookController extends Controller
             ->where('categories.is_delete', '=', 0)
             ->where('categories.status', '=', 'Active')
             ->where('books.approve', '=', 1)
+            ->get(); 
+       }
+       else if($category_name == 'free-books' || $category_name == 'paid-books')
+       {    
+            $type = ($category_name == 'free-books') ? 'free' : 'paid';
+            $records = DB::table('books')
+            ->join('users', 'users.id', '=', 'books.user_id')
+            ->join('categories', 'books.category', '=', 'categories.id')
+            ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+            ->where('categories.is_delete', '=', 0)
+            ->where('categories.status', '=', 'Active')
+            ->where('books.approve', '=', 1)
+            ->where('books.type', '=', $type)
             ->get(); 
        }
        else
@@ -180,6 +193,7 @@ class BookController extends Controller
             ->get();
        }
        $categories = Category::all();
+       $category_name = ($category_name == 'free-books' || $category_name == 'paid-books') ? 'all-books' : $category_name;
        $category = Category::where('category_slug', '=', $category_name)->first();
        $data = [ 'category_name' => $category_name, 'category' => $category, 'categories' => $categories, 'records' => $records ];
        if(!empty($currentUser) && $currentUser->isAdmin())
@@ -210,22 +224,32 @@ class BookController extends Controller
     }
 
     /**
-     * View Free E-Book 
+     * View Free-Paid E-Book 
     */
     public function view_free_ebook($id)
     {
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first();
+        $paid = Book::findOrFail($id)->paid;
+        $paidDiscount = DB::table('paid_discount')
+        ->join('paid_ebook', function($join){
+            $join->on('paid_discount.book_id', '=', 'paid_ebook.book_id')
+            ->on('paid_discount.paid_ebook_id', '=', 'paid_ebook.id');
+        })
+        ->select('paid_discount.*', 'paid_ebook.store_logo', 'paid_ebook.store_name')
+        ->where('paid_discount.book_id', '=', $id)
+        ->where('paid_ebook.book_id', '=', $id)
+        ->get();
         $related_book = DB::table('books')
         ->join('users', 'users.id', '=', 'books.user_id')
         ->join('categories', 'books.category', '=', 'categories.id')
         ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
-        ->where('books.type', '=', 'free')
+        ->where('categories.id', '=', $book->category)
         ->where('categories.is_delete', '=', 0)
         ->where('categories.status', '=', 'Active')
         ->where('books.approve', '=', 1)
         ->get();
-        return view('books.free_ebook', compact('book', 'related_book'));
+        return view('books.free_ebook', compact('book', 'related_book', 'paid', 'paidDiscount'));
     }
 
     /**

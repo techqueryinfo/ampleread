@@ -6,7 +6,11 @@
     </div>
     <div class="book-section">
         <div class="book">
-            <img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :images/image10.jpg }}" alt="image1">
+            @if(substr($book->ebook_logo, 0, 4) == "http")
+                <img src="{{ $book->ebook_logo }}" alt="image1"/>
+            @else
+                <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="image1" />
+            @endif
         </div>
         <div class="content">
             <div class="heading-book">{{$book->ebooktitle}}</div>
@@ -22,10 +26,12 @@
             </div>
             <div class="free-book">
                 <div class="button">
-                    <button type="submit" class="submit-button">Read Book</button>
+                    <button type="submit" class="submit-button">@if($book->type == 'free') Read Book @else ${{$book->retailPrice}} @endif</button>
                 </div>
-                <div class="text"><i class="far fa-clock"></i> SAVE FOR LATER</div>
-                <div class="text"><i class="fa fa-download" aria-hidden="true"></i> SAVE FOR LATER</div>
+                @if($book->type == 'free')
+                    <div class="text"><i class="far fa-clock"></i> SAVE FOR LATER</div>
+                    <div class="text"><i class="fa fa-download" aria-hidden="true"></i> SAVE FOR LATER</div>
+                @endif
             </div>
             <div class="book-description">{{$book->desc}}</div>
         </div>
@@ -56,7 +62,7 @@
         <div class="author-description">
             <div class="author-details">
                 <div class="image">
-                    <img src="images/user.png" alt="autor-image">
+                    <img src="/images/user.png" alt="autor-image">
                 </div>
                 <div class="name">
                     <div class="title">Barbara Nickless</div>
@@ -72,6 +78,73 @@
             </div>
         </div>
     </div>
+    @if($book->type == 'paid')
+        @if(!$paid->isEmpty())
+        <div class="col-md-12">
+            <div class="sorting-section">
+                <div class="sorting-left">
+                    <h4>Compare Prices</h4>
+                </div>
+                <div class="sorting-right">
+                </div>
+            </div>
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>STORE</th>
+                            <th>RATING</th>
+                            <th>AVAILABILITY</th>
+                            <th>PRICE</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($paid as $val)
+                        <tr>
+                            <td>{{ $val->store_name }}</td>
+                            <td>
+                                <img src="/uploads/storeimage/{{ $val->store_logo }}" width="50px">
+                            </td>
+                            <td></td>
+                            <td>{{ $val->price }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="sorting-section">
+                <div class="sorting-left">
+                    <h4>Available Discounts</h4>
+                </div>
+                <div class="sorting-right" style="width: 100px !important;">
+                </div>
+            </div>
+            <div class="container">
+                @if(!$paidDiscount->isEmpty())
+                <table class="table">
+                    <tbody>
+                        @foreach($paidDiscount as $val)
+                        <tr>
+                            <td>
+                                <img src="/uploads/storeimage/{{ $val->store_logo }}" width="50px">
+                            </td>
+                            <td>{{ $val->store_name }}</td>
+                            <td>{{ $val->discount }} %</td>
+                            <td>{{ $val->desc }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                @else
+                    No Discount available
+                @endif
+            </div>
+        </div>
+        @endif
+    @endif
     <div class="ample-book-slot-slider">
         <div class="ample-row">
             <div class="ample-book-slot">Related Books</div>
@@ -84,9 +157,19 @@
         <div class="owl-carousel owl-theme home-slider">
             @foreach($related_book as $book)
             <div class="item">
-                <div class="image"><a href="{{url('books/ebook/'.$book->id.'/'.$book->ebooktitle)}}"><img src="{{($book->ebook_logo) ? '/uploads/ebook_logo/'.$book->ebook_logo :uploads/ebook_logo/image10.jpg }}" alt="img1" /></a></div>
+                <div class="image"><a href="{{url('books/ebook/'.$book->id.'/'.$book->ebooktitle)}}">
+                    @if(substr($book->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $book->ebook_logo }}" alt="image1"/>
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="image1" />
+                    @endif
+                </a></div>
                 <div class="ample-button">
-                    <button>FREE</button>
+                    @if($book->type == 'free')
+                        <button>FREE</button>
+                    @else
+                        <button style="width: auto; background-color: #868686; border: #868686;">FROM $ {{$book->retailPrice}}</button>
+                    @endif
                 </div>
                 <div class="title">{{$book->ebooktitle}}: {{$book->subtitle}}</div>
                 <div class="writer">{{$book->subtitle}}</div>
@@ -112,7 +195,7 @@
             <div class="left">
                 <div class="author-details">
                     <div class="image">
-                        <img src="images/user.png" alt="autor-image">
+                        <img src="/images/user.png" alt="autor-image">
                     </div>
                     <div class="name">
                         <div class="title">Barbara Nickless</div>
@@ -138,7 +221,7 @@
             <div class="left">
                 <div class="author-details">
                     <div class="image">
-                        <img src="images/user.png" alt="autor-image">
+                        <img src="/images/user.png" alt="autor-image">
                     </div>
                     <div class="name">
                         <div class="title">Barbara Nickless</div>

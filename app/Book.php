@@ -34,4 +34,12 @@ class Book extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
     }
+
+    /**
+     * Get the books to show in home page
+     */
+    public function paid()
+    {
+        return $this->hasMany('App\Paid','book_id', 'id');
+    }
 }
