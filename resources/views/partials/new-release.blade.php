@@ -37,7 +37,7 @@
                           <img src="/uploads/ebook_logo/{{ $book->home_books->ebook_logo }}" alt="img1" />
                         @endif
                    </a></div>
-                   <div class="ample-button"><button>{{$book->home_books->retailPrice}}</button></div>
+                   <div class="ample-button"><button style="width: auto; background-color: #868686; border: #868686;">FROM $ {{$book->home_books->retailPrice}}</button></div>
                    <div class="title">{{$book->home_books->ebooktitle}}</div>
                    <div class="writer">{{$book->home_books->subtitle}}</div>
                     <div class="star-container">
