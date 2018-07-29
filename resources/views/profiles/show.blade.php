@@ -134,7 +134,7 @@
                 <div class="icon"><i class="fas fa-angle-right"></i></div>
             </div>
             <div class="section-2">
-                <div class="unit-1"><img src="images/invalid-name.png"></div>
+                <div class="unit-1"><img src="/images/invalid-name.png"></div>
                 <div class="unit-2">
                     <div class="one">XXXX XXXX XXXX 1464</div>
                     <div class="two">09/21</div>
