@@ -26,7 +26,7 @@
             </div>
             <div class="free-book">
                 <div class="button">
-                    <button type="submit" class="submit-button">@if($book->type == 'free') Read Book @else ${{$book->retailPrice}} @endif</button>
+                    <button type="submit" class="submit-button">@if($book->type == 'free') Read Book @else FROM ${{$book->retailPrice}} @endif</button>
                 </div>
                 @if($book->type == 'free')
                     <div class="text"><i class="far fa-clock"></i> SAVE FOR LATER</div>

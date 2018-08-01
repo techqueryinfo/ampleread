@@ -19,7 +19,7 @@
             <li {{ Request::is('admin/homepage') ? 'class=active' : null }}>{!! HTML::link(url('/admin/homepage'), 'Homepage') !!}</li>
             <li {{ Request::is('admin/books/category/{category_name}') ? 'class=active' : null }}>{!! HTML::link(url('/admin/books/category/all-books'), 'Books') !!}</li>
             <li {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'class=active' : null }}>{!! HTML::link(url('/users'), Lang::get('titles.adminUserList')) !!}</li>
-            <li {{ Request::is('admin/categories') ? 'class=active' : null }}>{!! HTML::link(url('/admin/categories'), 'Category Management') !!}</li>
+            <!-- <li {{ Request::is('admin/categories') ? 'class=active' : null }}>{!! HTML::link(url('/admin/categories'), 'Category Management') !!}</li> -->
             <li {{ Request::is('admin/plans') ? 'class=active' : null }}>{!! HTML::link(url('/admin/plans'), 'Plan Management') !!}</li>
             <li {{ Request::is('/admin/transaction') ? 'class=active' : null }}>{!! HTML::link(url('/admin/transaction'), 'Transactions') !!}</li>
             <li {{ Request::is('admin/settings') ? 'class=active' : null }}>{!! HTML::link(url('/admin/settings'), 'Admin Settings') !!}</li>

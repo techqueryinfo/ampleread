@@ -56,8 +56,8 @@ class CategoriesController extends Controller
         $slug = str_slug($request->input('name'), '-');
         $requestData['category_slug'] = $slug;
         Category::create($requestData);
-
-        return redirect('admin/categories')->with('flash_message', 'Category added!');
+        //return redirect('admin/categories')->with('flash_message', 'Category added!');
+        return redirect('/admin/books/category/all-books')->with('flash_message', 'Category added !');
     }
 
     /**
