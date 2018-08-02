@@ -192,12 +192,12 @@ class BookController extends Controller
             ->where('books.approve', '=', 1)
             ->get();
        }
-       $categories = Category::all();
+       $categories = Category::all(); $page = $category_name;
        $category_name = ($category_name == 'free-books' || $category_name == 'paid-books') ? 'all-books' : $category_name;
        $category = Category::where('category_slug', '=', $category_name)->first();
        $data = [ 'category_name' => $category_name, 'category' => $category, 'categories' => $categories, 'records' => $records ];
-       if(!empty($currentUser) && $currentUser->isAdmin())
-       {
+       if(!empty($currentUser) && $currentUser->isAdmin() && $page != 'free-books' && $page != 'paid-books')
+       {//echo "Hi ".$page; die();
         return view('books.book_category')->with($data);
        }
        else 
