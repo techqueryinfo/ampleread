@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="/css/owl.carousel.css">
         <link rel="stylesheet" href="/css/admin-home.css">
         <link rel="stylesheet" href="/css/admin-stat.css">
+        <link rel="stylesheet" href="/css/admin-freeebbok.css">
         <link rel="stylesheet" href="/css/export.css">
         <link rel="stylesheet" href="/css/book-category.css">
         @yield('template_linked_css')

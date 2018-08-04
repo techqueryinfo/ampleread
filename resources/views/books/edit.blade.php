@@ -136,172 +136,174 @@
     </div>
 </form>
 @if($book->type == 'paid')
-<div class="col-md-12">
-    <div class="sorting-section">
-        <div class="sorting-left">
-            <h4>STORES</h4>
+<div class="book-compare-price">
+    <div class="heading">Store</div>
+    <div class="add-section"  data-toggle="modal" data-target="#storeModal"><img src="/images/plus-icon.png" alt=""/> <span>ADD STORE<span></div>
+    <div class="row-compare-one">
+        <div class="unit-compare">Store</div>
+        <div class="unit-compare">Rating</div>
+        <div class="unit-compare">Availability</div>
+        <div class="unit-compare">Price</div>
+     </div>
+    @foreach($paid as $val) 
+    <div class="row-compare-one sec-two">
+        <div class="unit-compare-sec">
+            <div class="image-box">
+                <img src="/uploads/storeimage/{{ $val->store_logo }}" alt="image" width="100%">
+            </div>
         </div>
-        <div class="sorting-right" style="width: 100px !important;">
-            <a href="#" data-toggle="modal" data-target="#storeModal">
-                <div class="circle">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </div>
-                <label>Add Store</label>
-            </a>
+        <div class="unit-compare-sec">
+            <div class="star-container">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+            </div>
+        </div>
+        <div class="unit-compare-sec">
+            <div class="stock">In Stock</div>
+            <div class="days">Free shipping 5 - 7 days</div>
+        </div>
+        <div class="unit-compare-sec">
+            <div class="price">{{ $val->price }}</div>
+        </div>
+        <div class="unit-compare-delete">
+            <form method="POST" action="{{ url('/paid' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
+                {{ method_field('DELETE') }} {{ csrf_field() }}
+                <div class="delete" data-toggle='modal' data-target='#confirmDelete' data-title='Delete Store' data-message='Are you sure you want to delete this Store ?'><i class="far fa-trash-alt"></i></div>
+            </form>
         </div>
     </div>
-    <div class="container">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>STORE</th>
-                    <th>RATING</th>
-                    <th>AVAILABILITY</th>
-                    <th>PRICE</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($paid as $val)
-                <tr>
-                    <td>{{ $val->store_name }}</td>
-                    <td>
-                        <img src="/uploads/storeimage/{{ $val->store_logo }}" width="50px">
-                    </td>
-                    <td></td>
-                    <td>{{ $val->price }}</td>
-                    <td>
-                        <div class="edit">
-                            <a href="#" title="Edit Store" data-toggle="modal" data-target="#storeEditModal-{{$val->id}}">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                        </div>
-                        <form method="POST" action="{{ url('/paid' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
-                            {{ method_field('DELETE') }} {{ csrf_field() }}
-                            <div class="delete" data-toggle='modal' data-target='#confirmDelete' data-title='Delete Store' data-message='Are you sure you want to delete this Store ?'><i class="far fa-trash-alt"></i></div>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    @endforeach
 </div>
-<div class="col-md-12">
-    <div class="sorting-section">
-        <div class="sorting-left">
-            <h4>DISCOUNTS</h4>
+<div class="book-compare-price">
+    <div class="heading">Discount</div>
+    <div class="add-section" data-toggle="modal" data-target="#discountModal"><img src="/images/plus-icon.png" alt=""/> <span>ADD DISCOUNT</span></div>
+    @foreach($paidDiscount as $val)
+    <div class="row-compare-one sec-two">
+        <div class="unit-compare-sec">
+            <div class="image-box">
+                <img src="/uploads/storeimage/{{ $val->store_logo }}" width="100%" alt="image" />
+            </div>
         </div>
-        <div class="sorting-right" style="width: 100px !important;">
-            <a href="#" data-toggle="modal" data-target="#discountModal">
-                <div class="circle">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                </div>
-                <label>Add Discount</label>
-            </a>
+        <div class="unit-compare-sec-three">
+            <div class="heading">{{ $val->discount }} % OFF & Free shipping</div>
+            <div class="content">{{ $val->desc }}</div>
+        </div>
+        <div class="unit-compare-delete">
+            <form method="POST" action="{{ url('/paid/deleteDiscount' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
+                <!-- {{ method_field('DELETE') }} -->
+                {{ csrf_field() }}
+                <div class="delete" data-toggle='modal' data-target='#confirmDelete' data-title='Delete Discount' data-message='Are you sure you want to delete this discount ?'><i class="far fa-trash-alt"></i></div>
+            </form>
         </div>
     </div>
-    <div class="container">
-        <table class="table">
-            <tbody>
-                @foreach($paidDiscount as $val)
-                <tr>
-                    <td>
-                        <img src="/uploads/storeimage/{{ $val->store_logo }}" width="50px">
-                    </td>
-                    <td>{{ $val->store_name }}</td>
-                    <td>{{ $val->discount }} %</td>
-                    <td>{{ $val->desc }}</td>
-                    <td>
-                        <form method="POST" action="{{ url('/paid/deleteDiscount' . '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
-                            <!-- {{ method_field('DELETE') }} -->
-                            {{ csrf_field() }}
-                            <div class="delete" data-toggle='modal' data-target='#confirmDelete' data-title='Delete Discount' data-message='Are you sure you want to delete this discount ?'><i class="far fa-trash-alt"></i></div>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    @endforeach
 </div>
 <!-- Modal -->
-<div id="storeModal" class="modal fade" role="dialog">
+<div id="storeModal" class="modal fade createbook-Modal" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
+                <div class="modal-text">eBook info</div>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Edit Store</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/paid') }}" method="POST" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                        <input type="file" id="img" name="store_logo">
+                <div class="ample-login-signup">
+                    <div class="ample-login-section">
+                        <form action="{{ url('/paid') }}" method="POST" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="unit-compare-sec">
+                                <div class="image-box">
+                                    <img src="/uploads/storeimage/amaz.png" alt="amazon">
+                                </div>
+                            </div>
+                            <div class="button-paid-book"><input type="submit" value="CHANGE LOGO" onclick="document.getElementById('fileInputStore').click();"></div>
+                            <input type="file" id="fileInputStore" name="store_logo" style="display: none;">
+                            <div class="form-group">
+                                <div class="heading">STORE NAME</div>
+                                <input type="text" name="store_name" id="store_name" required="required" placeholder="Enter store name">
+                            </div>
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <div class="heading">PRICE</div>
+                                    <input type="number" name="price" min="0" id="price"/>
+                                </div>
+                            </div>
+                            <div class="unit2">
+                                <div class="form-group">
+                                    <div class="heading">LINK</div>
+                                    <input type="url" id="link" name="link" required="required" placeholder="Enter URL"/>
+                                </div>
+                            </div>
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <input type="hidden" name="book_id" value="{{ $book->id }}">
+                                    <button type="submit" class="submit-button">Save</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="store_name">Store Name</label>
-                        <input type="text" name="store_name" class="form-control" id="store_name" required="required" placeholder="Enter store name">
-                    </div>
-                    <div class="form-group">
-                        <label for="link">Link</label>
-                        <input type="url" class="form-control" id="link" name="link" required="required" placeholder="Enter URL">
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Price</label>
-                        <input type="number" name="price" class="form-control" min="0" id="price">
-                    </div>
-                    <input type="hidden" name="book_id" value="{{ $book->id }}">
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div class="modal-footer no-border">
             </div>
         </div>
     </div>
 </div>
-<div id="discountModal" class="modal fade" role="dialog">
+<div id="discountModal" class="modal fade createbook-Modal" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
+                <div class="modal-text">EDIT DISCOUNT</div>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">EDIT DISCOUNT</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ url('/paid/discountSave') }}" method="POST" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                        <label for="store">Store</label>
-                        <select class="form-control" name="paid_ebook_id" id="store">
-                            @foreach($paid as $val)
-                            <option value="{{ $val->id }}">{{ $val->store_name }}</option>
-                            @endforeach
-                        </select>
+                <div class="ample-login-signup">
+                    <div class="ample-login-section">
+                        <form action="{{ url('/paid/discountSave') }}" method="POST" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <div class="heading">STORE</div>
+                                <select class="form-control" name="paid_ebook_id" id="store">
+                                    @foreach($paid as $val)
+                                    <option value="{{ $val->id }}">{{ $val->store_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div class="heading">Additional Options</div>
+                                <select id="addOption" name="additional_options" class="form-control">
+                                    <option value="free_shipping">Free Shipping</option>
+                                    <option value="paid">Paid</option>
+                                </select>
+                            </div>
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <div class="heading">DISCOUNT</div>
+                                    <input type="number" name="discount" min="1" id="discount" placeholder="Enter Discount %" required="required"/>
+                                </div>
+                            </div>
+                            <div class="unit2">
+                                <div class="form-group">
+                                    <div class="heading">DESCRIPTION</div>
+                                    <textarea id="desc" name="desc" placeholder="Enter Description" required="required" style="margin-top: 10px;"></textarea>
+                                </div>
+                            </div>
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <input type="hidden" name="book_id" value="{{ $book->id }}">
+                                    <button type="submit" class="submit-button">Save</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="discount">Discount</label>
-                        <input type="number" name="discount" class="form-control" min="1" id="discount" placeholder="Enter Discount %" required="required">
-                    </div>
-                    <div class="form-group">
-                        <label for="addOption">Additional Options</label>
-                        <select id="addOption" name="additional_options" class="form-control">
-                            <option value="free_shipping">Free Shipping</option>
-                            <option value="paid">Paid</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="desc">Description</label>
-                        <textarea id="desc" class="form-control" name="desc" placeholder="Enter Description" required="required"></textarea>
-                    </div>
-                    <input type="hidden" name="book_id" value="{{ $book->id }}">
-                    <button type="submit" class="btn btn-default">Save</button>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div class="modal-footer no-border">
             </div>
         </div>
     </div>

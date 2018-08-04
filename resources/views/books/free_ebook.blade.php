@@ -31,6 +31,8 @@
                 @if($book->type == 'free')
                     <div class="text"><i class="far fa-clock"></i> SAVE FOR LATER</div>
                     <div class="text"><i class="fa fa-download" aria-hidden="true"></i> SAVE FOR LATER</div>
+                @else
+                    <div class="text"><i class="fab fa-gitter"></i> COMPARE PRICE</div>    
                 @endif
             </div>
             <div class="book-description">{{$book->desc}}</div>
@@ -80,68 +82,66 @@
     </div>
     @if($book->type == 'paid')
         @if(!$paid->isEmpty())
-        <div class="col-md-12">
-            <div class="sorting-section">
-                <div class="sorting-left">
-                    <h4>Compare Prices</h4>
+        <div class="book-compare-price">
+            <div class="heading">Compare Prices</div>
+            <div class="row-compare-one">
+                <div class="unit-compare">Store</div>
+                <div class="unit-compare">Rating</div>
+                <div class="unit-compare">Availability</div>
+                <div class="unit-compare">Price</div>
+            </div>
+            @foreach($paid as $val)
+            <div class="row-compare-one sec-two">
+                <div class="unit-compare-sec">
+                    <div class="image-box">
+                        <img src="/uploads/storeimage/{{ $val->store_logo }}" width="100%" alt="image" />
+                    </div>
                 </div>
-                <div class="sorting-right">
+                <div class="unit-compare-sec">
+                    <div class="star-container">
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                    </div>
+                </div>
+                <div class="unit-compare-sec">
+                    <div class="stock">In Stock</div>
+                    <div class="days">Free shipping 5 - 7 days</div>
+                </div>
+                <div class="unit-compare-sec">
+                    <div class="price">$ {{ $val->price }}</div>
                 </div>
             </div>
-            <div class="container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>STORE</th>
-                            <th>RATING</th>
-                            <th>AVAILABILITY</th>
-                            <th>PRICE</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($paid as $val)
-                        <tr>
-                            <td>{{ $val->store_name }}</td>
-                            <td>
-                                <img src="/uploads/storeimage/{{ $val->store_logo }}" width="50px">
-                            </td>
-                            <td></td>
-                            <td>{{ $val->price }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            @endforeach
         </div>
-        <div class="col-md-12">
-            <div class="sorting-section">
-                <div class="sorting-left">
-                    <h4>Available Discounts</h4>
+        <div class="book-compare-price">
+            <div class="heading">Available Discount</div>
+            @if(!$paidDiscount->isEmpty())
+            @foreach($paidDiscount as $val)
+            <div class="row-compare-one sec-two">
+                <div class="unit-compare-sec">
+                    <div class="image-box">
+                        <img src="/uploads/storeimage/{{ $val->store_logo }}" width="100%" alt="image" />
+                    </div>
                 </div>
-                <div class="sorting-right" style="width: 100px !important;">
+                <div class="unit-compare-sec-three">
+                    <div class="heading">{{ $val->discount }} % OFF & Free shipping</div>
+                    <div class="content">{{ $val->desc }}</div>
+                </div>
+                <div class="unit-compare-sec-four">
+                    <button >Get this deal</button>
+                </div>
+                <div class="unit-compare-sec-five">
+                    <i class="fas fa-thumbs-up"></i>
+                    <i class="fas fa-thumbs-down"></i>
                 </div>
             </div>
-            <div class="container">
-                @if(!$paidDiscount->isEmpty())
-                <table class="table">
-                    <tbody>
-                        @foreach($paidDiscount as $val)
-                        <tr>
-                            <td>
-                                <img src="/uploads/storeimage/{{ $val->store_logo }}" width="50px">
-                            </td>
-                            <td>{{ $val->store_name }}</td>
-                            <td>{{ $val->discount }} %</td>
-                            <td>{{ $val->desc }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                @else
-                    No Discount available
-                @endif
-            </div>
+            @endforeach
+            @else
+            No Discount available
+            @endif
         </div>
         @endif
     @endif
@@ -185,10 +185,30 @@
         </div>
     </div>
     <div class="sign-in-page-bar bar-extend"></div>
-    <div class="sign-in-review">
-        <i class="fas fa-lock"></i>
-        <span>Sign in to write a review</span>
-    </div>
+        @if(Auth::check())
+        <div class="rate-this-book">
+         <div class="left-sec">
+             <div class="heading">Rate this book</div>
+             <div class="star-container">
+                 <span class="fa fa-star checked"></span>
+                 <span class="fa fa-star checked"></span>
+                 <span class="fa fa-star checked"></span>
+                 <span class="fa fa-star"></span>
+                 <span class="fa fa-star"></span>
+             </div>
+         </div>
+         <div class="right-sec">
+             <div class="heading">Rate this book</div>
+             <textarea></textarea>
+             <button>Submit review</button>
+         </div>
+        </div>
+        @else
+        <div class="sign-in-review">
+            <i class="fas fa-lock"></i>
+            <span>Sign in to write a review</span>
+        </div>
+        @endif
     <div class="sign-in-panel">
         <div class="heading">2 reviews</div>
         <div class="review-container">
