@@ -14,6 +14,7 @@
             <div class="button">
                 <input type="button" value="CHANGE COVER" onclick="document.getElementById('fileInput').click();">
                 <input type="file" id="fileInput" name="ebook_logo" style="display: none;">
+                <div class="button upload-book"><input type="submit" value="UPLOAD EBOOK"></div>
             </div>
             @endif
         </div>
@@ -126,14 +127,14 @@
             </div>
         </div>
     </div>
-    <div class="save-cancel-btn edit">
+    <div class="save-cancel-btn edit" style="display: none;">
         <div class="save">
-            <input type="submit" value="Save"/>
+            <input type="submit" value="Save" id="editBookBtn" />
         </div>
         <div class="cancel">
             <label>Cancel</label>
         </div>
-    </div>
+    </div>    
 </form>
 @if($book->type == 'paid')
 <div class="book-compare-price">
@@ -207,7 +208,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-text">eBook info</div>
+                <div class="modal-text">Add Store</div>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -215,11 +216,11 @@
                     <div class="ample-login-section">
                         <form action="{{ url('/paid') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <div class="unit-compare-sec">
+                            <!-- <div class="unit-compare-sec">
                                 <div class="image-box">
                                     <img src="/uploads/storeimage/amaz.png" alt="amazon">
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="button-paid-book"><input type="submit" value="CHANGE LOGO" onclick="document.getElementById('fileInputStore').click();"></div>
                             <input type="file" id="fileInputStore" name="store_logo" style="display: none;">
                             <div class="form-group">
@@ -254,11 +255,11 @@
     </div>
 </div>
 <div id="discountModal" class="modal fade createbook-Modal" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-text">EDIT DISCOUNT</div>
+                <div class="modal-text">Add/EDIT DISCOUNT</div>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -266,28 +267,33 @@
                     <div class="ample-login-section">
                         <form action="{{ url('/paid/discountSave') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <div class="form-group">
-                                <div class="heading">STORE</div>
-                                <select class="form-control" name="paid_ebook_id" id="store">
-                                    @foreach($paid as $val)
-                                    <option value="{{ $val->id }}">{{ $val->store_name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <div class="heading">Additional Options</div>
-                                <select id="addOption" name="additional_options" class="form-control">
-                                    <option value="free_shipping">Free Shipping</option>
-                                    <option value="paid">Paid</option>
-                                </select>
-                            </div>
-                            <div class="unit1">
+                            <div class="unit1 first-sec">
                                 <div class="form-group">
-                                    <div class="heading">DISCOUNT</div>
-                                    <input type="number" name="discount" min="1" id="discount" placeholder="Enter Discount %" required="required"/>
+                                    <div class="heading">STORE</div>
+                                    <select class="form-control" name="paid_ebook_id" id="store">
+                                        @foreach($paid as $val)
+                                        <option value="{{ $val->id }}">{{ $val->store_name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
-                            <div class="unit2">
+                            <div class="unit2 second-sec">
+                                <div class="form-group">
+                                    <div class="heading">DISCOUNT</div>
+                                    <input type="number" name="discount" min="1" id="discount" placeholder="Discount %" required="required"/>
+                                </div>
+                            </div>
+                            <div class="unit1 first-sec">
+                                <div class="form-group">
+                                    <div class="heading">Additional Options</div>
+                                    <select id="addOption" name="additional_options" class="form-control">
+                                        <option value="free_shipping">Free Shipping</option>
+                                        <option value="paid">Paid</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="unit3">
                                 <div class="form-group">
                                     <div class="heading">DESCRIPTION</div>
                                     <textarea id="desc" name="desc" placeholder="Enter Description" required="required" style="margin-top: 10px;"></textarea>
@@ -334,4 +340,16 @@
         </div>
     </div>
 </div>
-@endforeach @include('modals.modal-delete') @endif @endsection @section('footer_scripts') @include('scripts.delete-modal-script') @endsection
+@endforeach 
+@include('modals.modal-delete') 
+@endif 
+<div class="save-cancel-btn edit">
+    <div class="save">
+        <input type="button" id="submitEditFormBtn" value="Save"/>
+    </div>
+    <div class="cancel">
+        <label>Cancel</label>
+    </div>
+</div>
+@endsection 
+@section('footer_scripts') @include('scripts.delete-modal-script') @endsection

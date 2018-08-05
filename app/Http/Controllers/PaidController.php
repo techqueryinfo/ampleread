@@ -47,8 +47,9 @@ class PaidController extends Controller
             $file->move($uploadPath, $file->getClientOriginalName());
             $requestData['store_logo'] = $file->getClientOriginalName();
         } 
+        
         Paid::create($requestData);
-        return redirect('book')->with('flash_message', 'E-Book updated !');
+        return redirect('book/'.$requestData['book_id'].'/edit')->with('flash_message', 'E-Book updated !');
     }
 
     /**
@@ -117,7 +118,7 @@ class PaidController extends Controller
     {
         $requestData = $request->all();
         PaidDiscount::create($requestData);
-        return redirect('book')->with('flash_message', 'Discount added successfully.');
+        return redirect('book/'.$requestData['book_id'].'/edit')->with('flash_message', 'Discount added successfully.');
     }
 
     /**
