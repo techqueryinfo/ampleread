@@ -585,3 +585,10 @@ body {
 .admin-container .admin-right .save-cancel-btn.edit {
 	margin: 50px 0px 0px 0px
 }
+
+.createbook-Modal .modal-body .ample-login-section{
+	margin-top: 0 !important;
+}
+.ample-login-signup .ample-login-section form .form-group input, .ample-login-signup .ample-login-section form .form-group select{
+	margin-top: 0px !important
+}
