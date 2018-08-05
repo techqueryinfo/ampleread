@@ -74,13 +74,13 @@
         <script type="text/javascript" src="/js/pie.js"></script>
         <script type="text/javascript" src="/js/admin.js"></script>
 
-        <!-- <script src="https://www.amcharts.com/lib/3/xy.js"></script> -->
+        <script src="https://www.amcharts.com/lib/3/xy.js"></script>
 
-        <!-- <script src="https://www.amcharts.com/lib/3/serial.js"></script> -->
+        <script src="https://www.amcharts.com/lib/3/serial.js"></script>
 
-        <!-- <script src="https://www.amcharts.com/lib/3/ammap.js" type="text/javascript"></script> -->
-        <!-- <script src="https://www.amcharts.com/lib/3/maps/js/worldHigh.js" type="text/javascript"></script> -->
-        <!-- <script src="https://www.amcharts.com/lib/3/themes/dark.js" type="text/javascript"></script> -->
+        <script src="https://www.amcharts.com/lib/3/ammap.js" type="text/javascript"></script>
+        <script src="https://www.amcharts.com/lib/3/maps/js/worldHigh.js" type="text/javascript"></script>
+        <script src="https://www.amcharts.com/lib/3/themes/dark.js" type="text/javascript"></script>
 
         <script type="text/javascript">
             function resizemenu(){
