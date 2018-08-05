@@ -14,6 +14,7 @@
             <div class="button">
                 <input type="button" value="CHANGE COVER" onclick="document.getElementById('fileInput').click();">
                 <input type="file" id="fileInput" name="ebook_logo" style="display: none;">
+                <div class="button upload-book"><input type="submit" value="UPLOAD EBOOK"></div>
             </div>
             @endif
         </div>
@@ -126,14 +127,14 @@
             </div>
         </div>
     </div>
-    <div class="save-cancel-btn edit">
+    <div class="save-cancel-btn edit" style="display: none;">
         <div class="save">
-            <input type="submit" value="Save"/>
+            <input type="submit" value="Save" id="editBookBtn" />
         </div>
         <div class="cancel">
             <label>Cancel</label>
         </div>
-    </div>
+    </div>    
 </form>
 @if($book->type == 'paid')
 <div class="book-compare-price">
@@ -334,4 +335,16 @@
         </div>
     </div>
 </div>
-@endforeach @include('modals.modal-delete') @endif @endsection @section('footer_scripts') @include('scripts.delete-modal-script') @endsection
+@endforeach 
+@include('modals.modal-delete') 
+@endif 
+<div class="save-cancel-btn edit">
+    <div class="save">
+        <input type="button" id="submitEditFormBtn" value="Save"/>
+    </div>
+    <div class="cancel">
+        <label>Cancel</label>
+    </div>
+</div>
+@endsection 
+@section('footer_scripts') @include('scripts.delete-modal-script') @endsection

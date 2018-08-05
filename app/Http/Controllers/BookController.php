@@ -131,7 +131,7 @@ class BookController extends Controller
         }
         $book = Book::findOrFail($id);
         $book->update($requestData); 
-        return redirect('book')->with('flash_message', 'E-Book updated !');
+        return redirect('book/'.$id.'/edit')->with('flash_message', 'E-Book updated !');
     }
 
     /**

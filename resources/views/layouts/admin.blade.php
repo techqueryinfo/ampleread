@@ -72,7 +72,7 @@
         <script type="text/javascript" src="/js/export.js"></script>
         <script type="text/javascript" src="/js/light.js"></script>
         <script type="text/javascript" src="/js/pie.js"></script>
-
+        <script type="text/javascript" src="/js/admin.js"></script>
 
         <script src="https://www.amcharts.com/lib/3/xy.js"></script>
 
