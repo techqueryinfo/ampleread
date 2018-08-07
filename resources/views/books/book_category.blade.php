@@ -216,10 +216,10 @@
                                 <textarea name="desc" class="form-control" rows="5" id="comment" placeholder="Enter Description..." required="required"></textarea>
                             </div>
                             <div class="unit1">
-                                <div class="form-group">
+                                <div>
                                     <div class="heading">Image</div>
                                     <input type="file" name="ebook_logo" accept="image/*"/>
-                                    <button type="submit" class="submit-button">Upload Ebook</button>
+                                    <div class="button upload-book"><input type="submit" value="UPLOAD EBOOK"></div>
                                 </div>
                             </div>
                             <div class="unit2">

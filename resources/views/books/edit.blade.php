@@ -14,7 +14,6 @@
             <div class="button">
                 <input type="button" value="CHANGE COVER" onclick="document.getElementById('fileInput').click();">
                 <input type="file" id="fileInput" name="ebook_logo" style="display: none;">
-                <div class="button upload-book"><input type="submit" value="UPLOAD EBOOK"></div>
             </div>
             @endif
         </div>
