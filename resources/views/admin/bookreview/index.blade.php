@@ -23,6 +23,7 @@
                 	@if(substr($val->ebook_logo, 0, 4) == "http")
                         <img src="{{ $val->ebook_logo }}" alt="img1" />
                     @else
+                    {{ $val->ebook_logo }}
                         <img src="/uploads/ebook_logo/{{ $val->ebook_logo }}" alt="img1" />
                     @endif
                 </div>
