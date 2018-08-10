@@ -155,24 +155,24 @@
             </div>
         </div>
         <div class="owl-carousel owl-theme home-slider">
-            @foreach($related_book as $book)
+            @foreach($related_book as $val)
             <div class="item">
-                <div class="image"><a href="{{url('books/ebook/'.$book->id.'/'.$book->ebooktitle)}}">
-                    @if(substr($book->ebook_logo, 0, 4) == "http")
-                        <img src="{{ $book->ebook_logo }}" alt="image1"/>
+                <div class="image"><a href="{{url('books/ebook/'.$val->id.'/'.$val->ebooktitle)}}">
+                    @if(substr($val->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $val->ebook_logo }}" alt="image1"/>
                     @else
-                        <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="image1" />
+                        <img src="/uploads/ebook_logo/{{ $val->ebook_logo }}" alt="image1" />
                     @endif
                 </a></div>
                 <div class="ample-button">
-                    @if($book->type == 'free')
+                    @if($val->type == 'free')
                         <button>FREE</button>
                     @else
-                        <button style="width: auto; background-color: #868686; border: #868686;">FROM $ {{$book->retailPrice}}</button>
+                        <button style="width: auto; background-color: #868686; border: #868686;">FROM $ {{$val->retailPrice}}</button>
                     @endif
                 </div>
-                <div class="title">{{$book->ebooktitle}}: {{$book->subtitle}}</div>
-                <div class="writer">{{$book->subtitle}}</div>
+                <div class="title">{{$val->ebooktitle}}: {{$val->subtitle}}</div>
+                <div class="writer">{{$val->subtitle}}</div>
                 <div class="star-container">
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
@@ -218,7 +218,7 @@
             <div class="heading">Rate this book</div>
             <form method="POST" enctype="multipart/form-data" action="{{ url('/book/review') }}" onsubmit="return validateForm()">
                 {{ csrf_field() }}
-                <textarea name="review_content"></textarea>
+                <textarea name="review_content" placeholder="Write your review !!"></textarea>
                 <input type="hidden" name="book_id"/ value="{{$book->id}}">
                 <input type="hidden" name="user_id"/ value="{{Auth::user()->id}}">
                 <input type="hidden" name="star" id="star_value" />
@@ -259,7 +259,6 @@
                     Speaking as someone who has not read very many mystery / detective novels, I thought this one was much more than a whodunnit. Nickless adds a terrific human element with her main character's back story in the Middle East that influences and colors her actions in the main storyline. Even better though is her relationship with her partner, her dog Clyde. The way Nickless taught the reader to appreciate the way the two understand, work together and trust each other was worth an entire extra star! There is at least one more twist in the investigation than I expected, so probably just the right amount... A good dose of railroading too, if you find that interesting like I do; in fact it was one of the reasons I chose it.</div>
             </div>
         </div>
-
         <div class="review-container">
             <div class="left">
                 <div class="author-details">

@@ -9,6 +9,7 @@ use App\BookContents;
 use App\BookNotes;
 use App\BookImages;
 use App\PaidDiscount;
+use App\BookReview;
 use DB;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -227,7 +228,7 @@ class BookController extends Controller
      * View Free-Paid E-Book 
     */
     public function view_free_ebook($id)
-    {
+    {   
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first();
         $paid = Book::findOrFail($id)->paid;
@@ -326,5 +327,16 @@ class BookController extends Controller
         $bookImages  = BookImages::where('book_id', $id)->get();
         $result      = array('book' => $book, 'category' => $category, 'categories' => $categories, 'bookContent' => $bookContent, 'bookNote' => $bookNote, 'bookImages' => $bookImages);
         return $result;
+    }
+
+    /*Add Review for Book*/
+    public function add_book_review(Request $request)
+    {
+        $requestData = $request->all();
+        $book_review = BookReview::create($requestData);
+        $book = Book::findOrFail($book_review->book_id)->where('id', $book_review->book_id);
+        $book = $book->first();
+        return redirect("books/ebook/$book->id/$book->ebooktitle");
+        //echo "<pre>"; print_r($book_review); print_r($request->all()); echo "</pre>"; die();
     }
 }
