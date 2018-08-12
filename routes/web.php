@@ -45,7 +45,8 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     Route::get('/activation-required', ['uses' => 'Auth\ActivateController@activationRequired'])->name('activation-required');
     Route::get('/logout', ['uses' => 'Auth\LoginController@logout'])->name('logout');
 
-    Route::post('book/upload/{category_name}', 'BookController@uploadBook');
+    Route::post('book/upload', 'BookController@uploadBook');
+    Route::get('book/ebookupload', 'BookController@uploadEbookPage');
     Route::get('book/create', 'BookController@create');
     Route::post('book', 'BookController@store');
     Route::post('book/review', 'BookController@add_book_review');

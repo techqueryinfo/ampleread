@@ -293,6 +293,15 @@ class BookController extends Controller
     }
 
     /*
+     * Upload eBook Page
+    */
+    public function uploadEbookPage()
+    {
+        $categories = Category::all();
+        return view('books.upload', compact('categories'));
+    }
+
+    /*
     * Upload E-book file admin section
     */
     public function uploadBook(Request $request)
