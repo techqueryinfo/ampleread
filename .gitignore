@@ -6,6 +6,12 @@
 ._*
 ._.*
 
+public/uploads/
+reads.zip
+reads/
+error_log
+public/adm.php
+public/images/
 ### Windows Vendor Configs ###
 Thumbs.db
 

@@ -60,7 +60,7 @@ return [
         // 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
         // 'name'    => env('MAIL_FROM_NAME', 'Example'),
            'address' => env('MAIL_FROM_ADDRESS','asrathore1994@gmail.com'),
-           'name'    => env('MAIL_FROM_NAME','Test'),
+           'name'    => env('MAIL_FROM_NAME','ksyfutjghpzbgdyu'),
     ],
 
     /*
