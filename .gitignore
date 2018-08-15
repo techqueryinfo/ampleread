@@ -15,6 +15,14 @@ public/images/
 ### Windows Vendor Configs ###
 Thumbs.db
 
+resources/assets/css/
+resources/assets/js/bootstrap.min.js
+resources/assets/js/jquery.min.js
+resources/assets/js/main.js
+resources/assets/js/owl.carousel.js
+resources/views/layouts/app.blade.php.bkp
+resources/views/partials/nav.blade.php.bkp
+
 ### Sass ###
 #bower_components/*
 /.sass-cache/*
@@ -46,7 +54,7 @@ composer.lock
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
+/vendor/
 /storage/debugbar
 /storage/framework
 /storage/logs

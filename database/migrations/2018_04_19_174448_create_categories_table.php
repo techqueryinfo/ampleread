@@ -16,11 +16,8 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name')->nullable();
-            $table->text('desc')->nullable();
-            $table->integer('parent')->nullable();
             $table->string('status');
-            $table->string('category_img')->nullable();
-            });
+        });
     }
 
     /**
@@ -33,3 +30,4 @@ class CreateCategoriesTable extends Migration
         Schema::drop('categories');
     }
 }
+
