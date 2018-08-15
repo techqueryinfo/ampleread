@@ -350,8 +350,20 @@ class BookController extends Controller
     }
 
     /* Author Page */
-    public function author_view_page()
+    public function author_view_page($id)
     {
-        return view('books.author');
+        $book = Book::findOrFail($id)->where('id', $id);
+        $book = $book->first();
+        $related_book = DB::table('books')
+        ->join('users', 'users.id', '=', 'books.user_id')
+        ->join('categories', 'books.category', '=', 'categories.id')
+        ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+        ->where('categories.id', '=', $book->category)
+        ->where('categories.is_delete', '=', 0)
+        ->where('categories.status', '=', 'Active')
+        ->where('books.approve', '=', 1)
+        ->get();
+        $bookReview = BookReview::where('book_id', $id)->where('user_id', Auth::id())->first();
+        return view('books.author', compact('book', 'related_book', 'bookReview'));
     }
 }

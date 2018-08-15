@@ -50,7 +50,6 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     Route::get('book/create', 'BookController@create');
     Route::post('book', 'BookController@store');
     Route::post('book/review', 'BookController@add_book_review');
-    Route::get('book/author', 'BookController@author_view_page');
     Route::resource('book', 'BookController');
     Route::post('paid/discountSave', 'PaidController@discountSave');
     Route::post('paid/deleteDiscount/{id}', 'PaidController@deleteDiscount');
@@ -171,6 +170,7 @@ Route::get('plans', 'Admin\\PlansController@fe_view_plans');
 Route::post('profile/payment', 'Admin\\PlansController@do_payment');
 Route::post('contact', 'PagesController@contact_us_mail');
 Route::get('books/category/{category_name}', 'BookController@show_books_by_category');
+Route::get('book/{id}/author/{ebooktitle}', 'BookController@author_view_page');
 Route::get('books/ebook/{id}/{ebooktitle}', 'BookController@view_free_ebook');
 Route::get('book/get/{id}', 'BookController@getBookDetail');
 Route::post('book/save', 'BookController@saveContent');

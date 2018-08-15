@@ -76,7 +76,7 @@
                 Barbara Nickless promised her mother she’d be a novelist when she grew up. What could be safer than sitting at a desk all day? But an English degree and a sense of adventure took her down other paths—technical writer...
             </div>
             <div class="button">
-                <button><a href="{{ url('/book/author') }}" style="text-decoration: none; color: #fff;">Learn more</a></button>
+                <button><a href="{{ url("/book/$book->id/author/$book->ebooktitle") }}" style="text-decoration: none; color: #fff;">Learn more</a></button>
             </div>
         </div>
     </div>
