@@ -1,0 +1,33 @@
+{
+    "name": "jeremykenedy/laravel2step",
+    "description": "Laravel 2 Step Authentication Package",
+    "keywords": ["laravel", "2-step verification", "verification"],
+    "license": "MIT",
+    "type": "package",
+    "authors": [
+        {
+            "name": "jeremykenedy",
+            "email": "jeremykenedy@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "jeremykenedy\\laravel2step\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "jeremykenedy\\laravel2step\\laravel2stepServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

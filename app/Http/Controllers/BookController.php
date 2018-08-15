@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Models\User;
+use Auth;
 use App\Category;
 use App\Book;
 use App\Paid;
@@ -11,9 +14,6 @@ use App\BookImages;
 use App\PaidDiscount;
 use App\BookReview;
 use DB;
-use Illuminate\Http\Request;
-use App\Models\User;
-use Auth;
 
 class BookController extends Controller
 {
@@ -250,7 +250,8 @@ class BookController extends Controller
         ->where('categories.status', '=', 'Active')
         ->where('books.approve', '=', 1)
         ->get();
-        return view('books.free_ebook', compact('book', 'related_book', 'paid', 'paidDiscount'));
+        $bookReview = BookReview::where('book_id', $id)->where('user_id', Auth::id())->first();
+        return view('books.free_ebook', compact('book', 'related_book', 'paid', 'paidDiscount', 'bookReview'));
     }
 
     /**
@@ -346,6 +347,11 @@ class BookController extends Controller
         $book = Book::findOrFail($book_review->book_id)->where('id', $book_review->book_id);
         $book = $book->first();
         return redirect("books/ebook/$book->id/$book->ebooktitle");
-        //echo "<pre>"; print_r($book_review); print_r($request->all()); echo "</pre>"; die();
+    }
+
+    /* Author Page */
+    public function author_view_page()
+    {
+        return view('books.author');
     }
 }

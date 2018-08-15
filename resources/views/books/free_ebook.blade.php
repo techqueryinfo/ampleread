@@ -76,7 +76,7 @@
                 Barbara Nickless promised her mother she’d be a novelist when she grew up. What could be safer than sitting at a desk all day? But an English degree and a sense of adventure took her down other paths—technical writer...
             </div>
             <div class="button">
-                <button>Learn more</button>
+                <button><a href="{{ url('/book/author') }}" style="text-decoration: none; color: #fff;">Learn more</a></button>
             </div>
         </div>
     </div>
@@ -151,7 +151,6 @@
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
                 <div class="view-all">view all</div>
-
             </div>
         </div>
         <div class="owl-carousel owl-theme home-slider">
@@ -185,7 +184,7 @@
         </div>
     </div>
     <div class="sign-in-page-bar bar-extend"></div>
-        @if(Auth::check())
+        @if(Auth::check() && empty($bookReview))
         <div class="rate-this-book">
          <div class="left-sec">
             <div class="heading">Rate this book</div>
@@ -219,12 +218,17 @@
             <form method="POST" enctype="multipart/form-data" action="{{ url('/book/review') }}" onsubmit="return validateForm()">
                 {{ csrf_field() }}
                 <textarea name="review_content" placeholder="Write your review !!"></textarea>
-                <input type="hidden" name="book_id"/ value="{{$book->id}}">
-                <input type="hidden" name="user_id"/ value="{{Auth::user()->id}}">
+                <input type="hidden" name="book_id" value="{{$book->id}}">
+                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                 <input type="hidden" name="star" id="star_value" />
                 <button type="submit">Submit review</button>       
             </form>
          </div>
+        </div>
+        @elseif(!empty($bookReview))
+        <div class="sign-in-review">
+            <i class="fas fa-lock"></i>
+            <span>Already, You have given review for this book.</span>
         </div>
         @else
         <div class="sign-in-review">
