@@ -11,6 +11,11 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use jeremykenedy\LaravelRoles\Models\Role;
+use Illuminate\Http\Request;
+use Response;
+
+use App\Mail\RegisterMail;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -57,35 +62,35 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $data['captcha'] = $this->captchaCheck();
+        // $data['captcha'] = $this->captchaCheck();
 
-        if (!config('settings.reCaptchStatus')) {
-            $data['captcha'] = true;
-        }
+        // if (!config('settings.reCaptchStatus')) {
+        //     $data['captcha'] = true;
+        // }
 
         return Validator::make($data,
             [
                 'name'                  => 'required|max:255|unique:users',
-                'first_name'            => '',
-                'last_name'             => '',
+                // 'first_name'            => '',
+                // 'last_name'             => '',
                 'email'                 => 'required|email|max:255|unique:users',
                 'password'              => 'required|min:6|max:30|confirmed',
                 'password_confirmation' => 'required|same:password',
-                'g-recaptcha-response'  => '',
-                'captcha'               => 'required|min:1',
+                // 'g-recaptcha-response'  => '',
+                // 'captcha'               => 'required|min:1',
             ],
             [
                 'name.unique'                   => trans('auth.userNameTaken'),
                 'name.required'                 => trans('auth.userNameRequired'),
-                'first_name.required'           => trans('auth.fNameRequired'),
-                'last_name.required'            => trans('auth.lNameRequired'),
+                // 'first_name.required'           => trans('auth.fNameRequired'),
+                // 'last_name.required'            => trans('auth.lNameRequired'),
                 'email.required'                => trans('auth.emailRequired'),
                 'email.email'                   => trans('auth.emailInvalid'),
                 'password.required'             => trans('auth.passwordRequired'),
                 'password.min'                  => trans('auth.PasswordMin'),
                 'password.max'                  => trans('auth.PasswordMax'),
-                'g-recaptcha-response.required' => trans('auth.captchaRequire'),
-                'captcha.min'                   => trans('auth.CaptchaWrong'),
+                // 'g-recaptcha-response.required' => trans('auth.captchaRequire'),
+                // 'captcha.min'                   => trans('auth.CaptchaWrong'),
             ]
         );
     }
@@ -101,21 +106,44 @@ class RegisterController extends Controller
     {
         $ipAddress = new CaptureIpTrait();
         $role = Role::where('slug', '=', 'unverified')->first();
-
+        // echo "<pre>"; print_r($data); exit;
         $user = User::create([
                 'name'              => $data['name'],
-                'first_name'        => $data['first_name'],
-                'last_name'         => $data['last_name'],
+                // 'first_name'        => $data['first_name'],
+                'country'         => $data['country'],
                 'email'             => $data['email'],
                 'password'          => Hash::make($data['password']),
+                'plan_id'           => '1',
                 'token'             => str_random(64),
                 'signup_ip_address' => $ipAddress->getClientIp(),
                 'activated'         => !config('settings.activation'),
             ]);
 
         $user->attachRole($role);
-        $this->initiateEmailActivation($user);
+        // $this->initiateEmailActivation($user);
+        Mail::to($data['email'])->send(new RegisterMail($user));
 
         return $user;
+    }
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $input = $request->all();
+
+        if ($validator->passes()) {
+            // Store your user in database 
+            $this->create($request->all());
+ 
+            return Response::json(['success' => '1']);
+
+        }
+        
+        return Response::json(['errors' => $validator->errors()]);
     }
 }

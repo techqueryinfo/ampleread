@@ -2,12 +2,12 @@
 
 return [
 
-    'app'               => 'Laravel',
+    'app'               => 'Ampleread',
     'app2'              => 'Auth 4.0',
     'home'              => 'Home',
-    'login'             => 'Login',
+    'login'             => 'Sign In',
     'logout'            => 'Logout',
-    'register'          => 'Register',
+    'register'          => 'Sign Up',
     'resetPword'        => 'Reset Password',
     'toggleNav'         => 'Toggle Navigation',
     'profile'           => 'Profile',
@@ -32,4 +32,6 @@ return [
     'adminRoutes'       => 'Routing Details',
 
     'activeUsers'       => 'Active Users',
+    'adminCategoryList' => 'Category Management',
+    'adminPlanList' => 'Subscription Plan Management'
 ];

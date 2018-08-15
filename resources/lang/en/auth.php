@@ -43,7 +43,7 @@ return [
     'first_name'      => 'First Name',
     'last_name'       => 'Last Name',
     'confirmPassword' => 'Confirm Password',
-    'register'        => 'Register',
+    'register'        => 'register',
 
     // Placeholders
     'ph_name'          => 'Username',

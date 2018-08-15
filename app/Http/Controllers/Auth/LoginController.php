@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-
+use App\Category;
 class LoginController extends Controller
 {
     /*
@@ -39,6 +39,30 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
+
+    protected function authenticated($request, $user)
+    {
+        $categories = Category::all();
+        if($user->isAdmin())
+        {
+           return redirect('admin/dashboard');   
+        }
+        else
+        {
+            return redirect()->intended('/home');
+            // return view('home', compact('categories'));   
+        }
+    }
+
+    // protected function authenticated($request, $user)
+    // {
+    //     $user = Auth::user();
+    //     if($user->role === 'admin') {
+    //         return redirect()->intended('/admin/dashboard');
+    //     }
+
+    //     return redirect()->intended('/home');
+    // }
 
     /**
      * Logout, Clear Session, and Return.

@@ -1,0 +1,594 @@
+@font-face {
+	font-family: 'GothamPro';
+	src: url("../font/GothamPro.eot?") format("eot"), url("../font/GothamPro.otf") format("opentype"), url("../font/GothamPro.woff") format("woff"), url("../font/GothamPro.ttf") format("truetype"), url("../font/GothamPro.svg#GothamPro") format("svg")
+}
+
+body {
+	font-family: 'GothamPro' !important;
+	margin: 0
+}
+
+.admin-container {
+	width: 100%;
+	float: left
+}
+
+.admin-container .admin-left {
+	width: 245px;
+	min-height: 400px;
+	background-color: #2e3243;
+	float: left
+}
+
+.admin-container .admin-left .admin-img {
+	width: 60px;
+	height: 60px;
+	margin: 20px 95px 20px 90px
+}
+
+.admin-container .admin-left .admin-img img {
+	width: 60px;
+	height: 60px;
+	border-radius: 60px
+}
+
+.admin-container .admin-left .admin-name {
+	margin-bottom: 10px;
+	width: 100%;
+	float: left
+}
+
+.admin-container .admin-left .admin-name .name {
+	font-size: 16px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #ffffff;
+	text-align: center
+}
+
+.admin-container .admin-left .admin-name .name i {
+	width: 10px;
+	height: 5.7px;
+	opacity: 0.8;
+	color: #ffffff;
+	margin-left: 5px
+}
+
+.admin-container .admin-left .admin-pro {
+	width: 100%;
+	float: left;
+	margin-bottom: 20px
+}
+
+.admin-container .admin-left .admin-pro .admin-button {
+	width: 52px;
+	height: 24px;
+	border-radius: 2px;
+	background-color: #1f2332;
+	text-align: center;
+	margin: 0 auto;
+	cursor: pointer
+}
+
+.admin-container .admin-left .admin-pro .admin-button a {
+	width: 36px;
+	height: 9px;
+	font-family: GothamPro;
+	font-size: 10px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #ffffff;
+	text-decoration: none
+}
+
+.admin-container .admin-left .admin-line {
+	width: 245px;
+	height: 1px;
+	background-color: #1f2332;
+	float: left
+}
+
+.admin-container .admin-left .admin-menu {
+	width: 100%;
+	float: left
+}
+
+.admin-container .admin-left .admin-menu ul {
+	list-style-type: none;
+	padding: 0
+}
+
+.admin-container .admin-left .admin-menu ul li {
+	width: 245px;
+	height: 45px;
+	line-height: 2;
+	cursor: pointer;
+	padding: 10px 0px
+}
+
+.admin-container .admin-left .admin-menu ul li a {
+	opacity: 0.4;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #ffffff;
+	text-decoration: none;
+	padding: 0px 20px
+}
+
+.admin-container .admin-left .admin-menu ul li span {
+	width: 24px;
+	height: 24px;
+	background-image: linear-gradient(135deg, #f95d49, #ff7335);
+	border-radius: 24px;
+	padding: 7px;
+	float: right;
+	margin-right: 20px
+}
+
+.admin-container .admin-left .admin-menu ul li.active {
+	background-color: #1f2332;
+	-webkit-transition: background-color .5s;
+	transition: background-color .5s
+}
+
+.admin-container .admin-left .admin-menu ul li.active a {
+	color: #ffffff;
+	opacity: 1
+}
+
+.admin-container .admin-left .logout {
+	float: left;
+	margin-left: 20px;
+	position: absolute
+}
+
+.admin-container .admin-left .logout .icon {
+	float: left;
+	float: left;
+	margin-right: 10px;
+	cursor: pointer
+}
+
+.admin-container .admin-left .logout .icon i {
+	color: #797b86
+}
+
+.admin-container .admin-left .logout .text {
+	float: left;
+	opacity: 0.4;
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #ffffff
+}
+
+.admin-container .admin-right {
+	width: calc(100% - 245px);
+	float: left;
+	padding: 20px 40px
+}
+
+.admin-container .admin-right .search-section {
+	width: 100%;
+	float: left
+}
+
+.admin-container .admin-right .search-section .search-icon {
+	position: relative;
+	top: 31px;
+	left: 10px;
+	color: #959595;
+	width: 20px
+}
+
+.admin-container .admin-right .search-section input {
+	width: 100%;
+	height: 40px;
+	border-radius: 4px;
+	background-color: #f6f6f6;
+	border: 1px solid #f6f6f6;
+	padding: 0px 34px
+}
+
+.admin-container .admin-right .sorting-section {
+	width: 100%;
+	float: left;
+	margin-top: 20px
+}
+
+.admin-container .admin-right .sorting-section .sorting-left {
+	width: 60%;
+	float: left
+}
+
+.admin-container .admin-right .sorting-section .sorting-left .select2, .admin-container .admin-right .sorting-section .sorting-left .select2-container--default .select2-selection--single {
+	width: 205px !important;
+	height: 40px !important;
+	border-radius: 4px;
+	background-color: #f6f6f6;
+	border: 1px solid #f6f6f6 !important
+}
+
+.admin-container .admin-right .sorting-section .sorting-left .select2-container--default .select2-selection--single .select2-selection__rendered {
+	color: #444;
+	font-weight: 600;
+	line-height: 2.7
+}
+
+.admin-container .admin-right .sorting-section .sorting-left .select2-container--default .select2-selection--single .select2-selection__arrow {
+	top: 6px
+}
+
+.admin-container .admin-right .sorting-section .sorting-left .select2-container--default .select2-selection--single .select2-selection__arrow b {
+	border-color: #444 transparent transparent transparent
+}
+
+.admin-container .admin-right .sorting-section .sorting-left .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+	border-color: transparent transparent #444 transparent
+}
+
+.admin-container .admin-right .sorting-section .sorting-right {
+	width: 90px;
+	float: right;
+	padding: 12px 0px
+}
+
+.admin-container .admin-right .sorting-section .sorting-right .circle {
+	width: 16px;
+	height: 16px;
+	float: left;
+	background-color: #fff;
+	border: 2px solid #8ea1b2;
+	border-radius: 8px;
+	cursor: pointer;
+	margin-right: 10px;
+	cursor: pointer
+}
+
+.admin-container .admin-right .sorting-section .sorting-right .circle i {
+	color: #8ea1b2;
+	font-size: 6px;
+	text-align: center;
+	position: relative;
+	top: -6.3px;
+	left: 3.3px
+}
+
+.admin-container .admin-right .sorting-section .sorting-right label {
+	height: 12px;
+	float: left;
+	font-family: GothamPro;
+	font-size: 14px;
+	font-weight: 500;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #8ea1b2
+}
+
+.admin-container .admin-right .listing {
+	width: 100%;
+	float: left;
+	margin-top: 10px;
+	border-bottom: 1px solid #ddd;
+	padding: 20px 0px
+}
+
+.admin-container .admin-right .listing .listing-1 {
+	width: calc(100% - 50% - 47px);
+	float: left
+}
+
+.admin-container .admin-right .listing .listing-1 .image {
+	float: left;
+	margin-right: 10px
+}
+
+.admin-container .admin-right .listing .listing-1 .image img {
+	width: 40px;
+	height: 40px;
+	border-radius: 40px
+}
+
+.admin-container .admin-right .listing .listing-1 .name {
+	float: left;
+	font-size: 16px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #000000;
+	margin-right: 10px;
+	padding: 10px 0px
+}
+
+.admin-container .admin-right .listing .listing-1 .sub-name {
+	float: left;
+	opacity: 0.4;
+	font-size: 16px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #000000;
+	padding: 10px 0px
+}
+
+.admin-container .admin-right .listing .listing-2 {
+	width: 25%;
+	float: left;
+	font-size: 16px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #000000;
+	padding: 10px 0px
+}
+
+.admin-container .admin-right .listing .listing-3 {
+	width: 25%;
+	float: left;
+	padding: 10px 0px
+}
+
+.admin-container .admin-right .listing .listing-3 .map {
+	float: left
+}
+
+.admin-container .admin-right .listing .listing-3 .map img {
+	width: 20px;
+	height: 14px
+}
+
+.admin-container .admin-right .listing .listing-3 .name {
+	float: left;
+	font-size: 16px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #000000;
+	margin-left: 10px
+}
+
+.admin-container .admin-right .listing .listing-4 {
+	width: 47px;
+	float: right;
+	padding: 10px 0px;
+	text-align: right
+}
+
+.admin-container .admin-right .listing .listing-4 .edit {
+	float: left;
+	color: #8ea1b2;
+	cursor: pointer
+}
+
+.admin-container .admin-right .listing .listing-4 .delete {
+	float: left;
+	margin-left: 20px;
+	color: #f55858;
+	cursor: pointer
+}
+
+.admin-container .admin-right .admin-edit {
+	width: 100%;
+	float: left
+}
+
+.admin-container .admin-right .admin-edit .edit-one {
+	width: calc(30% - 40px);
+	margin-right: 30px;
+	float: left
+}
+
+.admin-container .admin-right .admin-edit .edit-one .image {
+	width: 100%;
+	float: left;
+	margin-bottom: 20px
+}
+
+.admin-container .admin-right .admin-edit .edit-one .image img {
+	margin: 0px 30px;
+	width: 90px;
+	height: 90px;
+	border-radius: 90px
+}
+
+.admin-container .admin-right .admin-edit .edit-one .button {
+	width: 100%;
+	float: left
+}
+
+.admin-container .admin-right .admin-edit .edit-one .button input {
+	width: 156px;
+	height: 40px;
+	border-radius: 4px;
+	background-color: #8ea1b2;
+	box-shadow: 5px 10px 50px 0 rgba(142, 161, 178, 0.2);
+	border: 1px solid #8ea1b2;
+	color: #FFFFFF
+}
+
+.admin-container .admin-right .admin-edit .edit-two {
+	width: 70%;
+	float: left
+}
+
+.admin-container .admin-right .admin-edit .edit-two .unit-1 {
+	width: calc(50% - 20px);
+	margin-right: 20px;
+	float: left
+}
+
+.admin-container .admin-right .admin-edit .edit-two .unit-2 {
+	width: 50%;
+	float: left
+}
+
+.admin-container .admin-right .admin-edit .edit-two .form-unit {
+	width: 100%;
+	float: left;
+	margin: 0px 0px 10px 0px
+}
+
+.admin-container .admin-right .admin-edit .edit-two .form-unit .heading {
+	font-size: 16px;
+	font-weight: 600;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #000000
+}
+
+.admin-container .admin-right .admin-edit .edit-two .form-unit .content {
+	margin: 10px 0px
+}
+
+.admin-container .admin-right .admin-edit .edit-two .form-unit .content input, .admin-container .admin-right .admin-edit .edit-two .form-unit .content textarea {
+	width: 100%;
+	height: 40px;
+	border-radius: 4px;
+	background-color: #f6f6f6;
+	color: #000;
+	padding: 0px 16px;
+	border: 1px solid #f6f6f6
+}
+
+.admin-container .admin-right .admin-edit .edit-two .form-unit .content textarea {
+	overflow: hidden;
+	resize: none;
+	height: 364px
+}
+
+.admin-container .admin-right .admin-edit .edit-two .form-unit .content .select2, .admin-container .admin-right .admin-edit .edit-two .form-unit .content .select2-container--default .select2-selection--single {
+	width: 100% !important;
+	height: 40px !important;
+	border-radius: 4px;
+	background-color: #f6f6f6;
+	border: 1px solid #f6f6f6 !important
+}
+
+.admin-container .admin-right .admin-edit .edit-two .form-unit .content .select2-container--default .select2-selection--single .select2-selection__rendered {
+	color: #444;
+	font-weight: 600;
+	line-height: 2.7
+}
+
+.admin-container .admin-right .admin-edit .edit-two .form-unit .content .select2-container--default .select2-selection--single .select2-selection__arrow {
+	top: 6px
+}
+
+.admin-container .admin-right .admin-edit .edit-two .form-unit .content .select2-container--default .select2-selection--single .select2-selection__arrow b {
+	border-color: #444 transparent transparent transparent
+}
+
+.admin-container .admin-right .admin-edit .edit-two .form-unit .content .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+	border-color: transparent transparent #444 transparent
+}
+
+.admin-container .admin-right .admin-edit .edit-three {
+	width: calc(30% - 40px);
+	margin-right: 30px;
+	float: left
+}
+
+.admin-container .admin-right .admin-edit .edit-three .image {
+	width: 100%;
+	float: left;
+	margin-bottom: 20px
+}
+
+.admin-container .admin-right .admin-edit .edit-three .image img {
+	width: 200px;
+	height: 300px
+}
+
+.admin-container .admin-right .admin-edit .edit-three .button {
+	width: 100%;
+	float: left
+}
+
+.admin-container .admin-right .admin-edit .edit-three .button input {
+	width: 200px;
+	height: 50px;
+	border-radius: 4px;
+	background-color: #8ea1b2;
+	box-shadow: 5px 10px 50px 0 rgba(142, 161, 178, 0.2);
+	border: 1px solid #8ea1b2;
+	color: #FFFFFF
+}
+
+.admin-container .admin-right .save-cancel-btn {
+	width: 100%;
+	float: left;
+	margin: 500px 0px 0px 0px
+}
+
+.admin-container .admin-right .save-cancel-btn .save {
+	width: 50%;
+	float: left
+}
+
+.admin-container .admin-right .save-cancel-btn .save input {
+	width: 80px;
+	height: 40px;
+	border-radius: 4px;
+	background-image: linear-gradient(117deg, #f95d49, #ff7335);
+	box-shadow: 5px 10px 40px 0 rgba(249, 93, 73, 0.2);
+	color: #ffffff;
+	border: 1px solid #ff7335
+}
+
+.admin-container .admin-right .save-cancel-btn .cancel {
+	width: 50%;
+	float: left;
+	text-align: right;
+	cursor: pointer
+}
+
+.admin-container .admin-right .save-cancel-btn .cancel label {
+	font-size: 14px;
+	font-weight: 500;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #8ea1b2;
+	padding: 13px 0px 13px 0px;
+	cursor: pointer
+}
+
+.admin-container .admin-right .save-cancel-btn.edit {
+	margin: 50px 0px 0px 0px
+}
+
+.createbook-Modal .modal-body .ample-login-section{
+	margin-top: 0 !important;
+}
+.ample-login-signup .ample-login-section form .form-group input, .ample-login-signup .ample-login-section form .form-group select{
+	margin-top: 0px !important
+}

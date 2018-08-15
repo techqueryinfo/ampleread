@@ -1,98 +1,196 @@
-<!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .title small {
-                font-size: 60px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
+@extends('layouts.app')
+@section('content')
+<div class="ample-slider">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            @if(!empty($banner_images))
+            @foreach($banner_images as $key => $banner_image)
+            @if($banner_image->image_name !='')
+                @php
+                    $active = ($key == 0)  ? 'active' : '';
+                @endphp
+                <div class="item {{$active}}">
+                    <div class="ample-banner">
+                        <img src="/uploads/ebook_logo/{{$banner_image->image_name}}"/>
+                    </div>
                 </div>
             @endif
-            <div class="content">
-                <div class="title m-b-md">
-                    @lang('titles.app')<br />
-                    <small>@lang('titles.app2')</small>
-                </div>
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+            @endforeach
+            @else
+            <div class="item active">
+                <div class="ample-banner">
+                    <div class="ample-banner-left">
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image1.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image2.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image3.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image4.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image5.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image6.png"></div>
+                        </div>
+                    </div>
+                    <div class="ample-banner-right">
+                        <div class="ample-banner-heading">10 inspiring books<br>
+                            for the autumn begining</div>
+                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            donec et quam id nunc finibus efficitur molestie</div>
+                        <div class="ample-banner-button">
+                            <button>Learn More</button>
+                        </div>
+                    </div>
+                    <div class="ample-banner-mobile">
+                        <div class="unit-1">
+                            <img src="images/image7.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image8.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image9.jpg" />
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="item">
+                <div class="ample-banner">
+                    <div class="ample-banner-left">
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image7.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image8.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image9.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image2.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image4.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image5.jpg"></div>
+                        </div>
+                    </div>
+                    <div class="ample-banner-right">
+                        <div class="ample-banner-heading">10 inspiring books<br>
+                            for the autumn begining</div>
+                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            donec et quam id nunc finibus efficitur molestie</div>
+                        <div class="ample-banner-button">
+                            <button>Learn More</button>
+                        </div>
+                    </div>
+                    <div class="ample-banner-mobile">
+                        <div class="unit-1">
+                            <img src="images/image4.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image5.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image6.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ample-banner">
+                    <div class="ample-banner-left">
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image9.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image8.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image7.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image5.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image4.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image3.jpg"></div>
+                        </div>
+
+                    </div>
+                    <div class="ample-banner-right">
+                        <div class="ample-banner-heading">10 inspiring books<br>
+                            for the autumn begining</div>
+                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            donec et quam id nunc finibus efficitur molestie</div>
+                        <div class="ample-banner-button">
+                            <button>Learn More</button>
+                        </div>
+                    </div>
+                    <div class="ample-banner-mobile">
+                        <div class="unit-1">
+                            <img src="images/image1.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image2.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image1.jpg" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
-    </body>
-</html>
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+            <!--<span class="glyphicon glyphicon-chevron-left"></span>-->
+            <i class="fas fa-chevron-left"></i>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+            <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
+            <i class="fas fa-chevron-right"></i>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+<div class="ample-book-slot-1">
+    @if(!$special_features->isEmpty())
+        @foreach($special_features as $key => $val)
+            @if($key <= 2)
+                <div class="slot-1">
+                    <div class="e-book1">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
+                    </div>
+                    <div class="heading">{{ $val->home_books->ebooktitle }}</div>
+                    <div class="sub-text">{{ $val->home_books->subtitle }}</div>
+                </div>
+            @endif
+        @endforeach
+    @else
+        Data not available !
+    @endif
+</div>
+<div class="ample-book-slot-2">
+    @if(!$special_features->isEmpty())
+        @foreach($special_features as $key => $val)
+            @if($key >= 3)
+                <div class="slot-1">
+                    <div class="heading">{{ $val->home_books->ebooktitle }}</div>
+                    <div class="sub-text">{{ $val->home_books->subtitle }}</div>
+                    <div class="ebook">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt=""><img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="">
+                    </div>
+                </div>
+            @endif
+        @endforeach
+    @else
+        Data not available !
+    @endif
+</div>
+@include('partials.new-release')
+@include('partials.best-seller')
+@include('partials.classic')
+@endsection

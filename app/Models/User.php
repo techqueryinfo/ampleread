@@ -38,8 +38,11 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'country_id',
+        'plan_id',
         'password',
         'activated',
+        'status',
         'token',
         'signup_ip_address',
         'signup_confirmation_ip_address',
@@ -85,6 +88,16 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Profile');
     }
 
+    /**
+     * User Country Relationships.
+     *
+     * @var array
+     */
+    public function country()
+    {
+        return $this->belongsTo('App\Country');
+    }
+
     // User Profile Setup - SHould move these to a trait or interface...
 
     public function profiles()
@@ -111,5 +124,23 @@ class User extends Authenticatable
     public function removeProfile($profile)
     {
         return $this->profiles()->detach($profile);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role');
+    }
+
+    public function isAdmin()
+    {
+        foreach ($this->roles()->get() as $role)
+        {
+            if ($role->name == 'Admin')
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

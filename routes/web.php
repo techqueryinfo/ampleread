@@ -14,8 +14,9 @@
 */
 
 // Homepage Route
-Route::get('/', 'WelcomeController@welcome')->name('welcome');
-
+Route::get('/', 'WelcomeController@site')->name('site');
+Route::get('/welcome', 'WelcomeController@welcome')->name('welcome');
+Route::get('/api', 'API\ApiController@index');
 // Authentication Routes
 Auth::routes();
 
@@ -43,6 +44,14 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     // Activation Routes
     Route::get('/activation-required', ['uses' => 'Auth\ActivateController@activationRequired'])->name('activation-required');
     Route::get('/logout', ['uses' => 'Auth\LoginController@logout'])->name('logout');
+
+    Route::post('book/upload/{category_name}', 'BookController@uploadBook');
+    Route::get('book/create', 'BookController@create');
+    Route::post('book', 'BookController@store');
+    Route::resource('book', 'BookController');
+    Route::post('paid/discountSave', 'PaidController@discountSave');
+    Route::post('paid/deleteDiscount/{id}', 'PaidController@deleteDiscount');
+    Route::resource('paid', 'PaidController');
 });
 
 // Registered and Activated User Routes
@@ -124,6 +133,42 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('routes', 'AdminDetailsController@listRoutes');
     Route::get('active-users', 'AdminDetailsController@activeUsers');
+
+    Route::resource('admin/categories', 'Admin\\CategoriesController');
+    Route::resource('admin/dashboard', 'Admin\\DashboardController');
+    Route::resource('admin/categories', 'Admin\\CategoriesController');
+    Route::resource('admin/plans', 'Admin\\PlansController');
+    Route::resource('admin/settings', 'Admin\\SettingsController');
+    // Route::resource('book', 'BookController');
+    Route::get('/admin/transaction', 'Admin\\PlansController@transactionView');
+    Route::get('admin/books/category/{category_name}', 'BookController@show_books_by_category');
+
+    
+    Route::post('/admin/homepage/special_feature', 'Admin\\HomeController@add_special_feature_book');
+    Route::post('/admin/homepage/add_book', 'Admin\\HomeController@add_tags_book');
+    Route::post('/admin/homepage/special_feature/{id}', 'Admin\\HomeController@delete_special_feature_book');
+    Route::get('/admin/homepage/{category_name}', 'Admin\\HomeController@show_books_tag');
+    Route::resource('admin/homepage', 'Admin\\HomeController');
+    Route::resource('admin/review', 'Admin\\BookReviewController');
+    Route::post('admin/books/category/{id}', 'BookController@deleteCategory');
 });
 
 Route::redirect('/php', '/phpinfo', 301);
+Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'Auth\LoginController@showLoginForm'));
+
+Route::get('about-us', 'PagesController@aboutus');
+Route::get('contact-us', 'PagesController@contactus');
+Route::get('career', 'PagesController@career');
+Route::get('terms', 'PagesController@terms');
+Route::get('privacy', 'PagesController@privacy');
+Route::get('help', 'PagesController@help');
+Route::get('subscription','PagesController@subscription');
+//show subscription plans in front end for users
+Route::get('plans', 'Admin\\PlansController@fe_view_plans');
+Route::post('profile/payment', 'Admin\\PlansController@do_payment');
+Route::post('contact', 'PagesController@contact_us_mail');
+Route::get('books/category/{category_name}', 'BookController@show_books_by_category');
+Route::get('books/ebook/{id}/{ebooktitle}', 'BookController@view_free_ebook');
+Route::get('book/get/{id}', 'BookController@getBookDetail');
+Route::post('book/save', 'BookController@saveContent');
+Route::post('book/saveimage', 'BookController@saveImage');
