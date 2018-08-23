@@ -76,7 +76,7 @@
                 Barbara Nickless promised her mother she’d be a novelist when she grew up. What could be safer than sitting at a desk all day? But an English degree and a sense of adventure took her down other paths—technical writer...
             </div>
             <div class="button">
-                <button><a href="<?php echo e(url('/book/author')); ?>" style="text-decoration: none; color: #fff;">Learn more</a></button>
+                <button><a href="<?php echo e(url("/book/$book->id/author/$book->ebooktitle")); ?>" style="text-decoration: none; color: #fff;">Learn more</a></button>
             </div>
         </div>
     </div>
@@ -151,7 +151,6 @@
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
                 <div class="view-all">view all</div>
-
             </div>
         </div>
         <div class="owl-carousel owl-theme home-slider">

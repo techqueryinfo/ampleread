@@ -23,13 +23,12 @@
                 	@if(substr($val->ebook_logo, 0, 4) == "http")
                         <img src="{{ $val->ebook_logo }}" alt="img1" />
                     @else
-                    {{ $val->ebook_logo }}
                         <img src="/uploads/ebook_logo/{{ $val->ebook_logo }}" alt="img1" />
                     @endif
                 </div>
                 <div class="title">{{ $val->ebooktitle }}: {{$val->subtitle}}</div>
-                <div class="writer">{{ $val->publisher }}</div>
-                <input type="button" value="APPROVE">
+                <div class="writer">@if(isset($val->publisher)){{$val->publisher}}@else Publisher @endif</div>
+                <input type="button" value="APPROVE"/>
                 <label>DECLINE</label>
             </div>
             @endforeach
@@ -46,8 +45,7 @@
 		$(".plan-listing").hide();
 		$(".user-sections .unit").removeClass("active");
 		$(this).addClass("active");
-
-		var dataAttr=$(this).attr("data-attr");
+        var dataAttr=$(this).attr("data-attr");
 		$(".user-general,.user-password,.user-subscription").removeClass("active");
 		$("."+dataAttr).addClass("active");
 		$("."+dataAttr).removeAttr("style");

@@ -73,11 +73,8 @@
         <script type="text/javascript" src="/js/light.js"></script>
         <script type="text/javascript" src="/js/pie.js"></script>
         <script type="text/javascript" src="/js/admin.js"></script>
-
         <script src="https://www.amcharts.com/lib/3/xy.js"></script>
-
         <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-
         <script src="https://www.amcharts.com/lib/3/ammap.js" type="text/javascript"></script>
         <script src="https://www.amcharts.com/lib/3/maps/js/worldHigh.js" type="text/javascript"></script>
         <script src="https://www.amcharts.com/lib/3/themes/dark.js" type="text/javascript"></script>
@@ -141,37 +138,34 @@
                 }
             } );
         </script>
-
         <script type="text/javascript">
-    var map = AmCharts.makeChart("mapchart",{
-        type: "map",
-        theme: "dark",
-        projection: "mercator",
-        panEventsEnabled : true,
-        backgroundColor : "transparent",
-        backgroundAlpha : 1,
-        zoomControl: {
-            zoomControlEnabled : true
-        },
-        dataProvider : {
-            map : "worldHigh",
-            getAreasFromMap : true,
-            areas :
-                []
-        },
-        areasSettings : {
-            autoZoom : true,
-            color : "#78c0e5",
-            colorSolid : "#84ADE9",
-            selectedColor : "#84ADE9",
-            outlineColor : "#666666",
-            rollOverColor : "#9EC2F7",
-            rollOverOutlineColor : "#000000"
-        }
-    });
-</script>
-
-
+            var map = AmCharts.makeChart("mapchart",{
+                type: "map",
+                theme: "dark",
+                projection: "mercator",
+                panEventsEnabled : true,
+                backgroundColor : "transparent",
+                backgroundAlpha : 1,
+                zoomControl: {
+                    zoomControlEnabled : true
+                },
+                dataProvider : {
+                    map : "worldHigh",
+                    getAreasFromMap : true,
+                    areas :
+                    []
+                },
+                areasSettings : {
+                    autoZoom : true,
+                    color : "#78c0e5",
+                    colorSolid : "#84ADE9",
+                    selectedColor : "#84ADE9",
+                    outlineColor : "#666666",
+                    rollOverColor : "#9EC2F7",
+                    rollOverOutlineColor : "#000000"
+                }
+            });
+        </script>
 <script>
     var chart = AmCharts.makeChart("xycharts", {
         "type": "xy",
@@ -295,10 +289,6 @@
             "aValue": 12,
             "bValue": 3
         }],
-
-
-
-
         "chartCursor": {
             "pan": true,
             "cursorAlpha": 0,
@@ -360,11 +350,8 @@
             "gridPosition": "start",
             "labelRotation": 45
         },
-
-
     });
 </script>
-
-        @yield('footer_scripts')
+    @yield('footer_scripts')
     </body>
 </html>

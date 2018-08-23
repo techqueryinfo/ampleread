@@ -27,7 +27,7 @@
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                 <?php if((Auth::User()->profile) && Auth::user()->profile->avatar_status == 1): ?>
-                    <img src="/uploads/avatar/admin.png" alt="<?php echo e(Auth::user()->name); ?>" class="user-avatar-nav">
+                    <img src="/uploads/admin.png" alt="<?php echo e(Auth::user()->name); ?>" class="user-avatar-nav">
                 <?php else: ?>
                     <img src="/uploads/user.png" alt="<?php echo e(Auth::user()->name); ?>" class="user-avatar-nav">
                 <?php endif; ?>
