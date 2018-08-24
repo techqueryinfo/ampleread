@@ -123,56 +123,6 @@
 		</div>
 	</div>
 </div>
-<div class="book-compare-price inactive">
-    <div class="heading">Store</div>
-    <div class="add-section"><img src="../images/plus-icon.png" alt=""/> <span>ADD STORE<span></div>
-    <div class="row-compare-one">
-        <div class="unit-compare">Store</div>
-        <div class="unit-compare">Rating</div>
-        <div class="unit-compare">Availability</div>
-        <div class="unit-compare">Price</div>
-     </div>
-    <div class="row-compare-one sec-two">
-        <div class="unit-compare-sec">
-            <div class="image-box">
-                <img src="../images/amaz.png" alt="amazon"/>
-            </div>
-        </div>
-        <div class="unit-compare-sec">
-            <div class="star-container">
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-                <span class="fa fa-star checked"></span>
-            </div>
-        </div>
-        <div class="unit-compare-sec">
-            <div class="stock">In Stock</div>
-            <div class="days">Free shipping 5 - 7 days</div>
-        </div>
-        <div class="unit-compare-sec">
-            <div class="price">$14.99</div>
-        </div>
-        <div class="unit-compare-delete"><i class="fas fa-pencil-alt" data-toggle="modal" data-target="#createbookModal"></i><i class="far fa-trash-alt"></i></div>
-    </div>
-</div>
-<div class="book-compare-price inactive">
-    <div class="heading">Discount</div>
-    <div class="add-section"><img src="../images/plus-icon.png" alt=""/> <span>ADD DISCOUNT</span></div>
-    <div class="row-compare-one sec-two">
-        <div class="unit-compare-sec">
-            <div class="image-box">
-                <img src="../images/amaz.png" alt="amazon"/>
-            </div>
-        </div>
-        <div class="unit-compare-sec-three">
-            <div class="heading">20% OFF & Free shipping</div>
-            <div class="content">92 uses today</div>
-        </div>
-        <div class="unit-compare-delete"><i class="fas fa-pencil-alt" data-toggle="modal" data-target="#editDiscount"></i><i class="far fa-trash-alt"></i></div>
-    </div>
-</div>
 <div class="save-cancel-btn edit">
 	<div class="save">
 		<input type="submit" value="Save" />
