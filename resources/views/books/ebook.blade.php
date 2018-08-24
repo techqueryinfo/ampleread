@@ -589,7 +589,7 @@
                     $scope.bookNoteID    = response.data.bookNote.id;
                 else
                     $scope.bookNoteID    = undefined;
-                console.log(response.data);
+                //console.log(response.data);
             }, function errorCallback(response){
                 console.log("Unable to perform get request");
             });
@@ -597,10 +597,10 @@
 
         $scope.onClickPost = function(approve) {
             //alert('Book ID '+ book_id); 
-            var data = {'id': book_id, 'ebooktitle': $scope.ebooktitle, 'subtitle': $scope.subtitle, 'category': parseInt($scope.category), 'status': $scope.status, 'desc': $scope.desc, 'approve': approve, 'chapters': $scope.chapters, 'notes': $scope.notes, 'bookContentID': $scope.bookContentID, 'bookNoteID': $scope.bookNoteID };
+            var data = {'id': book_id, 'ebooktitle': $scope.ebooktitle, 'subtitle': $scope.subtitle, 'category': parseInt($scope.category), 'status': approve, 'desc': $scope.desc, 'chapters': $scope.chapters, 'notes': $scope.notes, 'bookContentID': $scope.bookContentID, 'bookNoteID': $scope.bookNoteID };
             $http.post("book/save", data)
             .then(function successCallback(response){
-                console.log("Successfully POST-ed data "+ JSON.stringify(data));
+                //console.log("Successfully POST-ed data "+ JSON.stringify(data));
                 $scope.onClickGet();
                 if(approve != undefined)
                 {

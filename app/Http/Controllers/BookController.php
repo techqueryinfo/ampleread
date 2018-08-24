@@ -166,7 +166,7 @@ class BookController extends Controller
             ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
             ->where('categories.is_delete', '=', 0)
             ->where('categories.status', '=', 'Active')
-            ->where('books.approve', '=', 1)
+            ->where('books.status', '=', 1)
             ->get(); 
        }
        else if($category_name == 'free-books' || $category_name == 'paid-books')
@@ -178,7 +178,7 @@ class BookController extends Controller
             ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
             ->where('categories.is_delete', '=', 0)
             ->where('categories.status', '=', 'Active')
-            ->where('books.approve', '=', 1)
+            ->where('books.status', '=', 1)
             ->where('books.type', '=', $type)
             ->get(); 
        }
@@ -190,7 +190,7 @@ class BookController extends Controller
             ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
             ->where('categories.is_delete', '=', 0)
             ->where('categories.category_slug', '=', $category_name)
-            ->where('books.approve', '=', 1)
+            ->where('books.status', '=', 1)
             ->get();
        }
        $categories = Category::all(); $page = $category_name;
@@ -248,7 +248,7 @@ class BookController extends Controller
         ->where('categories.id', '=', $book->category)
         ->where('categories.is_delete', '=', 0)
         ->where('categories.status', '=', 'Active')
-        ->where('books.approve', '=', 1)
+        ->where('books.status', '=', 1)
         ->get();
         $bookReview = BookReview::where('book_id', $id)->where('user_id', Auth::id())->first();
         return view('books.free_ebook', compact('book', 'related_book', 'paid', 'paidDiscount', 'bookReview'));
@@ -361,7 +361,7 @@ class BookController extends Controller
         ->where('categories.id', '=', $book->category)
         ->where('categories.is_delete', '=', 0)
         ->where('categories.status', '=', 'Active')
-        ->where('books.approve', '=', 1)
+        ->where('books.status', '=', 1)
         ->get();
         $bookReview = BookReview::where('book_id', $id)->where('user_id', Auth::id())->first();
         return view('books.author', compact('book', 'related_book', 'bookReview'));
