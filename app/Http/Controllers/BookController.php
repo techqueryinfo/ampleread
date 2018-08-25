@@ -100,14 +100,14 @@ class BookController extends Controller
         $username = $book->user_name()->first()->first_name." ".$book->user_name()->first()->last_name;
         $paid = Paid::where('book_id', '=', $id)->get();
         $paidDiscount = DB::table('paid_discount')
-        ->join('paid_ebook', function($join){
-            $join->on('paid_discount.book_id', '=', 'paid_ebook.book_id')
-            ->on('paid_discount.paid_ebook_id', '=', 'paid_ebook.id');
-        })
-        ->select('paid_discount.*', 'paid_ebook.store_logo', 'paid_ebook.store_name')
-        ->where('paid_discount.book_id', '=', $id)
-        ->where('paid_ebook.book_id', '=', $id)
-        ->get();
+            ->join('paid_ebook', function($join){
+                $join->on('paid_discount.book_id', '=', 'paid_ebook.book_id')
+                    ->on('paid_discount.paid_ebook_id', '=', 'paid_ebook.id');
+            })
+            ->select('paid_discount.*', 'paid_ebook.store_logo', 'paid_ebook.store_name')
+            ->where('paid_discount.book_id', '=', $id)
+            ->where('paid_ebook.book_id', '=', $id)
+            ->get();
         return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount', 'phone', 'username'));
     }
 
@@ -198,7 +198,7 @@ class BookController extends Controller
        $category = Category::where('category_slug', '=', $category_name)->first();
        $data = [ 'category_name' => $category_name, 'category' => $category, 'categories' => $categories, 'records' => $records ];
        if(!empty($currentUser) && $currentUser->isAdmin() && $page != 'free-books' && $page != 'paid-books')
-       {//echo "Hi ".$page; die();
+       {
         return view('books.book_category')->with($data);
        }
        else 
@@ -307,6 +307,7 @@ class BookController extends Controller
     */
     public function uploadBook(Request $request)
     {
+        $currentUser = Auth::user();
         $requestData = $request->all(); 
         if ($request->hasFile('ebook_logo')) 
         {
@@ -323,7 +324,14 @@ class BookController extends Controller
             $requestData['buyLink'] = $file->getClientOriginalName();
         }
         $book = Book::create($requestData); 
-        return redirect('admin/books/category/all-books')->with('flash_message', 'E-Book uploaded successfully !');
+        if(!empty($currentUser) && $currentUser->isAdmin())
+        {
+            return redirect('admin/books/category/all-books')->with('flash_message', 'E-Book uploaded successfully !');    
+        }
+        else
+        {
+            return redirect('book/publishebook')->with('flash_message', 'E-Book uploaded successfully !'); 
+        }
     }
 
     /* GET Book Detail By ID */
@@ -339,7 +347,10 @@ class BookController extends Controller
         return $result;
     }
 
-    /*Add Review for Book*/
+    /* 
+     * Add Review for Book 
+     */
+
     public function add_book_review(Request $request)
     {
         $requestData = $request->all();
@@ -375,6 +386,7 @@ class BookController extends Controller
 
     public function publish_ebook_page()
     {
-        return view('books.publish_ebook');
+        $categories  = Category::all();
+        return view('books.publish_ebook', compact('categories'));
     }
 }

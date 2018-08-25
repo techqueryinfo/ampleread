@@ -63,13 +63,7 @@
 			<div class="form-unit">
 				<div class="heading">Author</div>
 				<div class="content">
-					<select id="ebookauthor">
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
-					</select>
+					<input type="text" name="author" id="author" class="form-control" placeholder="Author" />
 				</div>
 			</div>
 		</div>
@@ -93,7 +87,7 @@
 			<div class="form-unit">
 				<div class="heading">Publisher</div>
 				<div class="content">
-					<input type="text" placeholder="Publisher">
+					<input type="text" name="publisher" id="publish" class="form-control" disabled="disabled" placeholder="Publisher">
 				</div>
 			</div>
 		</div>

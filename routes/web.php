@@ -19,7 +19,6 @@ Route::get('/welcome', 'WelcomeController@welcome')->name('welcome');
 Route::get('/api', 'API\ApiController@index');
 // Authentication Routes
 Auth::routes();
-
 // Public Routes
 Route::group(['middleware' => ['web', 'activity']], function () {
 
@@ -40,7 +39,6 @@ Route::group(['middleware' => ['web', 'activity']], function () {
 
 // Registered and Activated User Routes
 Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
-
     // Activation Routes
     Route::get('/activation-required', ['uses' => 'Auth\ActivateController@activationRequired'])->name('activation-required');
     Route::get('/logout', ['uses' => 'Auth\LoginController@logout'])->name('logout');
@@ -107,7 +105,6 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
             'index', 'show', 'update', 'destroy',
         ],
     ]);
-
     Route::resource('users', 'UsersManagementController', [
         'names' => [
             'index'   => 'users',
@@ -118,7 +115,6 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
         ],
     ]);
     Route::post('search-users', 'UsersManagementController@search')->name('search-users');
-
     Route::resource('themes', 'ThemesManagementController', [
         'names' => [
             'index'   => 'themes',
@@ -129,7 +125,6 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('routes', 'AdminDetailsController@listRoutes');
     Route::get('active-users', 'AdminDetailsController@activeUsers');
-
     Route::resource('admin/categories', 'Admin\\CategoriesController');
     Route::resource('admin/dashboard', 'Admin\\DashboardController');
     Route::resource('admin/categories', 'Admin\\CategoriesController');
@@ -138,8 +133,6 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     // Route::resource('book', 'BookController');
     Route::get('/admin/transaction', 'Admin\\PlansController@transactionView');
     Route::get('admin/books/category/{category_name}', 'BookController@show_books_by_category');
-
-    
     Route::post('/admin/homepage/special_feature', 'Admin\\HomeController@add_special_feature_book');
     Route::post('/admin/homepage/add_book', 'Admin\\HomeController@add_tags_book');
     Route::post('/admin/homepage/special_feature/{id}', 'Admin\\HomeController@delete_special_feature_book');
@@ -147,6 +140,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::resource('admin/homepage', 'Admin\\HomeController');
     Route::resource('admin/review', 'Admin\\BookReviewController');
     Route::post('admin/books/category/{id}', 'BookController@deleteCategory');
+    Route::post('/admin/books/approve/{id}', 'Admin\\BookReviewController@book_approve');
 });
 
 Route::redirect('/php', '/phpinfo', 301);
