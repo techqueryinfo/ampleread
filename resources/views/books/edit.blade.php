@@ -60,7 +60,7 @@
                 <div class="form-unit">
                     <div class="heading">Author</div>
                     <div class="content">
-                        <input type="text" name="publisher" id="publish" class="form-control" value="{{$username}}" disabled="disabled">
+                        <input type="text" name="author" id="author" class="form-control" value="{{$book->author}}" disabled="disabled">
                     </div>
                 </div>
             </div>

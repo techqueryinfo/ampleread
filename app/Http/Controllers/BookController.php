@@ -349,7 +349,9 @@ class BookController extends Controller
         return redirect("books/ebook/$book->id/$book->ebooktitle");
     }
 
-    /* Author Page */
+    /*
+     * Author Page 
+     */
     public function author_view_page($id)
     {
         $book = Book::findOrFail($id)->where('id', $id);
@@ -365,5 +367,14 @@ class BookController extends Controller
         ->get();
         $bookReview = BookReview::where('book_id', $id)->where('user_id', Auth::id())->first();
         return view('books.author', compact('book', 'related_book', 'bookReview'));
+    }
+
+    /*
+    *   Publish E-Book Page View
+    */
+
+    public function publish_ebook_page()
+    {
+        return view('books.publish_ebook');
     }
 }

@@ -56,7 +56,6 @@
                                  document.getElementById('logout-form').submit();">
                         {!! trans('titles.logout') !!}
                     </a>
-
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
@@ -77,7 +76,7 @@
     <li><a href="#">Most Popular Books</a></li>
     <li><a href="#">New Release</a> </li>
     <li {{ Request::is('book') ? 'class=active' : null }}>{!! HTML::link(url('/book/create/'), 'Create an e-Book') !!}</li>
-    <li><a href="#">Publish an e-book</a></li>
+    <li {{ Request::is('publishebook') ? 'class=active' : null }}>{!! HTML::link(url('/book/publishebook'), 'Publish an e-Book') !!}</li>
 </ul>
 </div>
 <div class="ample-sub-menu">

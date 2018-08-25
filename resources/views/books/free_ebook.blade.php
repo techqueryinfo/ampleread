@@ -54,7 +54,7 @@
                 <ul>
                     <li>3,263 KB</li>
                     <li>302</li>
-                    <li>Thomas & Mercer</li>
+                    <li>{{$book->subtitle}}</li>
                     <li>October 1, 2016</li>
                     <li>English</li>
                     <li>B01B1OGQH4</li>
@@ -67,7 +67,7 @@
                     <img src="/images/user.png" alt="autor-image">
                 </div>
                 <div class="name">
-                    <div class="title">Barbara Nickless</div>
+                    <div class="title">{{$book->author}}</div>
                     <div class="sub-title">Author</div>
                 </div>
 

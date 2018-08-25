@@ -44,10 +44,10 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     // Activation Routes
     Route::get('/activation-required', ['uses' => 'Auth\ActivateController@activationRequired'])->name('activation-required');
     Route::get('/logout', ['uses' => 'Auth\LoginController@logout'])->name('logout');
-
     Route::post('book/upload', 'BookController@uploadBook');
     Route::get('book/ebookupload', 'BookController@uploadEbookPage');
     Route::get('book/create', 'BookController@create');
+    Route::get('book/publishebook', 'BookController@publish_ebook_page');
     Route::post('book', 'BookController@store');
     Route::post('book/review', 'BookController@add_book_review');
     Route::resource('book', 'BookController');
@@ -58,10 +58,8 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
 
 // Registered and Activated User Routes
 Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep']], function () {
-
     //  Homepage Route - Redirect based on user role is in controller.
     Route::get('/home', ['as' => 'public.home',   'uses' => 'UserController@index']);
-
     // Show users profile - viewable by other users.
     Route::get('profile/{username}', [
         'as'   => '{username}',
@@ -71,7 +69,6 @@ Route::group(['middleware' => ['auth', 'activated', 'activity', 'twostep']], fun
 
 // Registered, activated, and is current user routes.
 Route::group(['middleware' => ['auth', 'activated', 'currentUser', 'activity', 'twostep']], function () {
-
     // User Profile and Account Routes
     Route::resource(
         'profile',
@@ -96,12 +93,9 @@ Route::group(['middleware' => ['auth', 'activated', 'currentUser', 'activity', '
         'as'   => '{username}',
         'uses' => 'ProfilesController@deleteUserAccount',
     ]);
-
     // Route to show user avatar
     Route::get('images/profile/{id}/avatar/{image}', [
-        'uses' => 'ProfilesController@userProfileAvatar',
     ]);
-
     // Route to upload user avatar.
     Route::post('avatar/upload', ['as' => 'avatar.upload', 'uses' => 'ProfilesController@upload']);
 });
