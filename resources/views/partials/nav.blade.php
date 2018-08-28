@@ -37,6 +37,9 @@
                 <li {{ Request::is('profile/'.Auth::user()->name, 'profile/'.Auth::user()->name . '/edit') ? 'class=active' : null }}>
                     {!! HTML::link(url('/profile/'.Auth::user()->name), trans('titles.profile')) !!}
                 </li>
+                <li {{ Request::is('home','home/') ? 'class=active' : null }}>
+                    {!! HTML::link(url('/home'), 'Books') !!}
+                </li>
                 @role('admin')
                     <li {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'class=active' : null }}>{!! HTML::link(url('/users'), Lang::get('titles.adminUserList')) !!}</li>
                     <li {{ Request::is('admin/categories') ? 'class=active' : null }}>{!! HTML::link(url('/admin/categories'), Lang::get('titles.adminCategoryList')) !!}</li>
