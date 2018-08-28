@@ -140,12 +140,12 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::resource('admin/homepage', 'Admin\\HomeController');
     Route::resource('admin/review', 'Admin\\BookReviewController');
     Route::post('admin/books/category/{id}', 'BookController@deleteCategory');
-    Route::post('/admin/books/approve/{id}', 'Admin\\BookReviewController@book_approve');
+    Route::post('admin/books/approve/{id}', 'Admin\\BookReviewController@book_approve');
+    Route::post('admin/books/decline/{id}', 'Admin\\BookReviewController@book_decline');
 });
 
 Route::redirect('/php', '/phpinfo', 301);
 Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'Auth\LoginController@showLoginForm'));
-
 Route::get('about-us', 'PagesController@aboutus');
 Route::get('contact-us', 'PagesController@contactus');
 Route::get('career', 'PagesController@career');

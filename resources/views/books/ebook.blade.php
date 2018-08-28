@@ -156,7 +156,7 @@
             </div>
             <div class="text-footer">
                 <div class="publish">
-                    <button type="button" ng-click="onClickPost(1)">Publish</button>
+                    <button type="button" ng-click="onClickPost(2)">Publish</button>
                 </div>
                 <div class="cancel">
                     <button type="button" ng-click="onClickPost(0)">Save</button>

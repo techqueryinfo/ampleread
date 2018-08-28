@@ -15,7 +15,7 @@ class BookReviewController extends Controller
      */
     public function index(Request $request)
     {
-    	$books = Book::where('status', 0)->get();
+    	$books = Book::where('status', 2)->get();
     	return view('admin.bookreview.index',compact('books'));
     }
 
@@ -25,6 +25,23 @@ class BookReviewController extends Controller
 
     public function book_approve(Request $request)
     {
-        echo "<pre>"; print_r($request->all()); echo "</pre>"; die();
+        $requestData = $request->all();
+        $id = $requestData['book_id'];
+        $book = Book::findOrFail($id);
+        $book->update($requestData);
+        return redirect('admin/review')->with('flash_message', 'E-Book approved successfully !');
+    }
+
+    /*
+    *   Book Decline
+    */
+
+    public function book_decline(Request $request)
+    {
+        $requestData = $request->all();
+        $id = $requestData['book_id'];
+        $book = Book::findOrFail($id);
+        $book->update($requestData);
+        return redirect('admin/review')->with('flash_message', 'E-Book declined successfully !');
     }
 }

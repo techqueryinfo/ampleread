@@ -56,7 +56,7 @@
 										@endforeach
 									@endif
                                 </select>
-                                <input type="hidden" name="status" value="0"/>
+                                <input type="hidden" name="status" value="2"/>
 							</div>
 						</div>
 					</div>
