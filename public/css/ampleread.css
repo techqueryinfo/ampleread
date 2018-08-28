@@ -97,3 +97,6 @@ img.user-avatar-nav {
 	padding: 13px 38px;
 	text-decoration: none;
 }
+
+.reader-left a{color: #fff !important;}
+.reader-content .right-section{width: 90% !important}

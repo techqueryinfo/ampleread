@@ -168,7 +168,7 @@
                     @endif
                 </div>
                 <div class="title">{{$book->ebooktitle}}</div>
-                <div class="writer">{{$book->first_name}} {{$book->last_name}}}</div>
+                <div class="writer">{{$book->first_name}} {{$book->last_name}}</div>
                 <div class="star-container">
                     <span class="fa fa-star checked"></span>
                     <span class="fa fa-star checked"></span>
