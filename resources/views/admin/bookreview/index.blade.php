@@ -29,11 +29,18 @@
                 <div class="title">{{ $val->ebooktitle }}: {{$val->subtitle}}</div>
                 <div class="writer">@if(isset($val->publisher)){{$val->publisher}}@else Publisher @endif</div>
                 <form action="{{ url('admin/books/approve/'.$val->id) }}" method="POST" enctype="multipart/form-data">
-                    {{ method_field('PATCH') }} {{ csrf_field() }}
-                    <input type="hidden" name="status" value="1">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="book_id" value="{{$val->id}}">
+                    <input type="hidden" name='status' value='1'/>
                     <input type="submit" value="APPROVE"/>
                 </form>
-                <label>DECLINE</label>
+                <form action="{{ url('admin/books/decline/'.$val->id) }}" method="POST" enctype="multipart/form-data">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="book_id" value="{{$val->id}}"/>
+                    <input type="hidden" name='status' value='2'/>
+                    <input type="submit" id="decline" name="DECLINE" style="display: none;" />
+                    <label onclick="document.getElementById('decline').click();">DECLINE</label>
+                </form>
             </div>
             @endforeach
         </div>
