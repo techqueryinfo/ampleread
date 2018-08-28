@@ -26,7 +26,11 @@
             </div>
             <div class="free-book">
                 <div class="button">
-                    <button type="submit" class="submit-button">@if($book->type == 'free') Read Book @else FROM ${{$book->retailPrice}} @endif</button>
+                    @if($book->type == 'free')
+                        <a lass="submit-button" href="{{url('book/reading/'.$book->id.'/'.$book->ebooktitle)}}">Read Book</a>
+                    @else
+                        <button type="submit" class="submit-button">FROM ${{$book->retailPrice}}</button>
+                    @endif
                 </div>
                 @if($book->type == 'free')
                     <div class="text"><i class="far fa-clock"></i> SAVE FOR LATER</div>

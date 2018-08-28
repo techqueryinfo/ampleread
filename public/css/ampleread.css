@@ -82,3 +82,18 @@ img.user-avatar-nav {
 	resize: none;
 	height: 270px
 }
+
+
+.free-ebook .book-section .content .free-book .button a {
+    width: 170px;
+    height: 50px;
+    border-radius: 4px;
+    background-image: linear-gradient(100deg, #f95d49, #ff7335);
+    box-shadow: 5px 10px 40px 0 rgba(249,93,73,0.2);
+    border: 1px solid #ff7335;
+    color: #ffffff;
+    float: left;
+    margin: auto;
+	padding: 13px 38px;
+	text-decoration: none;
+}

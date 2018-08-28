@@ -42,4 +42,12 @@ class Book extends Model
     {
         return $this->hasMany('App\Paid','book_id', 'id');
     }
+
+    /**
+     * Get the book content record associated with the book.
+     */
+    public function book_content()
+    {
+        return $this->hasOne('App\BookContents');
+    }
 }

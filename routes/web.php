@@ -163,3 +163,4 @@ Route::get('books/ebook/{id}/{ebooktitle}', 'BookController@view_free_ebook');
 Route::get('book/get/{id}', 'BookController@getBookDetail');
 Route::post('book/save', 'BookController@saveContent');
 Route::post('book/saveimage', 'BookController@saveImage');
+Route::get('book/reading/{id}/{ebooktitle}', 'BookController@read_ebook');

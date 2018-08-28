@@ -255,6 +255,20 @@ class BookController extends Controller
     }
 
     /**
+     * Reading Free E-Book 
+    */
+    public function read_ebook($id)
+    {   
+        $book = Book::findOrFail($id)->where('id', $id);
+        $book = $book->first();
+        // echo "<pre>";
+        // print_r($book);
+        // print_r($book->book_content);
+        // exit;
+        return view('books.read_ebook', compact('book'));
+    }
+
+    /**
      * Save Book Chapters & Notes
     */
     public function saveContent(Request $request)
