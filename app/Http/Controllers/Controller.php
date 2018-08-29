@@ -16,6 +16,7 @@ class Controller extends BaseController
 
     public function __construct()
     {
+        app('debugbar')->disable();
         $site_settings = Session::get('site_settings');
         if(empty($site_settings)){
         	$site_settings = Setting::find(1);
