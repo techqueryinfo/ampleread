@@ -58,10 +58,11 @@
                 <img src="/images/reader/back.png"/>
             </div>
         </div>
+        @if($chapters && !empty($chapters))
         <div class="reader-content">
             <div class="bb-custom-wrapper">
                 <div id="bb-bookblock" class="bb-bookblock">
-                    @if($chapters && !empty($chapters)) 
+                     
                     @foreach($chapters as $key=>$chapter)
                     <div class="bb-item" id="item{{$key+1}}">
                         <div class="pagecontent">
@@ -69,7 +70,7 @@
                         </div>
                     </div>
                     @endforeach
-                    @endif
+                    
                 </div>
             </div>
         </div>
@@ -77,7 +78,7 @@
         <div class="reader-footer">
             <div class="bar"></div>
         </div>
-
+        @endif
     </div>
 </div>
 @endsection 
