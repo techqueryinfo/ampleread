@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 
-<!-- <link rel="stylesheet" type="text/css" href="/css/reader/jquery.jscrollpane.custom.css" /> -->
-<!-- <link rel="stylesheet" type="text/css" href="/css/reader/bookblock.css" /> -->
-<!-- <link rel="stylesheet" type="text/css" href="/css/reader/custom.css" />  -->
+<link rel="stylesheet" type="text/css" href="/css/reader/jquery.jscrollpane.custom.css" />
+<link rel="stylesheet" type="text/css" href="/css/reader/bookblock.css" />
+<link rel="stylesheet" type="text/css" href="/css/reader/custom.css" /> 
 <link rel="stylesheet" href="/css/reader.css">
+<script src="/js/reader/modernizr.custom.79639.js"></script>
 @section('content')
 <div id="container" class="readre-table-container slideRight">
-    <div class="reader-left">
+    <div class="reader-left menu-panel">
         <div class="row-one">
             <div class="unit-one active">
                 <div class="content">Table of
@@ -25,10 +26,10 @@
             </div>
 
         </div>
-        <div class="row-two">
+        <div id="menu-toc" class="row-two menu-toc">
             @if($chapters) 
             @foreach($chapters as $key=>$chapter)
-            <div class="unit">
+            <div class="unit {{($key==0) ? 'menu-toc-current' : '' }}">
                 <div class="title"><a href="#item{{$key+1}}">{{$chapter['name']}}</a></div>
                 <div class="index"></div>
             </div>
@@ -47,33 +48,28 @@
             <div class="content">
                 The Girl on the Train
             </div>
+            <nav>
+                    <span id="bb-nav-prev">&larr;</span>
+                    <span id="bb-nav-next">&rarr;</span>
+                </nav>
             <div class="closes">
+
                 <img src="/images/reader/back.png"/>
             </div>
         </div>
         <div class="reader-content">
-            <div class="left-slide">
-
-            </div>
             <div class="bb-custom-wrapper">
                 <div id="bb-bookblock" class="bb-bookblock">
                     @if($chapters) 
                     @foreach($chapters as $key=>$chapter)
-                    <div class="right-section bb-item" id="item{{$key+1}}">
-                        <div class="content">
+                    <div class="bb-item" id="item{{$key+1}}">
+                        <div class="pagecontent">
                             <div class="scroller">{!! $chapter['content'] !!}</div>
                         </div>
                     </div>
                     @endforeach
                     @endif
                 </div>
-                <nav>
-                    <span id="bb-nav-prev">&larr;</span>
-                    <span id="bb-nav-next">&rarr;</span>
-                </nav>
-            </div>
-            <div class="right-slide">
-
             </div>
         </div>
         <div class="reader-page">Page 15 of 280 ( 22%)</div>
@@ -85,7 +81,7 @@
 </div>
 @endsection 
 @section('footer_scripts') 
-<script src="/js/reader/modernizr.custom.79639.js"></script>
+
 <script src="/js/reader/jquery.mousewheel.js"></script>
 <script src="/js/reader/jquery.jscrollpane.min.js"></script>
 <script src="/js/reader/jquerypp.custom.js"></script>

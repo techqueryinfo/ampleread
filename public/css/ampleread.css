@@ -100,3 +100,8 @@ img.user-avatar-nav {
 
 .reader-left a{color: #fff !important;}
 .reader-content .right-section{width: 90% !important}
+
+.readre-table-container .reader-left .row-two .unit{
+	height: auto !important;
+	margin: auto !important; 
+}

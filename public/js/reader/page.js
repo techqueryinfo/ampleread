@@ -26,7 +26,7 @@ var Page = (function() {
 		} ),
 		$navNext = $( '#bb-nav-next' ),
 		$navPrev = $( '#bb-nav-prev' ).hide(),
-		$menuItems = $container.find( 'ul.menu-toc > li' ),
+		$menuItems = $container.find( 'div.menu-toc > div ' ),
 		$tblcontents = $( '#tblcontents' ),
 		transEndEventNames = {
 			'WebkitTransition': 'webkitTransitionEnd',
@@ -37,7 +37,6 @@ var Page = (function() {
 		},
 		transEndEventName = transEndEventNames[Modernizr.prefixed('transition')],
 		supportTransitions = Modernizr.csstransitions;
-
 	function init() {
 
 		// initialize jScrollPane on the content div of the first item
@@ -82,7 +81,6 @@ var Page = (function() {
 
 		// click a menu item
 		$menuItems.on( 'click', function() {
-
 			var $el = $( this ),
 				idx = $el.index(),
 				jump = function() {
@@ -106,7 +104,7 @@ var Page = (function() {
 	function setJSP( action, idx ) {
 		
 		var idx = idx === undefined ? current : idx,
-			$content = $items.eq( idx ).children( 'div.content' ),
+			$content = $items.eq( idx ).children( 'div.pagecontent' ),
 			apiJSP = $content.data( 'jsp' );
 		
 		if( action === 'init' && apiJSP === undefined ) {
