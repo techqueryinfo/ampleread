@@ -5,6 +5,15 @@
 *._
 ._*
 ._.*
+storage/framework/views/
+storage/debugbar/
+adm.php
+public/css/ampleread.css_lcl
+public/dist/ng-file-upload-shim.js111
+public/dist/ng-file-upload.js11
+resources/views/usersmanagement/edit-user.blade_bkp.php
+resources/views/usersmanagement/show-users.blade_bkp.php
+unwanted_file.txt
 
 public/uploads/
 reads.zip
