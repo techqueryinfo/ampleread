@@ -261,8 +261,10 @@ class BookController extends Controller
     {   
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first();
-        // echo "<pre>";
-        // print_r($book->ebooktitle);
+        echo "<pre>";
+        print_r($book->ebooktitle);
+        print_r($book->book_content);
+        print_r($book->book_content->chapters);
         $chapters = json_decode($book->book_content->chapters, true);
         // print_r($chapters);
         // exit;
