@@ -61,7 +61,7 @@
         <div class="reader-content">
             <div class="bb-custom-wrapper">
                 <div id="bb-bookblock" class="bb-bookblock">
-                    @if($chapters) 
+                    @if($chapters && !empty($chapters)) 
                     @foreach($chapters as $key=>$chapter)
                     <div class="bb-item" id="item{{$key+1}}">
                         <div class="pagecontent">
@@ -88,6 +88,7 @@
 <script src="/js/reader/jquerypp.custom.js"></script>
 <script src="/js/reader/jquery.bookblock.js"></script>
 <script src="/js/reader/page.js"></script>
+@if($chapters && !empty($chapters)) 
 <script>
     $(function() {
 
@@ -95,6 +96,7 @@
 
     });
 </script>
+@endif
 <script type="text/javascript">
     $(".row-one .unit-one").click(function(){
     $(this).parent().children().removeClass("active");
