@@ -86,7 +86,7 @@ var Page = (function() {
 				jump = function() {
 					bb.jump( idx + 1 );
 				};
-			
+			console.log(idx, jump, current, current !== idx);
 			current !== idx ? closeTOC( jump ) : closeTOC();
 
 			return false;
@@ -152,15 +152,19 @@ var Page = (function() {
 	}
 
 	function closeTOC( callback ) {
-
 		updateNavigation( current === itemsCount - 1 );
 		$container.removeClass( 'slideRight' ).data( 'opened', false );
-		if( callback ) {
+		if( callback) {
 			if( supportTransitions ) {
-				$container.on( transEndEventName, function() {
-					$( this ).off( transEndEventName );
-					callback.call();
-				} );
+				$( this ).off( transEndEventName );
+				callback.call();
+				// console.log('rrrrrrrrr');
+				// console.log('wwww',$( this ), transEndEventName);
+				// $container.on( transEndEventName, function() {
+				// 	console.log('wwww',$( this ));
+				// 	$( this ).off( transEndEventName );
+				// 	callback.call();
+				// } );
 			}
 			else {
 				callback.call();

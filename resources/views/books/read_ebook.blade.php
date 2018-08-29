@@ -1,13 +1,14 @@
 @extends('layouts.app')
-
-
 <link rel="stylesheet" type="text/css" href="/css/reader/jquery.jscrollpane.custom.css" />
 <link rel="stylesheet" type="text/css" href="/css/reader/bookblock.css" />
 <link rel="stylesheet" type="text/css" href="/css/reader/custom.css" /> 
+@section('free-book-css')
+
 <link rel="stylesheet" href="/css/reader.css">
 <script src="/js/reader/modernizr.custom.79639.js"></script>
+@endsection
 @section('content')
-<div id="container" class="readre-table-container slideRight">
+<div id="container" class="readre-table-container">
     <div class="reader-left menu-panel">
         <div class="row-one">
             <div class="unit-one active">
@@ -40,13 +41,13 @@
     <div class="reader-right">
         <div class="reader-header">
             <div class="icons">
-                <img src="/images/reader/table.png" alt="dashboard"/>
+                <span id="tblcontents" ><img src="/images/reader/table.png" alt="dashboard"/></span>
                 <img src="/images/reader/search.png" alt="search"/>
                 <img src="/images/reader/shape.png" alt="shape"/>
                 <img src="/images/reader/text.png" alt="text"/>
             </div>
             <div class="content">
-                The Girl on the Train
+                {{$book->ebooktitle}}
             </div>
             <nav>
                     <span id="bb-nav-prev">&larr;</span>

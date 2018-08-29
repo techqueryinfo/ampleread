@@ -127,7 +127,7 @@
 	background: #fff;
 
 
-    padding: 10px 30px;
+    /*padding: 10px 30px;*/
     font-family: TimesNewRomanPSMT;
     font-size: 22px;
     font-weight: normal;
@@ -137,5 +137,5 @@
     letter-spacing: normal;
     text-align: justify;
     color: #000000;
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
 }
