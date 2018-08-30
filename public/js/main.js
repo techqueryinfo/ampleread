@@ -14,40 +14,9 @@ $(document).ready(function () {
 
     $('.home-slider').owlCarousel({
         nav: true,
-        loop: true,
         margin: 10,
         dots: false,
-        responsiveClass: true,
-        responsive: {
-            0: {
-                items: 1,
-                nav: true
-            },
-            600: {
-                items: 2,
-
-            },
-            768: {
-                items: 2,
-                loop: false,
-                margin: 15
-            },
-            992: {
-                items: 3,
-                loop: false,
-                margin: 15
-            },
-            1180: {
-                items: 4,
-                loop: false,
-                margin: 20
-            },
-            1480: {
-                items: 5,
-                loop: false,
-                margin: 15
-            }
-        }
+        items: 5
     });
 
     $('.category-slider').owlCarousel({

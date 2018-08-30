@@ -161,7 +161,7 @@
                                 <option value="" selected="">Please select country</option>
                                 @if(isset($countries))
                                     @foreach ($countries as $optionKey => $optionValue)
-                                        <option value="{{ $optionValue->code }}"><img src="/flags/{{ $optionValue->code }}.png'"/> {{ $optionValue->countryname }}</option>
+                                        <option value="{{ $optionValue->code }}"> {{ $optionValue->countryname }}</option>
                                     @endforeach
                                 @endif
                             </select>
