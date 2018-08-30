@@ -1,7 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Category;
+use App\Country;
+use App\Book;
+use App\HomeBook;
+use App\Home;
 use Auth;
 
 class UserController extends Controller
@@ -23,13 +27,15 @@ class UserController extends Controller
      */
     public function index()
     {
+        $save_books       = Book::where('status', 0)->get();
+        $publish_books    = Book::where('status', 2)->get();
+        $banner_images = Home::all();
         $user = Auth::user();
-
-        if ($user->isAdmin()) {
+        if ($user->isAdmin()) 
+        {
             return view('pages.admin.home');
         }
-
-        return view('pages.user.home');
+        return view('pages.user.home', compact('countries', 'save_books', 'publish_books', 'banner_images'));
     }
     /**
 

@@ -6,66 +6,146 @@
 @endsection
 @section('content')
 <div class="ample-slider">
-    <div id="myCarousel" class="carousel slide sign-slider" data-ride="carousel">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
             <li data-target="#myCarousel" data-slide-to="2"></li>
         </ol>
-
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
+            @if(!empty($banner_images))
+            @foreach($banner_images as $key => $banner_image)
+            @if($banner_image->image_name !='')
+                @php
+                    $active = ($key == 0)  ? 'active' : '';
+                @endphp
+                <div class="item {{$active}}">
+                    <div class="ample-banner">
+                        <img src="/uploads/ebook_logo/{{$banner_image->image_name}}"/>
+                    </div>
+                </div>
+            @endif
+            @endforeach
+            @else
             <div class="item active">
-                <div class="ample-signin-banner">
-                    <div class="ample-banner-right">
-                        <div class="ample-banner-heading">The Girl on the Train</div>
-                        <div class="ample-banner-subheading">The #1 New York Times Bestseller, USA Today Book of the Year, now a major motion picture starring Emily Blunt. Don't miss Paula Hawkins' new novel, Into the Water, coming May 2017.</div>
-                        <div class="ample-banner-button">
-                            <button>Read Now</button>
-                            <div class="add-library">
-                                <img src="images/plus.png" src="plus">
-                                <span>Add to my library</span>
-                            </div>
+                <div class="ample-banner">
+                    <div class="ample-banner-left">
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image1.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image2.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image3.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image4.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image5.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image6.png"></div>
                         </div>
                     </div>
-
+                    <div class="ample-banner-right">
+                        <div class="ample-banner-heading">10 inspiring books<br>
+                            for the autumn begining</div>
+                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            donec et quam id nunc finibus efficitur molestie</div>
+                        <div class="ample-banner-button">
+                            <button>Learn More</button>
+                        </div>
+                    </div>
+                    <div class="ample-banner-mobile">
+                        <div class="unit-1">
+                            <img src="images/image7.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image8.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image9.jpg" />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="item">
-                <div class="ample-signin-banner">
-                    <div class="ample-banner-right">
-                        <div class="ample-banner-heading">The Girl on the Train</div>
-                        <div class="ample-banner-subheading">The #1 New York Times Bestseller, USA Today Book of the Year, now a major motion picture starring Emily Blunt. Don't miss Paula Hawkins' new novel, Into the Water, coming May 2017.</div>
-                        <div class="ample-banner-button">
-                            <button>Read Now</button>
-                            <div class="add-library">
-                                <img src="images/plus.png" src="plus">
-                                <span>Add to my library</span>
-                            </div>
+                <div class="ample-banner">
+                    <div class="ample-banner-left">
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image7.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image8.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image9.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image2.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image4.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image5.jpg"></div>
                         </div>
                     </div>
-
+                    <div class="ample-banner-right">
+                        <div class="ample-banner-heading">10 inspiring books<br>
+                            for the autumn begining</div>
+                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            donec et quam id nunc finibus efficitur molestie</div>
+                        <div class="ample-banner-button">
+                            <button>Learn More</button>
+                        </div>
+                    </div>
+                    <div class="ample-banner-mobile">
+                        <div class="unit-1">
+                            <img src="images/image4.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image5.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image6.png" />
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="item">
-                <div class="ample-signin-banner">
+                <div class="ample-banner">
+                    <div class="ample-banner-left">
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image9.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image8.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image7.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image5.jpg"></div>
+                        </div>
+                        <div class="unit-one">
+                            <div class="unit-one-one"><img src="images/image4.jpg"></div>
+                            <div class="unit-one-two"><img src="images/image3.jpg"></div>
+                        </div>
+
+                    </div>
                     <div class="ample-banner-right">
-                        <div class="ample-banner-heading">The Girl on the Train</div>
-                        <div class="ample-banner-subheading">The #1 New York Times Bestseller, USA Today Book of the Year, now a major motion picture starring Emily Blunt. Don't miss Paula Hawkins' new novel, Into the Water, coming May 2017.</div>
+                        <div class="ample-banner-heading">10 inspiring books<br>
+                            for the autumn begining</div>
+                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            donec et quam id nunc finibus efficitur molestie</div>
                         <div class="ample-banner-button">
-                            <button>Read Now</button>
-                            <div class="add-library">
-                                <img src="images/plus.png" src="plus">
-                                <span>Add to my library</span>
-                            </div>
+                            <button>Learn More</button>
                         </div>
                     </div>
-
+                    <div class="ample-banner-mobile">
+                        <div class="unit-1">
+                            <img src="images/image1.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image2.jpg" />
+                        </div>
+                        <div class="unit-1">
+                            <img src="images/image1.jpg" />
+                        </div>
+                    </div>
                 </div>
             </div>
+            @endif
         </div>
-
         <!-- Left and right controls -->
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
             <!--<span class="glyphicon glyphicon-chevron-left"></span>-->
@@ -82,7 +162,7 @@
 <div class="ample-signin-manage">
     <div class="sign-in-manage-left">
         <div class="unit active"><a href="javascript:void(0)">Currently reading</a></div>
-        <div class="unit"><a href="javascript:void(0)">My library</a></div>
+        <div class="unit"><a href="javascript:void(0)">My saved books</a></div>
         <div class="unit"><a href="javascript:void(0)">My published books</a></div>
     </div>
     <div class="sign-in-manage-right">
@@ -90,7 +170,7 @@
         <div>Manage</div>
     </div>
 </div>
-<div class="ample-signin-manage-section">
+<div class="ample-signin-manage-section currently">
     <div class="unit">
         <div class="image">
             <img src="images/image5.jpg" alt="image">
@@ -130,33 +210,56 @@
             </div>
         </div>
     </div>
-    <div class="unit">
-        <div class="image">
-            <img src="images/image3.jpg" alt="image">
-        </div>
-        <div class="bar">
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<div class="ample-signin-manage-section saved-books" style="display: none;">
+    @if(!$save_books->isEmpty())
+        @foreach($save_books as $key => $val)
+            <div class="unit">
+                <div class="image">
+                    @if(substr($val->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $val->ebook_logo }}" />
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $val->ebook_logo }}"/>
+                    @endif
+                </div>
+                <div class="bar">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 27%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="text">
+                        27%
+                    </div>
+                </div>
             </div>
-            <div class="text">
-                20%
+        @endforeach
+    @else
+        Data not available !
+    @endif
+</div>
+<div class="ample-signin-manage-section publish-books" style="display: none;">
+    @if(!$publish_books->isEmpty())
+        @foreach($publish_books as $key => $val)
+            <div class="unit">
+                <div class="image">
+                    @if(substr($val->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $val->ebook_logo }}" />
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $val->ebook_logo }}"/>
+                    @endif
+                </div>
+                <div class="bar">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 27%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="text">
+                        27%
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    <div class="unit">
-        <div class="image">
-            <img src="images/image4.jpg" alt="image">
-        </div>
-        <div class="bar">
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 27%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <div class="text">
-                27%
-            </div>
-        </div>
-    </div>
-
+        @endforeach
+    @else
+        Data not available !
+    @endif
 </div>
 <div class="sign-in-page-bar"></div>
 <div class="ample-book-slot-slider">

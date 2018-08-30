@@ -104,17 +104,32 @@ $(".js-example-basic-single").select2();
 $(".sign-in-manage-left .unit").click(function(){
     $(".sign-in-manage-left .unit").removeClass("active");
     $(this).addClass("active");
+    if($(this).text() == 'My saved books')
+    {
+        $('.currently').hide();
+        $('.publish-books').hide();
+        $('.saved-books').show();
+    }
+    else if($(this).text() == 'My published books')
+    {
+        $('.saved-books').hide();
+        $('.currently').hide();
+        $('.publish-books').show();
+    }
+    else
+    {
+        $('.saved-books').hide();
+        $('.publish-books').hide();
+        $('.currently').show();
+    }
 });
 
 $("#status,#userSorting").select2();
 $(".ebook-slot-1 ul li").click(function(){
   $(".ebook-slot-1 ul li").removeClass("active");
   $(this).addClass("active");
-
 });
 $(" ul.sub-list li").click(function(){
   $(" ul.sub-list li").removeClass("active");
   $(this).addClass("active");
-
 });
-
