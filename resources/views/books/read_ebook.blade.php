@@ -9,6 +9,12 @@
 @endsection
 @section('content')
 <div id="container" class="readre-table-container">
+    @if(!empty($book->book_ext) && $book->book_ext == 'pdf')
+    <div class="content">
+                {{$book->ebooktitle}}
+            </div>
+    <iframe src="http://ampleread.stpi.com/pdfviewer/web/viewer.html?file=../../uploads/ebook_logo/AVQPP0489H-2018.pdf" style="width: 100%" height="700"></iframe>
+    @else
     <div class="reader-left menu-panel">
         <div class="row-one">
             <div class="unit-one active">
@@ -80,6 +86,7 @@
         </div>
         @endif
     </div>
+    @endif
 </div>
 @endsection 
 @section('footer_scripts') 
