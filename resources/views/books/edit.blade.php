@@ -60,7 +60,7 @@
                 <div class="form-unit">
                     <div class="heading">Author</div>
                     <div class="content">
-                        <input type="text" name="author" id="author" class="form-control" value="{{$book->author}}" disabled="disabled">
+                        <input type="text" name="author" id="author" class="form-control" value="{{$book->author}}"/>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                 <div class="form-unit">
                     <div class="heading">Publisher</div>
                     <div class="content">
-                        <input type="text" name="publisher" id="publish" class="form-control" value="{{$username}}" disabled="disabled">
+                        <input type="text" name="publisher" id="publish" class="form-control" value="@if($book->publisher) {{$book->publisher}} @else {{$username}} @endif"/>
                     </div>
                 </div>
             </div>
@@ -120,6 +120,7 @@
                         <select id="status" name="status" data-select2-id="ebooktype" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
                             <option value="1" @if($book->status === 1) selected="selected" @endif>Active</option>
                             <option value="0" @if($book->status === 0) selected="selected" @endif>Inactive</option>
+                            <option value="0" @if($book->status === 2) selected="selected" @endif>Publish</option>
                         </select>
                     </div>
                 </div>

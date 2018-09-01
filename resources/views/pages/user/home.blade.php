@@ -216,11 +216,13 @@
         @foreach($save_books as $key => $val)
             <div class="unit">
                 <div class="image">
+                    <a href="{{ url('/book/' . $val->id . '/edit') }}" title="Edit Book">
                     @if(substr($val->ebook_logo, 0, 4) == "http")
                         <img src="{{ $val->ebook_logo }}" />
                     @else
                         <img src="/uploads/ebook_logo/{{ $val->ebook_logo }}"/>
                     @endif
+                    </a>
                 </div>
                 <div class="bar">
                     <div class="progress">

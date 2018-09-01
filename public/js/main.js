@@ -61,7 +61,6 @@ function Setactive(x) {
         $(x).removeClass("ample-login");
         $(x).siblings().addClass("ample-login");
         $(x).siblings().removeClass("ample-login-active");
-
     }
     if ((z == "ampleLogin") && (y == "ample-login")) {
         $(".ample-login-section").hide();
@@ -71,7 +70,6 @@ function Setactive(x) {
         $(".ample-login-section").show();
         $(".ample-register-section").hide();
     }
-
 }
 function Showforgot() {
     $(".ample-login-section,.ample-register-section,.ample-signup-login-text").hide();
@@ -83,10 +81,8 @@ $(".btn-signup").click(function () {
     $(".ample-register-section,.ample-forgot-password").hide();
     $("#ampleLogin").addClass("ample-login");
     $("#ampleLogin").removeClass("ample-login-active");
-
     $("#ampleSignin").addClass("ample-login-active");
     $("#ampleSignin").removeClass("ample-login");
-
 });
 $(".btn-signin").click(function () {
 //alert("signin");

@@ -95,7 +95,8 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $categories = Category::all();
+        $currentUser = Auth::user();
+        $categories  = Category::all();
         $book = Book::findOrFail($id); 
         $username = $book->user_name()->first()->first_name." ".$book->user_name()->first()->last_name;
         $paid = Paid::where('book_id', '=', $id)->get();
@@ -108,7 +109,14 @@ class BookController extends Controller
             ->where('paid_discount.book_id', '=', $id)
             ->where('paid_ebook.book_id', '=', $id)
             ->get();
-        return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount', 'phone', 'username'));
+        if(!empty($currentUser) && $currentUser->isAdmin())
+        {
+            return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount', 'phone', 'username'));    
+        }    
+        else
+        {   
+            return view('books.saved_edit_ebook', compact('book', 'categories', 'username'));
+        }
     }
 
     /**
@@ -122,7 +130,7 @@ class BookController extends Controller
     public function update(Request $request, $id)
     {
         
-        $requestData = $request->all();
+        $requestData = $request->all(); 
         if ($request->hasFile('ebook_logo')) 
         {
             $uploadPath = public_path('/uploads/ebook_logo');
@@ -131,7 +139,7 @@ class BookController extends Controller
             $requestData['ebook_logo'] = $file->getClientOriginalName();
         }
         $book = Book::findOrFail($id);
-        $book->update($requestData); 
+        $book->update($requestData);
         return redirect('book/'.$id.'/edit')->with('flash_message', 'E-Book updated !');
     }
 
