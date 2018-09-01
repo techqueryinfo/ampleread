@@ -143,12 +143,10 @@
         </div>
         <!-- Left and right controls -->
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-            <!--<span class="glyphicon glyphicon-chevron-left"></span>-->
             <i class="fas fa-chevron-left"></i>
             <span class="sr-only">Previous</span>
         </a>
         <a class="right carousel-control" href="#myCarousel" data-slide="next">
-            <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
             <i class="fas fa-chevron-right"></i>
             <span class="sr-only">Next</span>
         </a>
@@ -193,4 +191,22 @@
 @include('partials.new-release')
 @include('partials.best-seller')
 @include('partials.classic')
-@endsection
+@endsection @section('footer_scripts')
+<style type="text/css">
+.rating-stars ul > li.star {
+    display: inline-block;
+}
+/* Idle State of the stars */
+.rating-stars ul > li.star > i.fa {
+    font-size: 1em; /* Change the size of the stars */
+    color: #ccc; /* Color on idle state */
+}
+/* Hover state of the stars */
+.rating-stars ul > li.star.hover > i.fa {
+    color: #FFCC36;
+}
+/* Selected state of the stars */
+.rating-stars ul > li.star.selected > i.fa {
+    color: #FF912C;
+}
+</style> @endsection

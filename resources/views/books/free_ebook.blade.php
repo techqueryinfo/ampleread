@@ -98,7 +98,7 @@
             <div class="row-compare-one sec-two">
                 <div class="unit-compare-sec">
                     <div class="image-box">
-                        <img src="/uploads/storeimage/{{ $val->store_logo }}" width="100%" alt="image" />
+                        <img src="/uploads/storeimage/{{$val->store_logo}}" width="100%" alt="image" />
                     </div>
                 </div>
                 <div class="unit-compare-sec">
@@ -240,8 +240,10 @@
             <span>Sign in to write a review</span>
         </div>
         @endif
+    @if(!$book_reviews->isEmpty())    
     <div class="sign-in-panel">
-        <div class="heading">2 reviews</div>
+        <div class="heading">{{$book_review_count}} reviews</div>
+        @foreach($book_reviews as $val)
         <div class="review-container">
             <div class="left">
                 <div class="author-details">
@@ -249,54 +251,39 @@
                         <img src="/images/user.png" alt="autor-image">
                     </div>
                     <div class="name">
-                        <div class="title">Barbara Nickless</div>
-                        <div class="sub-title">Author</div>
+                        <div class="title">{{ucwords($val->first_name)}} {{ucwords($val->last_name)}}</div>
+                        <div class="sub-title">User</div>
                     </div>
-
                 </div>
             </div>
             <div class="right">
                 <div class="star-container">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
+                    <div class='rating-stars' style="margin: 0 0 0 -50px;">
+                        <ul id='starss'>
+                            <li class="star @if($val->star >= 1) selected @endif" title='Poor' data-value='1'>
+                               <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($val->star >= 2) selected @endif" title='Fair' data-value='2'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($val->star >= 3) selected @endif" title='Good' data-value='3'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($val->star >= 4) selected @endif" title='Excellent' data-value='4'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($val->star >= 5) selected @endif" title='WOW!!!' data-value='5'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="author-des">
-                    Speaking as someone who has not read very many mystery / detective novels, I thought this one was much more than a whodunnit. Nickless adds a terrific human element with her main character's back story in the Middle East that influences and colors her actions in the main storyline. Even better though is her relationship with her partner, her dog Clyde. The way Nickless taught the reader to appreciate the way the two understand, work together and trust each other was worth an entire extra star! There is at least one more twist in the investigation than I expected, so probably just the right amount... A good dose of railroading too, if you find that interesting like I do; in fact it was one of the reasons I chose it.</div>
+                <div class="author-des">{{$val->review_content}}</div>
             </div>
         </div>
-        <div class="review-container">
-            <div class="left">
-                <div class="author-details">
-                    <div class="image">
-                        <img src="/images/user.png" alt="autor-image">
-                    </div>
-                    <div class="name">
-                        <div class="title">Barbara Nickless</div>
-                        <div class="sub-title">Author</div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="right">
-                <div class="star-container">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                </div>
-                <div class="author-des">
-                    I was hooked from the first chapter - drawn in by the main character, Sydney, who hides her complex and compassionate nature beneath a stoic exterior. Blood on the Tracks unfolds with insight, wit, and crisp, tight dialog. I haven't read a novel straight through in a long time, but this one kept me captivated from beginning to end. Sometimes I swear my heart was thumping out of my chest!
-                    <br>
-                    <br> The book is also relevant to our times with its exploration of PTSD, homelessness, brokenness - and through it all - Hope. Nickless looks at the underbelly of life with obvious respect, integrity and understanding of heart, and shows what it means to keep going when everything is against you. An impressive and thrilling ride into dark and twisted places - honoring the courage and strength of the human spirit.
-                    <br>
-                    <br> I highly recommend this book, and look forward to the next in the series!</div>
-            </div>
-        </div>
+        @endforeach
     </div>
+    @endif
 </div>
 @endsection @section('footer_scripts') 
 <style type="text/css">
@@ -305,7 +292,7 @@
 }
 /* Idle State of the stars */
 .rating-stars ul > li.star > i.fa {
-    font-size: 2.5em;
+    font-size: 1.5em;
     /* Change the size of the stars */
     color: #ccc;
     /* Color on idle state */
