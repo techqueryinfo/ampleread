@@ -270,7 +270,7 @@ class BookController extends Controller
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first();
         // echo "<pre>";
-        // print_r($book->ebooktitle);
+        // print_r($book);
         $chapters = array();
         if(!empty($book->book_content))
         {
@@ -349,7 +349,12 @@ class BookController extends Controller
             $file = $request->file('file_name');
             $file->move($uploadPath, $file->getClientOriginalName());
             $requestData['buyLink'] = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $requestData['book_ext'] = $extension;
         }
+        $requestData['user_id'] = $currentUser->id;
+        
+        $requestData['type'] = (!empty($requestData['type'])) ? $requestData['type'] : 'free';
         $book = Book::create($requestData); 
         if(!empty($currentUser) && $currentUser->isAdmin())
         {

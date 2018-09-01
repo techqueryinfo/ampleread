@@ -75,14 +75,33 @@
 			</div>
 			<div class="form-right">
 				<div class="image-container">
-					<img src="/images/cs.png" />
+					<img id="uploadbookImg" src="/images/cs.png" />
 				</div>
 				<div class="upload-button">
-					<input type="submit" value="UPLOAD COVER" onclick="document.getElementById('uploadCover').click();"/>
+					<input type="button" value="UPLOAD COVER" onclick="document.getElementById('uploadCover').click();"/>
 					<input id="uploadCover" type="file" name="ebook_logo" accept="image/*" style="display: none;"/>
 				</div>
 			</div>
 		</div>
 	</div>
 </form>
-@endsection @section('footer_scripts')<link rel="stylesheet" href="/css/uploadbook.css"> @endsection
+@endsection @section('footer_scripts')
+<script type="text/javascript">
+function readURL(input) {
+
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('#uploadbookImg').attr('src', e.target.result).css({'margin-left': 'auto', 'padding': '10px', 'width':'100%','margin-top': 'auto'});
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+$("#uploadCover").change(function() {
+  readURL(this);
+});
+</script>
+<link rel="stylesheet" href="/css/uploadbook.css"> @endsection
