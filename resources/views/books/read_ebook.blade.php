@@ -13,7 +13,7 @@
     <div class="content">
                 {{$book->ebooktitle}}
             </div>
-    <iframe src="http://ampleread.stpi.com/pdfviewer/web/viewer.html?file=../../uploads/ebook_logo/AVQPP0489H-2018.pdf" style="width: 100%" height="700"></iframe>
+    <iframe src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/pdfviewer/web/viewer.html?file=../../uploads/ebook_logo/{{$book->buyLink}}" style="width: 100%" height="700"></iframe>
     @else
     <div class="reader-left menu-panel">
         <div class="row-one">
