@@ -201,6 +201,11 @@ class BookController extends Controller
                 ->where('books.status', '=', 1)
                 ->get();
        }
+       foreach ($records as $k => $v) 
+       {
+            $book_review_star = BookReview::where('book_id', '=', $v->id)->sum('star');
+            $v->star = $book_review_star/5;
+       } 
        $categories = Category::all(); $page = $category_name;
        $category_name = ($category_name == 'free-books' || $category_name == 'paid-books') ? 'all-books' : $category_name;
        $category = Category::where('category_slug', '=', $category_name)->first();
@@ -238,7 +243,9 @@ class BookController extends Controller
     public function view_free_ebook($id)
     {   
         $book = Book::findOrFail($id)->where('id', $id);
-        $book = $book->first();
+        $book = $book->first(); 
+        $book_star = BookReview::where('book_id', '=', $book->id)->sum('star');
+        $book->star = $book_star/5;
         $paid = Book::findOrFail($id)->paid;
         $paidDiscount = DB::table('paid_discount')
         ->join('paid_ebook', function($join){
@@ -258,6 +265,11 @@ class BookController extends Controller
         ->where('categories.status', '=', 'Active')
         ->where('books.status', '=', 1)
         ->get();
+        foreach ($related_book as $k => $v) 
+        {
+            $book_review_star = BookReview::where('book_id', '=', $v->id)->sum('star');
+            $v->star = $book_review_star/5;
+        }
         $bookReview = BookReview::where('book_id', $id)->where('user_id', Auth::id())->first();
         $book_review_count = BookReview::where('book_id', $id)->count();
         $book_reviews = DB::table('book_reviews')

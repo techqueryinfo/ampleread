@@ -15,13 +15,27 @@
         <div class="content">
             <div class="heading-book">{{$book->ebooktitle}}</div>
             <div class="book-details">
-                <span class="writer-name">{{$book->subtitle}}</span><span class="year">, 2018</span>
+                <span class="writer-name">{{$book->subtitle}}</span><span class="year">15 Aug, 2018</span>
                 <div class="star-container">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
+                    <div class='rating-stars' style="margin: 0 0 0 -40px;">
+                        <ul id='starss'>
+                            <li class="star @if($book->star >= 1) selected @endif" title='Poor' data-value='1'>
+                               <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($book->star >= 2) selected @endif" title='Fair' data-value='2'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($book->star >= 3) selected @endif" title='Good' data-value='3'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($book->star >= 4) selected @endif" title='Excellent' data-value='4'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($book->star >= 5) selected @endif" title='WOW!!!' data-value='5'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="free-book">
@@ -177,11 +191,25 @@
                 <div class="title">{{$val->ebooktitle}}: {{$val->subtitle}}</div>
                 <div class="writer">{{$val->subtitle}}</div>
                 <div class="star-container">
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
+                    <div class='rating-stars' style="margin: 0 0 0 -40px;">
+                        <ul id='starss'>
+                            <li class="star @if($val->star >= 1) selected @endif" title='Poor' data-value='1'>
+                               <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($val->star >= 2) selected @endif" title='Fair' data-value='2'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($val->star >= 3) selected @endif" title='Good' data-value='3'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($val->star >= 4) selected @endif" title='Excellent' data-value='4'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                            <li class="star @if($val->star >= 5) selected @endif" title='WOW!!!' data-value='5'>
+                                <i class='fa fa-star fa-fw'></i>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             @endforeach
@@ -292,7 +320,7 @@
 }
 /* Idle State of the stars */
 .rating-stars ul > li.star > i.fa {
-    font-size: 1.5em;
+    font-size: 1em;
     /* Change the size of the stars */
     color: #ccc;
     /* Color on idle state */

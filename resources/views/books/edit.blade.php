@@ -118,9 +118,20 @@
                     <div class="heading">eBook Status Type</div>
                     <div class="content">
                         <select id="status" name="status" data-select2-id="ebooktype" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
-                            <option value="1" @if($book->status === 1) selected="selected" @endif>Active</option>
                             <option value="0" @if($book->status === 0) selected="selected" @endif>Inactive</option>
-                            <option value="0" @if($book->status === 2) selected="selected" @endif>Publish</option>
+                            <option value="1" @if($book->status === 1) selected="selected" @endif>Active</option>
+                            <option value="2" @if($book->status === 2) selected="selected" @endif>Publish</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="unit-1">
+                <div class="form-unit">
+                    <div class="heading">Featured Book</div>
+                    <div class="content">
+                        <select id="status" name="is_featured" data-select2-id="ebooktype" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
+                            <option value="0" @if($book->is_featured === 0) selected="selected" @endif>No</option>
+                            <option value="1" @if($book->is_featured === 1) selected="selected" @endif>Yes</option>
                         </select>
                     </div>
                 </div>

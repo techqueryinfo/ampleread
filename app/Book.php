@@ -25,7 +25,7 @@ class Book extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'user_id', 'ebooktitle', 'subtitle', 'author', 'publisher', 'type', 'desc', 'ebook_logo', 'retailPrice', 'buyLink', 'pageCount', 'category', 'status', 'book_ext'];
+    protected $fillable = ['id', 'user_id', 'ebooktitle', 'subtitle', 'author', 'publisher', 'type', 'desc', 'ebook_logo', 'retailPrice', 'buyLink', 'pageCount', 'category', 'status', 'is_featured', 'book_ext'];
 
     /**
      * Get the user record associated with the book.

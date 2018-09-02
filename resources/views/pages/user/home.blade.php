@@ -275,211 +275,50 @@
     <div class="owl-carousel owl-theme home-slider owl-loaded owl-drag">
         <div class="owl-stage-outer">
             <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: 0s; width: 3178px;">
-                <div class="owl-item active" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image11.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item active" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image23.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item active" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image24.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item active" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image25.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
+                @if(!$related_book->isEmpty())
+                @foreach($related_book as $book)
                 <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
                     <div class="item">
-                        <div class="image"><img src="images/image18.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
+                        <div class="image">
+                            <a href="{{url('books/ebook/'.$book->id.'/'.$book->ebooktitle)}}">
+                            @if(substr($book->ebook_logo, 0, 4) == "http")
+                                <img src="{{ $book->ebook_logo }}" alt="img1" />
+                            @else
+                                <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="img1" />
+                            @endif
+                            </a>
                         </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
+                        <div class="ample-button">
+                            @if($book->type == 'free')
+                                <button>FREE</button>
+                            @else
+                                <button style="width: auto; background-color: #868686; border: #868686;">FROM $ {{$book->retailPrice}}</button>
+                            @endif    
+                        </div>
+                        <div class="title">{{$book->ebooktitle}}</div>
+                        <div class="writer">{{$book->subtitle}}</div>
                         <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
+                            <div class='rating-stars' style="margin: 0 -40px;">
+                              <ul id='stars'>
+                                <li class="star @if($book->star >= 1) selected @endif" title='Poor' data-value='1'> <i class='fa fa-star fa-fw'></i>
+                                </li>
+                                <li class="star @if($book->star >= 2) selected @endif" title='Fair' data-value='2'> <i class='fa fa-star fa-fw'></i>
+                                </li>
+                                <li class="star @if($book->star >= 3) selected @endif" title='Good' data-value='3'> <i class='fa fa-star fa-fw'></i>
+                                </li>
+                                <li class="star @if($book->star >= 4) selected @endif" title='Excellent' data-value='4'> <i class='fa fa-star fa-fw'></i>
+                                </li>
+                                <li class="star @if($book->star >= 5) selected @endif" title='WOW!!!' data-value='5'> <i class='fa fa-star fa-fw'></i>
+                                </li>
+                              </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image26.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image27.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image35.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image29.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image12.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image21.png" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image11.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                @else
+                No Data
+                @endif    
             </div>
         </div>
         <div class="owl-nav">
@@ -502,215 +341,50 @@
     <div class="owl-carousel owl-theme home-slider owl-loaded owl-drag">
         <div class="owl-stage-outer">
             <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: 0s; width: 3178px;">
-                <div class="owl-item active" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image14.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item active" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image30.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="owl-item active" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image31.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item active" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image32.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
+                @if(!$featured_book->isEmpty())
+                @foreach($featured_book as $val)
                 <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
                     <div class="item">
-                        <div class="image"><img src="images/image33.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
+                        <div class="image">
+                            <a href="{{url('books/ebook/'.$val->id.'/'.$val->ebooktitle)}}">
+                            @if(substr($val->ebook_logo, 0, 4) == "http")
+                                <img src="{{$val->ebook_logo}}" alt="img1" />
+                            @else
+                                <img src="/uploads/ebook_logo/{{$val->ebook_logo}}" alt="img1" />
+                            @endif
+                            </a>
                         </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
+                        <div class="ample-button">
+                            @if($val->type == 'free')
+                                <button>FREE</button>
+                            @else
+                                <button style="width: auto; background-color: #868686; border: #868686;">FROM $ {{$val->retailPrice}}</button>
+                            @endif
+                        </div>
+                        <div class="title">{{$val->ebooktitle}}</div>
+                        <div class="writer">{{$val->subtitle}}</div>
                         <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
+                            <div class='rating-stars' style="margin: 0 -40px;">
+                              <ul id='stars'>
+                                <li class="star @if($val->star >= 1) selected @endif" title='Poor' data-value='1'> <i class='fa fa-star fa-fw'></i>
+                                </li>
+                                <li class="star @if($val->star >= 2) selected @endif" title='Fair' data-value='2'> <i class='fa fa-star fa-fw'></i>
+                                </li>
+                                <li class="star @if($val->star >= 3) selected @endif" title='Good' data-value='3'> <i class='fa fa-star fa-fw'></i>
+                                </li>
+                                <li class="star @if($val->star >= 4) selected @endif" title='Excellent' data-value='4'> <i class='fa fa-star fa-fw'></i>
+                                </li>
+                                <li class="star @if($val->star >= 5) selected @endif" title='WOW!!!' data-value='5'> <i class='fa fa-star fa-fw'></i>
+                                </li>
+                              </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image34.png" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image35.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image36.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image12.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image24.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image18.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
-                    <div class="item">
-                        <div class="image"><img src="images/image26.jpg" alt="img1"></div>
-                        <div class="ample-button">
-                            <button>FREE</button>
-                        </div>
-                        <div class="title">The Kinfolk Home: Interiors for Slow Living</div>
-                        <div class="writer">Nathan Williams</div>
-                        <div class="star-container">
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star checked"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                @else
+                 No data
+                @endif
             </div>
         </div>
         <div class="owl-nav">
@@ -722,4 +396,24 @@
 </div>
 @endsection
 @section('footer_scripts')
+<style type="text/css">
+.rating-stars ul > li.star {
+    display: inline-block;
+}
+/* Idle State of the stars */
+.rating-stars ul > li.star > i.fa {
+    font-size: 1em;
+    /* Change the size of the stars */
+    color: #ccc;
+    /* Color on idle state */
+}
+/* Hover state of the stars */
+.rating-stars ul > li.star.hover > i.fa {
+    color: #FFCC36;
+}
+/* Selected state of the stars */
+.rating-stars ul > li.star.selected > i.fa {
+    color: #FF912C;
+}
+</style>
 @endsection
