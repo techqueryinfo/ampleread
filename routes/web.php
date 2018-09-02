@@ -130,7 +130,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::resource('admin/categories', 'Admin\\CategoriesController');
     Route::resource('admin/plans', 'Admin\\PlansController');
     Route::resource('admin/settings', 'Admin\\SettingsController');
-    // Route::resource('book', 'BookController');
+    //Route::resource('book', 'BookController');
     Route::get('/admin/transaction', 'Admin\\PlansController@transactionView');
     Route::get('admin/books/category/{category_name}', 'BookController@show_books_by_category');
     Route::post('/admin/homepage/special_feature', 'Admin\\HomeController@add_special_feature_book');
@@ -165,3 +165,4 @@ Route::post('book/save', 'BookController@saveContent');
 Route::post('book/saveimage', 'BookController@saveImage');
 Route::get('book/reading/{id}/{ebooktitle}', 'BookController@read_ebook');
 Route::get('book/{id}/edit/', 'BookController@saved_ebook_edit');
+Route::get('books/{category_name}', 'BookController@view_all_books');

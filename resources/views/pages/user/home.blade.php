@@ -269,7 +269,7 @@
         <div class="ample-book-slot">Related Books</div>
         <div class="ample-book-view-all">
             <i class="fa fa-arrow-right"></i>
-            <div class="view-all">view all</div>
+            <div class="view-all"><a href="{{url('books/related_books')}}" target="blank" style="text-decoration: none;">view all</a></div>
         </div>
     </div>
     <div class="owl-carousel owl-theme home-slider owl-loaded owl-drag">
@@ -334,7 +334,7 @@
         <div class="ample-book-slot">Featured Books</div>
         <div class="ample-book-view-all">
             <i class="fa fa-arrow-right"></i>
-            <div class="view-all">view all</div>
+            <div class="view-all"><a href="{{url('books/featured_books')}}" target="blank" style="text-decoration: none;">view all</a></div>
 
         </div>
     </div>

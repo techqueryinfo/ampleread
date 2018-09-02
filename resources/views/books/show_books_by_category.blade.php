@@ -14,7 +14,7 @@
             <div class="ample-book-slot">New Releases</div>
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
-                <div class="view-all">view all</div>
+                <div class="view-all"><a href="{{url('books/new_releases')}}" target="blank" style="text-decoration: none;">view all</a></div>
             </div>
         </div>
         <div class="owl-carousel owl-theme category-slider">
@@ -67,7 +67,7 @@
             <div class="ample-book-slot">Bestsellers</div>
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
-                <div class="view-all">view all</div>
+                <div class="view-all"><a href="{{url('books/bestsellers')}}" target="blank" style="text-decoration: none;">view all</a></div>
             </div>
         </div>
         <div class="owl-carousel owl-theme category-slider">
@@ -122,7 +122,7 @@
             <div class="ample-book-slot">Trending Now</div>
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
-                <div class="view-all">view all</div>
+                <div class="view-all"><a href="{{url('books/trending_books')}}" target="blank" style="text-decoration: none;">view all</a></div>
             </div>
         </div>
         <div class="owl-carousel owl-theme category-slider">
@@ -177,18 +177,18 @@
             <div class="ample-book-slot">All Non-Fiction Books</div>
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
-                <div class="view-all">view all</div>
+                <div class="view-all"><a href="{{url('books/non-fiction-books')}}" target="blank" style="text-decoration: none;">view all</a></div>
             </div>
         </div>
         <div class="filter">
-            <select id="userSorting">
+            <!-- <select id="userSorting">
                 <option>A-Z</option>
                 <option>B-Z</option>
                 <option>C-Z</option>
                 <option>D-Z</option>
                 <option>E-Z</option>
                 <option>F-Z</option>
-            </select>
+            </select> -->
         </div>
         <div class="owl-carousel owl-theme category-slider">
             @if(!$records->isEmpty()) @foreach($records as $book)

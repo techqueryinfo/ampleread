@@ -447,4 +447,13 @@ class BookController extends Controller
         $categories  = Category::all();
         return view('books.publish_ebook', compact('categories'));
     }
+
+    /*
+    * Get View All books
+    */
+
+    public function view_all_books($category_name)
+    {
+        echo $category_name; die();
+    }
 }

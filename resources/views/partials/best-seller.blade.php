@@ -2,19 +2,19 @@
   <div class="ample-row">
     <div class="ample-book-slot">Bestsellers</div>
     <div class="ample-book-view-all"> <i class="fa fa-arrow-right"></i>
-      <div class="view-all">view all</div>
+      <div class="view-all"><a href="{{url('books/bestsellers')}}" target="blank" style="text-decoration: none;">view all</a></div>
     </div>
   </div>
   <div class="owl-carousel owl-theme home-slider">@if(!$bestsellers->isEmpty()) @foreach($bestsellers as $book)
     <div class="item">@if($book->home_books->type == 'free')
       <div class="image"><a href="{{url('books/ebook/'.$book->home_books->id.'/'.$book->home_books->ebooktitle)}}">
-                      @if(substr($book->home_books->ebook_logo, 0, 4) == "http")
-                        <img src="{{ $book->home_books->ebook_logo }}" alt="img1" />
-                      @else
-                        <img src="/uploads/ebook_logo/{{ $book->home_books->ebook_logo }}" alt="img1" />
-                      @endif
-                   </a>
-      </div>
+        @if(substr($book->home_books->ebook_logo, 0, 4) == "http")
+          <img src="{{ $book->home_books->ebook_logo }}" alt="img1" />
+        @else
+          <img src="/uploads/ebook_logo/{{ $book->home_books->ebook_logo }}" alt="img1" />
+        @endif
+          </a>
+        </div>
       <div class="ample-button">
         <button>FREE</button>
       </div>
