@@ -86,7 +86,11 @@ var Page = (function() {
 				jump = function() {
 					bb.jump( idx + 1 );
 				};
-			console.log(idx, jump, current, current !== idx);
+			// console.log(idx, current, itemsCount);
+			var pagePer = ((idx+1)/itemsCount)*100;
+			$('.reader-page span').text(idx+1);
+			$('.reader-footer .bar').css({width:pagePer+'%'});
+
 			current !== idx ? closeTOC( jump ) : closeTOC();
 
 			return false;
@@ -120,7 +124,7 @@ var Page = (function() {
 	}
 
 	function updateTOC() {
-		$menuItems.removeClass( 'menu-toc-current' ).eq( current ).addClass( 'menu-toc-current' );
+		$menuItems.removeClass( 'menu-toc-current active' ).eq( current ).addClass( 'menu-toc-current active' );
 	}
 
 	function updateNavigation( isLastPage ) {
