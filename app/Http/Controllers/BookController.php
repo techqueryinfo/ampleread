@@ -13,6 +13,7 @@ use App\BookNotes;
 use App\BookImages;
 use App\PaidDiscount;
 use App\BookReview;
+use App\Bookmark;
 use DB;
 
 class BookController extends Controller
@@ -286,6 +287,7 @@ class BookController extends Controller
     */
     public function read_ebook($id)
     {   
+        $currentUser = Auth::user();
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first();
         $chapters = array();
@@ -293,7 +295,16 @@ class BookController extends Controller
         {
             $chapters = json_decode($book->book_content->chapters, true);
         }
-        return view('books.read_ebook', compact('book', 'chapters'));
+        $bookmarks = array();
+        $bm_arr = array();
+        if(!empty($book->bookmarks))
+        {
+            $bookmarks = $book->bookmarks;
+            foreach ($bookmarks as $key => $value) {
+               $bm_arr[] = $value->chapter_index+1;
+            }
+        }
+        return view('books.read_ebook', compact('book', 'chapters', 'currentUser', 'bookmarks', 'bm_arr'));
     }
 
     /**

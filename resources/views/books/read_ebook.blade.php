@@ -13,35 +13,53 @@
     <div class="content">
                 {{$book->ebooktitle}}
             </div>
-    <iframe src="http://ampleread.stpi.com/pdfviewer/web/viewer.html?file=../../uploads/ebook_logo/AVQPP0489H-2018.pdf" style="width: 100%" height="700"></iframe>
+    <iframe src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/pdfviewer/web/viewer.html?file=../../uploads/ebook_logo/{{$book->buyLink}}" style="width: 100%" height="700"></iframe>
     @else
     <div class="reader-left menu-panel">
         <div class="row-one">
-            <div class="unit-one active">
+            <div class="unit-one active" data-tab="tableContent">
                 <div class="content">Table of
                     contents</div>
             </div>
-            <div class="unit-one ">
+            <div class="unit-one" data-tab="bookMark">
                 <div class="content">
                     Book info
                 </div>
             </div>
-            <div class="unit-one">
+            <div class="unit-one" data-tab="bookNotes">
                 <div class="content">
                     Notes
                 </div>
             </div>
 
         </div>
-        <div id="menu-toc" class="row-two menu-toc">
+        <div id="tableContent" class="row-two menu-toc" >
             @if($chapters) 
             @foreach($chapters as $key=>$chapter)
-            <div class="unit {{($key==0) ? 'menu-toc-current' : '' }}">
+            <div class="unit {{($key==0) ? 'menu-toc-current active' : '' }}" data-chapter-id={{$key}}>
                 <div class="title"><a href="#item{{$key+1}}">{{$chapter['name']}}</a></div>
                 <div class="index"></div>
             </div>
             @endforeach
             @endif
+        </div>
+
+        <div id="bookMark" class="row-two menu-toc" style="display: none;">
+          @if($bookmarks) 
+            @foreach($chapters as $key=>$chapter)
+            <div class="unit cpindex{{$key}}" style ="<?php if(!in_array($key+1, array_values($bm_arr))) { echo 'display:none'; } ?>">
+                <div class="title"><a href="#item{{$key+1}}">{{$chapter['name']}}</a></div>
+                <div class="index"></div>
+            </div>
+            @endforeach
+            @endif
+        </div>
+
+        <div id="bookNotes" class="row-two" style="display: none;">
+          <div class="unit" >
+            <div class="title">Table Book note</div>
+            <div class="index"></div>
+          </div>
         </div>
     </div>
     <div class="reader-right">
@@ -49,7 +67,9 @@
             <div class="icons">
                 <span id="tblcontents" ><img src="/images/reader/table.png" alt="dashboard"/></span>
                 <img src="/images/reader/search.png" alt="search"/>
-                <img src="/images/reader/shape.png" alt="shape"/>
+                @if($currentUser)
+                <img src="/images/reader/shape.png" alt="shape" onclick="manageBookmark({{$book->id}}, {{$currentUser->id}})" />
+                @endif
                 <img src="/images/reader/text.png" alt="text"/>
             </div>
             <div class="content">
@@ -80,9 +100,9 @@
                 </div>
             </div>
         </div>
-        <div class="reader-page">Page 15 of 280 ( 22%)</div>
+        <div class="reader-page">Page <span>1</span> of {{count($chapters)}} </div>
         <div class="reader-footer">
-            <div class="bar"></div>
+            <div class="bar" style="width: <?php echo (1/count($chapters))*100; ?>%"></div>
         </div>
         @endif
     </div>
@@ -106,21 +126,39 @@
 </script>
 @endif
 <script type="text/javascript">
-    $(".row-one .unit-one").click(function(){
+$(".row-one .unit-one").click(function(){
     $(this).parent().children().removeClass("active");
     $(this).addClass("active");
 
     var currenttab=$(this).attr("data-tab");
-
+    console.log('currenttab',currenttab);
     $(this).parent().siblings("div").hide();
     $("#"+currenttab).show();
 
 });
 
-$(".row-two .unit").click(function(){
-    $(this).parent().children().removeClass("active");
-    $(this).addClass("active");
+$("#bookMark.row-two .unit").click(function(){
+    $(this).parent().children().removeClass("active bookMarkActive");
+    $(this).addClass("active bookMarkActive");
 });
+var bookmarkArr = <?php echo json_encode($bm_arr); ?>;
+function manageBookmark(book_id, user_id) {
+  console.log('bookmarkArr', bookmarkArr);
 
+  var chapter_id = $('.menu-toc .unit.active').attr('data-chapter-id');
+  var chapter_index = parseInt(chapter_id)+1;
+  console.log('chapter_id', chapter_id,chapter_index, $.inArray(chapter_index, bookmarkArr));
+  if($.inArray(chapter_index, bookmarkArr) < 0)
+  {
+    bookmarkArr.push(chapter_index);
+    $('#bookMark div.cpindex'+chapter_id).show();
+    // var newContent = $('#tableContent div.unit.active').html();
+    // var updContent  = '<div class="unit">'+newContent+'</div>';
+    // var newContent = $('#tableContent div.unit.active')[0].outerHTML;
+    // $('#bookMark').append(updContent);
+    // console.log('bookmarkArr', bookmarkArr, tmp);
+  }
+  
+}
 </script>
 @endsection
