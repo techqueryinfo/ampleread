@@ -76,7 +76,7 @@
                 <div class="form-unit">
                     <div class="heading">Print Pages</div>
                     <div class="content">
-                        <input type="number" name="print_page" id="printPages" min="1" placeholder="Print Pages">
+                        <input type="number" name="print_page" id="printPages" min="1" placeholder="Print Pages" value="{{$book->pageCount}}">
                     </div>
                 </div>
             </div>
@@ -92,16 +92,16 @@
                 <div class="form-unit">
                     <div class="heading">Publication Date</div>
                     <div class="content">
-                        <input type="text" name="created_at" class="form-control" id="publishDate" value="{{$book->created_at->format('M-d-Y')}}" disabled="disabled">
+                        <input type="text" name="created_at" class="form-control" id="publishDate" value="{{$book->publisher_date}}" disabled="disabled">
                     </div>
                 </div>
             </div>
             <div class="unit-2">
 
                 <div class="form-unit">
-                    <div class="heading">Publication Date</div>
+                    <div class="heading">Price</div>
                     <div class="content">
-                        <input type="text" name="created_at" class="form-control" id="publishDate" value="{{$book->created_at->format('M-d-Y')}}" disabled="disabled">
+                        <input type="text" name="retailPrice" class="form-control" id="retailPrice" value="{{$book->retailPrice}}">
                     </div>
                 </div>
             </div>
@@ -109,7 +109,7 @@
                 <div class="form-unit">
                     <div class="heading">ASIN</div>
                     <div class="content">
-                        <input type="text" name="asin" id="asin">
+                        <input type="text" name="asin" id="asin" value="{{$book->asin}}">
                     </div>
                 </div>
             </div>

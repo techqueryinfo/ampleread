@@ -143,4 +143,17 @@ class User extends Authenticatable
 
         return false;
     }
+
+    public function isUser()
+    {
+        foreach ($this->roles()->get() as $role)
+        {
+            if ($role->name == 'User')
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
