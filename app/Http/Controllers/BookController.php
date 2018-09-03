@@ -380,7 +380,14 @@ class BookController extends Controller
             $extension = $file->getClientOriginalExtension();
             $requestData['book_ext'] = $extension;
         }
-        $requestData['user_id'] = (!empty($requestData['author'])) ? $requestData['author'] : $currentUser->id;
+        if(!empty($currentUser) && $currentUser->isAdmin())
+        {
+            $requestData['user_id'] = (!empty($requestData['author'])) ? $requestData['author'] : $currentUser->id;
+        }
+        else
+        {
+            $requestData['user_id'] = $currentUser->id;
+        }
         
         $requestData['type'] = (!empty($requestData['type'])) ? $requestData['type'] : 'free';
         $book = Book::create($requestData); 
