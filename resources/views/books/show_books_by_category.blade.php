@@ -177,7 +177,7 @@
             <div class="ample-book-slot">All Non-Fiction Books</div>
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
-                <div class="view-all"><a href="{{url('books/non-fiction-books')}}" target="blank" style="text-decoration: none;">view all</a></div>
+                <div class="view-all"><a href="{{url('books/non_fiction_books')}}" target="blank" style="text-decoration: none;">view all</a></div>
             </div>
         </div>
         <div class="filter">

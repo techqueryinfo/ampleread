@@ -471,14 +471,6 @@ class BookController extends Controller
 
     public function view_all_books($category_name)
     {
-        $records = DB::table('books')
-        ->join('users', 'users.id', '=', 'books.user_id')
-        ->join('categories', 'books.category', '=', 'categories.id')
-        ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
-        ->where('categories.is_delete', '=', 0)
-        ->where('categories.category_slug', '=', $category_name)
-        ->where('books.status', '=', 1)
-        ->get();
         if($category_name == 'new_releases')
         {
             $books = HomeBook::with('home_books')->where('type', 'new_releases')->get();
@@ -503,11 +495,16 @@ class BookController extends Controller
         {
             $books = HomeBook::with('home_books')->where('type', 'classics')->get();
         }
-        else if($category_name == 'non-fiction-books')
+        else if($category_name == 'non_fiction_books')
         {
             $books = HomeBook::with('home_books')->where('type', 'classics')->get();
         }
-        //echo "<pre>"; print_r($records); echo "</pre>"; die();
-        return view('books.view-all', compact('category_name'));
+        foreach ($books as $k => $v) 
+        {
+            $book_review_star = BookReview::where('book_id', '=', $v->book_id)->sum('star');
+            if(!empty($v->home_books))
+                $v->home_books->star = $book_review_star/5;
+        }
+        return view('books.view-all', compact('category_name', 'books'));
     }
 }

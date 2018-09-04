@@ -25,7 +25,6 @@ class WelcomeController extends Controller
         $new_releases = HomeBook::with('home_books')->where('type', 'new_releases')->get();
         $bestsellers  = HomeBook::with('home_books')->where('type', 'bestsellers')->get();
         $classics     = HomeBook::with('home_books')->where('type', 'classics')->get();
-        //echo "<pre>"; print_r($new_releases); echo "</pre>"; die();
         foreach ($new_releases as $k => $v) 
         {
             $book_review_star = BookReview::where('book_id', '=', $v->book_id)->sum('star');
