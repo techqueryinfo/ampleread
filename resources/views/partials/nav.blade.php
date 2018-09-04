@@ -1,12 +1,12 @@
 <div class="ample-header">
-    <a href="{{ url('/') }}">
+    <a href="{{ url('/welcome') }}">
         <div class="ample-logo"></div>
     </a>
     <div class="ample-search">
         <div class="search-icon">
             <i class="fas fa-search"></i>
         </div>
-        <input type="text" placeholder="Search by Title , Author , ISBN">
+        <input type="text" placeholder="Search by Title , Author , ISBN" id="bookSearchInput"  name="book_search" value="{{(!empty($search_text)) ? $search_text : ''}}">
     </div>
     {{-- Authentication Links --}}
     @if (Auth::guest())

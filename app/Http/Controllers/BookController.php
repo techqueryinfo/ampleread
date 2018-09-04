@@ -41,6 +41,28 @@ class BookController extends Controller
         }
         return view('books.index', compact('books', 'categories'));
     }
+
+    public function search(Request $request, $search_text)
+    {
+
+        $keyword = $search_text;
+        $perPage = 25;
+        $categories = Category::all();
+        if (!empty($keyword)) 
+        {
+            $books = Book::where('ebooktitle', 'LIKE', "%$keyword%")
+                ->orWhere('subtitle', 'LIKE', "%$keyword%")
+                ->orWhere('subtitle', 'LIKE', "%$keyword%")
+                ->orWhere('subtitle', 'LIKE', "%$keyword%")
+                ->latest()->paginate($perPage);
+        } 
+        else 
+        {
+            $books = Book::latest()->paginate($perPage);
+        }
+        return view('books.search', compact('books', 'categories', 'search_text'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -352,6 +374,11 @@ class BookController extends Controller
     */
     public function uploadEbookPage()
     {
+        $currentUser = Auth::user();
+        if(!$currentUser->isAdmin())
+        {
+            return redirect('home');  
+        }
         $authors = User::where('status', 'active')->whereNotNull('plan_id')->get();
         
         $categories = Category::all();

@@ -3,6 +3,18 @@ $(document).ready(function() {
     $('#OpenImgUpload').click(function(){ 
         $('#user_avatar').trigger('click'); 
     });
+
+    $('#bookSearchInput').keypress(function (e) {
+      if (e.which == 13) {
+        // $('form#login').submit();
+        console.log($(this).val());
+        var stext = $(this).val();
+        if(stext){
+            window.location.href='/book/search/'+stext;
+        }
+        return false;    //<---- Add this line
+      }
+    });
 })
 
 

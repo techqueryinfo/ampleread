@@ -120,7 +120,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="unit-3">
+		<div class="unit-1">
 			<div class="form-unit">
 				<div class="heading">ASIN</div>
 				<div class="content">
@@ -128,11 +128,19 @@
 				</div>
 			</div>
 		</div>
+		<div class="unit-2 bookAmt" style="display: none;">
+			<div class="form-unit">
+				<div class="heading">Book Price</div>
+				<div class="content">
+					<input type="text" name="retailPrice" placeholder="Book Price">
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 <div class="save-cancel-btn edit">
 	<div class="save">
-		<input type="submit" value="Save" />
+		<input type="submit" id="submitBtn" value="Save" />
 	</div>
 	<div class="cancel">
 		<label>Cancel</label>
@@ -196,10 +204,14 @@
         if(index==0){
              $(".book-compare-price").addClass("inactive");
              $(".button.upload-book").removeClass("inactive");
+             $('#submitBtn').val('Submit');
+             $('.bookAmt').hide();
         }
         if(index==1){
             $(".book-compare-price").removeClass("inactive");
             $(".button.upload-book").addClass("inactive");
+            $('#submitBtn').val('Next');
+            $('.bookAmt').show();
         }
     });
 </script>

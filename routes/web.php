@@ -153,6 +153,7 @@ Route::get('terms', 'PagesController@terms');
 Route::get('privacy', 'PagesController@privacy');
 Route::get('help', 'PagesController@help');
 Route::get('subscription','PagesController@subscription');
+Route::get('book/search/{search_text}', 'BookController@search');
 //show subscription plans in front end for users
 Route::get('plans', 'Admin\\PlansController@fe_view_plans');
 Route::post('profile/payment', 'Admin\\PlansController@do_payment');
