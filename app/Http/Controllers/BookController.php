@@ -14,6 +14,7 @@ use App\BookImages;
 use App\PaidDiscount;
 use App\BookReview;
 use App\Bookmark;
+use App\HomeBook;
 use DB;
 
 class BookController extends Controller
@@ -454,6 +455,43 @@ class BookController extends Controller
 
     public function view_all_books($category_name)
     {
-        echo $category_name; die();
+        $records = DB::table('books')
+        ->join('users', 'users.id', '=', 'books.user_id')
+        ->join('categories', 'books.category', '=', 'categories.id')
+        ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+        ->where('categories.is_delete', '=', 0)
+        ->where('categories.category_slug', '=', $category_name)
+        ->where('books.status', '=', 1)
+        ->get();
+        if($category_name == 'new_releases')
+        {
+            $books = HomeBook::with('home_books')->where('type', 'new_releases')->get();
+        }
+        else if($category_name == 'bestsellers')
+        {
+            $books = HomeBook::with('home_books')->where('type', 'bestsellers')->get();
+        }
+        else if($category_name == 'classics')
+        {
+            $books = HomeBook::with('home_books')->where('type', 'classics')->get();
+        }
+        else if($category_name == 'related_books')
+        {
+            $books = HomeBook::with('home_books')->where('type', 'classics')->get();
+        }
+        else if($category_name == 'featured_books')
+        {
+            $books = HomeBook::with('home_books')->where('type', 'classics')->get();
+        }
+        else if($category_name == 'trending_books')
+        {
+            $books = HomeBook::with('home_books')->where('type', 'classics')->get();
+        }
+        else if($category_name == 'non-fiction-books')
+        {
+            $books = HomeBook::with('home_books')->where('type', 'classics')->get();
+        }
+        //echo "<pre>"; print_r($records); echo "</pre>"; die();
+        return view('books.view-all', compact('category_name'));
     }
 }
