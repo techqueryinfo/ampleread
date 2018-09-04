@@ -45,8 +45,10 @@
                     </div>
                     <div ng-repeat="chapter in chapters track by $index">
                         <div class="unit active" ng-click="viewChapter($index)">
-                            <div class="first" ng-click="viewChapter($index)">@{{ chapter.name }}</div>
-                            <div class="second" ng-click="deleteChapter($index)"><img src="/images/trash.png" alt="delete"></div>
+                            <div class="first" style="width: 90%" >
+                                <input type="text" value="@{{ chapter.name }}" ng-model="chapter.name" ng-click="viewChapter($index)" style="width: 95%;" class="inputChapter">
+                            </div>
+                            <div class="second" ng-click="deleteChapter($index)" style="width: 10%"><img src="/images/trash.png" alt="delete"></div>
                         </div>
                     </div>
                 </div>
@@ -535,6 +537,7 @@
         $scope.values  = [];
         $scope.viewChapter = function(index) {
             $scope.htmlContent = $scope.chapters[index].content;
+            console.log('ddddd', $scope.htmlContent);
             $scope.activeChapterIndex = index;
         };
 

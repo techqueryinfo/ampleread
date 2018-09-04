@@ -93,6 +93,7 @@ class BookController extends Controller
             $requestData['ebook_logo'] = $file->getClientOriginalName();
         } 
         $book = Book::create($requestData); 
+        // $book = Book::findOrFail(252);
         $category = Category::findOrFail($book->category)->where('id', $book->category)->first();
         return view('books.ebook', compact('categories', 'book', 'category'));
     }
