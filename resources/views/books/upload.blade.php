@@ -1,13 +1,17 @@
-@extends('layouts.admin') @section('content')
+@extends('layouts.admin') 
+@section('angularjs')
+<link rel="stylesheet" href="/css/datepicker.css"> 
+@endsection
+@section('content')
 <!-- admin edit page -->
 <form action="{{ url('/book/upload') }}" method="POST" enctype="multipart/form-data">
 <div class="admin-edit">{{ csrf_field() }}
 	<div class="edit-three">
 		<div class="image">
-			<img src="../images/image1.jpg" />
+			<img src="../images/image1.jpg" id="uploadbookImg" />
 		</div>
 		<div class="button">
-			<input type="submit" value="UPLOAD COVER" onclick="document.getElementById('uploadCover').click();"/>
+			<input type="button" value="UPLOAD COVER" onclick="document.getElementById('uploadCover').click();"/>
 			<input id="uploadCover" type="file" name="ebook_logo" accept="image/*" style="display: none;"/>
 		</div>
 		<div class="button upload-book">
@@ -63,7 +67,16 @@
 			<div class="form-unit">
 				<div class="heading">Author</div>
 				<div class="content">
-					<input type="text" name="author" id="author" class="form-control" placeholder="Author" />
+					<select class="js-example-basic-single" id="author" name="author">
+						@if(!$authors->isEmpty())
+							@foreach($authors as $author)
+							@if($author->isUser())
+							<option value="{{ $author->id }}">{{ ucfirst($author->name) }}</option>
+							@endif
+							@endforeach
+						@endif
+					</select>
+					<!-- <input type="text" name="author" id="author" class="form-control" placeholder="Author" /> -->
 				</div>
 			</div>
 		</div>
@@ -79,7 +92,7 @@
 			<div class="form-unit">
 				<div class="heading">Print Pages</div>
 				<div class="content">
-					<input type="text" placeholder="Print Pages">
+					<input type="text" name="pageCount" placeholder="Print Pages">
 				</div>
 			</div>
 		</div>
@@ -87,7 +100,7 @@
 			<div class="form-unit">
 				<div class="heading">Publisher</div>
 				<div class="content">
-					<input type="text" name="publisher" id="publish" class="form-control" disabled="disabled" placeholder="Publisher">
+					<input type="text" name="publisher" id="publish" class="form-control" placeholder="Publisher">
 				</div>
 			</div>
 		</div>
@@ -95,15 +108,15 @@
 			<div class="form-unit">
 				<div class="heading">Publication Date</div>
 				<div class="content">
-					<input type="text" placeholder="Publication Date">
+					<input type="text" name="publisher_date" class="docs-date" placeholder="Publication Date">
 				</div>
 			</div>
 		</div>
 		<div class="unit-2">
 			<div class="form-unit">
-				<div class="heading">Publication Date</div>
+				<div class="heading">Language</div>
 				<div class="content">
-					<input type="text" placeholder="Publication Date">
+					<input type="text" name="book_language" placeholder="Language">
 				</div>
 			</div>
 		</div>
@@ -111,7 +124,7 @@
 			<div class="form-unit">
 				<div class="heading">ASIN</div>
 				<div class="content">
-					<input type="text" placeholder="ASIN">
+					<input type="text" name="asin" placeholder="ASIN">
 				</div>
 			</div>
 		</div>
@@ -128,7 +141,55 @@
 </form>
 @endsection
 @section('footer_scripts')
+<script type="text/javascript" src="/js/datepicker.js"></script>
 <script type="text/javascript">
+	var $date = $('.docs-date');
+  // var $container = $('.docs-datepicker-container');
+  // var $trigger = $('.docs-datepicker-trigger');
+	  var options = {
+	  	autoHide:true,
+	  	format:'yyyy-mm-dd',
+	    show: function (e) {
+	      console.log(e.type, e.namespace);
+	    },
+	    hide: function (e) {
+	      console.log(e.type, e.namespace);
+	    },
+	    pick: function (e) {
+	      console.log(e.type, e.namespace, e.view);
+	    }
+	  };
+
+	  $date.on({
+	    'show.datepicker': function (e) {
+	      console.log(e.type, e.namespace);
+	    },
+	    'hide.datepicker': function (e) {
+	      console.log(e.type, e.namespace);
+	    },
+	    'pick.datepicker': function (e) {
+	      console.log(e.type, e.namespace, e.view);
+	    }
+	  }).datepicker(options);
+
+	function readURL(input) {
+
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+
+	    reader.onload = function(e) {
+	    	// console.log('e.target.result', e.target.result);
+	      $('#uploadbookImg').attr('src', e.target.result);
+	    }
+
+	    reader.readAsDataURL(input.files[0]);
+	  }
+	}
+
+	$("#uploadCover").change(function() {
+	  readURL(this);
+	});
+
 	$("#uploadBook").on("change",function(){
         resizemenu();
         var index=$("#uploadBook option:selected").index();

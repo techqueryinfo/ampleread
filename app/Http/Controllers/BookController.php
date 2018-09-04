@@ -200,7 +200,7 @@ class BookController extends Controller
                 ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
                 ->where('categories.is_delete', '=', 0)
                 ->where('categories.category_slug', '=', $category_name)
-                ->where('books.status', '=', 1)
+                ->whereIn('books.status', array(1,2))
                 ->get();
        }
        foreach ($records as $k => $v) 
@@ -352,8 +352,10 @@ class BookController extends Controller
     */
     public function uploadEbookPage()
     {
+        $authors = User::where('status', 'active')->whereNotNull('plan_id')->get();
+        
         $categories = Category::all();
-        return view('books.upload', compact('categories'));
+        return view('books.upload', compact('categories', 'authors'));
     }
 
     /*
@@ -379,13 +381,27 @@ class BookController extends Controller
             $extension = $file->getClientOriginalExtension();
             $requestData['book_ext'] = $extension;
         }
-        $requestData['user_id'] = $currentUser->id;
+        if(!empty($currentUser) && $currentUser->isAdmin())
+        {
+            $requestData['user_id'] = (!empty($requestData['author'])) ? $requestData['author'] : $currentUser->id;
+        }
+        else
+        {
+            $requestData['user_id'] = $currentUser->id;
+        }
         
         $requestData['type'] = (!empty($requestData['type'])) ? $requestData['type'] : 'free';
         $book = Book::create($requestData); 
         if(!empty($currentUser) && $currentUser->isAdmin())
         {
-            return redirect('admin/books/category/all-books')->with('flash_message', 'E-Book uploaded successfully !');    
+            if($requestData['type'] == 'paid')
+            {
+                return redirect('book/'.$book->id.'/edit');    
+            }
+            else
+            {
+                return redirect('admin/books/category/all-books')->with('flash_message', 'E-Book uploaded successfully !');    
+            }
         }
         else
         {

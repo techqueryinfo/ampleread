@@ -1,4 +1,10 @@
 @extends('layouts.app') @section('template_fastload_css') @endsection @section('content')
+@if(Session::has('flash_message'))
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> {{Session::get('flash_message')}}.
+    </div>
+@endif
 <form action="{{ url('/book/upload') }}" method="POST" enctype="multipart/form-data">{{ csrf_field() }}
 	<div class="upload-book">
 		<div class="heading-upload">Publish eBook</div>
