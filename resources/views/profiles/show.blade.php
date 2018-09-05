@@ -73,6 +73,12 @@
                     </select>
                 </div>
             </div>
+            <div class="form-unit">
+                <div class="heading">Description</div>
+                <div class="content">
+                    <textarea name="about_us" rows="8" id="comment" placeholder="Enter Description..." required="required">{{$user->about_us}}</textarea>
+                </div>
+            </div>
             <div class="save-cancel-btn">
                 <div class="save">
                     <input type="submit" value="Save" data-toggle="modal" data-title="Confirm Save" data-message="Please confirm your changes." />
@@ -601,5 +607,5 @@
         });
         TCO.loadPubKey('sandbox');
     });
-</script>
+</script>-->
 @endsection

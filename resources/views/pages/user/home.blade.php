@@ -243,20 +243,23 @@
         @foreach($publish_books as $key => $val)
             <div class="unit">
                 <div class="image">
+                    <a href="{{url('books/ebook/'.$val->id.'/'.$val->ebooktitle)}}">
                     @if(substr($val->ebook_logo, 0, 4) == "http")
                         <img src="{{ $val->ebook_logo }}" />
                     @else
                         <img src="/uploads/ebook_logo/{{ $val->ebook_logo }}"/>
                     @endif
+                    </a>
                 </div>
-                <div class="bar">
+                <div class="title">{{$val->ebooktitle}}</div>
+                <!-- <div class="bar">
                     <div class="progress">
                         <div class="progress-bar" role="progressbar" style="width: 27%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div class="text">
                         27%
                     </div>
-                </div>
+                </div> -->
             </div>
         @endforeach
     @else

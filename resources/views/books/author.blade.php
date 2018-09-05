@@ -3,14 +3,14 @@
 <link rel="stylesheet" href="/css/free-book.css"> @endsection
 @section('content')
 <div class="free-ebook">
-	<div class="page-path"> <span class="start-text">Authors | </span><span class="end-text">Barbara Nickless</span>
+	<div class="page-path"> <span class="start-text">Authors | </span><span class="end-text">{{$author->name}}</span>
 	</div>
 	<div class="book-section author">
 		<div class="book">
 			<img src="/images/image10.jpg" alt="image1">
 		</div>
 		<div class="content">
-			<div class="heading-book">Barbara Nickless</div>
+			<div class="heading-book">{{$author->name}}</div>
 			<div class="book-details">
 				<div class="star-container"> <span class="fa fa-star checked"></span>
 					<span class="fa fa-star checked"></span>
@@ -19,7 +19,7 @@
 					<span class="fa fa-star checked"></span>
 				</div>
 			</div>
-			<div class="book-description">A young woman is found brutally murdered, and the main suspect is the victim’s fiancé, a hideously scarred Iraq War vet known as the Burned Man. But railroad police Special Agent Sydney Rose Parnell, brought in by the Denver Major Crimes unit to help investigate, can't shake the feeling that larger forces are behind this apparent crime of passion.</div>
+			<div class="book-description">{{$author->about_us}}</div>
 		</div>
 	</div>
 	<div class="ample-book-slot-slider">

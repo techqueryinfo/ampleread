@@ -79,13 +79,14 @@
                 </ul>
             </div>
         </div>
+        @if($author)
         <div class="author-description">
             <div class="author-details">
                 <div class="image">
-                    <img src="/images/user.png" alt="autor-image">
+                    <a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #fff;"><img src="/images/user.png" alt="autor-image" border="0"></a>
                 </div>
                 <div class="name">
-                    <div class="title">{{$book->author}}</div>
+                    <div class="title"><a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #fff;">{{$book->author}}</a></div>
                     <div class="sub-title">Author</div>
                 </div>
 
@@ -94,9 +95,10 @@
                 Barbara Nickless promised her mother she’d be a novelist when she grew up. What could be safer than sitting at a desk all day? But an English degree and a sense of adventure took her down other paths—technical writer...
             </div>
             <div class="button">
-                <button><a href="{{ url("/book/$book->id/author/$book->ebooktitle") }}" style="text-decoration: none; color: #fff;">Learn more</a></button>
+                <a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #fff;"><button>Learn more</button></a>
             </div>
         </div>
+        @endif
     </div>
     @if($book->type == 'paid')
         @if(!$paid->isEmpty())

@@ -2,6 +2,25 @@
 	width: 100px
 }
 
+.ample-signin-manage .sign-in-manage-left{
+	width: auto !important;
+}
+
+.ample-signin-manage .sign-in-manage-left .unit{
+	width: auto !important;
+	padding: 10px 25px 10px 25px !important;
+}
+
+.user-container #user_basics_form .form-unit .content textarea{
+    width: 100%;
+    /*height: 40px;*/
+    border-radius: 4px;
+    background-color: #f6f6f6;
+    color: #000;
+    padding: 0px 16px;
+    border: 1px solid #f6f6f6;
+}
+
 .select2-container {
 	margin-left: -14px
 }

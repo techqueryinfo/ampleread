@@ -58,6 +58,12 @@
             @include('partials.adminnav')
             <div class="admin-right">
                 @include('partials.form-status')
+                @if(Session::has('flash_message'))
+                    <div class="alert alert-success alert-dismissible">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Success!</strong> {{Session::get('flash_message')}}.
+                    </div>
+                @endif
                 @yield('content')
             </div>
         </div>
@@ -73,11 +79,11 @@
         <script type="text/javascript" src="/js/light.js"></script>
         <script type="text/javascript" src="/js/pie.js"></script>
         <script type="text/javascript" src="/js/admin.js"></script>
-        <script src="https://www.amcharts.com/lib/3/xy.js"></script>
-        <script src="https://www.amcharts.com/lib/3/serial.js"></script>
-        <script src="https://www.amcharts.com/lib/3/ammap.js" type="text/javascript"></script>
-        <script src="https://www.amcharts.com/lib/3/maps/js/worldHigh.js" type="text/javascript"></script>
-        <script src="https://www.amcharts.com/lib/3/themes/dark.js" type="text/javascript"></script>
+        <!-- <script src="https://www.amcharts.com/lib/3/xy.js"></script> -->
+        <!-- <script src="https://www.amcharts.com/lib/3/serial.js"></script> -->
+        <!-- <script src="https://www.amcharts.com/lib/3/ammap.js" type="text/javascript"></script> -->
+        <!-- <script src="https://www.amcharts.com/lib/3/maps/js/worldHigh.js" type="text/javascript"></script> -->
+        <!-- <script src="https://www.amcharts.com/lib/3/themes/dark.js" type="text/javascript"></script> -->
         <script type="text/javascript">
             function resizemenu(){
                 var windowheight=window.innerHeight;

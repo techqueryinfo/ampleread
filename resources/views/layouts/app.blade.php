@@ -58,6 +58,12 @@
             <div class="container">
                 @include('partials.form-status')
             </div>
+            @if(Session::has('flash_message'))
+                <div class="alert alert-success alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Success!</strong> {{Session::get('flash_message')}}.
+                </div>
+            @endif
             @yield('content')
             @include('partials.footer')
         </div>

@@ -29,10 +29,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        $save_books       = Book::where('status', 0)->get();
-        $publish_books    = Book::where('status', 2)->get();
-        $banner_images    = Home::all();
         $user = Auth::user();
+        $save_books       = Book::where('status', 0)->where('author', $user->id)->get();
+        $publish_books    = Book::where('status', 2)->where('author', $user->id)->get();
+        $banner_images    = Home::all();
+        
         $related_book = DB::table('books')
         ->join('users', 'users.id', '=', 'books.user_id')
         ->join('categories', 'books.category', '=', 'categories.id')

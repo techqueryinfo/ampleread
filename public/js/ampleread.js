@@ -12,7 +12,7 @@ $(document).ready(function() {
         if(stext){
             window.location.href='/book/search/'+stext;
         }
-        return false;    //<---- Add this line
+        return false;    // Add this line
       }
     });
 })

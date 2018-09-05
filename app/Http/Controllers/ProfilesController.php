@@ -208,6 +208,7 @@ class ProfilesController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'country_id' => 'required',
+            'about_us' => 'required'
         ]);
 
         $rules = [];
@@ -228,6 +229,7 @@ class ProfilesController extends Controller
         $user->first_name = $request->input('first_name');
         $user->last_name = $request->input('last_name');
         $user->country_id = $request->input('country_id');
+        $user->about_us = $request->input('about_us');
 
         if ($emailCheck) {
             $user->email = $request->input('email');

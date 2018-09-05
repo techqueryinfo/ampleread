@@ -159,7 +159,7 @@ Route::get('plans', 'Admin\\PlansController@fe_view_plans');
 Route::post('profile/payment', 'Admin\\PlansController@do_payment');
 Route::post('contact', 'PagesController@contact_us_mail');
 Route::get('books/category/{category_name}', 'BookController@show_books_by_category');
-Route::get('book/{id}/author/{ebooktitle}', 'BookController@author_view_page');
+Route::get('book/{id}/author/{authorid}/{authorname}', 'BookController@author_view_page');
 Route::get('books/ebook/{id}/{ebooktitle}', 'BookController@view_free_ebook');
 Route::get('book/get/{id}', 'BookController@getBookDetail');
 Route::post('book/save', 'BookController@saveContent');

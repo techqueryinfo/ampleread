@@ -269,6 +269,9 @@ class BookController extends Controller
     {   
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first(); 
+        if($book->author && !empty($book->author) && is_numeric($book->author)){
+            $author = User::findOrFail($book->author);
+        }
         $book_star = BookReview::where('book_id', '=', $book->id)->sum('star');
         $book->star = $book_star/5;
         $paid = Book::findOrFail($id)->paid;
@@ -303,7 +306,7 @@ class BookController extends Controller
             ->select('book_reviews.*', 'books.author', 'books.publisher', 'users.first_name', 'users.last_name', 'users.name')
             ->where('book_reviews.book_id', '=', $id)
             ->get();
-        return view('books.free_ebook', compact('book', 'related_book', 'paid', 'paidDiscount', 'bookReview', 'book_review_count', 'book_reviews'));
+        return view('books.free_ebook', compact('book', 'related_book', 'paid', 'paidDiscount', 'bookReview', 'book_review_count', 'book_reviews', 'author'));
     }
 
     /**
@@ -466,10 +469,13 @@ class BookController extends Controller
     /*
      * Author Page 
      */
-    public function author_view_page($id)
+    public function author_view_page($id, $authorid, $authorname)
     {
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first();
+
+        $author = User::findOrFail($authorid);
+        
         $related_book = DB::table('books')
         ->join('users', 'users.id', '=', 'books.user_id')
         ->join('categories', 'books.category', '=', 'categories.id')
@@ -480,7 +486,7 @@ class BookController extends Controller
         ->where('books.status', '=', 1)
         ->get();
         $bookReview = BookReview::where('book_id', $id)->where('user_id', Auth::id())->first();
-        return view('books.author', compact('book', 'related_book', 'bookReview'));
+        return view('books.author', compact('book', 'related_book', 'bookReview', 'author'));
     }
 
     /*
@@ -489,8 +495,9 @@ class BookController extends Controller
 
     public function publish_ebook_page()
     {
+        $currentUser = Auth::user();
         $categories  = Category::all();
-        return view('books.publish_ebook', compact('categories'));
+        return view('books.publish_ebook', compact('categories', 'currentUser'));
     }
 
     /*

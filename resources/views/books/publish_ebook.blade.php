@@ -1,10 +1,10 @@
 @extends('layouts.app') @section('template_fastload_css') @endsection @section('content')
-@if(Session::has('flash_message'))
+<!--@if(Session::has('flash_message'))
     <div class="alert alert-success alert-dismissible">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Success!</strong> {{Session::get('flash_message')}}.
     </div>
-@endif
+@endif -->
 <form action="{{ url('/book/upload') }}" method="POST" enctype="multipart/form-data">{{ csrf_field() }}
 	<div class="upload-book">
 		<div class="heading-upload">Publish eBook</div>
@@ -43,15 +43,15 @@
 					</div>
 				</div>
 				<div class="units">
-					<div class="unit-1">
+					<div class="unit-1" style="display: none;">
 						<div class="form-unit">
 							<div class="heading">Author</div>
 							<div class="content">
-								<input type="text" name="author" id="author" class="form-control" placeholder="Author" />
+								<input type="text" name="author" id="author" class="form-control" placeholder="Author" value="{{$currentUser->id}}"  />
 							</div>
 						</div>
 					</div>
-					<div class="unit-2">
+					<div class="unit-3">
 						<div class="form-unit">
 							<div class="heading">Category</div>
 							<div class="content">
@@ -71,7 +71,7 @@
 					<div class="form-unit">
 						<div class="heading">Description</div>
 						<div class="content">
-							<textarea name="desc" rows="5" id="comment" placeholder="Enter Description..." required="required"></textarea>
+							<textarea name="desc" rows="8" id="comment" placeholder="Enter Description..." required="required"></textarea>
 						</div>
 					</div>
 				</div>

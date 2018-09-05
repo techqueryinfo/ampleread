@@ -36,6 +36,14 @@ class Book extends Model
     }
 
     /**
+     * Get the user record associated with the book.
+     */
+    public function author()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'author');
+    }
+
+    /**
      * Get the books to show in home page
      */
     public function paid()
