@@ -272,6 +272,7 @@ class BookController extends Controller
     {   
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first(); 
+        $author = null;
         if($book->author && !empty($book->author) && is_numeric($book->author)){
             $author = User::findOrFail($book->author);
         }
