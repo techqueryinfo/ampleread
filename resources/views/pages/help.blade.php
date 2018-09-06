@@ -1,26 +1,70 @@
 @extends('layouts.app')
-
+@section('free-book-css')<link rel="stylesheet" href="/css/help.css">@endsection
 @section('content')
-<div class="container">
-	<div class="row">
-		<div class="col-md-12"><br></div>
-	</div>
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Help</div>
-
-                <div class="panel-body">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-
-                </div>
-                <div class="panel-body">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-                    
-                </div>
+<div class="help-container">
+    <div class="heading">Help & Support</div>
+    <div class="search-section">
+        <div class="ample-search">
+            <div class="search-icon"> <i class="fas fa-search"></i>
             </div>
+            <input type="text" placeholder="Search Help Center">
+        </div>
+    </div>
+    <div class="search-button">
+        <input type="button" value="SUBMIT REQUEST">
+    </div>
+    <div class="help-support">
+        <div class="heading">Subscription</div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="heading">Subscription</div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="heading">Subscription</div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="heading">Subscription</div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
+        </div>
+        <div class="left">
+            <div class="content">Can I cancel my subscription?</div><i class="fa fa-angle-down"></i>
         </div>
     </div>
 </div>
