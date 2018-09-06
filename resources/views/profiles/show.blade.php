@@ -607,5 +607,5 @@
         });
         TCO.loadPubKey('sandbox');
     });
-</script>-->
+</script>
 @endsection

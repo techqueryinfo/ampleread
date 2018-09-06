@@ -48,12 +48,15 @@ class BookController extends Controller
         $keyword = $search_text;
         $perPage = 25;
         $categories = Category::all();
+        $author_arr = User::where('name', 'LIKE', "%$keyword%")->pluck('id');
+
         if (!empty($keyword)) 
         {
             $books = Book::where('ebooktitle', 'LIKE', "%$keyword%")
                 ->orWhere('subtitle', 'LIKE', "%$keyword%")
+                ->orWhere('asin', 'LIKE', "%$keyword%")
                 ->orWhere('subtitle', 'LIKE', "%$keyword%")
-                ->orWhere('subtitle', 'LIKE', "%$keyword%")
+                ->orwhereIn('author', $author_arr)
                 ->latest()->paginate($perPage);
         } 
         else 

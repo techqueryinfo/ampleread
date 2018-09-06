@@ -40,7 +40,7 @@ class Book extends Model
      */
     public function author()
     {
-        return $this->hasOne('App\Models\User', 'id', 'author');
+        return $this->hasOne('App\Models\User', 'author', 'id');
     }
 
     /**

@@ -82,10 +82,12 @@
     <li {{ Request::is('publishebook') ? 'class=active' : null }}>{!! HTML::link(url('/book/publishebook'), 'Publish an e-Book') !!}</li>
 </ul>
 </div>
+@if(Session::get('categories'))
 <div class="ample-sub-menu">
     <div class="ample-sub-menu-left">
         <div class="ample-sub-menu-row">
             <div class="heading">Subjects</div>
+            
             <ul>
                 <li @if(isset($category_name) && $category_name == 'all-books') class="active" @endif><a style="color:black;" href="/books/category/all-books">All Books</a></li>
                 @foreach (Session::get('categories')->slice(0,8) as $optionKey => $optionValue)
@@ -95,6 +97,7 @@
                 @endforeach
             </ul>
         </div>
+        @if(Session::get('categories'))
         <div class="ample-sub-menu-row">
            <ul>
                 @foreach (Session::get('categories')->slice(8) as $optionKey => $optionValue)
@@ -104,6 +107,7 @@
                 @endforeach
             </ul>
         </div>
+        @endif
     </div>
     <div class="ample-sub-menu-right">
         <div class="ample-book-section">
@@ -117,6 +121,7 @@
         </div>
     </div>
 </div>
+@endif
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
