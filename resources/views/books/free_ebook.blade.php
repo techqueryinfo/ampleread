@@ -73,9 +73,12 @@
                     <li>3,263 KB</li>
                     <li>302</li>
                     <li>{{$book->subtitle}}</li>
-                    <li>October 1, 2016</li>
-                    <li>English</li>
-                    <li>B01B1OGQH4</li>
+                    <li><?php
+                    $date=date_create($book->publisher_date);
+                    echo date_format($date,"F j, Y");
+                    ?></li>
+                    <li>{{$book->subtitle}}</li>
+                    <li>{{$book->asin}}</li>
                 </ul>
             </div>
         </div>
