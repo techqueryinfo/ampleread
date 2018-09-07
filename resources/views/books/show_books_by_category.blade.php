@@ -12,10 +12,14 @@
     <div class="ample-book-slot-slider">
         <div class="ample-row">
             <div class="ample-book-slot">New Releases</div>
+            @if(!$records->isEmpty())
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
-                <div class="view-all"><a href="{{url('books/new_releases')}}" target="blank" style="text-decoration: none;">view all</a></div>
+                <div class="view-all">
+                    <a href="{{url('books/new_releases')}}" target="blank" style="text-decoration: none;">view all</a>
+                </div>
             </div>
+            @endif
         </div>
         <div class="owl-carousel owl-theme category-slider">
             @if(!$records->isEmpty()) @foreach($records as $book)
@@ -65,10 +69,12 @@
     <div class="ample-book-slot-slider">
         <div class="ample-row">
             <div class="ample-book-slot">Bestsellers</div>
+            @if(!$records->isEmpty())
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
                 <div class="view-all"><a href="{{url('books/bestsellers')}}" target="blank" style="text-decoration: none;">view all</a></div>
             </div>
+            @endif
         </div>
         <div class="owl-carousel owl-theme category-slider">
             @if(!$records->isEmpty()) @foreach($records as $book)
@@ -120,10 +126,12 @@
     <div class="ample-book-slot-slider">
         <div class="ample-row">
             <div class="ample-book-slot">Trending Now</div>
+            @if(!$records->isEmpty())
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
                 <div class="view-all"><a href="{{url('books/trending_books')}}" target="blank" style="text-decoration: none;">view all</a></div>
             </div>
+            @endif
         </div>
         <div class="owl-carousel owl-theme category-slider">
             @if(!$records->isEmpty()) @foreach($records as $book)
@@ -171,24 +179,18 @@
             @endforeach @else Data not available @endif
         </div>
     </div>
-    <div class="line"></div>
+    <!-- <div class="line"></div>
     <div class="ample-book-slot-slider">
         <div class="ample-row">
             <div class="ample-book-slot">All Non-Fiction Books</div>
+            @if(!$records->isEmpty())
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
                 <div class="view-all"><a href="{{url('books/non_fiction_books')}}" target="blank" style="text-decoration: none;">view all</a></div>
             </div>
+            @endif
         </div>
         <div class="filter">
-            <!-- <select id="userSorting">
-                <option>A-Z</option>
-                <option>B-Z</option>
-                <option>C-Z</option>
-                <option>D-Z</option>
-                <option>E-Z</option>
-                <option>F-Z</option>
-            </select> -->
         </div>
         <div class="owl-carousel owl-theme category-slider">
             @if(!$records->isEmpty()) @foreach($records as $book)
@@ -235,7 +237,7 @@
             </div>
             @endforeach @else Data not available @endif
         </div>
-    </div>
+    </div> -->
 </div>
 @endsection @section('footer_scripts')
 <style type="text/css">

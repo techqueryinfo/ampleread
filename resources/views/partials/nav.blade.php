@@ -74,10 +74,10 @@
 <div class="ample-menu">
 <ul>
     <li><a href="#">Browse Category</a><i class="fa fa-angle-down"></i></li>
-    <li><a href="#">Fiction</a></li>
-    <li><a href="#">Non Fiction</a></li>
+    <li><a href="/books/category/new-release">Fiction</a></li>
+    <li><a href="/books/category/non-fiction">Non Fiction</a></li>
     <li><a href="#">Most Popular Books</a></li>
-    <li><a href="#">New Release</a> </li>
+    <li><a href="/books/category/new_releases">New Release</a> </li>
     <li {{ Request::is('book') ? 'class=active' : null }}>{!! HTML::link(url('/book/create/'), 'Create an e-Book') !!}</li>
     <li {{ Request::is('publishebook') ? 'class=active' : null }}>{!! HTML::link(url('/book/publishebook'), 'Publish an e-Book') !!}</li>
 </ul>

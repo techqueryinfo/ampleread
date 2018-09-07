@@ -155,12 +155,14 @@
 <div class="ample-book-slot-1">
     @if(!$special_features->isEmpty())
         @foreach($special_features as $key => $val)
-            @if($key <= 2)
+            @if($key <= 2 && $val->home_books)
                 <div class="slot-1">
                     <div class="e-book1">
+                        @if($val->home_books)
                         <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
                         <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
                         <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
+                        @endif
                     </div>
                     <div class="heading">{{ $val->home_books->ebooktitle }}</div>
                     <div class="sub-text">{{ $val->home_books->subtitle }}</div>
@@ -174,7 +176,7 @@
 <div class="ample-book-slot-2">
     @if(!$special_features->isEmpty())
         @foreach($special_features as $key => $val)
-            @if($key >= 3)
+            @if($key >= 3  && $val->home_books)
                 <div class="slot-1">
                     <div class="heading">{{ $val->home_books->ebooktitle }}</div>
                     <div class="sub-text">{{ $val->home_books->subtitle }}</div>

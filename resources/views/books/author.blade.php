@@ -23,12 +23,12 @@
 		</div>
 	</div>
 	<div class="ample-book-slot-slider">
-		<div class="ample-row">
+		<!-- <div class="ample-row">
 			<div class="ample-book-slot">Related Books</div>
 			<div class="ample-book-view-all"> <i class="fa fa-arrow-right"></i>
 				<div class="view-all">view all</div>
 			</div>
-		</div>
+		</div> -->
 		<div class="owl-carousel owl-theme home-slider">
 			@foreach($related_book as $val)
 			<div class="item">
