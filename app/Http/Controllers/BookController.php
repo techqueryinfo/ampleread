@@ -13,6 +13,7 @@ use App\BookNotes;
 use App\BookImages;
 use App\PaidDiscount;
 use App\BookReview;
+use App\AuthorReview;
 use App\Bookmark;
 use App\HomeBook;
 use DB;
@@ -256,8 +257,8 @@ class BookController extends Controller
        }
        foreach ($records as $k => $v) 
        {
-            $book_review_star = BookReview::where('book_id', '=', $v->id)->sum('star');
-            $v->star = $book_review_star/5;
+            $book_review_star = BookReview::where('book_id', '=', $v->id)->avg('star');
+            $v->star = $book_review_star;
        } 
        $categories = Category::all(); $page = $category_name;
        $category_name = ($category_name == 'free-books' || $category_name == 'paid-books') ? 'all-books' : $category_name;
@@ -301,8 +302,8 @@ class BookController extends Controller
         if($book->author && !empty($book->author) && is_numeric($book->author)){
             $author = User::findOrFail($book->author);
         }
-        $book_star = BookReview::where('book_id', '=', $book->id)->sum('star');
-        $book->star = $book_star/5;
+        $book_star = BookReview::where('book_id', '=', $book->id)->avg('star');
+        $book->star = $book_star;
         $paid = Book::findOrFail($id)->paid;
         $paidDiscount = DB::table('paid_discount')
         ->join('paid_ebook', function($join){
@@ -324,8 +325,8 @@ class BookController extends Controller
         ->get();
         foreach ($related_book as $k => $v) 
         {
-            $book_review_star = BookReview::where('book_id', '=', $v->id)->sum('star');
-            $v->star = $book_review_star/5;
+            $book_review_star = BookReview::where('book_id', '=', $v->id)->avg('star');
+            $v->star = $book_review_star;
         }
         $bookReview = BookReview::where('book_id', $id)->where('user_id', Auth::id())->first();
         $book_review_count = BookReview::where('book_id', $id)->count();
@@ -497,6 +498,19 @@ class BookController extends Controller
         return redirect("books/ebook/$book->id/$book->ebooktitle");
     }
 
+
+    /* 
+     * Add Review for Author 
+     */
+
+    public function add_author_review(Request $request)
+    {
+        $requestData = $request->all(); 
+        $author_review = AuthorReview::create($requestData); 
+        return redirect("/home");
+    }
+
+
     /*
      * Author Page 
      */
@@ -506,7 +520,7 @@ class BookController extends Controller
         $book = $book->first();
 
         $author = User::findOrFail($authorid);
-        
+        $author_review_star = AuthorReview::where('author_id', '=', $author->id)->avg('star');
         $related_book = DB::table('books')
         ->join('users', 'users.id', '=', 'books.author')
         ->join('categories', 'books.category', '=', 'categories.id')
@@ -517,8 +531,15 @@ class BookController extends Controller
         ->where('categories.status', '=', 'Active')
         ->where('books.status', '=', 2)
         ->get();
-        $bookReview = BookReview::where('book_id', $id)->where('user_id', Auth::id())->first();
-        return view('books.author', compact('book', 'related_book', 'bookReview', 'author'));
+        $authorReview = AuthorReview::where('book_id', $id)->where('user_id', Auth::user()->id)->first();
+        $author_review_count = AuthorReview::where('author_id', $author->id)->count();
+        $author_reviews = DB::table('author_reviews')
+            ->join('users', 'users.id', '=', 'author_reviews.user_id')
+            ->join('books', 'books.id', '=', 'author_reviews.book_id')
+            ->select('author_reviews.*', 'books.author', 'books.publisher', 'users.first_name', 'users.last_name', 'users.name')
+            ->where('author_reviews.author_id', '=', $author->id)
+            ->get(); //echo "<pre>"; print_r($author_reviews); echo "</pre>"; die();
+        return view('books.author', compact('book', 'related_book', 'authorReview', 'author', 'author_review_count', 'author_reviews', 'author_review_star'));
     }
 
     /*
@@ -568,9 +589,9 @@ class BookController extends Controller
         }
         foreach ($books as $k => $v) 
         {
-            $book_review_star = BookReview::where('book_id', '=', $v->book_id)->sum('star');
+            $book_review_star = BookReview::where('book_id', '=', $v->book_id)->avg('star');
             if(!empty($v->home_books))
-                $v->home_books->star = $book_review_star/5;
+                $v->home_books->star = $book_review_star;
         }
         return view('books.view-all', compact('category_name', 'books'));
     }
