@@ -15,7 +15,10 @@
         <div class="content">
             <div class="heading-book">{{$book->ebooktitle}}</div>
             <div class="book-details">
-                <span class="writer-name">{{$book->subtitle}}</span><span class="year">15 Aug, 2018</span>
+                <span class="writer-name">{{$book->subtitle}}</span><span class="year"><?php
+                    $date=date_create($book->created_at);
+                    echo date_format($date,"j M, Y");
+                    ?></span>
                 <div class="star-container">
                     <div class='rating-stars' style="margin: 0 0 0 -40px;">
                         <ul id='starss'>
@@ -50,7 +53,7 @@
                     <div class="text"><i class="far fa-clock"></i> SAVE FOR LATER</div>
                     <div class="text"><i class="fa fa-download" aria-hidden="true"></i> SAVE FOR LATER</div>
                 @else
-                    <div class="text"><i class="fab fa-gitter"></i> COMPARE PRICE</div>    
+                    <div class="text"><i class="fab fa-gitter"></i> <a name="comparePrice" href="#comparePrice">COMPARE PRICE</a></div>    
                 @endif
             </div>
             <div class="book-description">{{$book->desc}}</div>
@@ -60,25 +63,49 @@
         <div class="book-description">
             <div class="left">
                 <ul>
+                    @if($book->book_size)
                     <li>File size</li>
+                    @endif
+                    @if($book->pageCount)
                     <li>Print pages</li>
+                    @endif
+                    @if($book->publisher)
                     <li>Publisher</li>
+                    @endif
+                    @if($book->publisher_date)
                     <li>Publication date</li>
+                    @endif
+                    @if($book->book_language)
                     <li>Language</li>
+                    @endif
+                    @if($book->asin)
                     <li>ASIN</li>
+                    @endif
                 </ul>
             </div>
             <div class="left des">
                 <ul>
-                    <li>3,263 KB</li>
-                    <li>302</li>
-                    <li>{{$book->subtitle}}</li>
+                    @if($book->book_size)
+                    <li>{{$book->book_size/1000}} KB</li>
+                    @endif
+                    @if($book->pageCount)
+                    <li>{{$book->pageCount}}</li>
+                    @endif
+                    @if($book->publisher)
+                    <li>{{$book->publisher}}</li>
+                    @endif
+                    @if($book->publisher_date)
                     <li><?php
                     $date=date_create($book->publisher_date);
                     echo date_format($date,"F j, Y");
                     ?></li>
-                    <li>{{$book->subtitle}}</li>
+                    @endif
+                    @if($book->book_language)
+                    <li>{{$book->book_language}}</li>
+                    @endif
+                    @if($book->asin)
                     <li>{{$book->asin}}</li>
+                    @endif
                 </ul>
             </div>
         </div>
@@ -89,13 +116,13 @@
                     <a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #fff;"><img src="/images/user.png" alt="autor-image" border="0"></a>
                 </div>
                 <div class="name">
-                    <div class="title"><a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #fff;">{{$book->author}}</a></div>
+                    <div class="title"><a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #000000;">{{$author->name}}</a></div>
                     <div class="sub-title">Author</div>
                 </div>
 
             </div>
             <div class="author-des">
-                Barbara Nickless promised her mother she’d be a novelist when she grew up. What could be safer than sitting at a desk all day? But an English degree and a sense of adventure took her down other paths—technical writer...
+                {{substr($author->about_us,0, 250)}}...
             </div>
             <div class="button">
                 <a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #fff;"><button>Learn more</button></a>
@@ -105,7 +132,7 @@
     </div>
     @if($book->type == 'paid')
         @if(!$paid->isEmpty())
-        <div class="book-compare-price">
+        <div class="book-compare-price" id="comparePrice">
             <div class="heading">Compare Prices</div>
             <div class="row-compare-one">
                 <div class="unit-compare">Store</div>

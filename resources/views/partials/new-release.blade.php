@@ -6,6 +6,7 @@
     </div>
   </div>
   <div class="owl-carousel owl-theme home-slider">@if(!$new_releases->isEmpty()) @foreach($new_releases as $book)
+    @if($book->home_books)
     <div class="item">@if($book->home_books->type == 'free')
       <div class="image"><a href="{{url('books/ebook/'.$book->home_books->id.'/'.$book->home_books->ebooktitle)}}">
           @if(substr($book->home_books->ebook_logo, 0, 4) == "http")
@@ -64,5 +65,6 @@
             </li>
           </ul>
         </div>
-      </div>@endif</div>@endforeach @else Data not available. @endif</div>
+      </div>@endif </div>@endif @endforeach @else Data not available. @endif</div>
+
 </div>

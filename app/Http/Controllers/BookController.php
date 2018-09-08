@@ -125,6 +125,8 @@ class BookController extends Controller
     {
         $currentUser = Auth::user();
         $categories  = Category::all();
+        $authors = User::where('status', 'active')->whereNotNull('plan_id')->get();
+        
         $book = Book::findOrFail($id); 
         $username = $book->user_name()->first()->first_name." ".$book->user_name()->first()->last_name;
         $paid = Paid::where('book_id', '=', $id)->get();
@@ -139,7 +141,7 @@ class BookController extends Controller
             ->get();
         if(!empty($currentUser) && $currentUser->isAdmin())
         {
-            return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount', 'phone', 'username'));    
+            return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount', 'phone', 'username', 'authors'));    
         }    
         else
         {   
@@ -156,8 +158,7 @@ class BookController extends Controller
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, $id)
-    {
-        
+    {        
         $requestData = $request->all(); 
         if ($request->hasFile('ebook_logo')) 
         {
@@ -202,7 +203,7 @@ class BookController extends Controller
             ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
             ->where('categories.is_delete', '=', 0)
             ->where('categories.status', '=', 'Active')
-            ->where('books.status', '=', 1)
+            ->where('books.status', '=', 2)
             ->get(); 
        }
        else if($category_name == 'free-books' || $category_name == 'paid-books')
@@ -214,9 +215,33 @@ class BookController extends Controller
                 ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
                 ->where('categories.is_delete', '=', 0)
                 ->where('categories.status', '=', 'Active')
-                ->where('books.status', '=', 1)
+                ->where('books.status', '=', 2)
                 ->where('books.type', '=', $type)
                 ->get(); 
+       }
+       else if($category_name == 'non-fiction')
+       {    
+            $records = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id')
+                ->join('categories', 'books.category', '=', 'categories.id')
+                ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->where('categories.category_slug', '!=', 'fiction')
+                ->whereIn('books.status', array(2))
+                ->get();
+       }
+       else if($category_name == 'new-release')
+       {    
+            $start_date = date("Y-m-d", strtotime("- 7 days")); 
+            $records = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id')
+                ->join('categories', 'books.category', '=', 'categories.id')
+                ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->whereDate('publisher_date', '>', $start_date)
+                // ->where('categories.category_slug', '!=', 'fiction')
+                ->whereIn('books.status', array(2))
+                ->get();
        }
        else
        {
@@ -226,7 +251,7 @@ class BookController extends Controller
                 ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
                 ->where('categories.is_delete', '=', 0)
                 ->where('categories.category_slug', '=', $category_name)
-                ->whereIn('books.status', array(1,2))
+                ->whereIn('books.status', array(2))
                 ->get();
        }
        foreach ($records as $k => $v) 
@@ -414,6 +439,8 @@ class BookController extends Controller
             $file->move($uploadPath, $file->getClientOriginalName());
             $requestData['buyLink'] = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();
+            $book_size = filesize($uploadPath.'/'.$file->getClientOriginalName());
+            $requestData['book_size'] = $book_size;
             $requestData['book_ext'] = $extension;
         }
         if(!empty($currentUser) && $currentUser->isAdmin())
@@ -481,13 +508,14 @@ class BookController extends Controller
         $author = User::findOrFail($authorid);
         
         $related_book = DB::table('books')
-        ->join('users', 'users.id', '=', 'books.user_id')
+        ->join('users', 'users.id', '=', 'books.author')
         ->join('categories', 'books.category', '=', 'categories.id')
         ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
-        ->where('categories.id', '=', $book->category)
+        // ->where('categories.id', '=', $book->category)
+        ->where('books.author', '=', $authorid)
         ->where('categories.is_delete', '=', 0)
         ->where('categories.status', '=', 'Active')
-        ->where('books.status', '=', 1)
+        ->where('books.status', '=', 2)
         ->get();
         $bookReview = BookReview::where('book_id', $id)->where('user_id', Auth::id())->first();
         return view('books.author', compact('book', 'related_book', 'bookReview', 'author'));
