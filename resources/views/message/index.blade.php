@@ -7,69 +7,19 @@
 	<div class="search-sec"> <i class="fas fa-search"></i>
 		<input type="text" placeholder="Search" />
 	</div>
-	<div class="user-sec">
-		<div class="image">
-			<img src="../images/user.png" />
-			<div class="icon">3</div>
-		</div>
-		<div class="content">
-			<div class="nameandtime">
-				<div class="name">@{{firstName + " " + lastName}}</div>
-				<div class="time">02:14 AM</div>
+	<div ng-repeat="user in users track by $index">
+		<div class="user-sec" ng-class="{ active: isSet($index) }" style="cursor: pointer;">
+			<div class="image" ng-click="setTab($index)">
+				<img src="../images/user.png" />
+				<div class="icon">@{{user.badge}}</div>
 			</div>
-			<div class="discrip">Lorem ipsum dolor sit ametc…</div>
-		</div>
-	</div>
-	<div class="user-sec">
-		<div class="image">
-			<img src="../images/user.png" />
-			<div class="icon">3</div>
-		</div>
-		<div class="content">
-			<div class="nameandtime">
-				<div class="name">Ryan Coraci</div>
-				<div class="time">02:14 AM</div>
+			<div class="content">
+				<div class="nameandtime">
+					<div class="name">@{{user.name}}</div>
+					<div class="time">@{{user.time}}</div>
+				</div>
+				<div class="discrip">@{{user.desc}}</div>
 			</div>
-			<div class="discrip">Lorem ipsum dolor sit ametc…</div>
-		</div>
-	</div>
-	<div class="user-sec active">
-		<div class="image">
-			<img src="../images/user.png" />
-			<div class="icon">3</div>
-		</div>
-		<div class="content">
-			<div class="nameandtime">
-				<div class="name">Ryan Coraci</div>
-				<div class="time">02:14 AM</div>
-			</div>
-			<div class="discrip">Lorem ipsum dolor sit ametc…</div>
-		</div>
-	</div>
-	<div class="user-sec">
-		<div class="image">
-			<img src="../images/user.png" />
-			<div class="icon">3</div>
-		</div>
-		<div class="content">
-			<div class="nameandtime">
-				<div class="name">Ryan Coraci</div>
-				<div class="time">02:14 AM</div>
-			</div>
-			<div class="discrip">Lorem ipsum dolor sit ametc…</div>
-		</div>
-	</div>
-	<div class="user-sec">
-		<div class="image">
-			<img src="../images/user.png" />
-			<div class="icon">3</div>
-		</div>
-		<div class="content">
-			<div class="nameandtime">
-				<div class="name">Ryan Coraci</div>
-				<div class="time">02:14 AM</div>
-			</div>
-			<div class="discrip">Lorem ipsum dolor sit ametc…</div>
 		</div>
 	</div>
 </div>
@@ -97,7 +47,18 @@
 <script type="text/javascript">
 	var app = angular.module('app', []);
 	app.controller('MessageController', function($scope) {
+		$scope.users = [
+			{ id : 1, name : "Saurabh Saxena", badge : 5, desc : "This is testing", time : "02:30 AM" },
+			{ id : 2, name : "Ujjwal Saxena", badge : 2, desc : "Yes, It's Working fine", time : "05:00 PM" },
+		];
 		$scope.firstName= "John";
 		$scope.lastName= "Doe";
+		$scope.setTab = function(newTab) {
+            $scope.tab = newTab;
+        };
+
+        $scope.isSet = function(tabNum) {
+            return $scope.tab === tabNum;
+        };
 	});
 </script>@endsection
