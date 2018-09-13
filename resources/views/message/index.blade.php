@@ -1,4 +1,6 @@
-@extends('layouts.admin')
+@extends('layouts.admin-message')@section('angularjs')
+<script src='/dist/angular.js'></script>
+@endsection
 @section('content')
 <!-- admin message -->
 <div class="message-contact">
@@ -12,7 +14,7 @@
 		</div>
 		<div class="content">
 			<div class="nameandtime">
-				<div class="name">Ryan Coraci</div>
+				<div class="name">@{{firstName + " " + lastName}}</div>
 				<div class="time">02:14 AM</div>
 			</div>
 			<div class="discrip">Lorem ipsum dolor sit ametc…</div>
@@ -91,4 +93,11 @@
 	</div>
 </div>
 <!-- end admin message -->
-@endsection
+@endsection @section('footer_scripts')
+<script type="text/javascript">
+	var app = angular.module('app', []);
+	app.controller('MessageController', function($scope) {
+		$scope.firstName= "John";
+		$scope.lastName= "Doe";
+	});
+</script>@endsection
