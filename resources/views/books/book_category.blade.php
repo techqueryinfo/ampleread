@@ -35,7 +35,7 @@
                     <div class="name">@if(!blank($category_name)) {{ucwords(str_replace('-', ' ', $category_name))}}@endif @if($category_name != 'all-books')
                         <i class="fas fa-pencil-alt" data-toggle="modal" data-target="#editCategoryModal"></i> @endif
                     </div>
-                    <div class="number">12 books</div>
+                    <div class="number">{{$total}} books</div>
                 </div>
                 @if($category_name != 'all-books')
                 <div class="category-action">
@@ -74,9 +74,9 @@
                     </div>
                     <div class="image">
                         @if(substr($book->ebook_logo, 0, 4) == "http")
-                            <img src="{{ $book->ebook_logo }}" alt="img1" />
+                            <img src="{{$book->ebook_logo}}" alt="img1" />
                         @else
-                            <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="img1" />
+                            <img src="/uploads/ebook_logo/{{$book->ebook_logo}}" alt="img1" />
                         @endif
                     </div>
                     <div class="title">{{$book->ebooktitle}}</div>

@@ -205,7 +205,15 @@ class BookController extends Controller
             ->where('categories.is_delete', '=', 0)
             ->where('categories.status', '=', 'Active')
             ->where('books.status', '=', 2)
-            ->get(); 
+            ->get();
+            $total = DB::table('books')
+            ->join('users', 'users.id', '=', 'books.user_id')
+            ->join('categories', 'books.category', '=', 'categories.id')
+            ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+            ->where('categories.is_delete', '=', 0)
+            ->where('categories.status', '=', 'Active')
+            ->where('books.status', '=', 2)
+            ->count(); 
        }
        else if($category_name == 'free-books' || $category_name == 'paid-books')
        {    
@@ -252,8 +260,16 @@ class BookController extends Controller
                 ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
                 ->where('categories.is_delete', '=', 0)
                 ->where('categories.category_slug', '=', $category_name)
-                ->whereIn('books.status', array(2))
+                ->whereIn('books.status', 2)
                 ->get();
+            $total = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id')
+                ->join('categories', 'books.category', '=', 'categories.id')
+                ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->where('categories.category_slug', '=', $category_name)
+                ->whereIn('books.status', 2)
+                ->count();
        }
        foreach ($records as $k => $v) 
        {
@@ -263,9 +279,9 @@ class BookController extends Controller
        $categories = Category::all(); $page = $category_name;
        $category_name = ($category_name == 'free-books' || $category_name == 'paid-books') ? 'all-books' : $category_name;
        $category = Category::where('category_slug', '=', $category_name)->first();
-       $data = [ 'category_name' => $category_name, 'category' => $category, 'categories' => $categories, 'records' => $records ];
+       $data = [ 'category_name' => $category_name, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total ];
        if(!empty($currentUser) && $currentUser->isAdmin() && $page != 'free-books' && $page != 'paid-books')
-       {
+       { 
         return view('books.book_category')->with($data);
        }
        else 

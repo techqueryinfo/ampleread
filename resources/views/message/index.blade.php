@@ -51,8 +51,6 @@
 			{ id : 1, name : "Saurabh Saxena", badge : 5, desc : "This is testing", time : "02:30 AM" },
 			{ id : 2, name : "Ujjwal Saxena", badge : 2, desc : "Yes, It's Working fine", time : "05:00 PM" },
 		];
-		$scope.firstName= "John";
-		$scope.lastName= "Doe";
 		$scope.setTab = function(newTab) {
             $scope.tab = newTab;
         };
