@@ -1,10 +1,4 @@
 @extends('layouts.admin') @section('content')
-@if(Session::has('flash_message'))
-    <div class="alert alert-success alert-dismissible">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Success!</strong> {{Session::get('flash_message')}}.
-    </div>
-@endif
 <div class="admin-home">
     <!-- search bar-->
     <div class="search-section book-search">
