@@ -1,9 +1,7 @@
 @extends('layouts.admin')
-
 @section('template_title')
   Editing User {{ $user->name }}
 @endsection
-
 @section('content')
 {!! Form::model($user, array('action' => array('UsersManagementController@update', $user->id), 'method' => 'PUT', 'files' => true, 'enctype' =>"multipart/form-data")) !!}
     {!! csrf_field() !!}
@@ -65,11 +63,15 @@
                 </select>
             </div>
         </div>
-        
+        <div class="form-unit">
+            <div class="heading">Author</div>
+            <div class="checkbox">
+                <input type="radio" name="is_author" value="1" @if($user->is_author == 1) checked @endif /> Yes
+                <input type="radio" name="is_author" value="0" @if($user->is_author == 0) checked @endif /> No
+            </div>
+        </div>
     </div>
 </div>
-
-
 </div>
 <div class="save-cancel-btn">
     <div class="save">
@@ -80,17 +82,11 @@
     </div>
 </div>
 {!! Form::close() !!}
-
-
-  @include('modals.modal-save')
-  @include('modals.modal-delete')
-
+@include('modals.modal-save')
+@include('modals.modal-delete')
 @endsection
-
 @section('footer_scripts')
-
   @include('scripts.delete-modal-script')
   @include('scripts.save-modal-script')
   @include('scripts.check-changed')
-
 @endsection

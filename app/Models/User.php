@@ -50,7 +50,8 @@ class User extends Authenticatable
         'admin_ip_address',
         'updated_ip_address',
         'deleted_ip_address',
-        'about_us'
+        'about_us',
+        'is_author'
     ];
 
     /**
@@ -113,7 +114,6 @@ class User extends Authenticatable
                 return true;
             }
         }
-
         return false;
     }
 
@@ -154,7 +154,6 @@ class User extends Authenticatable
                 return true;
             }
         }
-
         return false;
     }
 }

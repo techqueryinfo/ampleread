@@ -1,12 +1,9 @@
 @extends('layouts.admin')
-
 @section('template_title')
   Create New User
 @endsection
-
 @section('template_fastload_css')
 @endsection
-
 @section('content')
 {!! Form::open(array('action' => 'UsersManagementController@store',  'files' => true, 'enctype' =>"multipart/form-data")) !!}
 <div class="admin-edit">
@@ -58,6 +55,13 @@
                   @endif
             </div>
         </div>
+        <div class="form-unit">
+            <div class="heading">Author</div>
+            <div class="checkbox">
+                <input type="radio" name="is_author" value="1" checked /> Yes
+                <input type="radio" name="is_author" value="0"/> No
+            </div>
+        </div>
     </div>
     <div class="unit-2">
         <div class="form-unit {{ $errors->has('email') ? ' has-error ' : '' }}">
@@ -68,7 +72,7 @@
                     <span class="help-block">
                         <strong>{{ $errors->first('email') }}</strong>
                     </span>
-                  @endif
+                @endif
             </div>
         </div>
         <div class="form-unit">
@@ -85,7 +89,7 @@
             </div>
         </div>
         <div class="form-unit {{ $errors->has('password_confirmation') ? ' has-error ' : '' }}">
-            <div class="heading">Password</div>
+            <div class="heading">Confirm Password</div>
             <div class="content">
                 {!! Form::password('password_confirmation', array('id' => 'password_confirmation', 'class' => 'form-control', 'placeholder' => trans('forms.create_user_ph_pw_confirmation'))) !!}
                 @if ($errors->has('password_confirmation'))

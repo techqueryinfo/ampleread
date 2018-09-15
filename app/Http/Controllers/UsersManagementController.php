@@ -104,12 +104,13 @@ class UsersManagementController extends Controller
             'first_name'       => $request->input('first_name'),
             'last_name'        => $request->input('last_name'),
             'email'            => $request->input('email'),
-            'country_id'            => $request->input('country_id'),
-            'plan_id'            => $request->input('plan_id'),
+            'country_id'       => $request->input('country_id'),
+            'plan_id'          => $request->input('plan_id'),
             'password'         => bcrypt($request->input('password')),
             'token'            => str_random(64),
             'admin_ip_address' => $ipAddress->getClientIp(),
             'activated'        => 1,
+            'is_author'        => $request->input('is_author')
         ]);
 
         if ($request->hasFile('avatar')) {
@@ -208,6 +209,7 @@ class UsersManagementController extends Controller
         }
 
         $user->name = $request->input('name');
+        $user->is_author = $request->input('is_author');
 
         if (!empty($request->input('counry_id'))) {
             $user->country_id = $request->input('counry_id');

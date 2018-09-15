@@ -97,7 +97,7 @@ class BookController extends Controller
             $requestData['ebook_logo'] = $file->getClientOriginalName();
         } 
         $book = Book::create($requestData); 
-        // $book = Book::findOrFail(252);
+        //$book = Book::findOrFail(252);
         $category = Category::findOrFail($book->category)->where('id', $book->category)->first();
         return view('books.ebook', compact('categories', 'book', 'category'));
     }
@@ -126,15 +126,14 @@ class BookController extends Controller
     {
         $currentUser = Auth::user();
         $categories  = Category::all();
-        $authors = User::where('status', 'active')->whereNotNull('plan_id')->get();
-        
+        $authors = User::where('status', 'active')->where('is_author', '=', 1)->whereNotNull('plan_id')->get();
         $book = Book::findOrFail($id); 
         $username = $book->user_name()->first()->first_name." ".$book->user_name()->first()->last_name;
         $paid = Paid::where('book_id', '=', $id)->get();
         $paidDiscount = DB::table('paid_discount')
             ->join('paid_ebook', function($join){
                 $join->on('paid_discount.book_id', '=', 'paid_ebook.book_id')
-                    ->on('paid_discount.paid_ebook_id', '=', 'paid_ebook.id');
+                ->on('paid_discount.paid_ebook_id', '=', 'paid_ebook.id');
             })
             ->select('paid_discount.*', 'paid_ebook.store_logo', 'paid_ebook.store_name')
             ->where('paid_discount.book_id', '=', $id)
@@ -429,8 +428,7 @@ class BookController extends Controller
         {
             return redirect('home');  
         }
-        $authors = User::where('status', 'active')->whereNotNull('plan_id')->get();
-        
+        $authors = User::where('status', 'active')->where('is_author', '=', 1)->whereNotNull('plan_id')->get();
         $categories = Category::all();
         return view('books.upload', compact('categories', 'authors'));
     }
@@ -554,7 +552,7 @@ class BookController extends Controller
             ->join('books', 'books.id', '=', 'author_reviews.book_id')
             ->select('author_reviews.*', 'books.author', 'books.publisher', 'users.first_name', 'users.last_name', 'users.name')
             ->where('author_reviews.author_id', '=', $author->id)
-            ->get(); //echo "<pre>"; print_r($author_reviews); echo "</pre>"; die();
+            ->get();
         return view('books.author', compact('book', 'related_book', 'authorReview', 'author', 'author_review_count', 'author_reviews', 'author_review_star'));
     }
 
