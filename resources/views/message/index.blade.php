@@ -30,13 +30,15 @@
 		</div>
 		<div class="content">
 			<div class="nameandtime">
-				<div class="name">Ryan Coraci</div>
-				<div class="time">last seen 5 mins ago</div>
+				<div class="name">@{{username}}</div>
+				<div class="time">@{{time}}</div>
 			</div>
 		</div>
 	</div>
-	<div class="chat-left">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse metus turpis, rhoncus non purus in, hendrerit mollis felis. Quisque risus arcu, accumsan ut felis in, elementum feugiat erat. Morbi rutrum dui ac dui pellentesque, nec consectetur tortor</div>
-	<div class="chat-right">Proin fermentum iaculis suscipit</div>
+	<div ng-repeat="message in chatmessages track by $index">
+		<div class="chat-left">@{{message.message_left}}</div>
+		<div class="chat-right">@{{message.message_right}}</div>
+	</div>
 	<div class="sendm-essage">
 		<input type="text" placeholder="Your message">
 		<button class="sub-mes" type="submit">Send</button>
@@ -50,13 +52,28 @@
 		$scope.users = [
 			{ id : 1, name : "Saurabh Saxena", badge : 5, desc : "This is testing", time : "02:30 AM" },
 			{ id : 2, name : "Ujjwal Saxena", badge : 2, desc : "Yes, It's Working fine", time : "05:00 PM" },
+			{ id : 3, name : "Sudhakar MIshra", badge : 4, desc : "Testing Purpose", time : "05:10 PM" },
 		];
-		$scope.setTab = function(newTab) {
-            $scope.tab = newTab;
+		$scope.messages = [
+			[
+				{ id : 1, message_left : "Hello Sonu", message_right : "Hi Monu" },
+				{ id : 2, message_left : "Test", message_right : "Working" },
+				{ id : 2, message_left : "Yes", message_right : "No" },
+			],
+			[{ id : 2, message_left : "Namaskar Riti", message_right : "Namaskar Arun" }],
+			[{ id : 3, message_left : "Hello Rekha", message_right : "Hi Anil" }],
+		];
+		$scope.setTab = function(index) { console.log($scope.messages); 
+			console.log($scope.messages[index]);
+			$scope.username = $scope.users[index].name;
+			$scope.time = $scope.users[index].time;
+			$scope.chatmessages = $scope.messages[index];
+        	$scope.tab = index;
         };
-
-        $scope.isSet = function(tabNum) {
-            return $scope.tab === tabNum;
+        $scope.isSet = function(index) {
+        	return $scope.tab === index;
         };
+        $scope.setTab(1);
+        $scope.isSet(1);
 	});
 </script>@endsection

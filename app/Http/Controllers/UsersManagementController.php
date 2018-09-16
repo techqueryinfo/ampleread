@@ -83,7 +83,7 @@ class UsersManagementController extends Controller
             [
                 'name.unique'         => trans('auth.userNameTaken'),
                 'name.required'       => trans('auth.userNameRequired'),
-                'country_id'                  => 'required',
+                'country_id'          => 'required',
                 'email.required'      => trans('auth.emailRequired'),
                 'email.email'         => trans('auth.emailInvalid'),
                 'password.required'   => trans('auth.passwordRequired'),
