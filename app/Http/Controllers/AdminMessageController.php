@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Auth;
 use App\Message;
 use Illuminate\Http\Request;
 
@@ -25,6 +25,16 @@ class AdminMessageController extends Controller
     public function index()
     {
         return view('message.index');
+    }
+
+    /**
+    * Display a User End Message Chat View
+    *
+    *
+    */
+    public function front_message_view()
+    {
+        return view('message.front');
     }
 
     /**

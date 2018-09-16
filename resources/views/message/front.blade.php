@@ -1,7 +1,6 @@
-@extends('layouts.admin-message')@section('angularjs')
+@extends('layouts.app-message') @section('angularjs')
 <script src='/dist/angular.js'></script>
-@endsection
-@section('content')
+@endsection @section('content')
 <!-- admin message -->
 <div class="message-contact">
 	<div class="search-sec"> <i class="fas fa-search"></i>

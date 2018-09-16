@@ -169,3 +169,4 @@ Route::post('book/saveimage', 'BookController@saveImage');
 Route::get('book/reading/{id}/{ebooktitle}', 'BookController@read_ebook');
 Route::get('book/{id}/edit/', 'BookController@saved_ebook_edit');
 Route::get('books/{category_name}', 'BookController@view_all_books');
+Route::get('message', 'AdminMessageController@front_message_view');

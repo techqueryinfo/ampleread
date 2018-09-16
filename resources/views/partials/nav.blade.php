@@ -40,6 +40,9 @@
                 <li {{ Request::is('home','home/') ? 'class=active' : null }}>
                     {!! HTML::link(url('/home'), 'Books') !!}
                 </li>
+                <li {{ Request::is('message','message/') ? 'class=active' : null }}>
+                    {!! HTML::link(url('/message'), 'Message') !!}
+                </li>
                 @role('admin')
                     <li {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'class=active' : null }}>{!! HTML::link(url('/users'), Lang::get('titles.adminUserList')) !!}</li>
                     <li {{ Request::is('admin/categories') ? 'class=active' : null }}>{!! HTML::link(url('/admin/categories'), Lang::get('titles.adminCategoryList')) !!}</li>
