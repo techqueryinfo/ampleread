@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Models\User;
 use Auth;
 use App\Message;
-use Illuminate\Http\Request;
+use DB;
 
 class AdminMessageController extends Controller
 {
@@ -101,5 +103,14 @@ class AdminMessageController extends Controller
     public function destroy(Message $message)
     {
         //
+    }
+
+    /*
+    * Get all Users list
+    */
+    public function get_all_users()
+    {
+        $users = User::where('status', '=', 'Active')->get();
+        return $users;
     }
 }
