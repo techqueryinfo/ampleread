@@ -104,7 +104,7 @@
                     <div class="text">Upload Book</div>
                 </div>
                 @if(!$new_releases->isEmpty()) @foreach($new_releases as $key => $val) @if($key
-                <=1 ) <div class=" row item">
+                <=1  && $val->home_books) <div class=" row item">
                     <div class="edit-delete">
                         <div class="edit"><a href="{{ url('/book/' . $val->home_books->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt"></i></a></div>
                         <div class="delete">
@@ -129,7 +129,7 @@
             @endif @endforeach @else Data not available ! @endif
         </div>
         <div class="right-row-one">
-            @if(!$new_releases->isEmpty()) @foreach($new_releases as $key => $val) @if($key >= 2)
+            @if(!$new_releases->isEmpty()) @foreach($new_releases as $key => $val) @if($key >= 2 && $val->home_books)
             <div class=" row item">
                 <div class="edit-delete">
                     <div class="edit"><a href="{{ url('/book/' . $val->home_books->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt"></i></a></div>
@@ -206,7 +206,7 @@
                             <div class="unit1">
                                 <div class="form-group">
                                     <div class="form-unit">
-                                        <div class="heading">Books</div>
+                                        <div class="heading">Select Book</div>
                                         <div class="content">
                                             <input type="hidden" value="special_feature" name="type">
                                             <select name="book_id" class="form-control" id="selectbook">

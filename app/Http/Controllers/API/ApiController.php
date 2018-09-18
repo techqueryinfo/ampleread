@@ -57,7 +57,7 @@ class ApiController extends Controller
                         'pageCount' => !empty($book->volumeInfo->pageCount)?$book->volumeInfo->pageCount: 0,
                         'category' => 2
                     );
-                    Book::create($requestData);
+                    // Book::create($requestData);
                 }
                 //echo "<pre>";print_r($requestData);echo "</pre>";
                 //die();

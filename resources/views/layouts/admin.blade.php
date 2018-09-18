@@ -111,9 +111,10 @@
                 if (!state.id) {
                     return state.text;
                 }
-                var baseUrl = "../images";
+                console.log('country', state.element.id, state, state.element.attributes);
+                var baseUrl = "../flags";
                 var $state = $(
-                    '<span><img src="' + baseUrl + '/' + state.element.value.toLowerCase() + '.jpg" class="img-flag" /> ' + state.text + '</span>'
+                    '<span><img src="' + baseUrl + '/' + state.element.id.toLowerCase() + '.png" class="img-flag" /> ' + state.text + '</span>'
                     );
                 return $state;
             };

@@ -71,6 +71,12 @@
             </div>
         </div>
     </div>
+    <div class="form-unit">
+            <div class="heading">Description</div>
+            <div class="content">
+                <textarea name="about_us" rows="6">{{$user->about_us}}</textarea>
+            </div>
+        </div>
 </div>
 </div>
 <div class="save-cancel-btn">

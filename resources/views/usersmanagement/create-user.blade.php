@@ -33,7 +33,7 @@
                   <option value="">Please select Country</option>
                     @if(isset($countries))
                         @foreach ($countries as $optionKey => $optionValue)
-                            <option data-value="{{ $optionValue->code }}" value="{{ $optionValue->id }}"><img src="/flags/{{ $optionValue->code }}.png'"/> {{ $optionValue->countryname }}</option>
+                            <option data-value="{{ $optionValue->code }}" id="{{ $optionValue->code }}" value="{{ $optionValue->id }}"><img src="/flags/{{ strtolower($optionValue->code) }}.png"/> {{ $optionValue->countryname }}</option>
                         @endforeach
                     @endif
                 </select>
@@ -108,6 +108,12 @@
           @endif
         </select>
     </div>
+    <div class="form-unit">
+            <div class="heading">Description</div>
+            <div class="content">
+                <textarea name="about_us" rows="6"></textarea>
+            </div>
+        </div>
 </div>
 
 

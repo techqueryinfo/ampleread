@@ -52,7 +52,7 @@
 		$scope.users = [];
 		$scope.messages = [];
 		$scope.onGetUsers = function() {
-			$http.get("/users")
+			$http.get("/getusers")
             .then(function successCallback(response){
 				$scope.users = response.data;
 				$scope.setTab(1);

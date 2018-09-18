@@ -238,7 +238,20 @@ class BookController extends Controller
                 ->whereIn('books.status', array(2))
                 ->get();
        }
-       else if($category_name == 'new-release')
+       else if($category_name == 'fiction')
+       {    
+            $start_date = date("Y-m-d", strtotime("- 7 days")); 
+            $records = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id')
+                ->join('categories', 'books.category', '=', 'categories.id')
+                ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->whereDate('publisher_date', '>', $start_date)
+                ->where('categories.category_slug', '=', 'fiction')
+                ->whereIn('books.status', array(2))
+                ->get();
+       }
+       else if($category_name == 'new-releases' || $category_name == 'popular')
        {    
             $start_date = date("Y-m-d", strtotime("- 7 days")); 
             $records = DB::table('books')
@@ -259,7 +272,7 @@ class BookController extends Controller
                 ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
                 ->where('categories.is_delete', '=', 0)
                 ->where('categories.category_slug', '=', $category_name)
-                ->whereIn('books.status', 2)
+                ->where('books.status', 2)
                 ->get();
             $total = DB::table('books')
                 ->join('users', 'users.id', '=', 'books.user_id')
@@ -267,14 +280,20 @@ class BookController extends Controller
                 ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
                 ->where('categories.is_delete', '=', 0)
                 ->where('categories.category_slug', '=', $category_name)
-                ->whereIn('books.status', 2)
+                ->where('books.status', 2)
                 ->count();
        }
-       foreach ($records as $k => $v) 
+       if(empty($total))
        {
-            $book_review_star = BookReview::where('book_id', '=', $v->id)->avg('star');
-            $v->star = $book_review_star;
-       } 
+            $total = count($records);
+       }
+       if(!$records->isEmpty()){
+           foreach ($records as $k => $v) 
+           {
+                $book_review_star = BookReview::where('book_id', '=', $v->id)->avg('star');
+                $v->star = $book_review_star;
+           } 
+       }
        $categories = Category::all(); $page = $category_name;
        $category_name = ($category_name == 'free-books' || $category_name == 'paid-books') ? 'all-books' : $category_name;
        $category = Category::where('category_slug', '=', $category_name)->first();

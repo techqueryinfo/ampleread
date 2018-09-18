@@ -110,7 +110,8 @@ class UsersManagementController extends Controller
             'token'            => str_random(64),
             'admin_ip_address' => $ipAddress->getClientIp(),
             'activated'        => 1,
-            'is_author'        => $request->input('is_author')
+            'is_author'        => $request->input('is_author'),
+            'about_us'         => $request->input('about_us')
         ]);
 
         if ($request->hasFile('avatar')) {
@@ -229,6 +230,9 @@ class UsersManagementController extends Controller
 
         if ($request->input('password') != null) {
             $user->password = bcrypt($request->input('password'));
+        }
+        if ($request->input('about_us') != null) {
+            $user->about_us = $request->input('about_us');
         }
 
         $userRole = $request->input('role');

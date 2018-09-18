@@ -5,6 +5,7 @@
 		<div class="ample-row"></div>
 		<div class="owl-carousel owl-theme category-slider">
 			@if(!$books->isEmpty()) @foreach($books as $book)
+				@if($book->home_books)
 			<div class="item">
 				<div class="image"><a href="{{url('books/ebook/'.$book->home_books->id.'/'.$book->home_books->ebooktitle)}}">
                     @if(substr($book->home_books->ebook_logo, 0, 4) == "http")
@@ -39,6 +40,7 @@
 					</div>
 				</div>
 			</div>
+			@endif
 			@endforeach @else Data not available @endif
 		</div>
 	</div>

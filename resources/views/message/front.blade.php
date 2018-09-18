@@ -59,7 +59,7 @@
 			[{ id : 3, message_left : "Hello Rekha", message_right : "Hi Anil" }],
 		];
 		$scope.onGetUsers = function() {
-			$http.get("/users")
+			$http.get("/getusers")
             .then(function successCallback(response){
 				$scope.users = response.data;
 				$scope.setTab(1);
