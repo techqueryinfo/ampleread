@@ -1,9 +1,10 @@
-@extends('layouts.admin') @section('content') @if(Session::has('flash_message'))
+@extends('layouts.admin') @section('content') 
+<!-- @if(Session::has('flash_message'))
 <div class="alert alert-success alert-dismissible">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     <strong>Success!</strong> {{Session::get('flash_message')}}.
 </div>
-@endif
+@endif -->
 <!-- heading -->
 <div class="admin-home">
     <!-- section one  -->
@@ -167,7 +168,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="ample-login-signup">
+                <div class="ample-login-signup" style="padding: 0px">
                     <div class="ample-login-section">
                         <form action="{{ url('/admin/homepage') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
@@ -175,16 +176,20 @@
                                 <div class="form-group">
                                     <input type="file" name="home_logo">
                                     <br/>
-                                    <div class="col-md-2">
-                                    </div>
-                                    <button type="submit" class="submit-button">Upload Banner Image</button>
+
+                                    <button style="width: 180px" type="submit" class="submit-button">Upload Banner Image</button>
+                                </div>
+                            </div>
+                            <div class="unit2">
+                                <div class="form-group">
+                                   <input type="text" name="banner_link" placeholder="Enter Banner Link">(http://example.com)
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="border: 0px">
             </div>
         </div>
     </div>
@@ -199,14 +204,14 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="ample-login-signup">
+                <div class="ample-login-signup" style="padding: 0px">
                     <div class="ample-login-section">
                         <form action="{{ url('/admin/homepage/special_feature') }}" method="POST">
                             {{ csrf_field() }}
-                            <div class="unit1">
+                            <div class="unit1" style="width: 70%">
                                 <div class="form-group">
                                     <div class="form-unit">
-                                        <div class="heading">Select Book</div>
+                                        <!-- <div class="heading">Select Book</div> -->
                                         <div class="content">
                                             <input type="hidden" value="special_feature" name="type">
                                             <select name="book_id" class="form-control" id="selectbook">
@@ -227,7 +232,7 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="border: 0px">
             </div>
         </div>
     </div>
@@ -237,29 +242,22 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <!-- <div class="modal-text">Add Special Feature Books</div> -->
+                <div class="modal-text">Add Books for Homepage section</div>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="ample-login-signup">
+                <div class="ample-login-signup" style="padding: 0px">
                     <div class="ample-login-section">
                         <form action="{{ url('/admin/homepage/add_book') }}" method="POST">
                             {{ csrf_field() }}
-                            <div class="unit1">
+                            <div class="unit1" style="width: 50%">
                                 <div class="form-group">
                                     <div class="form-unit">
-                                        <div class="heading">Books</div>
                                         <div class="content">
-                                            <select name="book_id" class="form-control" id="selectbook">
-                                                <option value="">Please select Book</option>
-                                                @if(isset($books)) @foreach ($books as $optionKey => $optionValue)
-                                                <option data-value="{{ $optionValue->id }}" value="{{ $optionValue->id }}"> {{ $optionValue->ebooktitle }}</option>
-                                                @endforeach @endif
-                                            </select>
                                             <select name="type" class="form-control" id="book_tag">
-                                                <option value="new_releases">New Releases</option>
-                                                <option value="bestsellers">Bestsellers</option>
-                                                <option value="classics">Classics</option>
+                                                <option value="new_releases" <?php if(isset($category_name) && $category_name == 'new_releases') { ?>selected<?php } ?> >New Releases</option>
+                                                <option value="bestsellers" <?php if(isset($category_name) && $category_name == 'bestsellers') { ?>selected<?php } ?>>Bestsellers</option>
+                                                <option value="classics" <?php if(isset($category_name) && $category_name == 'classics') { ?>selected<?php } ?>>Classics</option>
                                             </select>
                                         </div>
                                     </div>
@@ -267,11 +265,25 @@
                                     <button type="submit" class="submit-button">Add</button>
                                 </div>
                             </div>
+                            <div class="unit2" style="width: 50%">
+                                <div class="form-group">
+                                    <div class="form-unit">
+                                        <div class="content">
+                                            <select name="book_id" class="form-control" id="selectbook">
+                                                <option value="">Please select Book</option>
+                                                @if(isset($books)) @foreach ($books as $optionKey => $optionValue)
+                                                <option data-value="{{ $optionValue->id }}" value="{{ $optionValue->id }}"> {{ $optionValue->ebooktitle }}</option>
+                                                @endforeach @endif
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" style="border: 0px">
             </div>
         </div>
     </div>

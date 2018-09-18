@@ -25,6 +25,6 @@ class Home extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'image_name', 'type', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'image_name', 'type', 'banner_link', 'created_at', 'updated_at'];
 
 }

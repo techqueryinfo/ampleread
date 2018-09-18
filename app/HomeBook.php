@@ -32,6 +32,6 @@ class HomeBook extends Model
      */
     public function home_books()
     {
-        return $this->belongsTo('App\Book','book_id')->where('status', '=', 1);
+        return $this->belongsTo('App\Book','book_id')->where('status', '=', 2);
     }
 }

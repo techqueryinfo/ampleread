@@ -18,7 +18,7 @@
                 @endphp
                 <div class="item {{$active}}">
                     <div class="ample-banner">
-                        <img src="/uploads/ebook_logo/{{$banner_image->image_name}}"/>
+                        <a href="{{$banner_image->banner_link}}" target="_blank"><img src="/uploads/ebook_logo/{{$banner_image->image_name}}" border="0" /></a>
                     </div>
                 </div>
             @endif
@@ -159,9 +159,9 @@
                 <div class="slot-1">
                     <div class="e-book1">
                         @if($val->home_books)
-                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
-                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
-                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="image">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="image">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="image">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="image">
                         @endif
                     </div>
                     <div class="heading">{{ $val->home_books->ebooktitle }}</div>
@@ -181,7 +181,7 @@
                     <div class="heading">{{ $val->home_books->ebooktitle }}</div>
                     <div class="sub-text">{{ $val->home_books->subtitle }}</div>
                     <div class="ebook">
-                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt=""><img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo'.$val->home_books->ebook_logo }}" alt="">
+                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt=""><img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="">
                     </div>
                 </div>
             @endif
@@ -190,9 +190,15 @@
         Data not available !
     @endif
 </div>
+@if(!$new_releases->isEmpty())
 @include('partials.new-release')
+@endif
+@if(!$bestsellers->isEmpty())
 @include('partials.best-seller')
+@endif
+@if(!$classics->isEmpty())
 @include('partials.classic')
+@endif
 @endsection @section('footer_scripts')
 <style type="text/css">
 .rating-stars ul > li.star {

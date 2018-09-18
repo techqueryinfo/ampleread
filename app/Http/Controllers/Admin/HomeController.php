@@ -53,6 +53,7 @@ class HomeController extends Controller
             $file = $request->file('home_logo');
             $file->move($uploadPath, $file->getClientOriginalName());
             $requestData['image_name'] = $file->getClientOriginalName();
+            // $requestData['banner_link'] = 'banner_link';
             $requestData['type'] = 'main_slider';
         }
         Home::create($requestData);
