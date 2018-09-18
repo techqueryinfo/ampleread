@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Auth;
 use App\Message;
+use App\ChatMessages;
 use DB;
 
 class AdminMessageController extends Controller
@@ -112,5 +113,14 @@ class AdminMessageController extends Controller
     {
         $users = User::where('status', '=', 'Active')->get();
         return $users;
+    }
+
+    /*
+    * Get Message List
+    */
+    public function get_all_messages($user_id)
+    {
+        $messages = ChatMessages::where('user_id_2', $user_id)->orderBy('created_at', 'DESC')->get();
+        return $messages;
     }
 }

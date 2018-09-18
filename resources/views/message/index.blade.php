@@ -35,13 +35,13 @@
 			</div>
 		</div>
 	</div>
-	<div ng-repeat="message in chatmessages track by $index">
-		<div class="chat-left">@{{message.message_left}}</div>
-		<div class="chat-right">@{{message.message_right}}</div>
+	<div ng-repeat="message in messages track by $index">
+		<div class="chat-left">@{{message.message}}</div>
+		<div class="chat-right">@{{message.message}}</div>
 	</div>
 	<div class="sendm-essage">
-		<input type="text" placeholder="Your message">
-		<button class="sub-mes" type="submit">Send</button>
+		<input type="text" ng-model="sendtext" placeholder="Your message">
+		<button class="sub-mes" type="submit" ng-click="onClickPost(1)">Send</button>
 	</div>
 </div>
 <!-- end admin message -->
@@ -50,15 +50,7 @@
 	var app = angular.module('app', []);
 	app.controller('MessageController',['$scope', '$http', function($scope, $http) {
 		$scope.users = [];
-		$scope.messages = [
-			[
-				{ id : 1, message_left : "Hello Sonu", message_right : "Hi Monu" },
-				{ id : 2, message_left : "Test", message_right : "Working" },
-				{ id : 2, message_left : "Yes", message_right : "No" },
-			],
-			[{ id : 2, message_left : "Namaskar Riti", message_right : "Namaskar Arun" }],
-			[{ id : 3, message_left : "Hello Rekha", message_right : "Hi Anil" }],
-		];
+		$scope.messages = [];
 		$scope.onGetUsers = function() {
 			$http.get("/users")
             .then(function successCallback(response){
@@ -74,12 +66,22 @@
         $scope.setTab = function(index) { 
         	$scope.username = $scope.users[index].first_name + ' ' + $scope.users[index].last_name;
 			$scope.time = '05:00PM';
-			$scope.chatmessages = $scope.messages[index];
+			//$scope.chatmessages = $scope.messages[index];
         	$scope.tab = index;
-        	//console.log('Index '+ index + "Users " + $scope.users[index].name);
+        	$scope.onGetMessages($scope.users[index].id);
+        	console.log($scope.users[index].id);
         };
         $scope.isSet = function(index) {
         	return $scope.tab === index;
+        };
+        $scope.onGetMessages = function(user_id) {
+        	$http.get("/messages/"+user_id)
+        	.then(function successCallback(response){
+        		$scope.messages = response.data;
+        		console.log($scope.messages);
+        	}, function errorCallback(error){
+        		console.log("Unable to perform get request");
+        	});
         };
     }]);
 </script>@endsection
