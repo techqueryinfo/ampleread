@@ -39,6 +39,7 @@
         </div>
         @if(isset($home_books)) @foreach($home_books as $home_book)
         <div class="slot-1">
+            @if($home_book->book_id)
             <div class="e-book1">
                 @if(isset($home_book->home_books->ebook_logo)) 
                     @if(substr($home_book->home_books->ebook_logo, 0, 4) == "http")
@@ -52,6 +53,22 @@
             <div class="heading">{{str_limit($home_book->home_books->ebooktitle, 20)}}</div>
             @endif @if(isset($home_book->home_books->subtitle))
             <div class="sub-text">{{str_limit($home_book->home_books->subtitle, 50)}}</div>
+            @endif
+            @else
+                <div class="e-book1">
+                @if(isset($home_book->banner_image))
+                <a href="{{$home_book->banner_link}}" target="_blank"> 
+                    @if(substr($home_book->banner_image, 0, 4) == "http")
+                        <img src="{{ $home_book->banner_image }}" alt="img1" border="0" />
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $home_book->banner_image }}" alt="img1" border="0" />
+                    @endif 
+                </a>
+                @endif
+                </div>
+                @if(isset($home_book->banner_title))
+                <div class="heading">{{str_limit($home_book->banner_title, 20)}}</div>
+                @endif
             @endif
             <div class="edit-delete">
                 <div class="edit">
@@ -224,8 +241,28 @@
                                     </div>
                                     <div class="col-md-2">
                                     </div>
-                                    <br/>
-                                    <button type="submit" class="submit-button">Add</button>
+                                </div>
+                            </div>
+                            <div class="unit1" style="width: 100%"><h4 style="text-align: center;">OR</h4></div>
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <input type="file" name="banner_image">
+                                </div>
+                            </div>
+                            <div class="unit2">
+                                <div class="form-group">
+                                   <input type="text" name="banner_title" placeholder="Enter Banner title">
+                                </div>
+                            </div>
+                            <div class="unit1">
+                                <div class="form-group">
+                                    <input type="text" name="banner_link" placeholder="Enter Banner Link">
+                                    (http://example.com)
+                                </div>
+                            </div>
+                            <div class="unit2">
+                                <div class="form-group">
+                                    <button style="width: 180px" type="submit" class="submit-button">Save</button>
                                 </div>
                             </div>
                         </form>

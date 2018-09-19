@@ -20,7 +20,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $banner_images = Home::all();
-        $books = Book::all();
+        $books = Book::where('status', '2')->get();
         $home_books   = HomeBook::with('home_books')->where('type', 'special_feature')->get();
         $new_releases = HomeBook::with('home_books')->where('type', 'new_releases')->get();
         $count        = HomeBook::with('home_books')->where('type', 'new_releases')->get()->count();
@@ -136,7 +136,17 @@ class HomeController extends Controller
        }
        else
        {
-        return redirect('admin/homepage')->with('flash_message', 'Select the book !');
+        if ($request->hasFile('banner_image')) 
+        {
+            $uploadPath = public_path('/uploads/ebook_logo');
+            $file = $request->file('banner_image');
+            $file->move($uploadPath, $file->getClientOriginalName());
+            $requestData['banner_image'] = $file->getClientOriginalName();
+            // $requestData['banner_title'] = 'banner_link';
+            // $requestData['type'] = 'main_slider';
+        }
+        HomeBook::create($requestData);
+        return redirect('admin/homepage')->with('flash_message', 'Special Feature Book Added !');
        }
     }
 
@@ -183,7 +193,7 @@ class HomeController extends Controller
     public function show_books_tag($category_name)
     {
         $banner_images = Home::all();
-        $books = Book::all();
+        $books = Book::where('status', '2')->get();
         $home_books = HomeBook::with('home_books')->where('type', 'special_feature')->get();
         if(isset($category_name))
         {
