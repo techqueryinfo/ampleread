@@ -12,13 +12,19 @@
     <div class="row-one">
         <div class="row add-banner">
             <div class="plus-banner">
-                <i class="fas fa-plus" data-toggle="modal" data-target="#createHomeBannerModal"></i>
+                <i class="fas fa-plus" id="openEditModel" data-toggle="modal" data-target="#createHomeBannerModal"></i>
             </div>
             <div class="text">Add banner</div>
         </div>
         @if(!$banner_images->isEmpty()) @php $image_name = "../images/bg-img.jpg"; @endphp @foreach($banner_images as $banner_image) @if(!blank($banner_image->image_name)) @php $image_name = $banner_image->image_name; @endphp @endif
         <div class="row">
             <div class="edit-delete image">
+                <div class="edit">
+                   
+                    <a href="javascript:void(0)" onclick="showEdit('{{$image_name}}', '{{$banner_image->banner_link}}', '{{$banner_image->id}}')" title="Edit Book">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                </div>
                 <form method="POST" action="{{ url('/admin/homepage' . '/' . $banner_image->id) }}" accept-charset="UTF-8" style="display:inline">
                     {{ method_field('DELETE') }} {{ csrf_field() }}
                     <div class="delete" data-toggle='modal' data-target='#confirmDelete' data-title='Delete Book' data-message='Are you sure you want to delete this banner image ?'><i class="far fa-trash-alt"></i></div>
@@ -189,6 +195,12 @@
                     <div class="ample-login-section">
                         <form action="{{ url('/admin/homepage') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
+                            <div class="unit1 hideEdit"  style="display: none; width: 100%">
+                                <input type="hidden" name="banner_edit_id" id="banner_edit_id" value="">
+                                <div class="form-group">
+                                    <img src="" id="bannerEditImg" style="width: 100%">
+                                </div>
+                            </div>
                             <div class="unit1">
                                 <div class="form-group">
                                     <input type="file" name="home_logo">
@@ -199,7 +211,7 @@
                             </div>
                             <div class="unit2">
                                 <div class="form-group">
-                                   <input type="text" name="banner_link" placeholder="Enter Banner Link">(http://example.com)
+                                   <input type="text" id="banner_link" name="banner_link" placeholder="Enter Banner Link">(http://example.com)
                                 </div>
                             </div>
                         </form>
@@ -364,4 +376,21 @@
         </div>
     </div>
 </div>
-@include('modals.modal-delete') @endsection @section('footer_scripts') @include('scripts.delete-modal-script') @endsection
+@include('modals.modal-delete') @endsection @section('footer_scripts') 
+<script type="text/javascript">
+    $('#banner_link').val('');
+    $('#bannerEditImg').attr('src','');
+    $('#banner_edit_id').val('');
+    $('#bannerEditImg').hide();
+    $('.hideEdit').hide();
+    function showEdit(bname, blink, bid){
+        console.log(bname, blink);
+        $('#openEditModel').trigger('click');
+        $('.hideEdit').show();
+        $('#bannerEditImg').show();
+        $('#bannerEditImg').attr('src','/uploads/ebook_logo/'+bname);
+        $('#banner_link').val(blink);
+        $('#banner_edit_id').val(bid);
+    }
+</script>
+@include('scripts.delete-modal-script') @endsection

@@ -47,6 +47,7 @@ class HomeController extends Controller
     public function store(Request $request)
     {
         $requestData = $request->all();
+        
         if ($request->hasFile('home_logo')) 
         {
             $uploadPath = public_path('/uploads/ebook_logo');
@@ -56,7 +57,14 @@ class HomeController extends Controller
             // $requestData['banner_link'] = 'banner_link';
             $requestData['type'] = 'main_slider';
         }
-        Home::create($requestData);
+        if(!empty($requestData['banner_edit_id']))
+        {
+            $homeData = Home::findOrFail($requestData['banner_edit_id']);
+            $homeData->update($requestData);
+        }
+        else{
+            Home::create($requestData);
+        }
         return redirect('admin/homepage')->with('flash_message', 'Banner Image Added!');
     }
 
