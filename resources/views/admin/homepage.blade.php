@@ -223,7 +223,7 @@
             <div class="modal-body">
                 <div class="ample-login-signup" style="padding: 0px">
                     <div class="ample-login-section">
-                        <form action="{{ url('/admin/homepage/special_feature') }}" method="POST">
+                        <form action="{{ url('/admin/homepage/special_feature') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="unit1" style="width: 70%">
                                 <div class="form-group">
