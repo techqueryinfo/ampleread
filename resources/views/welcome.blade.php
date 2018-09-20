@@ -173,8 +173,8 @@
                     <div class="e-book1">
                         @if($val->banner_image)
                         <a href="{{$val->banner_link}}" target="_blank">
-                            <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
-                            <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
+<!--                             <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
+                            <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0"> -->
                             <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
                         </a>
                         @endif
