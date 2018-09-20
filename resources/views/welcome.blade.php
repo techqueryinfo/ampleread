@@ -179,7 +179,7 @@
                         </a>
                         @endif
                     </div>
-                    <div class="heading">{{ $val->banner_title }}</div>
+                    <!-- <div class="heading">{{ $val->banner_title }}</div> -->
                 </div>
             @endif
             @endif
