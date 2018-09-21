@@ -4,7 +4,7 @@
       <div class="heading">Join us and get access
           to all your favourite books</div>
        <div class="free">It’s free</div>
-       <button>Sign up for free</button>
+       <button data-toggle="modal" data-target="#myModal">Sign up for free</button>
    </div>
 </div>
 @endif
