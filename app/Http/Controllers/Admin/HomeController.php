@@ -137,6 +137,7 @@ class HomeController extends Controller
     public function add_special_feature_book(Request $request)
     {
        $requestData = $request->all();
+       
        if(isset($requestData['book_id']))
        {
         HomeBook::create($requestData);
@@ -153,7 +154,14 @@ class HomeController extends Controller
             // $requestData['banner_title'] = 'banner_link';
             // $requestData['type'] = 'main_slider';
         }
-        HomeBook::create($requestData);
+        if(!empty($requestData['sf_edit_id']))
+        {
+            $homeData = HomeBook::findOrFail($requestData['sf_edit_id']);
+            $homeData->update($requestData);
+        }
+        else{
+            HomeBook::create($requestData);
+        }
         return redirect('admin/homepage')->with('flash_message', 'Special Feature Book Added !');
        }
     }

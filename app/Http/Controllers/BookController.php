@@ -564,7 +564,11 @@ class BookController extends Controller
         ->where('categories.status', '=', 'Active')
         ->where('books.status', '=', 2)
         ->get();
-        $authorReview = AuthorReview::where('book_id', $id)->where('user_id', Auth::user()->id)->first();
+        $authorReview = [];
+        if(Auth::user())
+        {
+            $authorReview = AuthorReview::where('book_id', $id)->where('user_id', Auth::user()->id)->first();
+        }
         $author_review_count = AuthorReview::where('author_id', $author->id)->count();
         $author_reviews = DB::table('author_reviews')
             ->join('users', 'users.id', '=', 'author_reviews.user_id')
