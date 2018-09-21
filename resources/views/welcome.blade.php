@@ -158,28 +158,22 @@
             @if($key <= 2 )
             @if($val->book_id && $val->home_books)
                 <div class="slot-1">
-                    <div class="e-book1">
                         @if($val->home_books)
-                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="image">
-                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="image">
-                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="image">
+                        <img class="firstimage" src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="image">
                         @endif
+                    <div class="content">
+                        <div class="heading-image">{{ $val->home_books->ebooktitle }}</div>
                     </div>
-                    <div class="heading">{{ $val->home_books->ebooktitle }}</div>
-                    <!-- <div class="sub-text">{{ $val->home_books->subtitle }}</div> -->
                 </div>
             @else
                 <div class="slot-1">
-                    <div class="e-book1">
                         @if($val->banner_image)
-                        <a href="{{$val->banner_link}}" target="_blank">
-<!--                             <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
-                            <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0"> -->
-                            <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
-                        </a>
+
+                            <img class="firstimage" src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
                         @endif
+                    <div class="content">
+                        <div class="heading-image">{{ $val->banner_title }}</div>
                     </div>
-                    <!-- <div class="heading">{{ $val->banner_title }}</div> -->
                 </div>
             @endif
             @endif
@@ -194,22 +188,20 @@
             @if($key >= 3 )
             @if($val->book_id && $val->home_books)
                 <div class="slot-1">
-                    <div class="heading">{{ $val->home_books->ebooktitle }}</div>
-                    <div class="sub-text">{{ $val->home_books->subtitle }}</div>
-                    <div class="ebook">
-                        <img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt=""><img src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="">
+
+                    <img class="firstimage" src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="">
+                    <div class="content">
+                        <div class="heading-image">{{ $val->home_books->ebooktitle }}</div>
+                        <div class="sub-heading">{{ $val->home_books->subtitle }}</div>
                     </div>
                 </div>
             @else
                 <div class="slot-1">
-                    <div class="e-book1">
                         @if($val->banner_image)
-                        <a href="{{$val->banner_link}}" target="_blank">
-<!--                             <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
-                            <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0"> -->
-                            <img src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
-                        </a>
+                            <img class="firstimage" src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
                         @endif
+                        <div class="content">
+                        <div class="heading-image">{{ $val->banner_title }}</div>
                     </div>
                     <!-- <div class="heading">{{ $val->banner_title }}</div> -->
                 </div>

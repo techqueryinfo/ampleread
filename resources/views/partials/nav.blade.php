@@ -176,7 +176,7 @@
                             <div class="form-group">
                                 <div class="heading">Password</div>
                                 {!! Form::password('password', ['class' => 'form-control', 'id' => 'password', 'placeholder' => 'Password']) !!}
-                                <small class="help-block"><strong></small>
+                                <small class="help-block"><strong></strong></small>
                             </div>
                             <div class="form-group">
                                 <div class="heading">Confirm Password</div>
