@@ -39,7 +39,7 @@
     <div class="row-two">
         <div class="row add-banner">
             <div class="plus-banner">
-                <i class="fas fa-plus" data-toggle="modal" data-target="#createSpecialFeatureModal"></i>
+                <i class="fas fa-plus" id="openSFEditModel" data-toggle="modal" data-target="#createSpecialFeatureModal"></i>
             </div>
             <div class="text">Add banner</div>
         </div>
@@ -80,6 +80,8 @@
                 <div class="edit">
                     @if(isset($home_book->home_books->id))
                     <a href="{{ url('/book/' . $home_book->home_books->id . '/edit') }}" title="Edit Book">
+                    @else
+                    <a href="javascript:void(0)" onclick="openSFModal('{{$home_book->banner_image}}', '{{$home_book->banner_link}}', '{{$home_book->banner_title}}', {{$home_book->id}})" title="Edit Book">
                     @endif
                         <i class="fas fa-pencil-alt"></i>
                     </a>
@@ -188,7 +190,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-text">Add Home Banner</div>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" onclick="closeModal()" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="ample-login-signup" style="padding: 0px">
@@ -230,14 +232,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-text">Add Special Feature Books</div>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" onclick="closeModal()" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="ample-login-signup" style="padding: 0px">
                     <div class="ample-login-section">
                         <form action="{{ url('/admin/homepage/special_feature') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <div class="unit1" style="width: 70%">
+                            <div class="unit1 bookSelect" style="width: 70%">
                                 <div class="form-group">
                                     <div class="form-unit">
                                         <!-- <div class="heading">Select Book</div> -->
@@ -255,7 +257,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="unit1" style="width: 100%"><h4 style="text-align: center;">OR</h4></div>
+                            <div class="unit1 bookSelect" style="width: 100%"><h4 style="text-align: center;">OR</h4></div>
+                            <div class="unit1 hideSFEdit"  style="display: none; width: 100%">
+                                <input type="hidden" name="sf_edit_id" id="sf_edit_id" value="">
+                                <div class="form-group" style="text-align: center;">
+                                    <img src="" id="sfEditImg" style="width: auto; max-width: 100%">
+                                </div>
+                            </div>
                             <div class="unit1">
                                 <div class="form-group">
                                     <input type="file" name="banner_image">
@@ -263,12 +271,12 @@
                             </div>
                             <div class="unit2">
                                 <div class="form-group">
-                                   <input type="text" name="banner_title" placeholder="Enter Banner title">
+                                   <input type="text" id="sf_banner_title" name="banner_title" placeholder="Enter Banner title">
                                 </div>
                             </div>
                             <div class="unit1">
                                 <div class="form-group">
-                                    <input type="text" name="banner_link" placeholder="Enter Banner Link">
+                                    <input type="text" name="banner_link" id="sf_banner_link" placeholder="Enter Banner Link">
                                     (http://example.com)
                                 </div>
                             </div>
@@ -292,7 +300,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-text">Add Books for Homepage section</div>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close"  data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="ample-login-signup" style="padding: 0px">
@@ -378,11 +386,21 @@
 </div>
 @include('modals.modal-delete') @endsection @section('footer_scripts') 
 <script type="text/javascript">
-    $('#banner_link').val('');
-    $('#bannerEditImg').attr('src','');
-    $('#banner_edit_id').val('');
-    $('#bannerEditImg').hide();
-    $('.hideEdit').hide();
+    function closeModal(){
+        $('#banner_link').val('');
+        $('#bannerEditImg').attr('src','');
+        $('#banner_edit_id').val('');
+        $('#bannerEditImg').hide();
+        $('.hideEdit').hide();
+
+        $('.hideSFEdit').hide();
+        $('.bookSelect').show();
+        $('#sfEditImg').attr('src','');
+        $('#sf_banner_link').val('');
+        $('#sf_banner_title').val('');
+        $('#sf_edit_id').val('');
+    }
+    closeModal();
     function showEdit(bname, blink, bid){
         console.log(bname, blink);
         $('#openEditModel').trigger('click');
@@ -391,6 +409,17 @@
         $('#bannerEditImg').attr('src','/uploads/ebook_logo/'+bname);
         $('#banner_link').val(blink);
         $('#banner_edit_id').val(bid);
+    }
+
+    function openSFModal(bname, blink, btitle, sfid){
+        console.log(bname, blink, btitle, sfid);
+        $('#openSFEditModel').trigger('click');
+        $('.hideSFEdit').show();
+        $('.bookSelect').hide();
+        $('#sfEditImg').attr('src','/uploads/ebook_logo/'+bname);
+        $('#sf_banner_link').val(blink);
+        $('#sf_banner_title').val(btitle);
+        $('#sf_edit_id').val(sfid);
     }
 </script>
 @include('scripts.delete-modal-script') @endsection
