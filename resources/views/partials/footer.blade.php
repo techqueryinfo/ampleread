@@ -41,9 +41,12 @@
         </div>
     </div>
     <div class="footer-r1">
-        <div class="heading">Stay in touch</div>
-        <input type="text" placeholder="Email">
-        <button>Send</button>
+        <form action="{{ url('/stayintouch') }}" method="POST" enctype="multipart/form-data">
+            {{ csrf_field() }}
+            <div class="heading">Stay in touch</div>
+            <input type="text" name="email" placeholder="Email">
+            <button>Send</button>
+        </form>
     </div>
 </div>
 <div class="ample-lower-footer">© 2017 AMPLE reads</div>
