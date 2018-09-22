@@ -92,7 +92,7 @@
 			<div class="form-unit">
 				<div class="heading">Print Pages</div>
 				<div class="content">
-					<input type="text" name="pageCount" placeholder="Print Pages">
+					<input type="number" name="pageCount" placeholder="Print Pages">
 				</div>
 			</div>
 		</div>
