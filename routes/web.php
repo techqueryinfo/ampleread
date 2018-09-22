@@ -171,4 +171,5 @@ Route::get('book/{id}/edit/', 'BookController@saved_ebook_edit');
 Route::get('books/{category_name}', 'BookController@view_all_books');
 Route::get('message', 'AdminMessageController@front_message_view');
 Route::get('/getusers', 'AdminMessageController@get_all_users');
-Route::get('/messages/{id}', 'AdminMessageController@get_all_messages');
+Route::get('/message_data', 'AdminMessageController@get_all_messages');
+Route::get('/user_messages/{id}', 'AdminMessageController@get_user_messages');

@@ -118,9 +118,24 @@ class AdminMessageController extends Controller
     /*
     * Get Message List
     */
-    public function get_all_messages($user_id)
+    public function get_all_messages()
     {
-        $messages = ChatMessages::where('user_id_2', $user_id)->orderBy('created_at', 'DESC')->get();
+        $messages = ChatMessages::select('users.first_name', 'users.last_name', 'chat_messages.user_id','chat_messages.admin_id', 'users.id', 'users.name', 'users.created_at')
+            ->join('users','users.id','=','chat_messages.user_id')
+            ->groupBy('chat_messages.user_id')
+            ->orderBy('chat_messages.created_at', 'DESC')
+            ->get();
         return $messages;
+    }
+
+    /*
+    * Get Message List By User ID
+    */
+    public function get_user_messages($userId)
+    {
+        $user_messages = ChatMessages::where('user_id', $userId)
+            ->orderBy('chat_messages.created_at', 'DESC')
+            ->get();
+        return $user_messages;
     }
 }
