@@ -168,8 +168,10 @@
             @else
                 <div class="slot-1">
                         @if($val->banner_image)
+                        <a href="{{$val->banner_link}}" target="_blank">
 
                             <img class="firstimage" src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
+                        </a>
                         @endif
                     <div class="content">
                         <div class="heading-image">{{ $val->banner_title }}</div>
@@ -198,7 +200,9 @@
             @else
                 <div class="slot-1">
                         @if($val->banner_image)
+                        <a href="{{$val->banner_link}}" target="_blank">
                             <img class="firstimage" src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
+                        </a>
                         @endif
                         <div class="content">
                         <div class="heading-image">{{ $val->banner_title }}</div>
