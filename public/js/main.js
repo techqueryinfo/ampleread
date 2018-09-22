@@ -14,9 +14,40 @@ $(document).ready(function () {
 
     $('.home-slider').owlCarousel({
         nav: true,
+        loop: true,
         margin: 10,
         dots: false,
-        items: 5
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 1,
+                nav: true
+            },
+            600: {
+                items: 2,
+
+            },
+            768: {
+                items: 2,
+                loop: false,
+                margin: 15
+            },
+            992: {
+                items: 3,
+                loop: false,
+                margin: 15
+            },
+            1180: {
+                items: 4,
+                loop: false,
+                margin: 20
+            },
+            1480: {
+                items: 5,
+                loop: false,
+                margin: 15
+            }
+        }
     });
 
     $('.category-slider').owlCarousel({
@@ -61,6 +92,7 @@ function Setactive(x) {
         $(x).removeClass("ample-login");
         $(x).siblings().addClass("ample-login");
         $(x).siblings().removeClass("ample-login-active");
+
     }
     if ((z == "ampleLogin") && (y == "ample-login")) {
         $(".ample-login-section").hide();
@@ -70,6 +102,7 @@ function Setactive(x) {
         $(".ample-login-section").show();
         $(".ample-register-section").hide();
     }
+
 }
 function Showforgot() {
     $(".ample-login-section,.ample-register-section,.ample-signup-login-text").hide();
@@ -81,8 +114,10 @@ $(".btn-signup").click(function () {
     $(".ample-register-section,.ample-forgot-password").hide();
     $("#ampleLogin").addClass("ample-login");
     $("#ampleLogin").removeClass("ample-login-active");
+
     $("#ampleSignin").addClass("ample-login-active");
     $("#ampleSignin").removeClass("ample-login");
+
 });
 $(".btn-signin").click(function () {
 //alert("signin");
@@ -100,32 +135,17 @@ $(".js-example-basic-single").select2();
 $(".sign-in-manage-left .unit").click(function(){
     $(".sign-in-manage-left .unit").removeClass("active");
     $(this).addClass("active");
-    if($(this).text() == 'My saved books')
-    {
-        $('.currently').hide();
-        $('.publish-books').hide();
-        $('.saved-books').show();
-    }
-    else if($(this).text() == 'My published books')
-    {
-        $('.saved-books').hide();
-        $('.currently').hide();
-        $('.publish-books').show();
-    }
-    else
-    {
-        $('.saved-books').hide();
-        $('.publish-books').hide();
-        $('.currently').show();
-    }
 });
 
 $("#status,#userSorting").select2();
 $(".ebook-slot-1 ul li").click(function(){
   $(".ebook-slot-1 ul li").removeClass("active");
   $(this).addClass("active");
+
 });
 $(" ul.sub-list li").click(function(){
   $(" ul.sub-list li").removeClass("active");
   $(this).addClass("active");
+
 });
+

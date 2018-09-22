@@ -16,6 +16,9 @@
 // Homepage Route
 Route::get('/', 'WelcomeController@site')->name('site');
 Route::get('/welcome', 'WelcomeController@welcome')->name('welcome');
+Route::post('/stayintouch', 'WelcomeController@stayintouch')->name('stayintouch');
+Route::get('/stayintouch', 'WelcomeController@stayintouch')->name('stayintouch');
+
 Route::get('/api', 'API\ApiController@index');
 // Authentication Routes
 Auth::routes();

@@ -70,7 +70,7 @@ class PagesController extends Controller
         $contact['email'] = $request->get('email');
         $contact['msg'] = $request->get('msg');
         // Mail delivery logic goes here
-        Mail::to('asrathore1994@gmail.com')->send(new ContactEmail($contact));
+        Mail::to('vinod@mailinator.com')->send(new ContactEmail($contact));
         return redirect('contact-us')->with('success','Mail sent successfully');
     }
 

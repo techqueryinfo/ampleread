@@ -7,6 +7,9 @@ use App\Book;
 use App\HomeBook;
 use App\Home;
 use App\BookReview;
+use App\Mail\StayInTouch;
+use Mail;
+use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
 {
@@ -46,6 +49,21 @@ class WelcomeController extends Controller
         return view('welcome', compact('countries', 'books', 'categories', 'special_features', 'new_releases', 'bestsellers', 'classics', 'banner_images'));
     }
 
+    public function stayintouch(Request $request)
+    {
+        $requestData = $request->all();
+        if(!empty($requestData)){
+            $mailData['email'] = $request->get('email');
+            // Mail delivery logic goes here
+            Mail::to('vinod@mailinator.com')->send(new StayInTouch($mailData));
+            return view('stayintouch', compact('mailData'));
+        }
+        else
+        {
+            return redirect('welcome/');
+        }
+
+    }
     /*Temporary Controller till construction*/
     public function site()
     {

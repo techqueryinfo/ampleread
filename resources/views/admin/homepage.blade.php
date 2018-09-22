@@ -39,13 +39,14 @@
     <div class="row-two">
         <div class="row add-banner">
             <div class="plus-banner">
-                <i class="fas fa-plus" data-toggle="modal" data-target="#createSpecialFeatureModal"></i>
+                <i class="fas fa-plus" id="openSFEditModel" data-toggle="modal" data-target="#createSpecialFeatureModal"></i>
             </div>
             <div class="text">Add banner</div>
         </div>
         @if(isset($home_books)) @foreach($home_books as $home_book)
+        @if($home_book->book_id)
         <div class="slot-1">
-            @if($home_book->book_id)
+            
             <div class="e-book1">
                 @if(isset($home_book->home_books->ebook_logo)) 
                     @if(substr($home_book->home_books->ebook_logo, 0, 4) == "http")
@@ -59,28 +60,10 @@
             <div class="heading">{{str_limit($home_book->home_books->ebooktitle, 20)}}</div>
             @endif @if(isset($home_book->home_books->subtitle))
             <div class="sub-text">{{str_limit($home_book->home_books->subtitle, 50)}}</div>
-            @endif
-            @else
-                <div class="e-book1">
-                @if(isset($home_book->banner_image))
-                <a href="{{$home_book->banner_link}}" target="_blank"> 
-                    @if(substr($home_book->banner_image, 0, 4) == "http")
-                        <img src="{{ $home_book->banner_image }}" alt="img1" border="0" />
-                    @else
-                        <img src="/uploads/ebook_logo/{{ $home_book->banner_image }}" alt="img1" border="0" />
-                    @endif 
-                </a>
-                @endif
-                </div>
-                @if(isset($home_book->banner_title))
-                <div class="heading">{{str_limit($home_book->banner_title, 20)}}</div>
-                @endif
-            @endif
+            
             <div class="edit-delete">
                 <div class="edit">
-                    @if(isset($home_book->home_books->id))
                     <a href="{{ url('/book/' . $home_book->home_books->id . '/edit') }}" title="Edit Book">
-                    @endif
                         <i class="fas fa-pencil-alt"></i>
                     </a>
                 </div>
@@ -90,6 +73,30 @@
                 </form>
             </div>
         </div>
+        @endif
+        @else
+        <div class="slot-3">
+            <div class="heading">{{$home_book->banner_title}}</div>
+            <!-- <div class="sub-text">Lorem ipsum dolor</div> -->
+            <div class="ebook">
+                @if(isset($home_book->banner_image))
+                <a href="{{$home_book->banner_link}}" target="_blank"> 
+                    @if(substr($home_book->banner_image, 0, 4) == "http")
+                        <img src="{{ $home_book->banner_image }}" alt="img1" border="0" />
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $home_book->banner_image }}" alt="img1" border="0" />
+                    @endif 
+                </a>
+                @endif</div>
+            <div class="edit-delete">
+                <div class="edit" onclick="openSFModal('{{$home_book->banner_image}}', '{{$home_book->banner_link}}', '{{$home_book->banner_title}}', {{$home_book->id}})"><i class="fas fa-pencil-alt"></i></div>
+                <form method="POST" action="{{ url('/admin/homepage/special_feature'. '/' . $home_book->id) }}" accept-charset="UTF-8" style="display:inline">
+                    {{ csrf_field() }}
+                    <div class="delete" data-toggle='modal' data-target='#confirmDelete' data-title='Delete Book' data-message='Are you sure you want to delete this e-Book from homepage ?'><i class="far fa-trash-alt"></i></div>
+                </form>
+            </div>
+        </div>
+        @endif
         @endforeach @endif
     </div>
     <!-- section three-->
@@ -188,7 +195,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-text">Add Home Banner</div>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" onclick="closeModal()" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="ample-login-signup" style="padding: 0px">
@@ -230,14 +237,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-text">Add Special Feature Books</div>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" onclick="closeModal()" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="ample-login-signup" style="padding: 0px">
                     <div class="ample-login-section">
                         <form action="{{ url('/admin/homepage/special_feature') }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <div class="unit1" style="width: 70%">
+                            <div class="unit1 bookSelect" style="width: 70%">
                                 <div class="form-group">
                                     <div class="form-unit">
                                         <!-- <div class="heading">Select Book</div> -->
@@ -255,7 +262,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="unit1" style="width: 100%"><h4 style="text-align: center;">OR</h4></div>
+                            <div class="unit1 bookSelect" style="width: 100%"><h4 style="text-align: center;">OR</h4></div>
+                            <div class="unit1 hideSFEdit"  style="display: none; width: 100%">
+                                <input type="hidden" name="sf_edit_id" id="sf_edit_id" value="">
+                                <div class="form-group" style="text-align: center;">
+                                    <img src="" id="sfEditImg" style="width: auto; max-width: 100%">
+                                </div>
+                            </div>
                             <div class="unit1">
                                 <div class="form-group">
                                     <input type="file" name="banner_image">
@@ -263,12 +276,12 @@
                             </div>
                             <div class="unit2">
                                 <div class="form-group">
-                                   <input type="text" name="banner_title" placeholder="Enter Banner title">
+                                   <input type="text" id="sf_banner_title" name="banner_title" placeholder="Enter Banner title">
                                 </div>
                             </div>
                             <div class="unit1">
                                 <div class="form-group">
-                                    <input type="text" name="banner_link" placeholder="Enter Banner Link">
+                                    <input type="text" name="banner_link" id="sf_banner_link" placeholder="Enter Banner Link">
                                     (http://example.com)
                                 </div>
                             </div>
@@ -292,7 +305,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-text">Add Books for Homepage section</div>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close"  data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="ample-login-signup" style="padding: 0px">
@@ -378,11 +391,21 @@
 </div>
 @include('modals.modal-delete') @endsection @section('footer_scripts') 
 <script type="text/javascript">
-    $('#banner_link').val('');
-    $('#bannerEditImg').attr('src','');
-    $('#banner_edit_id').val('');
-    $('#bannerEditImg').hide();
-    $('.hideEdit').hide();
+    function closeModal(){
+        $('#banner_link').val('');
+        $('#bannerEditImg').attr('src','');
+        $('#banner_edit_id').val('');
+        $('#bannerEditImg').hide();
+        $('.hideEdit').hide();
+
+        $('.hideSFEdit').hide();
+        $('.bookSelect').show();
+        $('#sfEditImg').attr('src','');
+        $('#sf_banner_link').val('');
+        $('#sf_banner_title').val('');
+        $('#sf_edit_id').val('');
+    }
+    closeModal();
     function showEdit(bname, blink, bid){
         console.log(bname, blink);
         $('#openEditModel').trigger('click');
@@ -391,6 +414,17 @@
         $('#bannerEditImg').attr('src','/uploads/ebook_logo/'+bname);
         $('#banner_link').val(blink);
         $('#banner_edit_id').val(bid);
+    }
+
+    function openSFModal(bname, blink, btitle, sfid){
+        console.log(bname, blink, btitle, sfid);
+        $('#openSFEditModel').trigger('click');
+        $('.hideSFEdit').show();
+        $('.bookSelect').hide();
+        $('#sfEditImg').attr('src','/uploads/ebook_logo/'+bname);
+        $('#sf_banner_link').val(blink);
+        $('#sf_banner_title').val(btitle);
+        $('#sf_edit_id').val(sfid);
     }
 </script>
 @include('scripts.delete-modal-script') @endsection
