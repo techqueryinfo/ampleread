@@ -188,14 +188,15 @@ class HomeController extends Controller
     public function add_tags_book(Request $request)
     {
         $requestData = $request->all();
+
         if(isset($requestData['book_id']))
         {
             HomeBook::create($requestData);
-            return redirect('admin/homepage')->with('flash_message', 'Book added to '.$requestData['type']);
+            return redirect('admin/homepage/'.$requestData['type'])->with('flash_message', 'Book added to '.$requestData['type']);
         }
         else
         {
-            return redirect('admin/homepage')->with('flash_message', 'Select the book');
+            return redirect('admin/homepage/'.$requestData['type'])->with('flash_message', 'Select the book');
         }
     }
 
