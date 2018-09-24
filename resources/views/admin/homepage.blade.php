@@ -81,7 +81,7 @@
         @endif
         @else
         <div class="slot-3">
-            <div class="heading" style="font-size: 15px">{{str_limit($home_book->banner_title,50)}}</div>
+            <div class="heading" style="font-size: 15px">{{str_limit($home_book->banner_title,40)}}</div>
             <!-- <div class="sub-text">Lorem ipsum dolor</div> -->
             <div class="ebook">
                 @if(isset($home_book->banner_image))
