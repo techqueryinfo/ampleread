@@ -4,9 +4,16 @@
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
+            @if(!empty($banner_images))
+            @foreach($banner_images as $key => $banner_image)
+            @if($banner_image->image_name !='')
+                @php
+                    $active = ($key == 0)  ? 'active' : '';
+                @endphp
+            <li data-target="#myCarousel" data-slide-to="{{$key}}" class="{{$active}}"></li>
+            @endif
+            @endforeach
+            @endif
         </ol>
         <!-- Wrapper for slides -->
         <div class="carousel-inner">

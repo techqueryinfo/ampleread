@@ -16,6 +16,7 @@ use App\BookReview;
 use App\AuthorReview;
 use App\Bookmark;
 use App\HomeBook;
+use App\BookSave;
 use DB;
 
 class BookController extends Controller
@@ -373,6 +374,20 @@ class BookController extends Controller
         return view('books.free_ebook', compact('book', 'related_book', 'paid', 'paidDiscount', 'bookReview', 'book_review_count', 'book_reviews', 'author'));
     }
 
+    public function readlater($bookid, $btitle){
+        
+        $currentUser = Auth::user();
+        $book = Book::findOrFail($bookid)->where('id', $bookid);
+        $book = $book->first();
+        $booksave = DB::table('book_save')->where('book_id', $bookid)->where('user_id', $currentUser->id)->first();
+
+        if(!empty($book) && empty($booksave))
+        {
+            $arrayData = array('book_id' => $bookid, 'user_id' => $currentUser->id);
+            $bookContent  = BookSave::create($arrayData);
+        }
+        return redirect('/books/ebook/'.$bookid.'/'.$btitle)->with('flash_message', 'E-Book saved for later successfully !');  
+    }
     /**
      * Reading Free E-Book 
     */

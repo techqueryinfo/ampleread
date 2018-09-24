@@ -10,141 +10,28 @@
         <!-- Indicators -->
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
         </ol>
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
-            @if(!empty($banner_images))
-            @foreach($banner_images as $key => $banner_image)
-            @if($banner_image->image_name !='')
-                @php
-                    $active = ($key == 0)  ? 'active' : '';
-                @endphp
-                <div class="item {{$active}}">
-                    <div class="ample-banner">
-                        <img src="/uploads/ebook_logo/{{$banner_image->image_name}}"/>
-                    </div>
-                </div>
-            @endif
-            @endforeach
-            @else
             <div class="item active">
-                <div class="ample-banner">
-                    <div class="ample-banner-left">
-                        <div class="unit-one">
-                            <div class="unit-one-one"><img src="images/image1.jpg"></div>
-                            <div class="unit-one-two"><img src="images/image2.jpg"></div>
-                        </div>
-                        <div class="unit-one">
-                            <div class="unit-one-one"><img src="images/image3.jpg"></div>
-                            <div class="unit-one-two"><img src="images/image4.jpg"></div>
-                        </div>
-                        <div class="unit-one">
-                            <div class="unit-one-one"><img src="images/image5.jpg"></div>
-                            <div class="unit-one-two"><img src="images/image6.png"></div>
-                        </div>
-                    </div>
+                <div class="ample-signin-banner">
                     <div class="ample-banner-right">
-                        <div class="ample-banner-heading">10 inspiring books<br>
-                            for the autumn begining</div>
-                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                            donec et quam id nunc finibus efficitur molestie</div>
+                        <div class="ample-banner-heading">The Girl on the Train</div>
+                        <div class="ample-banner-subheading">The #1 New York Times Bestseller, USA Today Book
+                            of the Year, now a major motion picture starring Emily Blunt.
+                            Don't miss Paula Hawkins' new novel, Into the Water,
+                            coming May 2017.</div>
                         <div class="ample-banner-button">
-                            <button>Learn More</button>
+                            <button>Read Now</button>
+                            <!-- <div class="add-library">
+                                <img src="images/plus.png" src="plus">
+                                <span>Add to my library</span>
+                            </div> -->
                         </div>
                     </div>
-                    <div class="ample-banner-mobile">
-                        <div class="unit-1">
-                            <img src="images/image7.jpg" />
-                        </div>
-                        <div class="unit-1">
-                            <img src="images/image8.jpg" />
-                        </div>
-                        <div class="unit-1">
-                            <img src="images/image9.jpg" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="ample-banner">
-                    <div class="ample-banner-left">
-                        <div class="unit-one">
-                            <div class="unit-one-one"><img src="images/image7.jpg"></div>
-                            <div class="unit-one-two"><img src="images/image8.jpg"></div>
-                        </div>
-                        <div class="unit-one">
-                            <div class="unit-one-one"><img src="images/image9.jpg"></div>
-                            <div class="unit-one-two"><img src="images/image2.jpg"></div>
-                        </div>
-                        <div class="unit-one">
-                            <div class="unit-one-one"><img src="images/image4.jpg"></div>
-                            <div class="unit-one-two"><img src="images/image5.jpg"></div>
-                        </div>
-                    </div>
-                    <div class="ample-banner-right">
-                        <div class="ample-banner-heading">10 inspiring books<br>
-                            for the autumn begining</div>
-                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                            donec et quam id nunc finibus efficitur molestie</div>
-                        <div class="ample-banner-button">
-                            <button>Learn More</button>
-                        </div>
-                    </div>
-                    <div class="ample-banner-mobile">
-                        <div class="unit-1">
-                            <img src="images/image4.jpg" />
-                        </div>
-                        <div class="unit-1">
-                            <img src="images/image5.jpg" />
-                        </div>
-                        <div class="unit-1">
-                            <img src="images/image6.png" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="ample-banner">
-                    <div class="ample-banner-left">
-                        <div class="unit-one">
-                            <div class="unit-one-one"><img src="images/image9.jpg"></div>
-                            <div class="unit-one-two"><img src="images/image8.jpg"></div>
-                        </div>
-                        <div class="unit-one">
-                            <div class="unit-one-one"><img src="images/image7.jpg"></div>
-                            <div class="unit-one-two"><img src="images/image5.jpg"></div>
-                        </div>
-                        <div class="unit-one">
-                            <div class="unit-one-one"><img src="images/image4.jpg"></div>
-                            <div class="unit-one-two"><img src="images/image3.jpg"></div>
-                        </div>
 
-                    </div>
-                    <div class="ample-banner-right">
-                        <div class="ample-banner-heading">10 inspiring books<br>
-                            for the autumn begining</div>
-                        <div class="ample-banner-subheading">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                            donec et quam id nunc finibus efficitur molestie</div>
-                        <div class="ample-banner-button">
-                            <button>Learn More</button>
-                        </div>
-                    </div>
-                    <div class="ample-banner-mobile">
-                        <div class="unit-1">
-                            <img src="images/image1.jpg" />
-                        </div>
-                        <div class="unit-1">
-                            <img src="images/image2.jpg" />
-                        </div>
-                        <div class="unit-1">
-                            <img src="images/image1.jpg" />
-                        </div>
-                    </div>
                 </div>
             </div>
-            @endif
         </div>
         <!-- Left and right controls -->
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">

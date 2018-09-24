@@ -50,8 +50,10 @@
                     @endif
                 </div>
                 @if($book->type == 'free')
-                    <div class="text"><i class="far fa-clock"></i> SAVE FOR LATER</div>
-                    <div class="text"><i class="fa fa-download" aria-hidden="true"></i> SAVE FOR LATER</div>
+                    <div class="text"><a href="{{url('book/readlater/'.$book->id.'/'.$book->ebooktitle)}}"><i class="far fa-clock"></i> SAVE FOR LATER</a></div>
+                    @if($book->book_ext && $book->book_ext !='')
+                    <div class="text"><a href="{{url('/uploads/ebook_logo/'.$book->buyLink)}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> DOWNLOAD </div>
+                    @endif
                 @else
                     <div class="text"><i class="fab fa-gitter"></i> <a name="comparePrice" href="#comparePrice">COMPARE PRICE</a></div>    
                 @endif
