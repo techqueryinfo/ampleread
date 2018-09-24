@@ -11,10 +11,13 @@
     <div class="heading">Main Slider</div>
     <div class="row-one">
         <div class="row add-banner">
-            <div class="plus-banner">
-                <i class="fas fa-plus" id="openEditModel" data-toggle="modal" data-target="#createHomeBannerModal"></i>
+            <div class="add_banner_wrapper">
+                <div class="plus-banner">
+                    <i class="fas fa-plus" id="openEditModel" data-toggle="modal" data-target="#createHomeBannerModal"></i>
+                </div>
+                <div class="text">Add banner</div>
+                <div class="clear"></div>
             </div>
-            <div class="text">Add banner</div>
         </div>
         @if(!$banner_images->isEmpty()) @php $image_name = "../images/bg-img.jpg"; @endphp @foreach($banner_images as $banner_image) @if(!blank($banner_image->image_name)) @php $image_name = $banner_image->image_name; @endphp @endif
         <div class="row">
@@ -38,10 +41,12 @@
     <div class="heading">Special Feature</div>
     <div class="row-two">
         <div class="row add-banner">
-            <div class="plus-banner">
-                <i class="fas fa-plus" id="openSFEditModel" data-toggle="modal" data-target="#createSpecialFeatureModal"></i>
-            </div>
-            <div class="text">Add banner</div>
+            <div class="add_banner_wrapper">
+                <div class="plus-banner">
+                    <i class="fas fa-plus" id="openSFEditModel" data-toggle="modal" data-target="#createSpecialFeatureModal"></i>
+                </div>
+                <div class="text">Add banner</div>
+           </div>
         </div>
         @if(isset($home_books)) @foreach($home_books as $home_book)
         @if($home_book->book_id)
@@ -129,10 +134,12 @@
             </div>
             <div class="right-row-one">
                 <div class="row add-banner">
-                    <div class="plus-banner">
-                        <i class="fas fa-plus" data-toggle="modal" data-target="#uploadBook"></i>
+                     <div class="add_banner_wrapper">
+                        <div class="plus-banner">
+                            <i class="fas fa-plus" data-toggle="modal" data-target="#uploadBook"></i>
+                        </div>
+                        <div class="text">Upload Book</div>
                     </div>
-                    <div class="text">Upload Book</div>
                 </div>
                 @if(!$new_releases->isEmpty()) @foreach($new_releases as $key => $val) @if($key
                 <=1  && $val->home_books) <div class=" row item">
