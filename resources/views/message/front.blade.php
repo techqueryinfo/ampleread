@@ -1,27 +1,6 @@
 @extends('layouts.app-message') @section('angularjs')
 <script src='/dist/angular.js'></script>
 @endsection @section('content')
-<!-- admin message -->
-<div class="message-contact">
-	<div class="search-sec"> <i class="fas fa-search"></i>
-		<input type="text" placeholder="Search" />
-	</div>
-	<div ng-repeat="user in users track by $index">
-		<div class="user-sec" ng-class="{active: isSet($index)}" style="cursor: pointer;">
-			<div class="image" ng-click="setTab($index)">
-				<img src="../images/user.png" />
-				<div class="icon">5</div>
-			</div>
-			<div class="content">
-				<div class="nameandtime">
-					<div class="name">@{{user.first_name}} @{{user.last_name}}</div>
-					<div class="time">@{{user.created_at}}</div>
-				</div>
-				<div class="discrip">@{{user.about_us}}</div>
-			</div>
-		</div>
-	</div>
-</div>
 <div class="message-textpanel">
 	<div class="user-sec">
 		<div class="image">
@@ -29,18 +8,19 @@
 		</div>
 		<div class="content">
 			<div class="nameandtime">
-				<div class="name">@{{username}}</div>
-				<div class="time">@{{time}}</div>
+				<div class="name">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</div>
+				<div class="time">{{Auth::user()->updated_at}}</div>
 			</div>
 		</div>
 	</div>
-	<div ng-repeat="message in chatmessages track by $index">
-		<div class="chat-left">@{{message.message_left}}</div>
-		<div class="chat-right">@{{message.message_right}}</div>
+	<div ng-repeat="message in user_messages track by $index">
+		<div ng-class="getClass(message.from_type)">@{{message.message}}</div>
 	</div>
 	<div class="sendm-essage">
-		<input type="text" placeholder="Your message">
-		<button class="sub-mes" type="submit">Send</button>
+		<input type="hidden" ng-model="userID">
+		<input type="hidden" ng-model="from_type" ng-value="user">
+		<input type="text" ng-model="sendtext" placeholder="Your message">
+		<button class="sub-mes" type="submit" ng-click="onClickPost(1)">Send</button>
 	</div>
 </div>
 <!-- end admin message -->
@@ -48,37 +28,33 @@
 <script type="text/javascript">
 	var app = angular.module('app', []);
 	app.controller('MessageController',['$scope', '$http', function($scope, $http) {
-		$scope.users = [];
-		$scope.messages = [
-			[
-				{ id : 1, message_left : "Hello Sonu", message_right : "Hi Monu" },
-				{ id : 2, message_left : "Test", message_right : "Working" },
-				{ id : 2, message_left : "Yes", message_right : "No" },
-			],
-			[{ id : 2, message_left : "Namaskar Riti", message_right : "Namaskar Arun" }],
-			[{ id : 3, message_left : "Hello Rekha", message_right : "Hi Anil" }],
-		];
-		$scope.onGetUsers = function() {
-			$http.get("/getusers")
+		$scope.user_messages = [];
+		$scope.messages = [];
+		var user_id = <?php echo Auth::user()->id; ?>;
+		$scope.onGetUserMessages = function(user_id) {
+        	$http.get("/user_messages/"+user_id)
+        	.then(function successCallback(response){
+        		$scope.user_messages = response.data;
+        		//console.log($scope.user_messages);
+        	}, function errorCallback(error){
+        		console.log("Unable to perform get request");
+        	});
+        };
+
+        $scope.onGetUserMessages(user_id);
+        $scope.getClass =  function(userType) {
+        	return userType == 'user' ? 'chat-right' : 'chat-left';
+        };
+        $scope.onClickPost = function(adminid){
+        	var data = {'admin_id': adminid, 'user_id': user_id, 'from_type': 'user', 'message': $scope.sendtext };
+        	$http.post("admin/save_message", data)
             .then(function successCallback(response){
-				$scope.users = response.data;
-				$scope.setTab(1);
-        		$scope.isSet(1);
-				//console.log($scope.users);
-            }, function errorCallback(error){
-                console.log("Unable to perform get request");
+            	//console.log(response.data);
+            	$scope.onGetUserMessages(user_id);
+            	delete $scope.sendtext;
+            }, function errorCallback(response){
+                console.log("POST-ing of data failed");
             });
         };
-        $scope.onGetUsers();
-        $scope.setTab = function(index) { 
-        	$scope.username = $scope.users[index].first_name + ' ' + $scope.users[index].last_name;
-			$scope.time = '05:00PM';
-			$scope.chatmessages = $scope.messages[index];
-        	$scope.tab = index;
-        	//console.log('Index '+ index + "Users " + $scope.users[index].name);
-        };
-        $scope.isSet = function(index) {
-        	return $scope.tab === index;
-        };
-	}]);
+    }]);
 </script>@endsection

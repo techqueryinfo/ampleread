@@ -58,7 +58,7 @@
         	$scope.tab = index;
         	$scope.userID = $scope.messages[index].user_id;
         	$scope.onGetUserMessages($scope.messages[index].id);
-        	console.log($scope.messages[index].id);
+        	//console.log($scope.messages[index].id);
         };
         $scope.isSet = function(index) {
         	return $scope.tab === index;
@@ -67,7 +67,7 @@
         	$http.get("/user_messages/"+user_id)
         	.then(function successCallback(response){
         		$scope.user_messages = response.data;
-        		console.log($scope.user_messages);
+        		//console.log($scope.user_messages);
         	}, function errorCallback(error){
         		console.log("Unable to perform get request");
         	});
@@ -77,7 +77,7 @@
         	$http.get("/message_data")
         	.then(function successCallback(response){
         		$scope.messages = response.data;
-        		console.log($scope.messages);
+        		//console.log($scope.messages);
         	}, function errorCallback(error){
         		console.log("Unable to perform get request");
         	});
