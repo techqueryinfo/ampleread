@@ -180,3 +180,4 @@ Route::get('message', 'AdminMessageController@front_message_view');
 Route::get('/getusers', 'AdminMessageController@get_all_users');
 Route::get('/message_data', 'AdminMessageController@get_all_messages');
 Route::get('/user_messages/{id}', 'AdminMessageController@get_user_messages');
+Route::post('save_message', 'AdminMessageController@save_admin_message');
