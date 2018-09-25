@@ -38,12 +38,12 @@ $(document).ready(function () {
                 margin: 15
             },
             1180: {
-                items: 4,
+                items: 7,
                 loop: false,
                 margin: 20
             },
             1480: {
-                items: 5,
+                items: 8,
                 loop: false,
                 margin: 15
             }
@@ -63,7 +63,7 @@ $(document).ready(function () {
             },
             600: {
                 items: 2,
-
+                nav: true
             },
             768: {
                 items: 2,
@@ -71,13 +71,13 @@ $(document).ready(function () {
                 margin: 15
             },
             992: {
-                items: 3,
+                items: 4,
                 loop: false,
                 margin: 10
             },
 
             1480: {
-                items: 3,
+                items: 4,
                 loop: false,
                 margin: 20
             }
