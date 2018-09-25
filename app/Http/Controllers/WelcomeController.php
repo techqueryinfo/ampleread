@@ -28,25 +28,38 @@ class WelcomeController extends Controller
         $new_releases = HomeBook::with('home_books')->where('type', 'new_releases')->get();
         $bestsellers  = HomeBook::with('home_books')->where('type', 'bestsellers')->get();
         $classics     = HomeBook::with('home_books')->where('type', 'classics')->get();
-        foreach ($new_releases as $k => $v) 
-        {
-            $book_review_star = BookReview::where('book_id', '=', $v->book_id)->sum('star');
-            if(!empty($v->home_books))
-                $v->home_books->star = $book_review_star/5;
+        
+        $home_books = array();
+        foreach ($categories as $key => $value) {
+            if($value->is_home_display == 1)
+            {
+                $home_books[$value->id]['category'] = $value;
+                $home_books[$value->id]['books'] = HomeBook::with('home_books')->where('type', $value->id)->get();
+            }
         }
-        foreach ($bestsellers as $k => $v) 
-        {
-            $book_review_star = BookReview::where('book_id', '=', $v->book_id)->sum('star');
-            if(!empty($v->home_books))
-                $v->home_books->star = $book_review_star/5;
-        }
-        foreach ($classics as $k => $v) 
-        {
-            $book_review_star = BookReview::where('book_id', '=', $v->book_id)->sum('star');
-            if(!empty($v->home_books))
-                $v->home_books->star = $book_review_star/5;
-        }
-        return view('welcome', compact('countries', 'books', 'categories', 'special_features', 'new_releases', 'bestsellers', 'classics', 'banner_images'));
+        // echo "<pre>";
+        // print_r($home_books);
+        // exit;
+
+        // foreach ($new_releases as $k => $v) 
+        // {
+        //     $book_review_star = BookReview::where('book_id', '=', $v->book_id)->sum('star');
+        //     if(!empty($v->home_books))
+        //         $v->home_books->star = $book_review_star/5;
+        // }
+        // foreach ($bestsellers as $k => $v) 
+        // {
+        //     $book_review_star = BookReview::where('book_id', '=', $v->book_id)->sum('star');
+        //     if(!empty($v->home_books))
+        //         $v->home_books->star = $book_review_star/5;
+        // }
+        // foreach ($classics as $k => $v) 
+        // {
+        //     $book_review_star = BookReview::where('book_id', '=', $v->book_id)->sum('star');
+        //     if(!empty($v->home_books))
+        //         $v->home_books->star = $book_review_star/5;
+        // }
+        return view('welcome', compact('countries', 'books', 'categories', 'special_features', 'home_books', 'banner_images'));
     }
 
     public function stayintouch(Request $request)

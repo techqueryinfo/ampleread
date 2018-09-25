@@ -1,11 +1,14 @@
+@if(!empty($home_books))
+@foreach($home_books as $res)
 <div class="ample-book-slot-slider">
   <div class="ample-row">
-    <div class="ample-book-slot">New Release</div>
+    <div class="ample-book-slot">{{$res['category']->name}}</div>
     <div class="ample-book-view-all"> <i class="fa fa-arrow-right"></i>
-      <div class="view-all"><a href="{{url('books/new_releases')}}" target="blank" style="text-decoration: none;">view all</a></div>
+      <div class="view-all"><a href="{{url('books/category/'.$res['category']->category_slug)}}" target="blank" style="text-decoration: none;">view all</a></div>
     </div>
   </div>
-  <div class="owl-carousel owl-theme home-slider">@if(!$new_releases->isEmpty()) @foreach($new_releases as $book)
+  <div class="owl-carousel owl-theme home-slider">@if(!$res['books']->isEmpty()) 
+    @foreach($res['books'] as $book)
     @if($book->home_books)
     <div class="item">@if($book->home_books->type == 'free')
       <div class="image"><a href="{{url('books/ebook/'.$book->home_books->id.'/'.$book->home_books->ebooktitle)}}">
@@ -68,3 +71,5 @@
       </div>@endif </div>@endif @endforeach @else Data not available. @endif</div>
 
 </div>
+@endforeach
+@endif

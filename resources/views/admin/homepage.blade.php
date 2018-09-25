@@ -113,9 +113,13 @@
             <div class="text" data-toggle="modal" data-target="#creatcategoryModal" style="cursor: pointer;">Add Category</div>
             <div class="listing-category">
                 <ul>
-                    <li @if(isset($category_name) && $category_name=='new_releases' ) class="active" @elseif(!isset($category_name)) class="active" @endif><a href="/admin/homepage/new_releases">New Releases</a></li>
-                    <li @if(isset($category_name) && $category_name=='bestsellers' ) class="active" @endif><a href="/admin/homepage/bestsellers">Bestsellers</a></li>
-                    <li @if(isset($category_name) && $category_name=='classics' ) class="active" @endif><a href="/admin/homepage/classics">Classics</a></li>
+                    @if(!$categories->isEmpty())
+                        @foreach($categories as $category) 
+                        @if($category->is_home_display == 1)
+                        <li @if(isset($active_category_slug) && $category->category_slug == $active_category_slug ) class="active" @endif><a href="/admin/homepage/{{$category->id}}/{{$category->category_slug}}">{{$category->name}}</a></li>
+                        @endif
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>
@@ -123,13 +127,13 @@
             <div class="category-discription">
                 <div class="category-name">
                     <div class="name">
-                        @if(isset($category_name)) {{ ucwords(str_replace("_", " ", $category_name))}} @else New Releases @endif
+                        @if(isset($active_category->name)) {{ ucwords(str_replace("_", " ", $active_category->name))}} @else New Releases @endif
                     </div>
-                    <div class="number">@if(isset($count)){{$count}} books @endif</div>
+                    <div class="number">{{count($home_books)}} books </div>
                 </div>
                 <div class="category-action">
-                    <i class="far fa-trash-alt"></i>
-                    <span>Delete category</span>
+                    <a href="/admin/homepage/delete_category/{{$active_category->id}}"><i class="far fa-trash-alt"></i>
+                    <span>Delete category</span></a>
                 </div>
             </div>
             <div class="right-row-one">
@@ -141,12 +145,11 @@
                         <div class="text">Upload Book</div>
                     </div>
                 </div>
-                @if(!$new_releases->isEmpty()) @foreach($new_releases as $key => $val) @if($key
-                <=1  && $val->home_books) <div class=" row item">
+                @if(!$home_books->isEmpty()) @foreach($home_books as $key => $val)<div class=" row item">
                     <div class="edit-delete">
                         <div class="edit"><a href="{{ url('/book/' . $val->home_books->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt"></i></a></div>
                         <div class="delete">
-                            <form method="POST" action="{{ url('/admin/homepage/special_feature'. '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
+                            <form method="POST" action="{{ url('/admin/homepage/special_feature'. '/' . $val->home_books->id) }}" accept-charset="UTF-8" style="display:inline">
                                 {{ csrf_field() }}
                                 <div class="delete" data-toggle='modal' data-target='#confirmDelete' data-title='Delete Book' data-message='Are you sure you want to delete this e-Book from homepage list ?'><i class="far fa-trash-alt"></i></div>
                             </form>
@@ -164,34 +167,9 @@
                     <div class="title">{{ str_limit($val->home_books->ebooktitle, 10) }}</div>
                     <div class="writer">{{ str_limit($val->home_books->subtitle, 20) }}</div>
             </div>
-            @endif @endforeach @else Data not available ! @endif
+            @endforeach @else Data not available ! @endif
         </div>
-        <div class="right-row-one">
-            @if(!$new_releases->isEmpty()) @foreach($new_releases as $key => $val) @if($key >= 2 && $val->home_books)
-            <div class=" row item">
-                <div class="edit-delete">
-                    <div class="edit"><a href="{{ url('/book/' . $val->home_books->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt"></i></a></div>
-                    <div class="delete">
-                        <form method="POST" action="{{ url('/admin/homepage/special_feature'. '/' . $val->id) }}" accept-charset="UTF-8" style="display:inline">
-                            {{ csrf_field() }}
-                            <div class="delete" data-toggle='modal' data-target='#confirmDelete' data-title='Delete Book' data-message='Are you sure you want to delete this e-Book from homepage list ?'><i class="far fa-trash-alt"></i></div>
-                        </form>
-                    </div>
-                </div>
-                <div class="image">
-                    @if(isset($val->home_books->ebook_logo)) 
-                        @if(substr($val->home_books->ebook_logo, 0, 4) == "http")
-                            <img src="{{ $val->home_books->ebook_logo }}" alt="img1" />
-                        @else
-                            <img src="/uploads/ebook_logo/{{ $val->home_books->ebook_logo }}" alt="img1" />
-                        @endif 
-                    @endif
-                </div>
-                <div class="title">{{ $val->home_books->ebooktitle }}</div>
-                <div class="writer">{{ $val->home_books->subtitle }}</div>
-            </div>
-            @endif @endforeach @else Data not available ! @endif
-        </div>
+       
     </div>
 </div>
 <!-- section three-->
@@ -323,10 +301,15 @@
                                 <div class="form-group">
                                     <div class="form-unit">
                                         <div class="content">
-                                            <select name="type" class="form-control" id="book_tag">
-                                                <option value="new_releases" <?php if(isset($category_name) && $category_name == 'new_releases') { ?>selected<?php } ?> >New Releases</option>
-                                                <option value="bestsellers" <?php if(isset($category_name) && $category_name == 'bestsellers') { ?>selected<?php } ?>>Bestsellers</option>
-                                                <option value="classics" <?php if(isset($category_name) && $category_name == 'classics') { ?>selected<?php } ?>>Classics</option>
+                                            <select name="type" required="required" class="form-control" id="book_tag">
+                                                <option value="">Please Select</option>
+                                                @if(!$categories->isEmpty())
+                                                @foreach($categories as $category) 
+                                                @if($category->is_home_display == 1)
+                                                <option value="{{$category->id}}" <?php if(isset($active_category->id) && $active_category->id == $category->id) { ?>selected<?php } ?> >{{$category->name}}</option>
+                                                @endif
+                                                @endforeach
+                                                @endif
                                             </select>
                                         </div>
                                     </div>
@@ -362,13 +345,13 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-text">Add Category</div>
+                <div class="modal-text">Select Category For Homepage</div>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="ample-login-signup">
                     <div class="ample-login-section">
-                        <form method="POST" action="{{ url('/admin/categories') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
+                        <form method="POST" action="{{ url('/admin/categories/') }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="unit1" style="width: 30%">
                                 <div class="form-group">
@@ -377,8 +360,16 @@
                             </div>
                             <div class="unit2">
                                 <div class="form-group">
-                                    <input class="form-control" name="status" type="hidden" id="status" value="Active" required="required">
-                                    <input class="form-control" name="name" type="text" id="name" required="required"> {!! $errors->first('name', '
+                                    <select name="category_id" required="true">
+                                        <option value="" selected="selected">Select Category</option>
+                                        @if(!$categories->isEmpty())
+                                        @foreach($categories as $category) 
+                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                    <!-- <input class="form-control" name="status" type="hidden" id="status" value="Active" required="required"> -->
+                                    {!! $errors->first('category_id', '
                                     <p class="help-block">:message</p>') !!}
                                 </div>
                             </div>

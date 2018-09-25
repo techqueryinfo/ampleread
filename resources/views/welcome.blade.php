@@ -223,14 +223,8 @@
         Data not available !
     @endif
 </div>
-@if(!$new_releases->isEmpty())
+@if(!empty($home_books))
 @include('partials.new-release')
-@endif
-@if(!$bestsellers->isEmpty())
-@include('partials.best-seller')
-@endif
-@if(!$classics->isEmpty())
-@include('partials.classic')
 @endif
 @endsection @section('footer_scripts')
 <style type="text/css">

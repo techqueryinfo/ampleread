@@ -53,11 +53,21 @@ class CategoriesController extends Controller
     {
         
         $requestData = $request->all();
-        $slug = str_slug($request->input('name'), '-');
-        $requestData['category_slug'] = $slug;
-        Category::create($requestData);
-        //return redirect('admin/categories')->with('flash_message', 'Category added!');
-        return redirect('/admin/books/category/all-books')->with('flash_message', 'Category added !');
+        if(isset($requestData['category_id']) && !empty($requestData['category_id']))
+        {
+            $category = Category::findOrFail($requestData['category_id']);
+            $requestData['is_home_display'] = 1;
+            $category->update($requestData);
+            return redirect('/admin/homepage')->with('flash_message', 'Category added for Homepage !');
+        }
+        else
+        {
+            $slug = str_slug($request->input('name'), '-');
+            $requestData['category_slug'] = $slug;
+            Category::create($requestData);
+            //return redirect('admin/categories')->with('flash_message', 'Category added!');
+            return redirect('/admin/books/category/all-books')->with('flash_message', 'Category added !');
+        }
     }
 
     /**
