@@ -41,8 +41,10 @@
                     <input type="submit" id="decline" name="DECLINE" style="display: none;" />
                     <label onclick="document.getElementById('decline').click();">DECLINE</label>
                 </form>
+                <div class="clear"></div>
             </div>
             @endforeach
+            <div class="clear"></div>
         </div>
         <div class="submitted-book">
         </div>
