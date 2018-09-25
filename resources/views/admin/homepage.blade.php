@@ -148,9 +148,7 @@
                     </div>
                 </div>
                 @if(!$home_books->isEmpty()) 
-                @foreach($home_books as $key => $val)
-                @if($val->home_books)
-                <div class=" row item">
+                @foreach($home_books as $key => $val)<div class=" row item">
                     <div class="edit-delete">
                         <div class="edit"><a href="{{ url('/book/' . $val->home_books->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt"></i></a></div>
                         <div class="delete">
@@ -171,9 +169,8 @@
                     </div>
                     <div class="title">{{ str_limit($val->home_books->ebooktitle, 10) }}</div>
                     <div class="writer">{{ str_limit($val->home_books->subtitle, 20) }}</div>
-                </div>
-                @endif
-                @endforeach @else Data not available ! @endif
+            </div>
+            @endforeach @else Data not available ! @endif
         </div>
        
     </div>
