@@ -132,8 +132,10 @@
                     <div class="number">{{count($home_books)}} books </div>
                 </div>
                 <div class="category-action">
+                    @if($active_category)
                     <a href="/admin/homepage/delete_category/{{$active_category->id}}"><i class="far fa-trash-alt"></i>
                     <span>Delete category</span></a>
+                    @endif
                 </div>
             </div>
             <div class="right-row-one">
