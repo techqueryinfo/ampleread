@@ -39,6 +39,8 @@
 		<div ng-class="getClass(message.from_type)">@{{message.message}}</div>
 	</div>
 	<div class="sendm-essage">
+		<input type="hidden" ng-model="userID">
+		<input type="hidden" ng-model="from_type" ng-value="admin">
 		<input type="text" ng-model="sendtext" placeholder="Your message">
 		<button class="sub-mes" type="submit" ng-click="onClickPost(1)">Send</button>
 	</div>
@@ -50,23 +52,11 @@
 	app.controller('MessageController',['$scope', '$http', function($scope, $http) {
 		$scope.user_messages = [];
 		$scope.messages = [];
-		// $scope.onGetUsers = function() {
-		// 	$http.get("/getusers")
-  //           .then(function successCallback(response){
-		// 		$scope.users = response.data;
-		// 		$scope.setTab(1);
-  //       		$scope.isSet(1);
-		// 		//console.log($scope.users);
-  //           }, function errorCallback(error){
-  //               console.log("Unable to perform get request");
-  //           });
-  //       };
-        // $scope.onGetUsers();
         $scope.setTab = function(index) { 
         	$scope.username = $scope.messages[index].first_name + ' ' + $scope.messages[index].last_name;
 			$scope.time = '05:00PM';
-			//$scope.chatmessages = $scope.messages[index];
         	$scope.tab = index;
+        	$scope.userID = $scope.messages[index].user_id;
         	$scope.onGetUserMessages($scope.messages[index].id);
         	console.log($scope.messages[index].id);
         };
@@ -94,7 +84,18 @@
         };
         $scope.onGetMessages();
         $scope.getClass =  function(userType) {
-        	return userType == 'admin' ? 'chat-left' : 'chat-right';
+        	return userType == 'admin' ? 'chat-right' : 'chat-left';
+        };
+        $scope.onClickPost = function(adminid){
+        	var data = {'admin_id': adminid, 'user_id': $scope.userID, 'from_type': 'admin', 'message': $scope.sendtext };
+        	$http.post("save_message", data)
+            .then(function successCallback(response){
+            	//console.log(response.data);
+            	$scope.onGetUserMessages($scope.userID);
+            	delete $scope.sendtext;
+            }, function errorCallback(response){
+                console.log("POST-ing of data failed");
+            });
         };
     }]);
 </script>@endsection

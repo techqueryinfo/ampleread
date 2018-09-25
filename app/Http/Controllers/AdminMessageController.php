@@ -134,8 +134,19 @@ class AdminMessageController extends Controller
     public function get_user_messages($userId)
     {
         $user_messages = ChatMessages::where('user_id', $userId)
-            ->orderBy('chat_messages.created_at', 'DESC')
+            ->orderBy('chat_messages.created_at', 'ASC')
             ->get();
         return $user_messages;
+    }
+
+    /*
+    * Save admin message
+    */
+    public function save_admin_message(Request $request)
+    {
+        $requestData = $request->all();
+        $chat_message = ChatMessages::create($requestData);
+        //echo "<pre>"; print_r($requestData); echo "</pre>"; die();
+        return $chat_message;
     }
 }

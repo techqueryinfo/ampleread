@@ -25,5 +25,5 @@ class ChatMessages extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id_1', 'user_id_2', 'message'];
+    protected $fillable = ['user_id', 'admin_id', 'message', 'from_type'];
 }
