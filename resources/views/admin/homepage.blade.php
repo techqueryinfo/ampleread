@@ -48,7 +48,7 @@
                 <div class="text">Add banner</div>
            </div>
         </div>
-        @if(isset($home_books)) @foreach($home_books as $home_book)
+        @if(isset($special_features)) @foreach($special_features as $home_book)
         @if($home_book->book_id)
         <div class="slot-1">
             
