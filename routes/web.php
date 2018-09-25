@@ -130,7 +130,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     Route::get('routes', 'AdminDetailsController@listRoutes');
     Route::get('active-users', 'AdminDetailsController@activeUsers');
-    Route::resource('admin/categories', 'Admin\\CategoriesController');
+    // Route::resource('admin/categories', 'Admin\\CategoriesController');
     Route::resource('admin/dashboard', 'Admin\\DashboardController');
     Route::resource('admin/categories', 'Admin\\CategoriesController');
     Route::resource('admin/plans', 'Admin\\PlansController');
@@ -141,7 +141,10 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::post('/admin/homepage/special_feature', 'Admin\\HomeController@add_special_feature_book');
     Route::post('/admin/homepage/add_book', 'Admin\\HomeController@add_tags_book');
     Route::post('/admin/homepage/special_feature/{id}', 'Admin\\HomeController@delete_special_feature_book');
-    Route::get('/admin/homepage/{category_name}', 'Admin\\HomeController@show_books_tag');
+    Route::get('/admin/homepage/delete_category/{category_id}', 'Admin\\HomeController@delete_category');
+    Route::get('/admin/homepage/{category_id}/{category_slug}', 'Admin\\HomeController@show_books_tag');
+    
+
     Route::resource('admin/homepage', 'Admin\\HomeController');
     Route::resource('admin/review', 'Admin\\BookReviewController');
     Route::resource('admin/message', 'AdminMessageController');

@@ -9,6 +9,7 @@ use App\Home;
 use App\Book;
 use App\HomeBook;
 use Illuminate\Http\Request;
+use DB;
 
 class HomeController extends Controller
 {
@@ -20,13 +21,43 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $banner_images = Home::all();
+        $categories = Category::where('is_delete', 0)->where('status', 'Active')->get();
+
         $books = Book::where('status', '2')->get();
         $home_books   = HomeBook::with('home_books')->where('type', 'special_feature')->get();
         $new_releases = HomeBook::with('home_books')->where('type', 'new_releases')->get();
-        $count        = HomeBook::with('home_books')->where('type', 'new_releases')->get()->count();
-        return view('admin.homepage', compact('banner_images','books','home_books', 'new_releases', 'count'));
+        $active_category = Category::where('is_delete', 0)->where('is_home_display', 1)->where('status', 'Active')->first();
+        if(!empty($active_category))
+        {
+            $active_category_slug = $active_category->category_slug;
+            $home_books   = HomeBook::with('home_books')->where('type', $active_category->id)->get();
+        }
+        else
+        {
+            $active_category_slug = '';
+            $home_books = array();
+        }
+
+        return view('admin.homepage', compact('banner_images','books','home_books', 'new_releases', 'count', 'categories', 'active_category', 'active_category_slug'));
     }
 
+    public function delete_category($category_id)
+    {
+        if(empty($category_id))
+        {
+            return redirect('admin/homepage')->with('flash_message', 'Please select category!');
+        }
+        else
+        {
+            $category = Category::findOrFail($category_id);
+            $requestData['is_home_display'] = 0;
+            $category->update($requestData);
+
+            DB::table('admin_special_features')->where('type', $category_id)->delete(); 
+
+            return redirect('/admin/homepage')->with('flash_message', 'Category removed from Homepage !');
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -188,15 +219,15 @@ class HomeController extends Controller
     public function add_tags_book(Request $request)
     {
         $requestData = $request->all();
-
+        $active_category = Category::where('is_delete', 0)->where('id', $requestData['type'])->where('status', 'Active')->first();        
         if(isset($requestData['book_id']))
         {
             HomeBook::create($requestData);
-            return redirect('admin/homepage/'.$requestData['type'])->with('flash_message', 'Book added to '.$requestData['type']);
+            return redirect('admin/homepage/'.$requestData['type'].'/'.$active_category->category_slug)->with('flash_message', 'Book added to '.$active_category->name);
         }
         else
         {
-            return redirect('admin/homepage/'.$requestData['type'])->with('flash_message', 'Select the book');
+            return redirect('admin/homepage/'.$requestData['type'].'/'.$active_category->category_slug)->with('flash_message', 'Select the book');
         }
     }
 
@@ -207,16 +238,18 @@ class HomeController extends Controller
      * @param $category_name
      */
 
-    public function show_books_tag($category_name)
+    public function show_books_tag($category_id, $category_slug)
     {
+        $active_category_slug = $category_slug;
         $banner_images = Home::all();
+        $categories = Category::where('is_delete', 0)->where('status', 'Active')->get();
+        $active_category = Category::where('is_delete', 0)->where('id', $category_id)->where('status', 'Active')->first();
+
+        $home_books   = HomeBook::with('home_books')->where('type', $category_id)->get();
+
         $books = Book::where('status', '2')->get();
-        $home_books = HomeBook::with('home_books')->where('type', 'special_feature')->get();
-        if(isset($category_name))
-        {
-            $new_releases = HomeBook::with('home_books')->where('type', $category_name)->get();
-            $count        = HomeBook::with('home_books')->where('type', $category_name)->get()->count();
-        }
-        return view('admin.homepage', compact('banner_images','books','home_books', 'new_releases', 'count', 'category_name'));
+        // $home_books =  Book::where('status', '2')->where('category', $category_id)->get();
+        
+        return view('admin.homepage', compact('banner_images','books','home_books', 'active_category_slug', 'categories', 'active_category'));
     }
 }
