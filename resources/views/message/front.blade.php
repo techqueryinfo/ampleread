@@ -47,7 +47,7 @@
         };
         $scope.onClickPost = function(adminid){
         	var data = {'admin_id': adminid, 'user_id': user_id, 'from_type': 'user', 'message': $scope.sendtext };
-        	$http.post("admin/save_message", data)
+        	$http.post("save_message", data)
             .then(function successCallback(response){
             	//console.log(response.data);
             	$scope.onGetUserMessages(user_id);
