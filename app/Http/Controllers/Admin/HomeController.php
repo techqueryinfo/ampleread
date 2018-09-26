@@ -24,7 +24,7 @@ class HomeController extends Controller
         $categories = Category::where('is_delete', 0)->where('status', 'Active')->get();
 
         $books = Book::where('status', '2')->get();
-        $home_books   = HomeBook::with('home_books')->where('type', 'special_feature')->get();
+        $special_features   = HomeBook::with('home_books')->where('type', 'special_feature')->get();
         $new_releases = HomeBook::with('home_books')->where('type', 'new_releases')->get();
         $active_category = Category::where('is_delete', 0)->where('is_home_display', 1)->where('status', 'Active')->first();
         if(!empty($active_category))
@@ -38,7 +38,7 @@ class HomeController extends Controller
             $home_books = array();
         }
 
-        return view('admin.homepage', compact('banner_images','books','home_books', 'new_releases', 'count', 'categories', 'active_category', 'active_category_slug'));
+        return view('admin.homepage', compact('banner_images','books','home_books', 'categories', 'active_category', 'active_category_slug', 'special_features'));
     }
 
     public function delete_category($category_id)
@@ -241,6 +241,7 @@ class HomeController extends Controller
     public function show_books_tag($category_id, $category_slug)
     {
         $active_category_slug = $category_slug;
+        $special_features   = HomeBook::with('home_books')->where('type', 'special_feature')->get();
         $banner_images = Home::all();
         $categories = Category::where('is_delete', 0)->where('status', 'Active')->get();
         $active_category = Category::where('is_delete', 0)->where('id', $category_id)->where('status', 'Active')->first();
@@ -250,6 +251,6 @@ class HomeController extends Controller
         $books = Book::where('status', '2')->get();
         // $home_books =  Book::where('status', '2')->where('category', $category_id)->get();
         
-        return view('admin.homepage', compact('banner_images','books','home_books', 'active_category_slug', 'categories', 'active_category'));
+        return view('admin.homepage', compact('banner_images','books','home_books', 'active_category_slug', 'categories', 'active_category', 'special_features'));
     }
 }

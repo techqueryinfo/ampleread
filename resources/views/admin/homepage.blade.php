@@ -48,7 +48,7 @@
                 <div class="text">Add banner</div>
            </div>
         </div>
-        @if(isset($home_books)) @foreach($home_books as $home_book)
+        @if(isset($special_features)) @foreach($special_features as $home_book)
         @if($home_book->book_id)
         <div class="slot-1">
             
@@ -147,7 +147,10 @@
                         <div class="text">Upload Book</div>
                     </div>
                 </div>
-                @if(!$home_books->isEmpty()) @foreach($home_books as $key => $val)<div class=" row item">
+                @if(!$home_books->isEmpty()) 
+                @foreach($home_books as $key => $val)
+                @if($val->home_books)
+                <div class=" row item">
                     <div class="edit-delete">
                         <div class="edit"><a href="{{ url('/book/' . $val->home_books->id . '/edit') }}" title="Edit Book"><i class="fas fa-pencil-alt"></i></a></div>
                         <div class="delete">
@@ -169,6 +172,7 @@
                     <div class="title">{{ str_limit($val->home_books->ebooktitle, 10) }}</div>
                     <div class="writer">{{ str_limit($val->home_books->subtitle, 20) }}</div>
             </div>
+            @endif
             @endforeach @else Data not available ! @endif
         </div>
        
