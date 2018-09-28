@@ -38,14 +38,14 @@ $(document).ready(function () {
                 margin: 15
             },
             1180: {
-                items: 7,
+                items: 5,
                 loop: false,
-                margin: 20
+                margin: 72
             },
             1480: {
-                items: 8,
+                items: 5,
                 loop: false,
-                margin: 15
+                margin: 72
             }
         }
     });
