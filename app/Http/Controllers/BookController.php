@@ -193,6 +193,54 @@ class BookController extends Controller
      *
      * @return \Illuminate\View\View
      */
+    public function view_books_type($book_type, $category_slug='', $viewtype='')
+    {  
+
+       // $book_type = ($category_slug == 'free-books') ? 'free' : 'paid';
+       $currentUser = Auth::user();
+       $records = DB::table('books')
+          ->join('users', 'users.id', '=', 'books.user_id')
+          ->join('categories', 'books.category', '=', 'categories.id')
+          ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+          ->where('categories.is_delete', '=', 0)
+          ->where('categories.status', '=', 'Active')
+          ->where('books.status', '=', 2)
+          ->where('books.type', '=', $book_type);
+       if(!empty($category_slug))
+       {
+          $records->where('categories.category_slug', '=', $category_slug);
+       }
+       $records = $records->get();
+       
+       $total = count($records);
+
+       if(!$records->isEmpty()){
+           foreach ($records as $k => $v) 
+           {
+                $book_review_star = BookReview::where('book_id', '=', $v->id)->avg('star');
+                $v->star = $book_review_star;
+           } 
+       }
+       $categories = Category::all(); 
+       $page = $category_slug;
+       $category_name = ($book_type == 'free' || $book_type == 'paid') ? ucwords($book_type).' Books' : '';
+        $category = array();
+       if(!empty($category_slug)){
+         $category = Category::where('category_slug', '=', $category_slug)->first();
+         $category_slug = (!empty($category)) ? $category->category_slug : $category_name;
+         $category_name = (!empty($category)) ? $category->name : $category_name;
+       }
+       $data = [ 'category_name' => $category_name, 'category_slug' => $category_slug, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total ];
+       return view('books.show_books_by_type')->with($data);
+    }
+
+    /**
+     * Get All books of a particular category
+     *
+     * @param  string category_name
+     *
+     * @return \Illuminate\View\View
+     */
     public function show_books_by_category($category_name)
     {   
        $currentUser = Auth::user();
@@ -239,19 +287,19 @@ class BookController extends Controller
                 ->whereIn('books.status', array(2))
                 ->get();
        }
-       else if($category_name == 'fiction')
-       {    
-            $start_date = date("Y-m-d", strtotime("- 7 days")); 
-            $records = DB::table('books')
-                ->join('users', 'users.id', '=', 'books.user_id')
-                ->join('categories', 'books.category', '=', 'categories.id')
-                ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
-                ->where('categories.is_delete', '=', 0)
-                ->whereDate('publisher_date', '>', $start_date)
-                ->where('categories.category_slug', '=', 'fiction')
-                ->whereIn('books.status', array(2))
-                ->get();
-       }
+       // else if($category_name == 'fiction')
+       // {    
+       //      $start_date = date("Y-m-d", strtotime("- 7 days")); 
+       //      $records = DB::table('books')
+       //          ->join('users', 'users.id', '=', 'books.user_id')
+       //          ->join('categories', 'books.category', '=', 'categories.id')
+       //          ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+       //          ->where('categories.is_delete', '=', 0)
+       //          ->whereDate('publisher_date', '>', $start_date)
+       //          ->where('categories.category_slug', '=', 'fiction')
+       //          ->whereIn('books.status', array(2))
+       //          ->get();
+       // }
        else if($category_name == 'new-releases' || $category_name == 'popular')
        {    
             $start_date = date("Y-m-d", strtotime("- 7 days")); 
@@ -296,9 +344,12 @@ class BookController extends Controller
            } 
        }
        $categories = Category::all(); $page = $category_name;
-       $category_name = ($category_name == 'free-books' || $category_name == 'paid-books') ? 'all-books' : $category_name;
+       $category_name = ($category_name == 'free-books' || $category_name == 'paid-books') ? str_replace('-', ' ', ucwords($category_name)) : $category_name;
        $category = Category::where('category_slug', '=', $category_name)->first();
-       $data = [ 'category_name' => $category_name, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total ];
+       $category_slug = (!empty($category)) ? $category->category_slug : $category_name;
+       $category_name = (!empty($category)) ? $category->name : $category_name;
+       
+       $data = [ 'category_name' => $category_name, 'category_slug' => $category_slug, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total ];
        if(!empty($currentUser) && $currentUser->isAdmin() && $page != 'free-books' && $page != 'paid-books')
        { 
         return view('books.book_category')->with($data);
@@ -609,42 +660,50 @@ class BookController extends Controller
     * Get View All books
     */
 
-    public function view_all_books($category_name)
+    public function view_all_books($category_name, $category_id='')
     {
-        if($category_name == 'new_releases')
+        if(empty($category_name))
         {
-            $books = HomeBook::with('home_books')->where('type', 'new_releases')->get();
+            return redirect('/');
         }
-        else if($category_name == 'bestsellers')
+        else
         {
-            $books = HomeBook::with('home_books')->where('type', 'bestsellers')->get();
+          if($category_name == 'new-releases' || $category_name == 'popular' || $category_name == 'all-books')
+          {    
+              $cat_name = str_replace("-"," ",$category_name);
+              $category = (object) array('name' => ucwords($cat_name));
+              $start_date = date("Y-m-d", strtotime("- 7 days")); 
+              $books = DB::table('books')
+                  // ->whereDate('publisher_date', '>', $start_date)
+                  ->where('books.status', '=', 2);
+              if($category_name != 'all-books')
+              {
+                $books->whereDate('publisher_date', '>', $start_date);
+              }
+              $books = $books->get();
+
+          }          
+          else
+          {  
+            $category = Category::where('category_slug', $category_name)->first();
+            $category_id = $category->id;
+            $books = DB::table('books')
+            ->join('users', 'users.id', '=', 'books.user_id')
+            // ->select('books.*','users.first_name', 'users.last_name', 'users.name')
+            ->where('books.category', '=', $category_id)
+            ->where('books.status', '=', 2)
+            ->get();
+          }
+
+          if(!$books->isEmpty()){
+             foreach ($books as $k => $v) 
+             {
+                  $book_review_star = BookReview::where('book_id', '=', $v->id)->avg('star');
+                  $v->star = $book_review_star;
+             } 
+          }
+          return view('books.view-all', compact('category', 'books'));
         }
-        else if($category_name == 'classics')
-        {
-            $books = HomeBook::with('home_books')->where('type', 'classics')->get();
-        }
-        else if($category_name == 'related_books')
-        {
-            $books = HomeBook::with('home_books')->where('type', 'classics')->get();
-        }
-        else if($category_name == 'featured_books')
-        {
-            $books = HomeBook::with('home_books')->where('type', 'classics')->get();
-        }
-        else if($category_name == 'trending_books')
-        {
-            $books = HomeBook::with('home_books')->where('type', 'classics')->get();
-        }
-        else if($category_name == 'non_fiction_books')
-        {
-            $books = HomeBook::with('home_books')->where('type', 'classics')->get();
-        }
-        foreach ($books as $k => $v) 
-        {
-            $book_review_star = BookReview::where('book_id', '=', $v->book_id)->avg('star');
-            if(!empty($v->home_books))
-                $v->home_books->star = $book_review_star;
-        }
-        return view('books.view-all', compact('category_name', 'books'));
+        
     }
 }

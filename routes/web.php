@@ -175,7 +175,10 @@ Route::post('book/save', 'BookController@saveContent');
 Route::post('book/saveimage', 'BookController@saveImage');
 Route::get('book/reading/{id}/{ebooktitle}', 'BookController@read_ebook');
 Route::get('book/{id}/edit/', 'BookController@saved_ebook_edit');
-Route::get('books/{category_name}', 'BookController@view_all_books');
+Route::get('books/type/{book_type}/{category_slug?}/{view_type?}', 'BookController@view_books_type');
+
+Route::get('books/{category_name}/{category_id?}', 'BookController@view_all_books');
+
 Route::get('message', 'AdminMessageController@front_message_view');
 Route::get('/getusers', 'AdminMessageController@get_all_users');
 Route::get('/message_data', 'AdminMessageController@get_all_messages');

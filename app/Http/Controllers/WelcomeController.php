@@ -25,9 +25,9 @@ class WelcomeController extends Controller
         $categories = Category::all();
         $special_features = HomeBook::with('home_books')->where('type', 'special_feature')->get();
         $banner_images = Home::all();
-        $new_releases = HomeBook::with('home_books')->where('type', 'new_releases')->get();
-        $bestsellers  = HomeBook::with('home_books')->where('type', 'bestsellers')->get();
-        $classics     = HomeBook::with('home_books')->where('type', 'classics')->get();
+        // $new_releases = HomeBook::with('home_books')->where('type', 'new_releases')->get();
+        // $bestsellers  = HomeBook::with('home_books')->where('type', 'bestsellers')->get();
+        // $classics     = HomeBook::with('home_books')->where('type', 'classics')->get();
         
         $home_books = array();
         foreach ($categories as $key => $value) {
