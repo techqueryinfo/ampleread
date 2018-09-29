@@ -1,11 +1,11 @@
 @extends('layouts.app') @section('template_title') Category @endsection @section('template_fastload_css') @endsection @section('content')
 <div class="book-header">@if(!blank($category_name)) {{ucwords(str_replace('-', ' ', $category_name))}} @endif</div>
-@if($category_name != 'popular' && $category_name != 'new-releases')
+@if($viewtype != 'all')
 <div class="ebook-slot-1">
     <ul>
-        <li @if($category_name == 'all-books') class="active" @endif ><a style="color:black;" href="/books/category/all-books">All Books</a></li>
+        <li @if($category_name == 'all-books' || $category_slug == 'Free Books'  || $category_slug == 'Paid Books') class="active" @endif ><a style="color:black;" href="/books/type/{{$book_type}}/all-books">All Books</a></li>
         @foreach ($categories as $optionKey => $optionValue) @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
-        <li @if($optionValue->category_slug == $category_slug) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
+        <li @if($optionValue->category_slug == $category_slug) class="active" @endif ><a style="color:black;" href="/books/type/{{$book_type}}/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
         @endif @endforeach
     </ul>
 </div>
@@ -15,16 +15,19 @@
         <div class="ample-row">
             <div class="ample-book-slot">New Releases</div>
             @if(!$records->isEmpty())
+            @if($category_name != 'all-books' && $category_slug != 'Free Books'  && $category_slug != 'Paid Books')
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
                 <div class="view-all">
                     @if($category)
-                    <a href="{{url('books/'.$category_slug.'/all')}}" style="text-decoration: none;">view all</a>
+                    <a href="{{url('books/type/'.$book_type.'/'.$category_slug.'/all')}}" style="text-decoration: none;">view all</a>
                     @else
-                    <a href="{{url('books/'.$category_slug)}}" style="text-decoration: none;">view all</a>
+                    <a href="{{url('books/type/'.$book_type.'/'.$category_slug)}}" style="text-decoration: none;">view all</a>
                     @endif
+                    
                 </div>
             </div>
+            @endif
             @endif
         </div>
         <div class="owl-carousel owl-theme category-slider">
@@ -76,16 +79,18 @@
         <div class="ample-row">
             <div class="ample-book-slot">Bestsellers</div>
             @if(!$records->isEmpty())
+            @if($category_name != 'all-books' && $category_slug != 'Free Books'  && $category_slug != 'Paid Books')
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
                 <div class="view-all">
                 @if($category)
-                <a href="{{url('books/'.$category_slug.'/all')}}" style="text-decoration: none;">view all</a>
+                <a href="{{url('books/type/'.$book_type.'/'.$category_slug.'/all')}}" style="text-decoration: none;">view all</a>
                 @else
-                <a href="{{url('books/'.$category_slug)}}" style="text-decoration: none;">view all</a>
+                <a href="{{url('books/type/'.$book_type.'/'.$category_slug)}}" style="text-decoration: none;">view all</a>
                 @endif
                 </div>
             </div>
+            @endif
             @endif
         </div>
         <div class="owl-carousel owl-theme category-slider">
@@ -139,16 +144,18 @@
         <div class="ample-row">
             <div class="ample-book-slot">Trending Now</div>
             @if(!$records->isEmpty())
+            @if($category_name != 'all-books' && $category_slug != 'Free Books'  && $category_slug != 'Paid Books')
             <div class="ample-book-view-all">
                 <i class="fa fa-arrow-right"></i>
                 <div class="view-all">
                 @if($category)
-                <a href="{{url('books/'.$category_slug.'/all')}}" style="text-decoration: none;">view all</a>
+                <a href="{{url('books/type/'.$book_type.'/'.$category_slug.'/all')}}" style="text-decoration: none;">view all</a>
                 @else
-                <a href="{{url('books/'.$category_slug)}}" style="text-decoration: none;">view all</a>
+                <a href="{{url('books/type/'.$book_type.'/'.$category_slug)}}" style="text-decoration: none;">view all</a>
                 @endif
                 </div>
             </div>
+            @endif
             @endif
         </div>
         <div class="owl-carousel owl-theme category-slider">

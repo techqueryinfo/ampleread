@@ -206,7 +206,7 @@ class BookController extends Controller
           ->where('categories.status', '=', 'Active')
           ->where('books.status', '=', 2)
           ->where('books.type', '=', $book_type);
-       if(!empty($category_slug))
+       if(!empty($category_slug) && $category_slug != 'all-books')
        {
           $records->where('categories.category_slug', '=', $category_slug);
        }
@@ -230,7 +230,7 @@ class BookController extends Controller
          $category_slug = (!empty($category)) ? $category->category_slug : $category_name;
          $category_name = (!empty($category)) ? $category->name : $category_name;
        }
-       $data = [ 'category_name' => $category_name, 'category_slug' => $category_slug, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total ];
+       $data = [ 'category_name' => $category_name, 'category_slug' => $category_slug, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total, 'book_type' => $book_type, 'viewtype' => $viewtype ];
        return view('books.show_books_by_type')->with($data);
     }
 
