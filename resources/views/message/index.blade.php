@@ -1,11 +1,14 @@
 @extends('layouts.admin-message')@section('angularjs')
 <script src='/dist/angular.js'></script>
+<script src="/dist/autocomplete.js"></script>
+<link rel="stylesheet" href="/dist/style.css">
+<link rel="stylesheet" href="/dist/autocomplete.css">
 @endsection
 @section('content')
 <!-- admin message -->
 <div class="message-contact">
 	<div class="search-sec"> <i class="fas fa-search"></i>
-		<input type="text" placeholder="Search" />
+        <autocomplete ng-model="result" attr-placeholder="Search" click-activation="true" data="users" on-type="doSomething" on-select="doSomethingElse"></autocomplete>
 	</div>
 	<div ng-repeat="message in messages track by $index">
 		<div class="user-sec" ng-class="{active: isSet($index)}" style="cursor: pointer;">
@@ -48,10 +51,11 @@
 <!-- end admin message -->
 @endsection @section('footer_scripts')
 <script type="text/javascript">
-	var app = angular.module('app', []);
+	var app = angular.module('app', ['autocomplete']);
 	app.controller('MessageController',['$scope', '$http', function($scope, $http) {
 		$scope.user_messages = [];
 		$scope.messages = [];
+        $scope.users = [];
         $scope.setTab = function(index) { 
         	$scope.username = $scope.messages[index].first_name + ' ' + $scope.messages[index].last_name;
 			$scope.time = '05:00PM';
@@ -72,7 +76,7 @@
         		console.log("Unable to perform get request");
         	});
         };
-
+        
         $scope.onGetMessages = function(user_id) {
         	$http.get("/message_data")
         	.then(function successCallback(response){
@@ -96,6 +100,25 @@
             }, function errorCallback(response){
                 console.log("POST-ing of data failed");
             });
+        };
+        
+        $scope.getUsersList = function(){
+            $http.get("/getusers")
+            .then(function successCallback(response){
+                $scope.users = response.data;
+                //console.log($scope.users);
+            }, function errorCallback(error){
+                console.log("Unable to perform get request");
+            });
+        };
+        $scope.getUsersList();
+
+        $scope.doSomething = function(typedthings){
+            console.log("Do something like reload data with this: " + typedthings );
+        };
+
+        $scope.doSomethingElse = function(suggestion){
+            console.log("Suggestion selected: " + suggestion );
         };
     }]);
 </script>@endsection

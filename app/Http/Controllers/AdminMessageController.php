@@ -111,8 +111,13 @@ class AdminMessageController extends Controller
     */
     public function get_all_users()
     {
-        $users = User::where('status', '=', 'Active')->get();
-        return $users;
+        $users = User::where('status', '=', 'Active')->where('id', '!=', 1)->get();
+        foreach ($users as $k => $v) 
+        {
+            $array[] = $v->first_name.' '.$v->last_name;
+        }
+        //echo "<pre>"; print_r($array); echo "</pre>"; die();
+        return $array;
     }
 
     /*
@@ -146,7 +151,6 @@ class AdminMessageController extends Controller
     {
         $requestData = $request->all();
         $chat_message = ChatMessages::create($requestData);
-        //echo "<pre>"; print_r($requestData); echo "</pre>"; die();
         return $chat_message;
     }
 }
