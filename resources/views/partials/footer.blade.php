@@ -26,8 +26,8 @@
     <div class="footer-r1">
         <div class="heading">Books</div>
         <ul>
-            <li><a href="/books/category/free-books">Free eBooks</a></li>
-            <li><a href="/books/category/paid-books">Paid eBooks</a></li>
+            <li><a href="/books/type/free/all-books">Free eBooks</a></li>
+            <li><a href="/books/type/paid/all-books">Paid eBooks</a></li>
             <li>{!! HTML::link(url('/subscription'), 'Subscription') !!}</li>
             <li>{!! HTML::link(url('/help'), 'Help') !!}</li>
         </ul>

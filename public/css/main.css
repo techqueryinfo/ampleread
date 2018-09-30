@@ -647,8 +647,8 @@ body{
     max-height:500px
 }
 .ample-book-slot-1{
-    width:calc(100% - 40px);
-    margin:40px 80px 40px 40px
+    width:calc(100% + 31px);
+    margin:40px 31px 40px 31px
 }
 .ample-book-slot-1 .slot-1{
     position:relative;
@@ -656,8 +656,8 @@ body{
     border-radius:8px;
     background-color:#f6f6f6;
     float:left;
-    margin-top:40px;
-    margin-right:40px
+    margin-top:8px;
+    margin-right:8px
 }
 .ample-book-slot-1 .slot-1 .content{
     position:absolute;
@@ -802,8 +802,8 @@ body{
     color:#000000
 }
 .ample-book-slot-2{
-    width:calc(100% - 40px);
-    margin:40px 80px 40px 40px;
+    width:calc(100% + 31px);
+    margin:8px 31px 40px 31px;
     float:left
 }
 .ample-book-slot-2 .slot-1{
@@ -813,7 +813,7 @@ body{
     float:left;
     border-radius:8px;
     background-color:#f6f6f6;
-    margin-right:40px
+    margin-right:8px
 }
 .ample-book-slot-2 .slot-1 .content{
     position:absolute;
@@ -927,7 +927,8 @@ body{
     height:auto
 }
 .ample-book-slot-slider .owl-carousel .item .image{
-    height:265px;
+    height:auto;
+    /*height:265px;*/
     float:left;
     margin-bottom:20px;
     width: 100%;

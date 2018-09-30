@@ -180,9 +180,9 @@
                             <img class="firstimage" src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
                         </a>
                         @endif
-                    <div class="content">
+                   <!--  <div class="content">
                         <div class="heading-image">{{ $val->banner_title }}</div>
-                    </div>
+                    </div> -->
                 </div>
             @endif
             @endif
@@ -201,7 +201,7 @@
                     <img class="firstimage" src="{{ (substr($val->home_books->ebook_logo, 0, 4) == 'http') ? $val->home_books->ebook_logo : '/uploads/ebook_logo/'.$val->home_books->ebook_logo }}" alt="">
                     <div class="content">
                         <div class="heading-image">{{ $val->home_books->ebooktitle }}</div>
-                        <div class="sub-heading">{{ $val->home_books->subtitle }}</div>
+                        <!-- <div class="sub-heading">{{ $val->home_books->subtitle }}</div> -->
                     </div>
                 </div>
             @else
@@ -211,9 +211,9 @@
                             <img class="firstimage" src="{{ (substr($val->banner_image, 0, 4) == 'http') ? $val->banner_image : '/uploads/ebook_logo/'.$val->banner_image }}" alt="image" border="0">
                         </a>
                         @endif
-                        <div class="content">
+                        <!-- <div class="content">
                         <div class="heading-image">{{ $val->banner_title }}</div>
-                    </div>
+                    </div> -->
                     <!-- <div class="heading">{{ $val->banner_title }}</div> -->
                 </div>
             @endif    

@@ -1,46 +1,48 @@
-@extends('layouts.app') @section('template_title') Category @endsection @section('template_fastload_css') @endsection @section('content')
-<div class="book-header">@if(!blank($category_name)) {{ucwords(str_replace('_', ' ', $category_name))}} @endif</div>
+@extends('layouts.app') 
+@section('template_title') Category @endsection 
+@section('template_fastload_css') @endsection 
+@section('content')
+<div class="book-header">@if(!blank($category->name)) {{ucwords(str_replace('_', ' ', $category->name))}} @endif</div>
 <div class="ebook-slot-2sss">
 	<div class="ample-book-slot-slider">
 		<div class="ample-row"></div>
 		<div class="owl-carousel owl-theme category-slider">
-			@if(!$books->isEmpty()) @foreach($books as $book)
-				@if($book->home_books)
+			@if(!$books->isEmpty()) 
+			@foreach($books as $book)
 			<div class="item">
-				<div class="image"><a href="{{url('books/ebook/'.$book->home_books->id.'/'.$book->home_books->ebooktitle)}}">
-                    @if(substr($book->home_books->ebook_logo, 0, 4) == "http")
-                        <img src="{{ $book->home_books->ebook_logo }}" alt="img1" />
+				<div class="image"><a href="{{url('books/ebook/'.$book->id.'/'.$book->ebooktitle)}}">
+                    @if(substr($book->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $book->ebook_logo }}" alt="img1" />
                     @else
-                        <img src="/uploads/ebook_logo/{{ $book->home_books->ebook_logo }}" alt="img1" />
+                        <img src="/uploads/ebook_logo/{{ $book->ebook_logo }}" alt="img1" />
                     @endif</a>
 				</div>
 				<div class="ample-button">
-					@if($book->home_books->type == 'free')
+					@if($book->type == 'free')
                         <button>FREE</button>
                     @else
-                        <button style="width: auto; background-color: #868686; border: #868686;">FROM $ {{$book->home_books->retailPrice}}</button>
+                        <button style="width: auto; background-color: #868686; border: #868686;">FROM $ {{$book->retailPrice}}</button>
                     @endif
 				</div>
-				<div class="title">{{$book->home_books->ebooktitle}}</div>
-				<div class="writer">{{$book->home_books->subtitle}}</div>
+				<div class="title">{{$book->ebooktitle}}</div>
+				<div class="writer">{{$book->subtitle}}</div>
 				<div class="star-container"> 
 					<div class='rating-stars' style="margin: 0 -40px;">
 						<ul id='stars'>
-							<li class="star @if($book->home_books->star >= 1) selected @endif" title='Poor' data-value='1'> <i class='fa fa-star fa-fw'></i>
+							<li class="star @if($book->star >= 1) selected @endif" title='Poor' data-value='1'> <i class='fa fa-star fa-fw'></i>
 							</li>
-							<li class="star @if($book->home_books->star >= 2) selected @endif" title='Fair' data-value='2'> <i class='fa fa-star fa-fw'></i>
+							<li class="star @if($book->star >= 2) selected @endif" title='Fair' data-value='2'> <i class='fa fa-star fa-fw'></i>
 							</li>
-							<li class="star @if($book->home_books->star >= 3) selected @endif" title='Good' data-value='3'> <i class='fa fa-star fa-fw'></i>
+							<li class="star @if($book->star >= 3) selected @endif" title='Good' data-value='3'> <i class='fa fa-star fa-fw'></i>
 							</li>
-							<li class="star @if($book->home_books->star >= 4) selected @endif" title='Excellent' data-value='4'> <i class='fa fa-star fa-fw'></i>
+							<li class="star @if($book->star >= 4) selected @endif" title='Excellent' data-value='4'> <i class='fa fa-star fa-fw'></i>
 							</li>
-							<li class="star @if($book->home_books->star >= 5) selected @endif" title='WOW!!!' data-value='5'> <i class='fa fa-star fa-fw'></i>
+							<li class="star @if($book->star >= 5) selected @endif" title='WOW!!!' data-value='5'> <i class='fa fa-star fa-fw'></i>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			@endif
 			@endforeach @else Data not available @endif
 		</div>
 	</div>
