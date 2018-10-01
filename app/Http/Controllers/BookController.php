@@ -513,7 +513,7 @@ class BookController extends Controller
         {
             return redirect('home');  
         }
-        $authors = User::where('status', 'active')->where('is_author', '=', 1)->whereNotNull('plan_id')->get();
+        $authors = User::where('status', 'active')->where('is_author', '=', 1)->get();
         $categories = Category::all();
         return view('books.upload', compact('categories', 'authors'));
     }

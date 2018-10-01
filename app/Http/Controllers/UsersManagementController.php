@@ -71,28 +71,46 @@ class UsersManagementController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),
-            [
-                'name'                  => 'required|max:255|unique:users',
-                'email'                 => 'required|email|max:255|unique:users',
-                'password'              => 'required|min:6|max:20|confirmed',
-                'password_confirmation' => 'required|same:password',
-                'role'                  => 'required',
-                'country_id'                  => 'required',
-            ],
-            [
-                'name.unique'         => trans('auth.userNameTaken'),
-                'name.required'       => trans('auth.userNameRequired'),
-                'country_id'          => 'required',
-                'email.required'      => trans('auth.emailRequired'),
-                'email.email'         => trans('auth.emailInvalid'),
-                'password.required'   => trans('auth.passwordRequired'),
-                'password.min'        => trans('auth.PasswordMin'),
-                'password.max'        => trans('auth.PasswordMax'),
-                'role.required'       => trans('auth.roleRequired'),
-            ]
-        );
-
+        if($request->input('is_author') == 1)
+        {
+            $validator = Validator::make($request->all(),
+                [
+                    'name'                  => 'required|max:255|unique:users',
+                    'role'                  => 'required',
+                    'country_id'                  => 'required',
+                ],
+                [
+                    'name.unique'         => trans('auth.userNameTaken'),
+                    'name.required'       => trans('auth.userNameRequired'),
+                    'country_id'          => 'required',
+                    'role.required'       => trans('auth.roleRequired'),
+                ]);
+            
+        }
+        else
+        {
+            $validator = Validator::make($request->all(),
+                [
+                    'name'                  => 'required|max:255|unique:users',
+                    'email'                 => 'required|email|max:255|unique:users',
+                    'password'              => 'required|min:6|max:20|confirmed',
+                    'password_confirmation' => 'required|same:password',
+                    'role'                  => 'required',
+                    'country_id'                  => 'required',
+                ],
+                [
+                    'name.unique'         => trans('auth.userNameTaken'),
+                    'name.required'       => trans('auth.userNameRequired'),
+                    'country_id'          => 'required',
+                    'email.required'      => trans('auth.emailRequired'),
+                    'email.email'         => trans('auth.emailInvalid'),
+                    'password.required'   => trans('auth.passwordRequired'),
+                    'password.min'        => trans('auth.PasswordMin'),
+                    'password.max'        => trans('auth.PasswordMax'),
+                    'role.required'       => trans('auth.roleRequired'),
+                ]
+            );
+        }
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
@@ -103,10 +121,10 @@ class UsersManagementController extends Controller
             'name'             => $request->input('name'),
             'first_name'       => $request->input('first_name'),
             'last_name'        => $request->input('last_name'),
-            'email'            => $request->input('email'),
+            'email'            => ($request->input('email')) ? $request->input('email') : time().'@mailinator,com',
             'country_id'       => $request->input('country_id'),
             'plan_id'          => $request->input('plan_id'),
-            'password'         => bcrypt($request->input('password')),
+            'password'         => ($request->input('password')) ? bcrypt($request->input('password')) : bcrypt(time()),
             'token'            => str_random(64),
             'admin_ip_address' => $ipAddress->getClientIp(),
             'activated'        => 1,
@@ -191,20 +209,34 @@ class UsersManagementController extends Controller
         $user = User::find($id);
         $emailCheck = ($request->input('email') != '') && ($request->input('email') != $user->email);
         $ipAddress = new CaptureIpTrait();
-
-        if ($emailCheck) {
-            $validator = Validator::make($request->all(), [
-                'name'     => 'required|max:255',
-                'email'    => 'email|max:255|unique:users',
-                'password' => 'present|confirmed|min:6',
-            ]);
-        } else {
-            $validator = Validator::make($request->all(), [
-                'name'     => 'required|max:255',
-                'password' => 'nullable|confirmed|min:6',
-            ]);
+        if($request->input('is_author') == 1)
+        {
+            $validator = Validator::make($request->all(),
+                [
+                    'name'                  => 'required|max:255',
+                    'country_id'                  => 'required',
+                ],
+                [
+                    'name.required'       => trans('auth.userNameRequired'),
+                    'country_id'          => 'required',
+                ]);
+            
         }
-
+        else
+        {
+            if ($emailCheck) {
+                $validator = Validator::make($request->all(), [
+                    'name'     => 'required|max:255',
+                    'email'    => 'email|max:255|unique:users',
+                    'password' => 'present|confirmed|min:6',
+                ]);
+            } else {
+                $validator = Validator::make($request->all(), [
+                    'name'     => 'required|max:255',
+                    'password' => 'nullable|confirmed|min:6',
+                ]);
+            }
+        }
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }

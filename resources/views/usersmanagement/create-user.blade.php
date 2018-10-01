@@ -8,13 +8,25 @@
 {!! Form::open(array('action' => 'UsersManagementController@store',  'files' => true, 'enctype' =>"multipart/form-data")) !!}
 <div class="admin-edit">
 <div class="edit-one">
-    <div class="image"><img src="../images/image1.jpg" />
+    <div class="image"><img src="../images/image1.jpg" id="profilePic" />
       <input type="file" id="user_avatar" name="avatar" style="display:none"/> 
     </div>
     <div class="button"><input type="button" id="OpenImgUpload" value="CHANGE IMAGE"></div>
 </div>
 <div class="edit-two">
+    <!-- <div class="unit-1" style="width: 100%">
+        <div class="form-unit">
+            <div class="heading">Is Author</div>
+            <div class="content" style="width: 48%">
+                <select name="is_author" id="is_author">
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                </select>
+            </div>
+        </div>
+    </div> -->
     <div class="unit-1">
+        
         <div class="form-unit {{ $errors->has('name') ? ' has-error ' : '' }}">
             <div class="heading">Name</div>
             <div class="content">
@@ -55,15 +67,10 @@
                   @endif
             </div>
         </div>
-        <div class="form-unit">
-            <div class="heading">Author</div>
-            <div class="checkbox">
-                <input type="radio" name="is_author" value="1" checked /> Yes
-                <input type="radio" name="is_author" value="0"/> No
-            </div>
-        </div>
+        
     </div>
     <div class="unit-2">
+         
         <div class="form-unit {{ $errors->has('email') ? ' has-error ' : '' }}">
             <div class="heading">Email</div>
             <div class="content">
@@ -109,6 +116,13 @@
         </select>
     </div>
     <div class="form-unit">
+            <div class="heading">Author</div>
+            <div class="checkbox">
+                <input type="radio" name="is_author" value="1" /> Yes
+                <input type="radio" name="is_author" value="0" checked="checked"  /> No
+            </div>
+        </div>
+    <div class="form-unit">
             <div class="heading">Description</div>
             <div class="content">
                 <textarea name="about_us" rows="6"></textarea>
@@ -133,4 +147,34 @@
 @endsection
 
 @section('footer_scripts')
+
+<script type="text/javascript">
+$(document).ready(function(){
+  function readURL(input) {
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        // console.log('e.target.result', e.target.result);
+        $('#profilePic').attr('src', e.target.result);
+      }
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  $("#user_avatar").change(function() {
+    readURL(this);
+  });
+
+  $('#is_author').on('change', function() {
+    if(this.value == 1)
+    {
+
+    }
+  });
+});
+</script>
+
 @endsection

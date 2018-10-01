@@ -67,9 +67,19 @@
                         <div class="listing-1">
                             <div class="image"><img src="{{($user->profile && $user->profile->avatar) ? '/uploads/avatar/'.$user->profile->avatar : '../images/image1.jpg'}}"></div>
                             <div class="name">{{$user->name}}</div>
+                            @if($user->is_author == 0)
                             <div class="sub-name">{{$user->email}}</div>
+                            @endif
                         </div>
-                        <div class="listing-2">Free Member</div>
+                        <div class="listing-2">
+                        @if($user->is_author == 1)    
+                        Author
+                        @elseif($user->plan_id > 0)
+                        Paid Member
+                        @else
+                        Free Member
+                        @endif
+                        </div>
                         <div class="listing-3">
                             @if($user->country)
                             <div class="map"><img src="./flags/{{strtolower($user->country->code)}}.png"/></div>

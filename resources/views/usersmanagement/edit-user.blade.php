@@ -7,7 +7,7 @@
     {!! csrf_field() !!}
 <div class="admin-edit">
 <div class="edit-one">
-    <div class="image"><img src="{{($user->profile && $user->profile->avatar) ? '/uploads/avatar/'.$user->profile->avatar : '/images/image1.jpg'}}" />
+    <div class="image"><img src="{{($user->profile && $user->profile->avatar) ? '/uploads/avatar/'.$user->profile->avatar : '/images/image1.jpg'}}" id="profilePic" />
         <input type="file" id="user_avatar" name="avatar" style="display:none"/>
     </div>
     <div class="button"><input type="button" id="OpenImgUpload" value="CHANGE IMAGE"></div>
@@ -44,12 +44,14 @@
         </div>
     </div>
     <div class="unit-2">
+        @if($user->is_author == 0)
         <div class="form-unit">
             <div class="heading">Email</div>
             <div class="content">
                 {!! Form::text('email', old('email'), array('id' => 'email', 'class' => 'form-control', 'placeholder' => trans('forms.ph-useremail'), 'readonly' => true)) !!}
             </div>
         </div>
+        @endif
         <div class="form-unit">
             <div class="heading">Subscription</div>
             <div class="content">
@@ -92,6 +94,34 @@
 @include('modals.modal-delete')
 @endsection
 @section('footer_scripts')
+<script type="text/javascript">
+$(document).ready(function(){
+  function readURL(input) {
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        // console.log('e.target.result', e.target.result);
+        $('#profilePic').attr('src', e.target.result);
+      }
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  $("#user_avatar").change(function() {
+    readURL(this);
+  });
+
+  $('#is_author').on('change', function() {
+    if(this.value == 1)
+    {
+
+    }
+  });
+});
+</script>
   @include('scripts.delete-modal-script')
   @include('scripts.save-modal-script')
   @include('scripts.check-changed')
