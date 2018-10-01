@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\Models\User;
 use App\Category;
+use App\Book;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -17,7 +18,13 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        return view('admin.dashboard');
+        $free_user = User::where('plan_id', '=', 0)->orWhere('plan_id', '=', 1)->count();
+        $paid_user = User::where('plan_id', '>', 1)->count();
+
+        $free_book = Book::where('type', '=', 'free')->count();
+        $paid_book = Book::where('type', '=', 'paid')->count();
+        
+        return view('admin.dashboard', compact('free_user', 'paid_user', 'free_book', 'paid_book'));
     }
 
     /**
