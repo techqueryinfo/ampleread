@@ -121,7 +121,7 @@
     --}}
 
     {{-- @if(config('laravelusers.enableSearchUsers')) --}}
-        @include('scripts.search-users')
+        <!-- @include('scripts.search-users') -->
     {{-- @endif --}}
 
 @endsection

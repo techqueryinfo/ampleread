@@ -36,11 +36,24 @@ class UsersManagementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(env('USER_LIST_PAGINATION_SIZE'));
+        // echo "<pre>";
+        // print_r($request->all());
+        // exit;
+        $searchText = '';
+        $users = User::where('deleted_at', '=' , null);
+        if($request->input('user_search_box') && !empty($request->input('user_search_box')))
+        {
+            $searchText = $request->input('user_search_box');
+            $users = $users->where('name', 'LIKE', '%' . $searchText . '%')
+            ->orWhere('email', 'LIKE', '%' . $searchText . '%');
+            // $users->appends(['search' => $q]);    
+        }
+        
+        $users = $users->paginate(env('USER_LIST_PAGINATION_SIZE'));
         $roles = Role::all();
-        return View('usersmanagement.show-users', compact('users', 'roles'));
+        return View('usersmanagement.show-users', compact('users', 'roles', 'searchText'));
     }
 
     /**
