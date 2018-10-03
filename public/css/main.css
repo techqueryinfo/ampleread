@@ -2840,18 +2840,42 @@ body{
     padding-top:43px;
     cursor:pointer
 }
-.createbook-book{
+/*.createbook-book{
     width:100%;
     background-image:url(../images/createbookbanner.jpg);
     background-position:100% 100%;
     float:left;
     height:700px;
     object-fit:contain
+}*/
+
+.createbook-book{
+    width:100%;
+    background-image:url(../images/createbookbanner.jpg);
+    background-position:100% 100%;
+    float:left;
+    height:700px;
+    object-fit:contain;
+    position: relative;
+    margin: auto;
+    display: block;
 }
-.createbook-text{
+/*.createbook-text{
     position:absolute;
     left:30%;
     top:278px
+}*/
+
+.createbook-text{
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    display: block;
+    width: 49%;
+    height: 22%;
 }
 .createbook-text .heading{
     font-size:30px;

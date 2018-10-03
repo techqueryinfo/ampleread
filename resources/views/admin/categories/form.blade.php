@@ -1,6 +1,6 @@
 <div class="admin-edit">
     <div class="edit-two">
-        <div class="unit-1">
+          <div class="unit-1">
             <div class="form-unit {{ $errors->has('name') ? 'has-error' : ''}}">
                 <div class="heading">Name</div>
                 <div class="content">

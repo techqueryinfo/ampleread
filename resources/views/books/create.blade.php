@@ -1,11 +1,12 @@
 @extends('layouts.app') @section('template_fastload_css') @endsection @section('content')
-<div class="createbook-book"></div>
+<div class="createbook-book">
 <div class="createbook-text">
     <div class="heading">Create Your Own eBook</div>
     <div class="sub-heading">Lorem ipsum dolor sit amet, consectetur adipiscing elit, donec et quam id nunc finibus efficitur molestie</div>
     <div class="createbook-button">
         <button data-toggle="modal" data-target="#createbookModal">Get started</button>
     </div>
+</div>
 </div>
 <!-- modal -->
 <div id="createbookModal" class="modal fade createbook-Modal" role="dialog">
