@@ -115,7 +115,13 @@
         <div class="author-description">
             <div class="author-details">
                 <div class="image">
-                    <a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #fff;"><img src="/images/user.png" alt="autor-image" border="0"></a>
+                    <a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #fff;">
+                        @if($author->profile->avatar)
+                        <img src="/uploads/avatar/{{$author->profile->avatar}}" alt="autor-image" border="0">
+                        @else
+                        <img src="/images/user.png" alt="autor-image" border="0">
+                        @endif
+                    </a>
                 </div>
                 <div class="name">
                     <div class="title"><a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #000000;">{{$author->name}}</a></div>

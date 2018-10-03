@@ -127,7 +127,7 @@ class BookController extends Controller
     {
         $currentUser = Auth::user();
         $categories  = Category::all();
-        $authors = User::where('status', 'active')->where('is_author', '=', 1)->whereNotNull('plan_id')->get();
+        $authors = User::where('status', 'active')->where('is_author', '=', 1)->get();
         $book = Book::findOrFail($id); 
         $username = $book->user_name()->first()->first_name." ".$book->user_name()->first()->last_name;
         $paid = Paid::where('book_id', '=', $id)->get();

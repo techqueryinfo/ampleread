@@ -70,9 +70,7 @@
 					<select class="js-example-basic-single" id="author" name="author">
 						@if(!$authors->isEmpty())
 							@foreach($authors as $author)
-							@if($author->isUser())
 							<option value="{{ $author->id }}">{{ ucfirst($author->name) }}</option>
-							@endif
 							@endforeach
 						@endif
 					</select>

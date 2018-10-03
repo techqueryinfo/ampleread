@@ -7,7 +7,11 @@
 	</div>
 	<div class="book-section author">
 		<div class="book">
-			<img src="/images/image10.jpg" alt="image1">
+            @if($author->profile->avatar)
+            <img src="/uploads/avatar/{{$author->profile->avatar}}" alt="autor-image" border="0">
+            @else
+            <img src="/images/user.png" alt="autor-image" border="0">
+            @endif
 		</div>
 		<div class="content">
 			<div class="heading-book">{{$author->name}}</div>
