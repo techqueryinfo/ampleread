@@ -130,11 +130,12 @@ class UsersManagementController extends Controller
 
         $ipAddress = new CaptureIpTrait();
         $profile = new Profile();
+        $email = ($request->input('is_author') == 1) ? time().'@mailinator.com' : $request->input('email');
         $user = User::create([
             'name'             => $request->input('name'),
             'first_name'       => $request->input('first_name'),
             'last_name'        => $request->input('last_name'),
-            'email'            => time().'@mailinator,com',
+            'email'            => $email,
             'country_id'       => $request->input('country_id'),
             'plan_id'          => $request->input('plan_id'),
             'password'         => ($request->input('password')) ? bcrypt($request->input('password')) : bcrypt(time()),
