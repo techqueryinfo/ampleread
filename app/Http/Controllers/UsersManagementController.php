@@ -134,7 +134,7 @@ class UsersManagementController extends Controller
             'name'             => $request->input('name'),
             'first_name'       => $request->input('first_name'),
             'last_name'        => $request->input('last_name'),
-            'email'            => ($request->input('email')) ? $request->input('email') : time().'@mailinator,com',
+            'email'            => time().'@mailinator,com',
             'country_id'       => $request->input('country_id'),
             'plan_id'          => $request->input('plan_id'),
             'password'         => ($request->input('password')) ? bcrypt($request->input('password')) : bcrypt(time()),
