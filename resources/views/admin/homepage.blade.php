@@ -303,27 +303,37 @@
                     <div class="ample-login-section">
                         <form action="{{ url('/admin/homepage/add_book') }}" method="POST">
                             {{ csrf_field() }}
-                            <div class="unit1" style="width: 50%">
+                            <div class="unit1" style="width: 48%">
                                 <div class="form-group">
                                     <div class="form-unit">
                                         <div class="content">
-                                            <select name="type" required="required" class="form-control" id="book_tag">
+                                            <select name="type" required="required" class="form-control book-category" id="book_tag" onchange="selectSubCat(this)">
                                                 <option value="">Please Select</option>
                                                 @if(!$categories->isEmpty())
                                                 @foreach($categories as $category) 
                                                 @if($category->is_home_display == 1)
-                                                <option value="{{$category->id}}" <?php if(isset($active_category->id) && $active_category->id == $category->id) { ?>selected<?php } ?> >{{$category->name}}</option>
+                                                <option value="{{$category->id}}"  >{{$category->name}}</option>
                                                 @endif
                                                 @endforeach
                                                 @endif
                                             </select>
                                         </div>
                                     </div>
-                                    <br/>
-                                    <button type="submit" class="submit-button">Add</button>
+                                    
                                 </div>
                             </div>
-                            <div class="unit2" style="width: 50%">
+                            <div class="unit2" style="width: 48% ; margin-left:10px">
+                                <div class="form-group">
+                                    <div class="form-unit">
+                                        <div class="content">
+                                            <select class="js-example-basic-single book-sub-category" id="sub_category_id" name="sub_category_id">
+                                                <option value=""> Select Subcategory</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="unit1" style="width: 48%">
                                 <div class="form-group">
                                     <div class="form-unit">
                                         <div class="content">
@@ -333,6 +343,15 @@
                                                 <option data-value="{{ $optionValue->id }}" value="{{ $optionValue->id }}"> {{ $optionValue->ebooktitle }}</option>
                                                 @endforeach @endif
                                             </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="unit2" style="width: 48% ; margin-left:10px">
+                                <div class="form-group">
+                                    <div class="form-unit">
+                                        <div class="content">
+                                            <button type="submit" class="submit-button">Add</button>
                                         </div>
                                     </div>
                                 </div>

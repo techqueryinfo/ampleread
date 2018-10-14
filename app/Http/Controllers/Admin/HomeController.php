@@ -21,7 +21,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $banner_images = Home::all();
-        $categories = Category::where('is_delete', 0)->where('status', 'Active')->get();
+        $categories = Category::where('is_delete', 0)->where('parent', '=', null)->where('status', 'Active')->get();
 
         $books = Book::where('status', '2')->get();
         $special_features   = HomeBook::with('home_books')->where('type', 'special_feature')->get();

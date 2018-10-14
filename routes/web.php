@@ -136,7 +136,9 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
     Route::resource('admin/categories', 'Admin\\CategoriesController');
     Route::resource('admin/plans', 'Admin\\PlansController');
     Route::resource('admin/settings', 'Admin\\SettingsController');
+
     //Route::resource('book', 'BookController');
+    Route::get('/category/getsubcategory/{category_id}', 'Admin\\CategoriesController@getsubcategory');
     Route::get('/admin/transaction', 'Admin\\PlansController@transactionView');
     Route::get('admin/books/category/{category_name}', 'BookController@show_books_by_category');
     Route::post('/admin/homepage/special_feature', 'Admin\\HomeController@add_special_feature_book');
@@ -168,7 +170,8 @@ Route::get('book/search/{search_text}', 'BookController@search');
 Route::get('plans', 'Admin\\PlansController@fe_view_plans');
 Route::post('profile/payment', 'Admin\\PlansController@do_payment');
 Route::post('contact', 'PagesController@contact_us_mail');
-Route::get('books/category/{category_name}', 'BookController@show_books_by_category');
+Route::get('/books/getsubcategory/{category_id}', 'BookController@getsubcategory');
+Route::get('books/category/{category_name}/{sub_category?}', 'BookController@show_books_by_category');
 Route::get('book/{id}/author/{authorid}/{authorname}', 'BookController@author_view_page');
 Route::get('books/ebook/{id}/{ebooktitle}', 'BookController@view_free_ebook');
 Route::get('book/get/{id}', 'BookController@getBookDetail');

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use Response;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Book;
@@ -62,9 +62,43 @@ class CategoriesController extends Controller
         }
         else
         {
-            $slug = str_slug($request->input('name'), '-');
-            $requestData['category_slug'] = $slug;
-            Category::create($requestData);
+            // echo "<pre>";
+            // print_r($requestData);
+            // exit;
+
+            //add subcategory
+            if(!empty($requestData['parent_category_id']) && is_numeric($requestData['parent_category_id']))
+            {
+                $slug = str_slug($request->input('subcategory'), '-');
+                $requestData['name'] = $request->input('subcategory');
+                $requestData['parent'] = $requestData['parent_category_id'];
+                $requestData['category_slug'] = $slug;
+                Category::create($requestData);
+            }
+            else if(!empty($requestData['parent_category_id']) && is_string($requestData['parent_category_id']))
+            {
+                //add category
+                if(!empty($requestData['name']))
+                {
+                    $slug = str_slug($request->input('name'), '-');
+                    $requestData['category_slug'] = $slug;
+                    $cat = Category::create($requestData);
+                }
+
+                //add subcategory
+                if($cat->id && !empty($requestData['subcategory']))
+                {
+                    $slug = str_slug($request->input('subcategory'), '-');
+                    $requestData['name'] = $request->input('subcategory');
+                    $requestData['parent'] = $cat->id;
+                    $requestData['category_slug'] = $slug;
+                    Category::create($requestData);
+                }
+
+            }
+            // $slug = str_slug($request->input('name'), '-');
+            // $requestData['category_slug'] = $slug;
+            // Category::create($requestData);
             //return redirect('admin/categories')->with('flash_message', 'Category added!');
             return redirect('/admin/books/category/all-books')->with('flash_message', 'Category added !');
         }
@@ -82,6 +116,15 @@ class CategoriesController extends Controller
         $category = Category::findOrFail($id);
 
         return view('admin.categories.show', compact('category'));
+    }
+
+    public function getsubcategory($id)
+    {
+        $category = Category::where('status', 'Active')->where('parent', $id)->where('is_delete', '=', 0)->get();;
+        return Response::json(array(
+                    'success' => true,
+                    'data'   => $category
+                )); 
     }
 
     /**

@@ -25,7 +25,7 @@ class HomeBook extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'book_id', 'type', 'banner_image', 'banner_link', 'banner_title', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'book_id', 'type', 'sub_category_id', 'banner_image', 'banner_link', 'banner_title', 'created_at', 'updated_at'];
 
     /**
      * Get the books to show in home page

@@ -18,6 +18,7 @@ use App\Bookmark;
 use App\HomeBook;
 use App\BookSave;
 use DB;
+use Response;
 
 class BookController extends Controller
 {
@@ -68,6 +69,15 @@ class BookController extends Controller
         return view('books.search', compact('books', 'categories', 'search_text'));
     }
 
+    public function getsubcategory($id)
+    {
+        $category = Category::where('status', 'Active')->where('parent', $id)->where('is_delete', '=', 0)->get();;
+        return Response::json(array(
+                    'success' => true,
+                    'data'   => $category
+                )); 
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -75,7 +85,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::where('is_delete', 0)->where('parent', '=', null)->where('status', 'Active')->get();
         return view('books.create', compact('categories'));
     }
 
@@ -88,7 +98,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $categories = Category::all();
+        $categories = Category::where('is_delete', 0)->where('parent', '=', null)->where('status', 'Active')->get();
         $requestData = $request->all();
         if ($request->hasFile('ebook_logo')) 
         {
@@ -126,9 +136,15 @@ class BookController extends Controller
     public function edit($id)
     {
         $currentUser = Auth::user();
-        $categories  = Category::all();
+        $categories = Category::where('is_delete', 0)->where('parent', '=', null)->where('status', 'Active')->get();
         $authors = User::where('status', 'active')->where('is_author', '=', 1)->get();
         $book = Book::findOrFail($id); 
+        $subcategories = null;
+        // if($book && $book->sub_category != null)
+        // {
+        $subcategories = Category::where('is_delete', 0)->where('parent', '=', $book->category)->where('status', 'Active')->get();
+        // }
+
         $username = $book->user_name()->first()->first_name." ".$book->user_name()->first()->last_name;
         $paid = Paid::where('book_id', '=', $id)->get();
         $paidDiscount = DB::table('paid_discount')
@@ -142,11 +158,11 @@ class BookController extends Controller
             ->get();
         if(!empty($currentUser) && $currentUser->isAdmin())
         {
-            return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount', 'phone', 'username', 'authors'));    
+            return view('books.edit', compact('book', 'categories', 'paid', 'paidDiscount', 'phone', 'username', 'authors', 'subcategories'));    
         }    
         else
         {   
-            return view('books.saved_edit_ebook', compact('book', 'categories', 'username'));
+            return view('books.saved_edit_ebook', compact('book', 'categories', 'username', 'subcategories'));
         }
     }
 
@@ -241,7 +257,7 @@ class BookController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show_books_by_category($category_name)
+    public function show_books_by_category($category_name, $sub_category= '')
     {   
        $currentUser = Auth::user();
        if($category_name == 'all-books')
@@ -315,14 +331,23 @@ class BookController extends Controller
        }
        else
        {
-            $records = DB::table('books')
-                ->join('users', 'users.id', '=', 'books.user_id')
-                ->join('categories', 'books.category', '=', 'categories.id')
-                ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+          $tmp_slug = (!empty($sub_category)) ? $sub_category : $category_name;
+            $query = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id');
+              if(!empty($sub_category))
+              {
+                $query->join('categories', 'books.sub_category', '=', 'categories.id');
+              } 
+              else
+              {
+                $query->join('categories', 'books.category', '=', 'categories.id');
+              } 
+                
+              $query->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
                 ->where('categories.is_delete', '=', 0)
-                ->where('categories.category_slug', '=', $category_name)
-                ->where('books.status', 2)
-                ->get();
+                ->where('categories.category_slug', '=', $tmp_slug)
+                ->where('books.status', 2);
+            $records = $query->get();
             $total = DB::table('books')
                 ->join('users', 'users.id', '=', 'books.user_id')
                 ->join('categories', 'books.category', '=', 'categories.id')
@@ -336,6 +361,7 @@ class BookController extends Controller
        {
             $total = count($records);
        }
+  
        if(!$records->isEmpty()){
            foreach ($records as $k => $v) 
            {
@@ -343,13 +369,21 @@ class BookController extends Controller
                 $v->star = $book_review_star;
            } 
        }
-       $categories = Category::all(); $page = $category_name;
+       // $categories = Category::all();
+       $categories = Category::where('is_delete', 0)->where('parent', '=', null)->where('status', 'Active')->get(); 
+       $page = $category_name;
        $category_name = ($category_name == 'free-books' || $category_name == 'paid-books') ? str_replace('-', ' ', ucwords($category_name)) : $category_name;
        $category = Category::where('category_slug', '=', $category_name)->first();
        $category_slug = (!empty($category)) ? $category->category_slug : $category_name;
        $category_name = (!empty($category)) ? $category->name : $category_name;
        
-       $data = [ 'category_name' => $category_name, 'category_slug' => $category_slug, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total ];
+
+       //get sub category
+       $subcategory = array();
+       if($category && $category->id){
+         $subcategory = Category::where('parent', '=', $category->id)->get();
+       }
+       $data = [ 'category_name' => $category_name, 'category_slug' => $category_slug, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total, 'subcategory' => $subcategory];
        if(!empty($currentUser) && $currentUser->isAdmin() && $page != 'free-books' && $page != 'paid-books')
        { 
         return view('books.book_category')->with($data);
@@ -380,7 +414,7 @@ class BookController extends Controller
     /**
      * View Free-Paid E-Book 
     */
-    public function view_free_ebook($id)
+    public function view_free_ebook($id, $title)
     {   
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first(); 
@@ -524,7 +558,7 @@ class BookController extends Controller
     public function uploadBook(Request $request)
     {
         $currentUser = Auth::user();
-        $requestData = $request->all(); 
+        $requestData = $request->all();
         if ($request->hasFile('ebook_logo')) 
         {
             $uploadPath = public_path('/uploads/ebook_logo');
@@ -689,7 +723,7 @@ class BookController extends Controller
             $category_id = $category->id;
             $books = DB::table('books')
             ->join('users', 'users.id', '=', 'books.user_id')
-            // ->select('books.*','users.first_name', 'users.last_name', 'users.name')
+            ->select('books.*','users.first_name', 'users.last_name', 'users.name')
             ->where('books.category', '=', $category_id)
             ->where('books.status', '=', 2)
             ->get();

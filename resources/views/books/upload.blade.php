@@ -33,9 +33,24 @@
 		</div>
 		<div class="unit-2">
 			<div class="form-unit">
+				<div class="heading">Author</div>
+				<div class="content">
+					<select class="js-example-basic-single" id="author" name="author">
+						@if(!$authors->isEmpty())
+							@foreach($authors as $author)
+							<option value="{{ $author->id }}">{{ ucfirst($author->name) }}</option>
+							@endforeach
+						@endif
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="unit-1">
+			<div class="form-unit">
 				<div class="heading">Category</div>
 				<div class="content">
-					<select class="js-example-basic-single" id="category" name="category">
+					<select class="js-example-basic-single book-category" id="category" name="category" onchange="selectSubCat(this)" required>
+						<option value="">Select Category</option>
 						@if(!$categories->isEmpty())
 							@foreach($categories as $item)
 							<option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -46,7 +61,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="unit-3">
+		<div class="unit-2">
+			<div class="form-unit">
+				<div class="heading">Sub Category</div>
+				<div class="content">
+					<select class="js-example-basic-single book-sub-category" id="sub_category" name="sub_category">
+						
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="unit-1">
 			<div class="form-unit">
 				<div class="heading">eBook Title</div>
 				<div class="content">
@@ -54,27 +79,13 @@
 					<input type="hidden" name="user_id" value="{{ Auth::user()->id}}" />
 				</div>
 			</div>
+			
 		</div>
-		<div class="unit-1">
+		<div class="unit-2">
 			<div class="form-unit">
 				<div class="heading">Sub Title</div>
 				<div class="content">
 					<input type="text" id="subtitle" name="subtitle" required="required" placeholder="Sub title" />
-				</div>
-			</div>
-		</div>
-		<div class="unit-2">
-			<div class="form-unit">
-				<div class="heading">Author</div>
-				<div class="content">
-					<select class="js-example-basic-single" id="author" name="author">
-						@if(!$authors->isEmpty())
-							@foreach($authors as $author)
-							<option value="{{ $author->id }}">{{ ucfirst($author->name) }}</option>
-							@endforeach
-						@endif
-					</select>
-					<!-- <input type="text" name="author" id="author" class="form-control" placeholder="Author" /> -->
 				</div>
 			</div>
 		</div>

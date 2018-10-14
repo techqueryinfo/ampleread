@@ -28,36 +28,6 @@
             </div>
             <div class="unit-2">
                 <div class="form-unit">
-                    <div class="heading">Category</div>
-                    <div class="content">
-                        <select name="category" id="ebookcategory" data-select2-id="ebookcategory" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true">
-                            @foreach($categories as $item) @if($item->id === $book->category)
-                            <option value="{{ $item->id }}" selected="selected">{{ $item->name }}</option>
-                            @else
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                            @endif @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="unit-3">
-                <div class="form-unit">
-                    <div class="heading">eBook Title</div>
-                    <div class="content">
-                        <input type="text" id="ebook" name="ebooktitle" required="required" placeholder="E-Book title" value="{{$book->ebooktitle}}">
-                    </div>
-                </div>
-            </div>
-            <div class="unit-1">
-                <div class="form-unit">
-                    <div class="heading">Sub Title</div>
-                    <div class="content">
-                        <input type="text" id="subtitle" name="subtitle" required="required" placeholder="Free e-Book" value="{{$book->subtitle}}">
-                    </div>
-                </div>
-            </div>
-            <div class="unit-2">
-                <div class="form-unit">
                     <div class="heading">Author</div>
                     <div class="content">
                         <select class="js-example-basic-single" id="author" name="author">
@@ -71,6 +41,54 @@
                     </div>
                 </div>
             </div>
+            <div class="unit-1">
+                <div class="form-unit">
+                    <div class="heading">Category</div>
+                    <div class="content">
+                        <select name="category" id="ebookcategory" data-select2-id="ebookcategory" tabindex="-1" class="select2-hidden-accessible" aria-hidden="true" required onchange="selectSubCat(this)">
+                            @foreach($categories as $item) @if($item->id === $book->category)
+                            <option value="{{ $item->id }}" selected="selected">{{ $item->name }}</option>
+                            @else
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endif @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="unit-2">
+            <div class="form-unit">
+                <div class="heading">Sub Category</div>
+                <div class="content">
+                    <select class="js-example-basic-single book-sub-category" id="sub_category" name="sub_category">
+                        <option value="">Select Subcategory</option>
+                        @if($subcategories)
+                        @foreach($subcategories as $item) @if($item->id === $book->sub_category)
+                            <option value="{{ $item->id }}" selected="selected">{{ $item->name }}</option>
+                        @else
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endif @endforeach
+                        @endif
+                    </select>
+                </div>
+            </div>
+        </div>
+            <div class="unit-1">
+                <div class="form-unit">
+                    <div class="heading">eBook Title</div>
+                    <div class="content">
+                        <input type="text" id="ebook" name="ebooktitle" required="required" placeholder="E-Book title" value="{{$book->ebooktitle}}">
+                    </div>
+                </div>
+            </div>
+            <div class="unit-2">
+                <div class="form-unit">
+                    <div class="heading">Sub Title</div>
+                    <div class="content">
+                        <input type="text" id="subtitle" name="subtitle" required="required" placeholder="Free e-Book" value="{{$book->subtitle}}">
+                    </div>
+                </div>
+            </div>
+            
             <div class="unit-3">
                 <div class="form-unit">
                     <div class="heading">Description</div>

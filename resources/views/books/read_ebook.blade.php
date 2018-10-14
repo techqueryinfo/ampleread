@@ -9,13 +9,24 @@
 @endsection
 @section('content')
 <div id="container" class="readre-table-container">
-    @if(!empty($book->book_ext) && $book->book_ext == 'pdf')
-    <div class="content">
-                {{$book->ebooktitle}}
-            </div>
-    <iframe src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/pdfviewer/web/viewer.html?file=../../uploads/ebook_logo/{{$book->buyLink}}" style="width: 100%" height="700"></iframe>
-    @else
+    
     <div class="reader-left menu-panel">
+        @if(!empty($book->book_ext) && $book->book_ext == 'pdf')
+        <div class="row-one" >
+            <div class="unit-one" style="width: 100%" data-tab="tableContent">
+                <div class="content">Book Info</div>
+            </div>
+        </div>
+        <div id="tableContent" class="row-two menu-toc" >
+            
+            <div class="unit " >
+                <div class="title" style="width: 100%"><h4>{{$book->ebooktitle}}</h4></div>
+            </div>
+            <div class="unit " >
+                <div class="title" style="width: 100%">{{$book->desc}}</div>                
+            </div>
+        </div>
+        @else
         <div class="row-one">
             <div class="unit-one active" data-tab="tableContent">
                 <div class="content">Table of
@@ -23,7 +34,7 @@
             </div>
             <div class="unit-one" data-tab="bookMark">
                 <div class="content">
-                    Book info
+                    Bookmark
                 </div>
             </div>
             <div class="unit-one" data-tab="bookNotes">
@@ -31,7 +42,6 @@
                     Notes
                 </div>
             </div>
-
         </div>
         <div id="tableContent" class="row-two menu-toc" >
             @if($chapters) 
@@ -61,8 +71,14 @@
             <div class="index"></div>
           </div>
         </div>
+        @endif
     </div>
     <div class="reader-right">
+        @if(!empty($book->book_ext) && $book->book_ext == 'pdf')
+        <div class="reader-content" style="margin-left: 10px">
+        <iframe src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/pdfviewer/web/viewer.html?file=../../uploads/ebook_logo/{{$book->buyLink}}" style="width: 100%" height="700"></iframe>
+        </div>
+        @else
         <div class="reader-header">
             <div class="icons">
                 <span id="tblcontents" ><img src="/images/reader/table.png" alt="dashboard"/></span>
@@ -105,8 +121,9 @@
             <div class="bar" style="width: <?php echo (1/count($chapters))*100; ?>%"></div>
         </div>
         @endif
+        @endif
     </div>
-    @endif
+    
 </div>
 @endsection 
 @section('footer_scripts') 

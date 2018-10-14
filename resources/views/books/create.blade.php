@@ -54,11 +54,12 @@
                                     <option value="free" selected="selected">Free</option>
                                 </select>
                             </div>
-                            <div class="unit2">
+                            <div class="unit1">
                                 <div class="form-group">
                                     <div class="heading">Category</div>
-                                </div>
-                                <select class="js-example-basic-single" id="category" name="category">
+                                
+                                <select class="js-example-basic-single" id="category" name="category" onchange="selectSubCat(this)" required>
+                                    <option value="">Select Category</option>
                                     @if(!$categories->isEmpty())
                                         @foreach($categories as $item)
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -66,6 +67,17 @@
                                     @endif
                                 </select>
                                 <input type="hidden" name="status" value="0"/>
+                                </div>
+                            </div>
+                            <div class="unit2">
+                                <div class="form-group">
+                                    <div class="heading">Sub Category</div>
+                                    <div class="content">
+                                        <select class="js-example-basic-single book-sub-category" id="sub_category" name="sub_category">
+                                            <option value="">Select Subcategory</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="heading">Description</div>
@@ -91,4 +103,38 @@
         </div>
     </div>
 </div>
-@endsection @section('footer_scripts') @endsection
+@endsection @section('footer_scripts') 
+<script type="text/javascript">
+    function selectSubCat(selectObject){
+    console.log('ccc', selectObject.value);
+    var options = '<option value="">Select SubCategory</option>';
+    $('select.book-sub-category')
+                .find('option')
+                .remove()
+                .append(options)
+                .attr('required', false);
+    if(selectObject.value){
+      $.ajax({
+        url: "/books/getsubcategory/"+selectObject.value,
+        cache: false,
+        success: function(response){
+          console.log('cat data', response);
+          if(response.data && response.data.length > 0){
+            
+            $.each(response.data, function (key, val) {
+               options += '<option value="'+val.id+'">'+val.name+'</option>';
+            });
+            
+            $('select.book-sub-category')
+                .find('option')
+                .remove()
+                .end()
+                .append(options)
+                .attr('required', true);
+          }
+        }
+      });
+    }
+  }
+</script>
+@endsection

@@ -18,7 +18,15 @@
                 <ul>
                     <li @if($category_name == 'all-books') class="active" @endif ><a style="color:black;" href="/books/category/all-books">All Books</a></li>
                     @if(!$categories->isEmpty()) @foreach ($categories as $optionKey => $optionValue) @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
-                    <li @if($optionValue->category_slug == $category_name) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
+                    <li @if($optionValue->category_slug == $category_slug) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
+                    @if($subcategory && $category_slug == $optionValue->category_slug)
+                    <ul style="padding-left: 50px">
+                        @foreach ($subcategory as $sKey => $sValue) 
+                        @if(!blank($sValue->is_delete) && $sValue->is_delete==0)
+                        <li @if($sValue->category_slug == $category_slug) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}/{{$sValue->category_slug}}">{{$sValue->name}}</a></li>
+                        @endif @endforeach
+                    </ul>
+                    @endif
                     @endif @endforeach @else Data not available ! @endif
                 </ul>
             </div>
@@ -123,30 +131,20 @@
                                  <div class="form-group">
                                      <label for="category" class="col-sm-3 control-label">Add Category</label>
                                      <div class="col-sm-9">
-                                       <input type="text" id="default" list="languages" placeholder="e.g. JavaScript">
-
-                                         <datalist id="languages">
-                                           <option value="HTML">
-                                           <option value="CSS">
-                                           <option value="JavaScript">
-                                           <option value="Java">
-                                           <option value="Ruby">
-                                           <option value="PHP">
-                                           <option value="Go">
-                                           <option value="Erlang">
-                                           <option value="Python">
-                                           <option value="C">
-                                           <option value="C#">
-                                           <option value="C++">
+                                       <input type="text" id="answerInput" list="categories" name="name" placeholder="e.g. JavaScript" autocomplete="false">
+                                         <datalist id="categories">
+                                           @if(!$categories->isEmpty()) @foreach ($categories as $optionKey => $optionValue) @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
+                                            <option data-value="{{$optionValue->id}}">{{$optionValue->name}}</option>
+                                           @endif @endforeach @endif
                                          </datalist>
-
+                                         <input type="hidden" name="parent_category_id" id="answerInput-hidden">
                                      </div>
                                    </div>
 
                                    <div class="form-group">
                                        <label for="subcategory" class="col-sm-3 control-label">Add Sub Category</label>
                                        <div class="col-sm-9">
-                                         <input type="text" class="form-control" id="subcategory" placeholder="Type Sub Category">
+                                         <input type="text" class="form-control" name="subcategory" id="subcategory" placeholder="Type Sub Category">
                                        </div>
                                      </div>
 
@@ -184,7 +182,30 @@
     </div>
 </div>
 </div>
-@include('modals.modal-delete') @endsection @section('footer_scripts') @include('scripts.delete-modal-script') @endsection
+@include('modals.modal-delete') @endsection 
+@section('footer_scripts') 
+<script type="text/javascript">
+    document.querySelector('input[list]').addEventListener('input', function(e) {
+    var input = e.target,
+        list = input.getAttribute('list'),
+        options = document.querySelectorAll('#' + list + ' option'),
+        hiddenInput = document.getElementById(input.id + '-hidden'),
+        inputValue = input.value;
+
+    hiddenInput.value = inputValue;
+
+    for(var i = 0; i < options.length; i++) {
+        var option = options[i];
+
+        if(option.innerText === inputValue) {
+            hiddenInput.value = option.getAttribute('data-value');
+            break;
+        }
+    }
+});
+</script>
+@include('scripts.delete-modal-script')
+@endsection
 <style type="text/css">
     .ample-login-signup { padding: 0px, 25px !important; }.createbook-Modal .modal-body .ample-login-section { margin-top: 0px !important }.createbook-Modal .modal-footer { border: 0px !important }
 </style>
