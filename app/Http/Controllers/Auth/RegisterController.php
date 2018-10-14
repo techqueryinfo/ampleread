@@ -113,7 +113,7 @@ class RegisterController extends Controller
                 'country'         => $data['country'],
                 'email'             => $data['email'],
                 'password'          => Hash::make($data['password']),
-                'plan_id'           => '1',
+                'plan_id'           => '0',
                 'token'             => str_random(64),
                 'signup_ip_address' => $ipAddress->getClientIp(),
                 'activated'         => !config('settings.activation'),

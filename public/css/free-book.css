@@ -1,3 +1,27 @@
+.free-ebook .book-section .content .free-book .button button .caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 8px;
+    vertical-align: middle;
+    border-top: 4px dashed;
+    border-top: 4px solid\9;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+
+.free-ebook .book-section .content .free-book .dropdown-menu{
+     background-color: transparent;
+     border: 0px solid #ccc;
+     border: 0px solid rgba(0,0,0,.15);
+     -webkit-box-shadow: 0 0 0 rgba(0,0,0,.175);
+     box-shadow: 0 0 0 rgba(0,0,0,.175);
+     margin: 44px 0 0;
+
+
+}
+
 .free-ebook .fab.fa-gitter {
 	margin-left: 10px
 }
@@ -262,15 +286,16 @@
 }
 
 .free-ebook .book-compare-price {
-	margin: 40px 40px 10px 40px;
+	/*margin: 40px 40px 10px 40px;*/
+	margin: 50px 40px 40px 40px;
 	width: calc(100% - 40px);
-	float: left
+	float: left;
 }
 
 .free-ebook .book-compare-price .heading {
 	width: 50%;
 	float: left;
-	font-size: 24px;
+	font-size: 26px;
 	font-weight: bold;
 	font-style: normal;
 	font-stretch: normal;

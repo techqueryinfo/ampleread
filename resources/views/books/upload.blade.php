@@ -120,9 +120,9 @@
 		</div>
 		<div class="unit-1">
 			<div class="form-unit">
-				<div class="heading">ASIN</div>
+				<div class="heading">ISBN</div>
 				<div class="content">
-					<input type="text" name="asin" placeholder="ASIN">
+					<input type="text" name="asin" placeholder="ISBN">
 				</div>
 			</div>
 		</div>

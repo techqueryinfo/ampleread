@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('content')
+@section('template_title', 'Ample Reads｜Free Ebook Downloads including Fiction Books, Non Fiction, Text Books, Classics and much more')
+@section('content') 
 <div class="ample-slider">
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->

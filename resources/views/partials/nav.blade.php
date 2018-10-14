@@ -1,5 +1,5 @@
 <div class="ample-header">
-    <a href="{{ url('/welcome') }}">
+    <a href="{{ url('/') }}">
         <div class="ample-logo"></div>
     </a>
     <div class="ample-search">

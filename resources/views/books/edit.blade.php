@@ -114,7 +114,7 @@
             </div>
             <div class="unit-3">
                 <div class="form-unit">
-                    <div class="heading">ASIN</div>
+                    <div class="heading">ISBN</div>
                     <div class="content">
                         <input type="text" name="asin" id="asin" value="{{$book->asin}}">
                     </div>
@@ -306,11 +306,16 @@
                                     <div class="heading">Additional Options</div>
                                     <select id="addOption" name="additional_options" class="form-control">
                                         <option value="free_shipping">Free Shipping</option>
-                                        <option value="paid">Paid</option>
+                                        <option value="paid">Online Code</option><option value="online_sale">Online Sale</option>
                                     </select>
                                 </div>
                             </div>
-                            
+                            <div class="unit1 first-sec" id="cc" style="width:15%;">
+                                <div class="form-group">
+                                    <div class="heading">Coupon Code</div>
+                                    <input type="text" name="coupon" >
+                                </div>
+                            </div>
                             <div class="unit3">
                                 <div class="form-group">
                                     <div class="heading">DESCRIPTION</div>
@@ -358,6 +363,20 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $("#cc").hide();
+        $('select[name="additional_options"]').change(function () {
+            if ($(this).val() == "paid") {
+                $("#cc").show();
+            }else if ($(this).val() == "free_shipping") {
+                $("#cc").hide();
+            }else if ($(this).val() == "online_sale") {
+                $("#cc").hide();
+            }
+        });
+    });
+</script>
 @endforeach 
 @include('modals.modal-delete') 
 @endif 

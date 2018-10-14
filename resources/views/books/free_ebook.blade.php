@@ -42,23 +42,47 @@
                 </div>
             </div>
             <div class="free-book">
-                <div class="button">
+               {{--<div class="dropdown">
+                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                   Dropdown
+                   <span class="caret"></span>
+                 </button>
+                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                   <li><a href="#">Action</a></li>
+                   <li><a href="#">Another action</a></li>
+                   <li><a href="#">Something else here</a></li>
+                   <li role="separator" class="divider"></li>
+                   <li><a href="#">Separated link</a></li>
+                 </ul>
+               </div>--}}
+
+                <div class="button dropdown">
                     @if($book->type == 'free')
                         <a lass="submit-button" href="{{url('book/reading/'.$book->id.'/'.$book->ebooktitle)}}">Read Book</a>
                     @else
-                        <button type="submit" class="submit-button">FROM ${{$book->retailPrice}}</button>
+                        <button type="submit" class="submit-button dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">FROM ${{$book->retailPrice}} <span class="caret"></span>
+
+                        </button>
                     @endif
-                </div>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                       <li><a href="#">Amazon</a></li>
+                                       <li><a href="#">Snapdeal </a></li>
+                                       <li><a href="#">Flipkart</a></li>
+                                       <li><a href="#">Big basket</a></li>
+                    </ul>
+
+                     </div>
                 @if($book->type == 'free')
                     <div class="text"><a href="{{url('book/readlater/'.$book->id.'/'.$book->ebooktitle)}}"><i class="far fa-clock"></i> SAVE FOR LATER</a></div>
                     @if($book->book_ext && $book->book_ext !='')
-                    <div class="text"><a href="{{url('/uploads/ebook_logo/'.$book->buyLink)}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> DOWNLOAD </div>
+                    <div class="text"><a href="{{url('/uploads/ebook_logo/'.$book->buyLink)}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> DOWNLOAD </a></div>
                     @endif
                 @else
                     <div class="text"><i class="fab fa-gitter"></i> <a name="comparePrice" href="#comparePrice">COMPARE PRICE</a></div>    
                 @endif
             </div>
-            <div class="book-description">{{$book->desc}}</div>
+             <div class="book-description" id="see_more2">{{substr($book->desc,0, 250)}}<div style="color: blue; cursor: pointer;" id="see_more"> ...Read more</div></div>
+            <div class="book-description" id="see_more1">{{$book->desc}}</div>
         </div>
     </div>
     <div class="book-author-description">
@@ -81,7 +105,7 @@
                     <li>Language</li>
                     @endif
                     @if($book->asin)
-                    <li>ASIN</li>
+                    <li>ISBN</li>
                     @endif
                 </ul>
             </div>
@@ -130,7 +154,7 @@
 
             </div>
             <div class="author-des">
-                {{substr($author->about_us,0, 250)}}...
+                {{substr($author->about_us,0, 200)}}...
             </div>
             <div class="button">
                 <a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #fff;"><button>Learn more</button></a>
@@ -374,6 +398,15 @@
     color: #FF912C;
 }
 </style>
+<script>
+    $(document).ready(function(){
+        $("#see_more1").hide();
+        $("#see_more").click(function(){
+            $("#see_more1").show();
+            $("#see_more2").hide();
+        });
+    });
+</script>
 <script type="text/javascript">
 $(document).ready(function () {
     /* 1. Visualizing things on Hover - See next part for action on click */

@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {{-- CSRF Token --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>@if (trim($__env->yieldContent('template_title')))@yield('template_title') | @endif {{ config('app.name', Lang::get('titles.app')) }}</title>
+        <title>@if (trim($__env->yieldContent('template_title')))@yield('template_title') @endif </title>
         <meta name="description" content="">
         <meta name="author" content="Vinod Kumar">
         <link rel="shortcut icon" href="/favicon.ico">
