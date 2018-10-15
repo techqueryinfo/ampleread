@@ -66,7 +66,7 @@
 				<div class="heading">Sub Category</div>
 				<div class="content">
 					<select class="js-example-basic-single book-sub-category" id="sub_category" name="sub_category">
-						
+						<option value="">Select Subcategory</option>
 					</select>
 				</div>
 			</div>
