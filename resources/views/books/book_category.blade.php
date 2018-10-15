@@ -131,7 +131,7 @@
                                  <div class="form-group">
                                      <label for="category" class="col-sm-3 control-label">Add Category</label>
                                      <div class="col-sm-9">
-                                       <input type="text" id="answerInput" list="categories" name="name" placeholder="e.g. JavaScript" autocomplete="false">
+                                       <input type="text" id="answerInput" list="categories" name="name" placeholder="e.g. JavaScript" autocomplete="false" required>
                                          <datalist id="categories">
                                            @if(!$categories->isEmpty()) @foreach ($categories as $optionKey => $optionValue) @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
                                             <option data-value="{{$optionValue->id}}">{{$optionValue->name}}</option>
