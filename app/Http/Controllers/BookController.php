@@ -357,10 +357,7 @@ class BookController extends Controller
                 ->where('books.status', 2)
                 ->count();
        }
-       if(empty($total))
-       {
-            $total = count($records);
-       }
+       $total = count($records);
   
        if(!$records->isEmpty()){
            foreach ($records as $k => $v) 
@@ -382,6 +379,12 @@ class BookController extends Controller
        $subcategory = array();
        if($category && $category->id){
          $subcategory = Category::where('parent', '=', $category->id)->get();
+       }
+       // $edit_category = $category;
+       if(!empty($sub_category))
+       {
+          $category = Category::where('category_slug', '=', $sub_category)->first();
+          $category_name = $sub_category;
        }
        $data = [ 'category_name' => $category_name, 'category_slug' => $category_slug, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total, 'subcategory' => $subcategory];
        if(!empty($currentUser) && $currentUser->isAdmin() && $page != 'free-books' && $page != 'paid-books')

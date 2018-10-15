@@ -11,7 +11,7 @@
        </div>
        <div class="unit-2">
         <div class="form-unit {{ $errors->has('status') ? 'has-error' : ''}}">
-            <div class="heading">Category</div>
+            <div class="heading">Status</div>
             <div class="content">
                 <select name="status" class="form-control" id="status" >
                     @foreach (json_decode('{"Active": "Active", "Inactive": "Inactive", "Deleted": "Deleted"}', true) as $optionKey => $optionValue)
@@ -28,7 +28,7 @@
     <div class="save">
         <input type="submit" value="Save" />
     </div>
-    <div class="cancel">
+    <!-- <div class="cancel">
         <label>Cancel</label>
-    </div>
+    </div> -->
 </div>

@@ -23,7 +23,7 @@
                     <ul style="padding-left: 50px">
                         @foreach ($subcategory as $sKey => $sValue) 
                         @if(!blank($sValue->is_delete) && $sValue->is_delete==0)
-                        <li @if($sValue->category_slug == $category_slug) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}/{{$sValue->category_slug}}">{{$sValue->name}}</a></li>
+                        <li @if($sValue->id == $category->id) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}/{{$sValue->category_slug}}">{{$sValue->name}}</a></li>
                         @endif @endforeach
                     </ul>
                     @endif
@@ -95,7 +95,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <div class="modal-text">Category Info</div>
+                    <div class="modal-text">Edit Category</div>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -208,4 +208,9 @@
 @endsection
 <style type="text/css">
     .ample-login-signup { padding: 0px, 25px !important; }.createbook-Modal .modal-body .ample-login-section { margin-top: 0px !important }.createbook-Modal .modal-footer { border: 0px !important }
+.admin-container .admin-right .save-cancel-btn {
+    width: 100%;
+    float: left;
+    margin: 0px !important;
+}
 </style>

@@ -158,8 +158,8 @@ class CategoriesController extends Controller
         $slug = str_slug($request->input('name'), '-');
         $requestData['category_slug'] = $slug;
         $category->update($requestData);
-
-        return redirect('admin/categories')->with('flash_message', 'Category updated!');
+        return redirect('/admin/books/category/all-books')->with('flash_message', 'Category added !');
+        // return redirect('admin/categories')->with('flash_message', 'Category updated!');
     }
 
     /**
