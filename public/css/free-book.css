@@ -11,7 +11,7 @@
 }
 
 
-.free-ebook .book-section .content .free-book .dropdown-menu{
+/*.free-ebook .book-section .content .free-book .dropdown-menu{
      background-color: transparent;
      border: 0px solid #ccc;
      border: 0px solid rgba(0,0,0,.15);
@@ -20,6 +20,35 @@
      margin: 44px 0 0;
 
 
+}*/
+
+.free-ebook .book-section .content .free-book .dropdown-menu{
+    top: 48px;
+    padding: 0 0;
+}
+
+/*.free-ebook .book-section .content .free-book .button  a {*/
+
+.free-ebook .book-section .content .free-book   .dropdown-menu>li>a {
+    display: block;
+    padding: 0px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 50px;
+    color: #333;
+    white-space: nowrap;
+    background: #fff !important;
+    border: 0px solid #ff7335;
+    box-shadow: 0px 0px 0px 0 rgba(249,93,73,0.2);
+    border-radius: 0px;
+
+}
+
+.free-ebook .book-section .content .free-book .dropdown-menu>li>a:focus, .free-ebook .book-section .content .free-book .dropdown-menu>li>a:hover {
+    color: #333;
+    text-decoration: none;
+    /*background: #64B5F6 !important;*/
+    background: #DDEBF7 !important;
 }
 
 .free-ebook .fab.fa-gitter {
@@ -332,11 +361,23 @@
 	float: left
 }
 
-.free-ebook .book-compare-price .row-compare-one .unit-compare-sec .image-box {
+/*.free-ebook .book-compare-price .row-compare-one .unit-compare-sec .image-box {
 	width: 180px;
 	height: 60px;
 	border-radius: 4px;
 	background-color: #f6f6f6
+}*/
+.free-ebook .book-compare-price .row-compare-one .unit-compare-sec .image-box {
+    width: 180px;
+    height: 50px;
+    border-radius: 4px;
+    background-color: #f6f6f6;
+    display: block;
+    overflow: hidden;
+    margin: 0 0;
+    position: relative;
+    z-index: 99;
+
 }
 
 .free-ebook .book-compare-price .row-compare-one .unit-compare-sec .star-container {
@@ -448,8 +489,22 @@
 	padding-bottom: 30px
 }
 
+/*.free-ebook .book-compare-price .row-compare-one.sec-two img {*/
+	/*padding: 23px 40px*/
+/*}*/
+
 .free-ebook .book-compare-price .row-compare-one.sec-two img {
-	padding: 23px 40px
+
+    transition: all .7s ease-in-out;
+    padding: 0 34px;
+    position: absolute;
+    max-width: 97%;
+    max-height: 97%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: auto;
 }
 
 .free-ebook .rate-this-book {

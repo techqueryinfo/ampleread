@@ -17,7 +17,7 @@ body {
 	width: 245px;
 	min-height: 400px;
 	background-color: #2e3243;
-	float: left
+	float: left;
 }
 
 .admin-container .admin-left .admin-img {
@@ -150,7 +150,8 @@ body {
 .admin-container .admin-left .logout {
 	float: left;
 	margin-left: 20px;
-	position: absolute
+	position: relative;
+    top:0px !important;
 }
 
 .admin-container .admin-left .logout .icon {

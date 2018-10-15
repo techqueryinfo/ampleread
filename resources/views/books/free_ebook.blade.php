@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/css/free-book.css"> @endsection @section('content')
 <div class="free-ebook">
     <div class="page-path">
-        <span class="start-text">Special Features | </span><span class="end-text">Thriller & Crime</span>
+        <span class="start-text">Category | </span><span class="end-text">Thriller & Crime</span>
     </div>
     <div class="book-section">
         <div class="book">
@@ -81,8 +81,8 @@
                     <div class="text"><i class="fab fa-gitter"></i> <a name="comparePrice" href="#comparePrice">COMPARE PRICE</a></div>    
                 @endif
             </div>
-             <div class="book-description" id="see_more2">{{substr($book->desc,0, 250)}}<div style="color: blue; cursor: pointer;" id="see_more"> ...Read more</div></div>
-            <div class="book-description" id="see_more1">{{$book->desc}}</div>
+             <div class="book-description" id="see_more2">{{substr($book->desc,0, 250)}}<span style="color: #679cc9; cursor: pointer;" id="see_more"> ...Read more</span></div>
+            <div class="book-description" id="see_more1">{{$book->desc}}<span style="color: #679cc9; cursor: pointer;" id="see_more3"> Less</span></div>
         </div>
     </div>
     <div class="book-author-description">
@@ -404,6 +404,10 @@
         $("#see_more").click(function(){
             $("#see_more1").show();
             $("#see_more2").hide();
+        });
+        $("#see_more3").click(function(){
+            $("#see_more1").hide();
+            $("#see_more2").show();
         });
     });
 </script>
