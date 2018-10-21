@@ -149,7 +149,7 @@ class PlansController extends Controller
 
     public function do_payment(Request $request)
     {
-        // print_r($request->input()); exit();
+        //echo "<pre>"; print_r($request->input()); echo "</pre>"; die();
         $currentUser = \Auth::user();
         
         \Twocheckout::privateKey('554071C2-1333-4224-B04D-C518659924B8');
