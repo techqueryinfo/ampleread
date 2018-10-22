@@ -1,6 +1,7 @@
 <?php
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use PayPal\Api\Amount;
@@ -19,6 +20,8 @@ use PayPal\Rest\ApiContext;
 use Redirect;
 use Session;
 use URL;
+use App\Plan;
+
 
 class PaymentController extends Controller
 {
@@ -46,7 +49,7 @@ class PaymentController extends Controller
     }
     public function payWithpaypal(Request $request)
     {
-
+        //echo "<pre>"; print_r($request->all()); echo "</pre>"; die();
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
 
@@ -78,7 +81,7 @@ class PaymentController extends Controller
             ->setPayer($payer)
             ->setRedirectUrls($redirect_urls)
             ->setTransactions(array($transaction));
-        /** dd($payment->create($this->_api_context));exit; **/
+         // dd($payment->create($this->_api_context));exit; 
         try {
 
             $payment->create($this->_api_context);
