@@ -1,4 +1,5 @@
 @extends('layouts.app') @section('template_title') {{ $user->name }}'s Profile @endsection @section('template_fastload_css') #map-canvas{ min-height: 300px; height: 100%; width: 100%; } @endsection @section('content')
+<script src="/js/jquery.creditCardValidator.js"></script>
 <div class="user-container">
     <div class="user-sections">
         <div class="unit active" data-attr="user-general"> <a href="#">General</a>
@@ -101,7 +102,25 @@
                 </div>
             </div>
             <div class="section-2">
-                <div class="unit-1">
+                @if(!$all_plans->isEmpty()) @foreach($all_plans as $all_plan)
+                  @if(!blank($transaction) && !blank($transaction->created_at) && $plan->id == $all_plan->id)
+                  <div class="listing">
+                      <div class="head">
+                          <!-- <div class="price">${{$all_plan->amount}}</div> -->
+                          <div class="membership">{{$all_plan->name}} : ${{$all_plan->amount}}</div>
+                      </div>
+                      <div class="content">
+                          <ul>
+                              <li>{{$all_plan->access_time_period}} {{$all_plan->access_period_type}} access</li>
+                              <li>@if($all_plan->no_of_book_download == 0) Unlimited @else {{$all_plan->no_of_book_download}} @endif eBook downloads</li>
+                              <li>Publish and submit eBooks for downloads</li>@if($all_plan->read_ebook_directly == 0)
+                              <li>Read eBooks directly from your account with no need to dowload it</li>@endif @if($all_plan->create_books == 0)
+                              <li>Create a new eBook using our editor</li>@endif @if($all_plan->share_books == 0)
+                              <li>Share eBooks</li>@endif @if($all_plan->access_discount == 0)
+                              <li>Access discounts available on our paid eBooks</li>@endif</ul>
+                      </div>
+                  </div>@endif @endforeach @endif
+                <!-- <div class="unit-1">
                     <img src="/images/invalid-name.png">
                 </div>
                 <div class="unit-2">
@@ -110,7 +129,7 @@
                 </div>
                 <div class="unit-3">
                     <input type="button" value="Edit" />
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -133,7 +152,8 @@
         </div>
         <div class="foot">@if(!blank($plan) && $plan->id == $all_plan->id)
             <input type="button" plan-id="{{$all_plan->id}}" charge-value="{{$all_plan->amount}}" class="first-btn" value="CURRENT PLAN">@else
-            <input type="button" plan-id="{{$all_plan->id}}" charge-value="{{$all_plan->amount}}" class="first-btn" data-toggle="modal" data-target="#paymentModal" value="GET STARTED - ${{$all_plan->amount}}">@endif</div>
+            @if($all_plan->amount  > 0)
+            <input type="button" plan-id="{{$all_plan->id}}" charge-value="{{$all_plan->amount}}" class="first-btn" data-toggle="modal" data-target="#paymentModal" value="GET STARTED - ${{$all_plan->amount}}">@endif @endif</div>
     </div>@endforeach @endif</div>
 <!-- Modal -->
 <div id="paymentModal" class="modal fade" role="dialog">
@@ -141,15 +161,112 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">PAYMENT INFO</h4>
+                <h4 class="modal-title">PAYMENT Via PayPal</h4>
             </div>
             <div class="modal-body">
-                <form method="POST" id="payment-form"  action="{{url('payment/add-funds/paypal')}}">
+                <form method="POST" id="payment-form"  class="form-horizontal" action="{{url('payment/paymentProcess')}}" onSubmit="return validate();">
                     {{ csrf_field() }}
-                    <h2 class="w3-text-blue">Payment Form</h2>
+                    <div class="row-fluid">
+                    <fieldset>
+                      <div class="control-group">
+                        <label class="control-label" >Payment Via</label>
+                        <div class="controls">
+                          <div class="radio">
+                              <label><input type="radio" class="pay_type" name="pay_type" checked value="cc" checked>Credit Card</label>
+                            </div>
+                            <div class="radio">
+                              <label><input type="radio" class="pay_type" name="pay_type" value="paypal">PayPal</label>
+                            </div>
+                        </div>
+                      </div>
+                      <span class="cc_form">
+                      <!-- Name -->
+                      <div class="control-group">
+                        <label class="control-label"  for="card-holder-name">Card Holder's Name</label>
+                        <div class="controls">
+                          <input type="text" id="card-holder-name" name="card-holder-name" placeholder="" class="input-xlarge demoInputBox">
+                        </div>
+                      </div>
+                      <!-- CVV -->
+                      <div class="control-group">
+                        <label class="control-label"  for="card_type">Card CVV</label>
+                        <div class="controls">
+                          <select name="card_type" required>
+                            <option value="visa">Visa</option>
+                            <option value="mastercard">Mastercard</option>
+                            <option value="discover">Discover</option>
+                            <option value="amex">Amex</option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- Card Number -->
+                      <div class="control-group">
+                        <label class="control-label" for="card-number">Card Number</label>
+                        <div class="controls">
+                          <input type="text" id="card-number" name="card-number" placeholder="" class="input-xlarge demoInputBox">
+                        </div>
+                      </div>
+                 
+                      <!-- Expiry-->
+                      <div class="control-group">
+                        <label class="control-label" for="password">Card Expiry Date</label>
+                        <div class="controls">
+                          <select class="span3 demoInputBox" name="expiry_month" id="expiry_month">
+                            <option value=""> Month</option>
+                            <?php
+                              for ($i = date("m"); $i <= 12; $i ++) {
+                                  $monthValue = $i;
+                                  if (strlen($i) < 2) {
+                                      $monthValue = "0" . $monthValue;
+                                  }
+                                  ?>
+                              <option value="<?php echo $monthValue; ?>"><?php echo $i; ?></option>
+                              <?php
+                              }
+                            ?>
+                          </select>
+                          <select class="span2 demoInputBox" name="expiry_year">
+                            <?php
+                              for ($i = date("Y"); $i <= date("Y")+10; $i ++) {
+                                  // $yearValue = substr($i, 4);
+                                  ?>
+                                  <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                  <?php
+                              }
+                            ?>
+                          </select>
+                        </div>
+                      </div>
+                 
+                      <!-- CVV -->
+                      <div class="control-group">
+                        <label class="control-label"  for="cvv">Card CVV</label>
+                        <div class="controls">
+                          <input type="number" min="3" id="cvv" name="cvv" placeholder="" class="span2 demoInputBox">
+                        </div>
+                      </div>
+
+                 
+                      <!-- Submit -->
+                      <div class="control-group">
+                        <div class="controls">
+                          <button class="btn btn-success" >Pay Now</button>
+                          <div id="error-message"></div>
+                        </div>
+                      </div>
+                      </span>
+                    </fieldset>
+                    </div>
                     <input id="amount" name="amount" type="hidden">   
-                    <input type="hidden" name="plan_id" id="plan_id"/>   
-                    <button class="btn btn-default">Pay with PayPal</button></p>
+                    <input type="hidden" name="plan_id" id="plan_id"/>  
+                    <span class="paypal_form" style="display: none;">
+                    <div class="control-group">
+                        <div class="controls">
+                          <button class="btn btn-default" type="submit">Pay with PayPal</button>
+                        </div>
+                      </div>
+                  </p>
+                    </span>
                 </form>
             </div>
             <div class="modal-footer">
@@ -165,6 +282,11 @@
         var dataAttr = $(this).attr("data-attr");
         $(".user-general,.user-password,.user-subscription").removeClass("active");
         $("." + dataAttr).addClass("active");
+        if(dataAttr == 'user-subscription')
+        {
+          $(".plan-listing").hide();
+          $(".user-subscription").show();
+        }
     });
     $("#changePlan").click(function() {
         $(".plan-listing").show();
@@ -177,5 +299,76 @@
             $('#amount').val(charge_value);
             $('#plan_id').val(plan_id);
         });
+
+        $("input[name='pay_type']").click(function(){
+            if($('input:radio[name=pay_type]:checked').val() == "cc"){
+              $('.cc_form').show();
+              $('.paypal_form').hide();
+                // console.log('test', $('input:radio[name=pay_type]:checked').val());
+            }
+            else
+            {
+              $('.cc_form').hide();
+              $('.paypal_form').show();
+            }
+        });
+
     });
+
+    function validate() {
+      var valid = true;
+      if($('input:radio[name=pay_type]:checked').val() == "cc"){
+        $(".demoInputBox").css('background-color', '');
+        var message = "";
+
+        var cardHolderNameRegex = /^[a-z ,.'-]+$/i;
+        var cvvRegex = /^[0-9]{3,3}$/;
+
+        var cardHolderName = $("#card-holder-name").val();
+        var cardNumber = $("#card-number").val();
+        var cvv = $("#cvv").val();
+
+        if (cardHolderName == "" || cardNumber == "" || cvv == "") {
+          message += "<div>All Fields are Required.</div>";
+          if (cardHolderName == "") {
+            $("#card-holder-name").css('background-color', '#FFFFDF');
+          }
+          if (cardNumber == "") {
+            $("#card-number").css('background-color', '#FFFFDF');
+          }
+          if (cvv == "" || (cvv != "" && !cvvRegex.test(cvv))) {
+            $("#cvv").css('background-color', '#FFFFDF');
+          }
+          valid = false;
+        }
+
+        if (cardHolderName != "" && !cardHolderNameRegex.test(cardHolderName)) {
+          message += "<div>Card Holder Name is Invalid</div>";
+          $("#card-holder-name").css('background-color', '#FFFFDF');
+          valid = false;
+        }
+
+        if (cardNumber != "") {
+          $('#card-number').validateCreditCard(function(result) {
+            if (!(result.valid)) {
+              message += "<div>Card Number is Invalid</div>";
+              $("#card-number").css('background-color', '#FFFFDF');
+              valid = false;
+            }
+          });
+        }
+
+        else if (cvv != "" && !cvvRegex.test(cvv)) {
+          message += "<div>CVV is Invalid</div>";
+          $("#cvv").css('background-color', '#FFFFDF');
+          valid = false;
+        }
+
+        if (message != "") {
+          $("#error-message").show();
+          $("#error-message").html(message);
+        }
+      }
+      return valid;
+    }
 </script>@endsection

@@ -188,4 +188,5 @@ Route::get('/getusers', 'AdminMessageController@get_all_users');
 Route::get('/message_data', 'AdminMessageController@get_all_messages');
 Route::get('/user_messages/{id}', 'AdminMessageController@get_user_messages');
 Route::post('save_message', 'AdminMessageController@save_admin_message');
-Route::post('payment/add-funds/paypal', 'Admin\\PaymentController@payWithpaypal');
+Route::post('payment/paymentProcess', 'PaymentController@paymentProcess');
+Route::get('payment/review/{plan_id}', 'PaymentController@review');
