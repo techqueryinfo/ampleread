@@ -75,8 +75,8 @@
     </div>
     <div class="reader-right">
         @if(!empty($book->book_ext) && $book->book_ext == 'pdf')
-        <div class="reader-content" style="margin-left: 10px">
-        <iframe src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/pdfviewer/web/viewer.html?file=/uploads/ebook_logo/{{$book->buyLink}}" style="width: 100%" height="700"></iframe>
+        <div class="reader-content" style="margin-left: 0px">
+        <iframe src="http://<?php echo $_SERVER['HTTP_HOST']; ?>/pdfviewer/web/viewer.html?file=/uploads/ebook_logo/{{$book->buyLink}}" style="width: 100%;border-width:0px;" height="700" ></iframe>
         </div>
         @else
         <div class="reader-header">

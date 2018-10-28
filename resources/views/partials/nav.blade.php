@@ -1,3 +1,4 @@
+
 <div class="ample-header">
     <a href="{{ url('/') }}">
         <div class="ample-logo"></div>
@@ -38,7 +39,7 @@
                     {!! HTML::link(url('/profile/'.Auth::user()->name), trans('titles.profile')) !!}
                 </li>
                 <li {{ Request::is('home','home/') ? 'class=active' : null }}>
-                    {!! HTML::link(url('/home'), 'Books') !!}
+                    {!! HTML::link(url('/home'), 'My Account') !!}
                 </li>
                 <li {{ Request::is('message','message/') ? 'class=active' : null }}>
                     {!! HTML::link(url('/message'), 'Message') !!}
@@ -92,7 +93,33 @@
             <div class="heading">Subjects</div>
             
             <ul>
-                <li @if(isset($category_name) && $category_name == 'all-books') class="active" @endif><a style="color:black;" href="/books/category/all-books">All Books</a></li>
+                <li @if(isset($category_name) && $category_name == 'all-books') class="active" @endif><a style="color:black;" href="/books/category/all-books">All Books <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                  <div class="subcategory_wrapper">
+                   {{--<div class="row">--}}
+
+                                       <ul>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">History</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Mystery & Crime</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Classics</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Trending Now</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">History</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Mystery & Crime</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Classics</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Trending Now</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">History</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Mystery & Crime</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Classics</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Trending Now</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">History</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Mystery & Crime</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Classics</a> </li>
+                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Trending Now</a> </li>
+                                       </ul>
+                  {{--<div class="clearfix"></div>--}}
+                   {{--</div>--}}
+                   <div class="clearfix"></div>
+                  </div>
+                </li>
                 @foreach (Session::get('categories')->slice(0,8) as $optionKey => $optionValue)
                     @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
                     <li @if(isset($category_name) && $category_name == $optionValue->category_slug) class="active" @endif><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
@@ -103,11 +130,24 @@
         @if(Session::get('categories'))
         <div class="ample-sub-menu-row">
            <ul>
-                @foreach (Session::get('categories')->slice(8) as $optionKey => $optionValue)
+                @foreach (Session::get('categories')->slice(8,9) as $optionKey => $optionValue)
                 @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
                     <li @if(isset($category_name) && $category_name == $optionValue->category_slug) class="active" @endif><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
                 @endif
                 @endforeach
+            </ul>
+        </div>
+        @endif
+        @if(Session::get('categories'))
+        <div class="ample-sub-menu-row">
+           <ul>
+                @foreach (Session::get('categories')->slice(17,10) as $optionKey => $optionValue)
+                @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
+                    <li @if(isset($category_name) && $category_name == $optionValue->category_slug) class="active" @endif><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
+                @endif
+                @endforeach
+                <li style="margin-left: 137px;" @if(isset($category_name) && $category_name == 'all-books') class="active" @endif><a style="color:blue;" href="/books/category/all-books">See more <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                </li>
             </ul>
         </div>
         @endif
