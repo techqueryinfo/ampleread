@@ -40,12 +40,12 @@ $(document).ready(function () {
             1180: {
                 items: 5,
                 loop: false,
-                margin: 72
+                margin: 80
             },
             1480: {
                 items: 5,
                 loop: false,
-                margin: 72
+                margin: 80
             }
         }
     });
