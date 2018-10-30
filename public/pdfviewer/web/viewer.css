@@ -14,7 +14,7 @@
  */
 
 .pdfViewer{ background: #fff;}
-
+#print{display: none;}
 
 
 .textLayer {
@@ -617,7 +617,7 @@ html[dir='rtl'] #sidebarContent {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   position: absolute;
-  top: 32px;
+  top: 45px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -1125,11 +1125,11 @@ html[dir='rtl'] .dropdownToolbarButton {
   /*background-color: hsla(0,0%,0%,.12);*/
   /*background-image: linear-gradient(hsla(0,0%,100%,.05), hsla(0,0%,100%,0));*/
   background-clip: padding-box;
-  border: 1px solid hsla(0,0%,0%,.35);
+  border: 0px solid hsla(0,0%,0%,.35);
   border-color: hsla(0,0%,0%,.32) hsla(0,0%,0%,.38) hsla(0,0%,0%,.42);
-  /*box-shadow: 0 1px 0 hsla(0,0%,100%,.05) inset,*/
+  /*box-shadow: 0 1px 0 hsla(0,0%,100%,.05) inset,
               0 0 1px hsla(0,0%,100%,.15) inset,
-              0 1px 0 hsla(0,0%,100%,.05);
+              0 1px 0 hsla(0,0%,100%,.05);*/
 }
 
 .toolbarButton:hover:active,
@@ -1194,6 +1194,7 @@ html[dir='rtl'] .dropdownToolbarButton {
   padding: 3px 2px 2px;
   border: none;
   background: rgba(0,0,0,0); /* Opera does not support 'transparent' <select> background */
+    display: none;
 }
 
 .dropdownToolbarButton > select > option {

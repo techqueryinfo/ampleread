@@ -25,6 +25,11 @@ class PagesController extends Controller
         return view('pages.aboutus');
     }
 
+    public function test()
+    {
+        return view('pages.test');
+    }
+
 
     public function contactus()
     {

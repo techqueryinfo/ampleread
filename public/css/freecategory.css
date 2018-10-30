@@ -15,19 +15,24 @@
 }
 
 .ebook-slot-1 {
-	width: 300px;
+	width: 260px;
+	/*width: 300px;*/
 	float: left;
-	margin: 40px 0px
+	margin: 10px 40px 40px  0;
+    padding:15px 0 0 0;
+	/*margin: 40px 0;*/
+    border-right: 1px solid #ddd;
 }
 
 .ebook-slot-1 ul {
 	list-style-type: none;
 	margin-left: -40px;
-	padding-right: 80px
+	/*padding-right: 80px*/
+	padding-right: 30px
 }
 
 .ebook-slot-1 ul li {
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: normal;
 	font-style: normal;
 	font-stretch: normal;
@@ -36,7 +41,8 @@
 	text-align: left;
 	color: #000000;
 	margin-bottom: 10px;
-	cursor: pointer
+	cursor: pointer;
+    font-family: arial;
 }
 
 .ebook-slot-1 ul li.active {

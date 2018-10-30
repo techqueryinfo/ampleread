@@ -391,20 +391,24 @@
     float:left
 }
 .admin-home .section-three .left .listing-category{
+    /*width:86%;*/
     width:100%;
     float:left;
-    margin:20px 0px
+    margin:20px 0px;
+    /*border-right:1px solid #ddd;*/
 }
 .admin-home .section-three .left .listing-category ul{
     list-style-type:none;
     margin-left:-40px
 }
 .admin-home .section-three .left .listing-category ul li{
-    font-size:16px;
+    /*font-size:16px;*/
+    font-size:14px;
     text-align:left;
     color:#000000;
     cursor:pointer;
-    margin-bottom:10px
+    margin-bottom:10px;
+    font-family: arial;
 }
 .admin-home .section-three .left .listing-category ul li.active{
     font-weight:600

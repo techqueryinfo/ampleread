@@ -93,32 +93,8 @@
             <div class="heading">Subjects</div>
             
             <ul>
-                <li @if(isset($category_name) && $category_name == 'all-books') class="active" @endif><a style="color:black;" href="/books/category/all-books">All Books <i class="fa fa-angle-right" aria-hidden="true"></i></a>
-                  <div class="subcategory_wrapper">
-                   {{--<div class="row">--}}
+                <li @if(isset($category_name) && $category_name == 'all-books') class="active" @endif><a style="color:black;" href="/books/category/all-books">All Books</a>
 
-                                       <ul>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">History</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Mystery & Crime</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Classics</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Trending Now</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">History</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Mystery & Crime</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Classics</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Trending Now</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">History</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Mystery & Crime</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Classics</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Trending Now</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">History</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Mystery & Crime</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Classics</a> </li>
-                                         <li class="col-lg-3 col-sm-3 col-md-3"><a href="#">Trending Now</a> </li>
-                                       </ul>
-                  {{--<div class="clearfix"></div>--}}
-                   {{--</div>--}}
-                   <div class="clearfix"></div>
-                  </div>
                 </li>
                 @foreach (Session::get('categories')->slice(0,8) as $optionKey => $optionValue)
                     @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
