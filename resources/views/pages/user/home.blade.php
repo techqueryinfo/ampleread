@@ -47,56 +47,35 @@
     </div>
 </div>
 <div class="ample-signin-manage">
-    <div class="sign-in-manage-left">
-        <div class="unit active"><a href="javascript:void(0)">Currently reading</a></div>
-        <div class="unit"><a href="javascript:void(0)">My saved books</a></div>
-        <div class="unit"><a href="javascript:void(0)">My published books</a></div>
+    <div class="sign-in-manage-left homeBooks">
+        <div class="unit active"><a data-section="currently" href="javascript:void(0)">Currently reading</a></div>
+        <div class="unit"><a data-section="saved-books" href="javascript:void(0)">My saved books</a></div>
+        <div class="unit"><a data-section="publish-books" href="javascript:void(0)">My published books</a></div>
     </div>
     <div class="sign-in-manage-right">
-        <img src="images/gear.png" alt="manage">
-        <div>Manage</div>
+        <!-- <img src="images/gear.png" alt="manage">
+        <div>Manage</div> -->
     </div>
 </div>
 <div class="ample-signin-manage-section currently">
-    <div class="unit">
-        <div class="image">
-            <img src="images/image5.jpg" alt="image">
-        </div>
-        <div class="bar">
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 27%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"></div>
+    @if(!$reading_books->isEmpty())
+        @foreach($reading_books as $key => $val)
+            <div class="unit">
+                <div class="image">
+                    <a href="{{url('books/ebook/'.$val->id.'/'.$val->ebooktitle)}}">
+                    @if(substr($val->ebook_logo, 0, 4) == "http")
+                        <img src="{{ $val->ebook_logo }}" />
+                    @else
+                        <img src="/uploads/ebook_logo/{{ $val->ebook_logo }}"/>
+                    @endif
+                    </a>
+                </div>
+                <div class="title">{{$val->ebooktitle}}</div>
             </div>
-            <div class="text">
-                27%
-            </div>
-        </div>
-    </div>
-    <div class="unit">
-        <div class="image">
-            <img src="images/image1.jpg" alt="image">
-        </div>
-        <div class="bar">
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <div class="text">
-                10%
-            </div>
-        </div>
-    </div>
-    <div class="unit">
-        <div class="image">
-            <img src="images/image2.jpg" alt="image">
-        </div>
-        <div class="bar">
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 27%" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            <div class="text">
-                27%
-            </div>
-        </div>
-    </div>
+        @endforeach
+    @else
+        Data not available !
+    @endif
 </div>
 <div class="ample-signin-manage-section saved-books" style="display: none;">
     @if(!$save_books->isEmpty())
@@ -153,6 +132,7 @@
         Data not available !
     @endif
 </div>
+@if(empty($related_book) || !$related_book->isEmpty())
 <div class="sign-in-page-bar"></div>
 <div class="ample-book-slot-slider">
     <div class="ample-row">
@@ -165,7 +145,7 @@
     <div class="owl-carousel owl-theme home-slider owl-loaded owl-drag">
         <div class="owl-stage-outer">
             <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: 0s; width: 3178px;">
-                @if(!$related_book->isEmpty())
+                
                 @foreach($related_book as $book)
                 <div class="owl-item" style="width: 244.805px; margin-right: 20px;">
                     <div class="item">
@@ -205,10 +185,7 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
-                @else
-                No Data
-                @endif    
+                @endforeach    
             </div>
         </div>
         <div class="owl-nav">
@@ -218,6 +195,7 @@
         <div class="owl-dots disabled"></div>
     </div>
 </div>
+@endif
 <div class="sign-in-page-bar"></div>
 <div class="ample-book-slot-slider">
     <div class="ample-row">
@@ -286,6 +264,19 @@
 </div>
 @endsection
 @section('footer_scripts')
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.homeBooks a').click(function(){
+      console.log($(this).attr('data-section'));
+      var cSection = $(this).attr('data-section');
+      $('.ample-signin-manage-section').hide();
+      if($('.ample-signin-manage-section').hasClass(cSection)){
+        $('div.ample-signin-manage-section.'+cSection).show();  
+      }
+      
+    })
+  })
+</script>
 <style type="text/css">
 .rating-stars ul > li.star {
     display: inline-block;
