@@ -31,8 +31,8 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $save_books       = Book::where('status', 0)->where('author', $user->id)->get();
-        $publish_books    = Book::where('status', 2)->where('author', $user->id)->get();
+        $save_books       = Book::whereIn('status', [0,1])->where('user_id', $user->id)->get();
+        $publish_books    = Book::where('status', 2)->where('user_id', $user->id)->get();
         $banner_images    = Home::all();
         
         $reading_books = DB::table('books')

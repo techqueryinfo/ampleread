@@ -114,7 +114,7 @@ class AdminMessageController extends Controller
         $users = User::where('status', '=', 'Active')->where('id', '!=', 1)->get();
         foreach ($users as $k => $v) 
         {
-            $array[] = $v->first_name.' '.$v->last_name;
+            $array[] = ($v->name) ? $v->name : $v->first_name.' '.$v->last_name;
         }
         //echo "<pre>"; print_r($array); echo "</pre>"; die();
         return $array;
@@ -125,8 +125,9 @@ class AdminMessageController extends Controller
     */
     public function get_all_messages()
     {
-        $messages = ChatMessages::select('users.first_name', 'users.last_name', 'chat_messages.user_id','chat_messages.admin_id', 'users.id', 'users.name', 'users.created_at')
+        $messages = ChatMessages::select('users.first_name', 'users.last_name', 'chat_messages.user_id','chat_messages.admin_id', 'users.id', 'users.name', 'users.created_at', DB::raw('DATE_FORMAT(chat_messages.updated_at, "%h:%i %p") as formattedDate'), 'profiles.avatar')
             ->join('users','users.id','=','chat_messages.user_id')
+            ->join('profiles','users.id','=','profiles.user_id')
             ->groupBy('chat_messages.user_id')
             ->orderBy('chat_messages.created_at', 'DESC')
             ->get();
