@@ -2,7 +2,7 @@
 @section('content')
 <!-- book category page-->
 <div class="admin-book-category">
-    <div class="first-row">
+    <!-- <div class="first-row">
         <div class="user-sections">
             <div class="unit active" data-attr="user-general">
                 <a href="#">Created books</a>
@@ -11,7 +11,7 @@
                 <a href="#">submitted books</a>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="second-row">
         <div class="created-book">
         	@foreach($books as $val)
@@ -31,13 +31,13 @@
                 <form action="{{ url('admin/books/approve/'.$val->id) }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <input type="hidden" name="book_id" value="{{$val->id}}">
-                    <input type="hidden" name='status' value='1'/>
+                    <input type="hidden" name='status' value='2'/>
                     <input type="submit" value="APPROVE"/>
                 </form>
                 <form action="{{ url('admin/books/decline/'.$val->id) }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <input type="hidden" name="book_id" value="{{$val->id}}"/>
-                    <input type="hidden" name='status' value='2'/>
+                    <input type="hidden" name='status' value='0'/>
                     <input type="submit" id="decline" name="DECLINE" style="display: none;" />
                     <label onclick="document.getElementById('decline').click();">DECLINE</label>
                 </form>

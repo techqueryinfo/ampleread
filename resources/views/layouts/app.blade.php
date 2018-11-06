@@ -53,6 +53,23 @@
         @yield('angularjs')
     </head>
     <body class="ample-trim">
+        <?php
+if (isset($_SERVER['HTTPS']) &&
+    ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
+    isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+    $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+  $protocol = 'https://';
+}
+else {
+  $protocol = 'http://';
+}
+$notssl = 'http://';
+if($protocol==$notssl){
+    $url = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";?>
+    <script> 
+    window.location.href ='<?php echo $url?>';
+    </script> 
+ <?php } ?>
         <div id="app">
             @include('partials.nav')
             <div class="container">

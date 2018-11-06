@@ -160,6 +160,7 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
 Route::redirect('/php', '/phpinfo', 301);
 Route::get('admin/login', array('as' => 'admin.login', 'uses' => 'Auth\LoginController@showLoginForm'));
 Route::get('about-us', 'PagesController@aboutus');
+Route::get('test', 'PagesController@test');
 Route::get('contact-us', 'PagesController@contactus');
 Route::get('career', 'PagesController@career');
 Route::get('terms', 'PagesController@terms');
@@ -189,3 +190,5 @@ Route::get('/getusers', 'AdminMessageController@get_all_users');
 Route::get('/message_data', 'AdminMessageController@get_all_messages');
 Route::get('/user_messages/{id}', 'AdminMessageController@get_user_messages');
 Route::post('save_message', 'AdminMessageController@save_admin_message');
+Route::post('payment/paymentProcess', 'PaymentController@paymentProcess');
+Route::get('payment/review/{plan_id}', 'PaymentController@review');

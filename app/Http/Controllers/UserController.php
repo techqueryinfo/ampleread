@@ -7,6 +7,7 @@ use App\Book;
 use App\HomeBook;
 use App\Home;
 use App\BookReview;
+use App\BookSave;
 use Auth;
 use DB;
 
@@ -30,33 +31,45 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $save_books       = Book::where('status', 0)->where('author', $user->id)->get();
-        $publish_books    = Book::where('status', 2)->where('author', $user->id)->get();
+        $save_books       = Book::whereIn('status', [0,1])->where('user_id', $user->id)->get();
+        $publish_books    = Book::where('status', 2)->where('user_id', $user->id)->get();
         $banner_images    = Home::all();
         
-        $related_book = DB::table('books')
-        ->join('users', 'users.id', '=', 'books.user_id')
+        $reading_books = DB::table('books')
+        ->join('book_save', 'book_save.book_id', '=', 'books.id')
+        ->join('users', 'users.id', '=', 'book_save.user_id')
         ->join('categories', 'books.category', '=', 'categories.id')
         ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
-        ->where('books.user_id', '=', $user->id)
+        ->where('book_save.user_id', '=', $user->id)
         ->where('categories.is_delete', '=', 0)
         ->where('categories.status', '=', 'Active')
-        ->where('books.status', '=', 1)
+        ->where('books.status', '=', 2)
         ->get();
+
+        $related_book = [];
+        // $related_book = DB::table('books')
+        // ->join('users', 'users.id', '=', 'books.user_id')
+        // ->join('categories', 'books.category', '=', 'categories.id')
+        // ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+        // ->where('books.user_id', '=', $user->id)
+        // ->where('categories.is_delete', '=', 0)
+        // ->where('categories.status', '=', 'Active')
+        // ->where('books.status', '=', 2)
+        // ->get();
         $featured_book = DB::table('books')
         ->join('users', 'users.id', '=', 'books.user_id')
         ->join('categories', 'books.category', '=', 'categories.id')
         ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
         ->where('categories.is_delete', '=', 0)
         ->where('categories.status', '=', 'Active')
-        ->where('books.status', '=', 1)
+        ->where('books.status', '=', 2)
         ->where('books.is_featured', '=', 1)
         ->get();
-        foreach ($related_book as $k => $v) 
-        {
-            $book_review_star = BookReview::where('book_id', '=', $v->id)->sum('star');
-            $v->star = $book_review_star/5;
-        }
+        // foreach ($related_book as $k => $v) 
+        // {
+        //     $book_review_star = BookReview::where('book_id', '=', $v->id)->sum('star');
+        //     $v->star = $book_review_star/5;
+        // }
         foreach ($featured_book as $k => $v) 
         {
             $book_review_star = BookReview::where('book_id', '=', $v->id)->sum('star');
@@ -66,7 +79,7 @@ class UserController extends Controller
         {
             return view('pages.admin.home');
         }
-        return view('pages.user.home', compact('countries', 'save_books', 'publish_books', 'banner_images', 'related_book', 'featured_book'));
+        return view('pages.user.home', compact('countries', 'save_books', 'publish_books', 'banner_images', 'related_book', 'featured_book', 'reading_books'));
     }
     /**
 
