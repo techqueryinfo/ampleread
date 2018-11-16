@@ -71,7 +71,7 @@ class BookController extends Controller
 
     public function getsubcategory($id)
     {
-        $category = Category::where('status', 'Active')->where('parent', $id)->where('is_delete', '=', 0)->get();;
+        $category = Category::where('status', 'Active')->where('parent', $id)->where('is_delete', '=', 0)->get();
         return Response::json(array(
                     'success' => true,
                     'data'   => $category

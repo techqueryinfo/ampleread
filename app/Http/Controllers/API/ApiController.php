@@ -78,41 +78,45 @@ class ApiController extends Controller
     }
 
 
-    public function abebooks(Request $request, $abeKeyword='fiction', $abeMaxResults = 20){
+    public function abebooks(){
         $abeClientKey = '477226ef-f890-4821-87c4-72ee63b82c64';
-        // $abeKeyword = 'fiction';
-        // $abeMaxResults = 20;
+        $abeKeyword = 'fiction';
+        $abeMaxResults = 20;
         $adminUsers = DB::table('users')
                       ->join('role_user', 'role_user.user_id', '=', 'users.id')
                       ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
 
+        $categories = Category::where('status', 'Active')->where('parent', 0)->where('is_delete', '=', 0)->get();
         
-        $abeApiUrl = 'http://search2.abebooks.com/search?clientkey='.$abeClientKey.'&keyword='.$abeKeyword.'&maxresults='.$abeMaxResults;
-        $xml_data = file_get_contents($abeApiUrl);
+        foreach ($categories as $key => $value) {
+          $abeKeyword = $value->name;
+          $abeApiUrl = 'http://search2.abebooks.com/search?clientkey='.$abeClientKey.'&keyword='.$abeKeyword.'&maxresults='.$abeMaxResults;
+          $xml_data = file_get_contents($abeApiUrl);
 
 
-        $xml = new \SimpleXMLElement($xml_data, true);
+          $xml = new \SimpleXMLElement($xml_data, true);
 
-        foreach ($xml->Book as $row)
-        {
-          $element =(array)$row;
-          if($element['bookId']){
-            $book = DB::table('books')->where('ext_book_id', $element['bookId'])->first();
-            if(empty($book)){
-              $requestData = array(
-                'user_id' => $adminUsers->id,
-                'ebooktitle'=>($element['title']) ? $element['title'] : '',
-                'subtitle'=>($element['title']) ? $element['title'] : '',
-                'publisher' => ($element['vendorName']) ? $element['vendorName'] : '',
-                'type' => 'paid',
-                'desc' => ($element['title']) ? $element['title'] : '',
-                'ebook_logo' => ($element['catalogImage']) ? $element['catalogImage'] : '',
-                'retailPrice' => ($element['totalListingPrice']) ? $element['totalListingPrice'] : '',
-                'buyLink' =>($element['listingUrl']) ? $element['listingUrl'] : '',
-                'asin' => ($element['isbn10']) ? $element['isbn10'] : '',
-                'ext_book_id' => ($element['bookId']) ? $element['bookId'] : ''
-              );
-              Book::create($requestData);
+          foreach ($xml->Book as $row)
+          {
+            $element =(array)$row;
+            if($element['bookId']){
+              $book = DB::table('books')->where('ebooktitle', $element['title'])->first();
+              if(empty($book)){
+                $requestData = array(
+                  'user_id' => $adminUsers->id,
+                  'ebooktitle'=>($element['title']) ? $element['title'] : '',
+                  'subtitle'=>($element['title']) ? $element['title'] : '',
+                  'publisher' => ($element['vendorName']) ? $element['vendorName'] : '',
+                  'type' => 'paid',
+                  'desc' => ($element['title']) ? $element['title'] : '',
+                  'ebook_logo' => ($element['catalogImage']) ? $element['catalogImage'] : '',
+                  'retailPrice' => ($element['totalListingPrice']) ? $element['totalListingPrice'] : '',
+                  'buyLink' =>($element['listingUrl']) ? $element['listingUrl'] : '',
+                  'asin' => ($element['isbn10']) ? $element['isbn10'] : '',
+                  'ext_book_id' => ($element['bookId']) ? $element['bookId'] : ''
+                );
+                Book::create($requestData);
+              }
             }
           }
         }
@@ -124,12 +128,12 @@ class ApiController extends Controller
     public function cjbooks(Request $request, $cjKeyword='fiction', $cjMaxResults = 20){
       $cjWebsiteId= "8910566";
       // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
-      $CJ_DevKey= "00a210f8840b5aef309a846c376754b56aadce77ca858968ce18202ab8897eec8f3f39407054e6e4ceae79ae323ead67b967b53737807a67830ed971cae9152fc5/0dd559011c5f04afa760ca43e86408a03479bd2be23e1a5e0d1d21c862a41cd8f24e7656e74a2e89c127ef890fe538663c59108c0fe78b6fe2f858d890d041f9";
+      $CJ_DevKey= " 008af62e87369a214c3d0098c02df71f28a05cef378073e1645df4c6202a8868ab916e9e0e84b20f09b9acea1b7d9097f27569d5ffabc06cb23bf01df1ee69b773/008a594f398f4324a3a298557c004768de29ca5ce0052359e373279f99a6bee8756c7bfac403e07bbe1d56ae53c3e0cc26a91b77181bbafccaacc9f31c51efcc01";
       $currency="USD";
       $advs="joined"; // results from (joined), (CIDs), (Empty String), (notjoined)
       // begin building the URL and GETting variables passed
       $targeturl="https://product-search.api.cj.com/v2/product-search?";
-      $targeturl.="website-id=$websiteid";
+      $targeturl.="website-id=$cjWebsiteId";
       if (isset($cjKeyword))
       {
       $keywords = $cjKeyword;
@@ -142,19 +146,25 @@ class ApiController extends Controller
       $targeturl.="&records-per-page=".$maxresults;
       }
 
-      $pperkeyword = 20;
-      $targeturl = "https://product-search.api.cj.com/v2/product-search?website-id=".$websiteid."&keywords=".$keywords."&records-per-page=".$pperkeyword."&serviceable-area=US";
+      $pperkeyword = 5;
+      $targeturl = "https://product-search.api.cj.com/v2/product-search?website-id=".$cjWebsiteId."&keywords=".$keywords."&records-per-page=".$pperkeyword."&serviceable-area=US";
 
       // end building targeturl
       $ch = curl_init($targeturl);
       curl_setopt($ch, CURLOPT_POST, FALSE);
       curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey)); // send development key
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+      curl_setopt($ch, CURLOPT_HEADER, false);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
       $response = curl_exec($ch);
-      $xml = new SimpleXMLElement($response);
+      // echo $response;
+      $xml = new \SimpleXMLElement($response, true);
       curl_close($ch);
-      echo $xml;
+      // echo $xml;
+      // exit;
+      echo "<pre>";
+      print_r($xml->products);
+      exit;
       // if ($xml)
       // {
       // foreach ($xml-<span>></span>products-<span>></span>product as $item) {
@@ -179,10 +189,10 @@ class ApiController extends Controller
       // ";
       // }
       // }
-      if ($results == '') { $results = "
-      There are no available products at this time or no search parameters were specified. Please try again later.
-      "; }
-      print $results;
+      // if ($results == '') { $results = "
+      // There are no available products at this time or no search parameters were specified. Please try again later.
+      // "; }
+      // print $results;
     }
     
     /**
