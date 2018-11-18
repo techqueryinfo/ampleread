@@ -3,19 +3,19 @@
 @if($category_name != 'popular' && $category_name != 'new-releases')
 <div class="ebook-slot-1">
     <ul>
-        <li @if($category_name == 'all-books') class="active" @endif ><a style="color:black;" href="/books/category/all-books">All Books</a></li>
-        @foreach ($categories as $optionKey => $optionValue) @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
-        <li @if($optionValue->category_slug == $category_slug) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
-        @if($subcategory && $category_slug == $optionValue->category_slug)
-        <ul style="padding-left: 50px">
-            @foreach ($subcategory as $sKey => $sValue) 
-            @if(!blank($sValue->is_delete) && $sValue->is_delete==0)
-            <li @if($sValue->category_slug == $category_slug) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}/{{$sValue->category_slug}}">{{$sValue->name}}</a></li>
-            @endif @endforeach
-        </ul>
-        @endif
-        @endif @endforeach
-    </ul>
+                    <li @if($category_name == 'all-books') class="active" @endif ><a style="color:black;" href="/books/category/all-books">All Books</a></li>
+                    @if(!$categories->isEmpty()) @foreach ($categories as $optionKey => $optionValue) @if(!blank($optionValue->is_delete) && $optionValue->is_delete==0)
+                    <li @if($optionValue->category_slug == $category_slug) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
+                    @if($subcategory && $category_slug == $optionValue->category_slug)
+                    <ul style="padding-left: 50px">
+                        @foreach ($subcategory as $sKey => $sValue) 
+                        @if(!blank($sValue->is_delete) && $sValue->is_delete==0)
+                        <li @if($sValue->id == $category->id) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}/{{$sValue->category_slug}}">{{$sValue->name}}</a></li>
+                        @endif @endforeach
+                    </ul>
+                    @endif
+                    @endif @endforeach @else Data not available ! @endif
+                </ul>
 </div>
 
 <div class="ebook-slot-2">

@@ -7,7 +7,7 @@ var Page = (function() {
 		current = 0,
 		bb = $( '#bb-bookblock' ).bookblock( {
 			speed : 800,
-			perspective : 2000,
+			perspective : 4000,
 			shadowSides	: 0.8,
 			shadowFlip	: 0.4,
 			onEndFlip : function(old, page, isLimit) {

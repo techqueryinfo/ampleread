@@ -15,6 +15,14 @@
 
 .pdfViewer{ background: #fff;}
 #print{display: none;}
+#outerContainer .hiddenLargeView{
+    display: inherit !important;
+}
+/*
+#openFile{
+    display: none !important;
+}
+*/
 
 
 .textLayer {
@@ -26,6 +34,7 @@
   overflow: hidden;
   opacity: 0.2;
   line-height: 1.0;
+    font-family: Verdana !important;
 }
 
 .textLayer > div {
@@ -35,6 +44,11 @@
   cursor: text;
   -webkit-transform-origin: 0% 0%;
           transform-origin: 0% 0%;
+    font-family: Verdana !important;
+}
+
+.textLayer div {
+    font-family: Verdana !important;
 }
 
 .textLayer .highlight {
@@ -43,27 +57,32 @@
 
   background-color: rgb(180, 0, 170);
   border-radius: 4px;
+    font-family: Verdana !important;
 }
 
 .textLayer .highlight.begin {
   border-radius: 4px 0px 0px 4px;
+    font-family: Verdana !important;
 }
 
 .textLayer .highlight.end {
   border-radius: 0px 4px 4px 0px;
+    font-family: Verdana !important;
 }
 
 .textLayer .highlight.middle {
   border-radius: 0px;
+    font-family: Verdana !important;
 }
 
 .textLayer .highlight.selected {
   background-color: rgb(0, 100, 0);
+    font-family: Verdana !important;
 }
 
-.textLayer ::-moz-selection { background: rgb(0,0,255); }
+.textLayer ::-moz-selection { background: rgb(0,0,255);font-family: Verdana !important; }
 
-.textLayer ::selection { background: rgb(0,0,255); }
+.textLayer ::selection { background: rgb(0,0,255); font-family: Verdana !important; }
 
 .textLayer .endOfContent {
   display: block;
@@ -78,15 +97,18 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+    font-family: Verdana !important;
 }
 
 .textLayer .endOfContent.active {
   top: 0px;
+    font-family: Verdana !important;
 }
 
 
 .annotationLayer section {
   position: absolute;
+
 }
 
 .annotationLayer .linkAnnotation > a,
@@ -593,6 +615,7 @@ html[dir='rtl'] #outerContainer.sidebarOpen #sidebarContainer {
   bottom: 0;
   left: 0;
   min-width: 320px;
+    border: 1px solid #ddd;
 }
 
 #sidebarContent {
@@ -602,7 +625,8 @@ html[dir='rtl'] #outerContainer.sidebarOpen #sidebarContainer {
   -webkit-overflow-scrolling: touch;
   position: absolute;
   width: 100%;
-  background-color: hsla(0,0%,0%,.1);
+  /*background-color: hsla(0,0%,0%,.1);*/
+  background-color: hsla(0,0%,0%,.7);
 }
 html[dir='ltr'] #sidebarContent {
   left: 0;
@@ -629,6 +653,7 @@ html[dir='rtl'] #sidebarContent {
 }
 html[dir='ltr'] #viewerContainer {
   box-shadow: inset 1px 0 0 hsla(0,0%,100%,.05);
+    /*border: 1px solid #ddd;*/
 }
 html[dir='rtl'] #viewerContainer {
   box-shadow: inset -1px 0 0 hsla(0,0%,100%,.05);
@@ -1307,6 +1332,13 @@ html[dir='rtl'] .toolbarButton.pageDown::before {
 
 .toolbarButton.zoomIn::before {
   content: url(images/toolbarButton-zoomIn.png);
+}
+.toolbarButton.addNotes::before {
+  content: url(images/add_icon.png);
+    top: 7px;
+}
+.toolbarButton.addnotes_cover{
+    padding: 3px 0 0 0;
 }
 
 .toolbarButton.presentationMode::before,
@@ -2338,7 +2370,8 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
 
 @media all and (max-width: 840px) {
   #sidebarContent {
-    background-color: hsla(0,0%,0%,.7);
+    background-color: hsla(0,0%,0%,.9);
+    /*background-color: hsla(0,0%,0%,.7);*/
   }
 
   html[dir='ltr'] #outerContainer.sidebarOpen #viewerContainer {

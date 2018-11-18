@@ -9,71 +9,11 @@
 @endsection
 @section('content')
 <div id="container" class="readre-table-container">
-    
-    <div class="reader-left menu-panel">
-        @if(!empty($book->book_ext) && $book->book_ext == 'pdf')
-        <div class="row-one" >
-            <div class="unit-one" style="width: 100%" data-tab="tableContent">
-                <div class="content">Book Info</div>
-            </div>
-        </div>
-        <div id="tableContent" class="row-two menu-toc" >
-            
-            <div class="unit " >
-                <div class="title" style="width: 100%"><h4>{{$book->ebooktitle}}</h4></div>
-            </div>
-            <div class="unit " >
-                <div class="title" style="width: 100%">{{$book->desc}}</div>                
-            </div>
-        </div>
-        @else
-        <div class="row-one">
-            <div class="unit-one active" data-tab="tableContent">
-                <div class="content">Table of
-                    contents</div>
-            </div>
-            <div class="unit-one" data-tab="bookMark">
-                <div class="content">
-                    Bookmark
-                </div>
-            </div>
-            <div class="unit-one" data-tab="bookNotes">
-                <div class="content">
-                    Notes
-                </div>
-            </div>
-        </div>
-        <div id="tableContent" class="row-two menu-toc" >
-            @if($chapters) 
-            @foreach($chapters as $key=>$chapter)
-            <div class="unit {{($key==0) ? 'menu-toc-current active' : '' }}" data-chapter-id={{$key}}>
-                <div class="title"><a href="#item{{$key+1}}">{{$chapter['name']}}</a></div>
-                <div class="index"></div>
-            </div>
-            @endforeach
-            @endif
-        </div>
+     @if(!empty($book->book_ext) && $book->book_ext == 'pdf')
 
-        <div id="bookMark" class="row-two menu-toc" style="display: none;">
-          @if($bookmarks) 
-            @foreach($chapters as $key=>$chapter)
-            <div class="unit cpindex{{$key}}" style ="<?php if(!in_array($key+1, array_values($bm_arr))) { echo 'display:none'; } ?>">
-                <div class="title"><a href="#item{{$key+1}}">{{$chapter['name']}}</a></div>
-                <div class="index"></div>
-            </div>
-            @endforeach
-            @endif
-        </div>
+     @endif
 
-        <div id="bookNotes" class="row-two" style="display: none;">
-          <div class="unit" >
-            <div class="title">Table Book note</div>
-            <div class="index"></div>
-          </div>
-        </div>
-        @endif
-    </div>
-    <div class="reader-right">
+    <div class="reader-right" style="width: 100%; margin-bottom: 20px;">
         @if(!empty($book->book_ext) && $book->book_ext == 'pdf')
         <div class="reader-content" style="margin-left: 0px">
         <iframe src="https://<?php echo $_SERVER['HTTP_HOST']; ?>/pdfviewer/web/viewer.html?file=/uploads/ebook_logo/{{$book->buyLink}}" style="width: 100%;border-width:0px;" height="700" ></iframe>

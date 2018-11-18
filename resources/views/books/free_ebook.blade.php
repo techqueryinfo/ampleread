@@ -56,21 +56,23 @@
                  </ul>
                </div>--}}
 
-                <div class="button dropdown">
+                <div class="button dropdown" id="submit-button">
                     @if($book->type == 'free')
                         <a lass="submit-button" href="{{url('book/reading/'.$book->id.'/'.$book->ebooktitle)}}">Read Book</a>
                     @else
-                        <button type="submit" class="submit-button dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">FROM ${{$book->retailPrice}} <span class="caret"></span>
+                        <button type="submit">FROM ${{$book->retailPrice}} <span class="caret"></span>
 
                         </button>
                     @endif
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                               <div class="button-form-wrapper" style="display: none;">
+                               <ul>
                                        <li><a href="#">Amazon</a></li>
                                        <li><a href="#">Snapdeal </a></li>
                                        <li><a href="#">Flipkart</a></li>
                                        <li><a href="#">Big basket</a></li>
-                    </ul>
-
+                               </ul>
+                               </div>
                      </div>
                 @if($book->type == 'free')
                     <div class="text"><a href="{{url('book/readlater/'.$book->id.'/'.$book->ebooktitle)}}"><i class="far fa-clock"></i> SAVE FOR LATER</a></div>
@@ -450,6 +452,15 @@ $(document).ready(function () {
         $('#star_value').val(ratingValue);
         responseMessage(msg);
     });
+
+    $("#submit-button").hover(function () {
+        $(".button-form-wrapper").css("display","block");
+          },
+          function () {
+            $(".button-form-wrapper").css("display","none");
+          });
+
+
 });
 function responseMessage(msg) {
     $('.success-box').fadeIn(200);

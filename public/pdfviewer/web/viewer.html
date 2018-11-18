@@ -27,7 +27,12 @@ See https://github.com/adobe-type-tools/cmap-resources
     <meta name="google" content="notranslate">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PDF.js viewer</title>
+    <style type="text/css">
+          body {
 
+          font-family: Verdana !important;
+          }
+     </style>
 
     <link rel="stylesheet" href="viewer.css">
 
@@ -209,7 +214,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                   <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
                 </button>
 
-                <button id="openFile" class="toolbarButton openFile hiddenLargeView" title="Open File" tabindex="32" data-l10n-id="open_file">
+                <button id="openFile" class="toolbarButton openFile hiddenLargeView" title="Open File" tabindex="32" data-l10n-id="open_file" style="display: none !important;">
                   <span data-l10n-id="open_file_label">Open</span>
                 </button>
 
@@ -237,7 +242,14 @@ See https://github.com/adobe-type-tools/cmap-resources
                   <button id="zoomIn" class="toolbarButton zoomIn" title="Zoom In" tabindex="22" data-l10n-id="zoom_in">
                     <span data-l10n-id="zoom_in_label">Zoom In</span>
                    </button>
+
                 </div>
+                  <div class="addnotes_cover">
+                      <div class="splitToolbarButtonSeparator"></div>
+                      <button id="addNotes" class="toolbarButton addNotes" title="Add Notes" tabindex="23" data-l10n-id="add_notes">
+                          <span data-l10n-id="add_notes_label">Add Notes</span>
+                      </button>
+                  </div>
                 <span id="scaleSelectContainer" class="dropdownToolbarButton" style="display: none !important;" >
                   <select id="scaleSelect" title="Zoom" tabindex="23" data-l10n-id="zoom">
                     <option id="pageAutoOption" title="" value="auto" selected="selected" data-l10n-id="page_scale_auto">Automatic Zoom</option>
@@ -278,7 +290,7 @@ See https://github.com/adobe-type-tools/cmap-resources
         </menu>
 
         <div id="viewerContainer" tabindex="0">
-          <div id="viewer" class="pdfViewer"></div>
+          <div id="viewer" class="pdfViewer"  style="font-family: Verdana !important;"></div>
         </div>
 
         <div id="errorWrapper" hidden='true'>

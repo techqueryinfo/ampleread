@@ -205,7 +205,7 @@ class HomeController extends Controller
 
     public function delete_special_feature_book($id)
     {
-        HomeBook::destroy($id);
+        DB::table('admin_special_features')->where('book_id', $id)->delete();
         return redirect('admin/homepage')->with('flash_message', 'Special feature book deleted !');
     }
 

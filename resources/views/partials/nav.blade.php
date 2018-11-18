@@ -4,10 +4,11 @@
         <div class="ample-logo"></div>
     </a>
     <div class="ample-search">
-        <div class="search-icon">
+        
+        <input type="text" placeholder="Search by Title , Author , ISBN" id="bookSearchInput"  name="book_search" value="{{(!empty($search_text)) ? $search_text : ''}}">
+        <div class="search-icon" id="search_pointer">
             <i class="fas fa-search"></i>
         </div>
-        <input type="text" placeholder="Search by Title , Author , ISBN" id="bookSearchInput"  name="book_search" value="{{(!empty($search_text)) ? $search_text : ''}}">
     </div>
     {{-- Authentication Links --}}
     @if (Auth::guest())
@@ -122,7 +123,7 @@
                     <li @if(isset($category_name) && $category_name == $optionValue->category_slug) class="active" @endif><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}">{{$optionValue->name}}</a></li>
                 @endif
                 @endforeach
-                <li style="margin-left: 137px;" @if(isset($category_name) && $category_name == 'all-books') class="active" @endif><a style="color:blue;" href="/books/category/all-books">See more <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                <li style="margin-left: 137px;" @if(isset($category_name) && $category_name == 'all-books') class="active" @endif><a style="color:blue;" href="/category">See more <i class="fa fa-angle-right" aria-hidden="true"></i></a>
                 </li>
             </ul>
         </div>
@@ -213,9 +214,9 @@
                                 <div class="label-signup">or sign in with</div>
                             </div>
                             <div class="form-group">
-                                {!! HTML::icon_link(route('social.redirect',['provider' => 'facebook']), 'fab fa-facebook-f', '  Facebook', array('class' => 'social')) !!}
+                                {!! HTML::icon_link(route('social.redirect',['provider' => 'facebook']), 'fab fa-facebook-f', '  Sign up with Facebook', array('class' => 'social')) !!}
 
-                                {!! HTML::icon_link(route('social.redirect',['provider' => 'google']), 'fab fa-google', '  Google', array('class' => 'social')) !!}
+                                {!! HTML::icon_link(route('social.redirect',['provider' => 'google']), 'fab fa-google', '  Sign up with Google', array('class' => 'gsocial')) !!}
                             </div>
                         {!! Form::close() !!}
                     </div>
@@ -251,9 +252,9 @@
                                 <div class="label-signup">or sign in with</div>
                             </div>
                             <div class="form-group">
-                                {!! HTML::icon_link(route('social.redirect',['provider' => 'facebook']), 'fab fa-facebook-f', '  Facebook', array('class' => 'social')) !!}
+                                {!! HTML::icon_link(route('social.redirect',['provider' => 'facebook']), 'fab fa-facebook-f', '  Sign up with Facebook', array('class' => 'social')) !!}
 
-                                {!! HTML::icon_link(route('social.redirect',['provider' => 'google']), 'fab fa-google', '  Google', array('class' => 'social')) !!}
+                                {!! HTML::icon_link(route('social.redirect',['provider' => 'google']), 'fab fa-google', '  Sign up with Google', array('class' => 'gsocial')) !!}
                             </div>
                         </form>
                     </div>
@@ -279,6 +280,7 @@
                         </form>
                     </div>
                 </div>
+            <div class="clearfix"></div>
             </div>
             <div class="modal-footer">
             </div>

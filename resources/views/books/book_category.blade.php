@@ -60,11 +60,18 @@
             </select>
             <div class="right-row-one">
                 <div class="row add-banner">
-                    <a href="{{ url('book/ebookupload') }}"><div class="plus-banner">
-                        <i class="fas fa-plus"></i>
+                   <div class="add_banner_wrapper">
+                        <a href="{{ url('book/ebookupload') }}">
+                            <div class="plus-banner">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="text">Upload E-Book</div>
+                            <div class="clear"></div>
+                        </a>
+                        <div class="clear"></div>
                     </div>
-                    <div class="text">Upload E-Book</div></a>
                 </div>
+
                 @if(!$records->isEmpty()) @foreach($records as $book)
                 <div class="row item">
                     <div class="edit-delete">

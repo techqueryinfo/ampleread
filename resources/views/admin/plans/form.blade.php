@@ -4,19 +4,22 @@
         <input class="form-control" name="name" type="text" id="name" value="{{ $plan->name or ''}}" required>
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('desc') ? 'has-error' : ''}}">
+</div>
+{{--<div class="form-group {{ $errors->has('desc') ? 'has-error' : ''}}">
     <label for="desc" class="col-md-4 control-label">{{ 'Desc' }}</label>
     <div class="col-md-6">
         <textarea class="form-control" rows="5" name="desc" type="textarea" id="desc" >{{ $plan->desc or ''}}</textarea>
         {!! $errors->first('desc', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('amount') ? 'has-error' : ''}}">
+</div>--}}
+<div class="form-group {{ $errors->has('amount') ? 'has-error' : ''}}">
     <label for="amount" class="col-md-4 control-label">{{ 'Amount' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="amount" type="text" id="amount" value="{{ $plan->amount or ''}}" required>
         {!! $errors->first('amount', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('status') ? 'has-error' : ''}}">
+</div>
+<div class="form-group {{ $errors->has('status') ? 'has-error' : ''}}">
     <label for="status" class="col-md-4 control-label">{{ 'Status' }}</label>
     <div class="col-md-6">
         <select name="status" class="form-control" id="status" >
@@ -26,13 +29,15 @@
 </select>
         {!! $errors->first('status', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('access_time_period') ? 'has-error' : ''}}">
+</div>
+{{--<div class="form-group {{ $errors->has('access_time_period') ? 'has-error' : ''}}">
     <label for="access_time_period" class="col-md-4 control-label">{{ 'Access Time Period' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="access_time_period" type="number" min="0" id="access_time_period" value="{{ $plan->access_time_period or ''}}" >
         {!! $errors->first('access_time_period', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('access_period_type') ? 'has-error' : ''}}">
+</div>
+<div class="form-group {{ $errors->has('access_period_type') ? 'has-error' : ''}}">
     <label for="access_period_type" class="col-md-4 control-label">{{ 'Access Period Type' }}</label>
     <div class="col-md-6">
         <select name="access_period_type" class="form-control" id="access_period_type" >
@@ -42,41 +47,87 @@
 </select>
         {!! $errors->first('access_period_type', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('no_of_book_download') ? 'has-error' : ''}}">
+</div>--}}
+<div class="form-group {{ $errors->has('no_of_book_download') ? 'has-error' : ''}}">
     <label for="no_of_book_download" class="col-md-4 control-label">{{ 'No Of Book Download' }}</label>
     <div class="col-md-6">
-        <input class="form-control" name="no_of_book_download" type="number" min="0" id="no_of_book_download" value="{{ $plan->no_of_book_download or ''}}" >
+        <input class="form-control" name="no_of_book_download" placeholder="Leave blank for Unlimited" type="number" min="0" id="no_of_book_download" value="{{ $plan->no_of_book_download or ''}}" >
         {!! $errors->first('no_of_book_download', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('publish_submit_book') ? 'has-error' : ''}}">
+</div>
+{{--<div class="form-group {{ $errors->has('publish_submit_book') ? 'has-error' : ''}}">
     <label for="publish_submit_book" class="col-md-4 control-label">{{ 'Publish Submit Book' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="publish_submit_book" type="text" id="publish_submit_book" value="{{ $plan->publish_submit_book or ''}}" >
         {!! $errors->first('publish_submit_book', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('read_ebook_directly') ? 'has-error' : ''}}">
+</div>
+<div class="form-group {{ $errors->has('read_ebook_directly') ? 'has-error' : ''}}">
     <label for="read_ebook_directly" class="col-md-4 control-label">{{ 'Read Ebook Directly' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="read_ebook_directly" type="number" min="0" id="read_ebook_directly" value="{{ $plan->read_ebook_directly or ''}}" >
         {!! $errors->first('read_ebook_directly', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('create_books') ? 'has-error' : ''}}">
+</div>
+<div class="form-group {{ $errors->has('create_books') ? 'has-error' : ''}}">
     <label for="create_books" class="col-md-4 control-label">{{ 'Create Books' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="create_books" type="number" min="0" id="create_books" value="{{ $plan->create_books or ''}}" >
         {!! $errors->first('create_books', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('share_books') ? 'has-error' : ''}}">
+</div>
+<div class="form-group {{ $errors->has('share_books') ? 'has-error' : ''}}">
     <label for="share_books" class="col-md-4 control-label">{{ 'Share Books' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="share_books" type="number" min="0" id="share_books" value="{{ $plan->share_books or ''}}" >
         {!! $errors->first('share_books', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('access_discount') ? 'has-error' : ''}}">
+</div>
+<div class="form-group {{ $errors->has('access_discount') ? 'has-error' : ''}}">
     <label for="access_discount" class="col-md-4 control-label">{{ 'Access Discount' }}</label>
     <div class="col-md-6">
         <input class="form-control" name="access_discount" type="number" min="0" id="access_discount" value="{{ $plan->access_discount or ''}}" >
         {!! $errors->first('access_discount', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>--}}
+<div class="form-group">
+    <label for="online_reader" class="col-md-4 control-label">{{ 'Online reader access' }}</label>
+    <div class="col-md-6">
+        <select name="online_reader" class="form-control" id="online_reader" >
+            @foreach (json_decode('{"Yes": "Yes", "No": "No"}', true) as $optionKey => $optionValue)
+                <option value="{{ $optionKey }}" {{ (isset($plan->online_reader) && $plan->online_reader == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+<div class="form-group">
+    <label for="ebook_create" class="col-md-4 control-label">{{ 'Create your own eBook using our create an eBook tool' }}</label>
+    <div class="col-md-6">
+        <select name="ebook_create" class="form-control" id="ebook_create" >
+            @foreach (json_decode('{"Yes": "Yes", "No": "No"}', true) as $optionKey => $optionValue)
+                <option value="{{ $optionKey }}" {{ (isset($plan->ebook_create) && $plan->ebook_create == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+<div class="form-group">
+    <label for="cloud_storage" class="col-md-4 control-label">{{ 'Unlimited Cloud Storage' }}</label>
+    <div class="col-md-6">
+        <select name="cloud_storage" class="form-control" id="cloud_storage" >
+            @foreach (json_decode('{"Yes": "Yes", "No": "No"}', true) as $optionKey => $optionValue)
+                <option value="{{ $optionKey }}" {{ (isset($plan->cloud_storage) && $plan->cloud_storage == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
+            @endforeach
+        </select>
+    </div>
+</div>
+<div class="form-group">
+    <label for="priority" class="col-md-4 control-label">{{ 'Priority Support Service' }}</label>
+    <div class="col-md-6">
+        <select name="priority" class="form-control" id="priority" >
+            @foreach (json_decode('{"Yes": "Yes", "No": "No"}', true) as $optionKey => $optionValue)
+                <option value="{{ $optionKey }}" {{ (isset($plan->priority) && $plan->priority == $optionKey) ? 'selected' : ''}}>{{ $optionValue }}</option>
+            @endforeach
+        </select>
     </div>
 </div>
 <div class="form-group">
