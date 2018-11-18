@@ -71,7 +71,7 @@ class BookController extends Controller
 
     public function getsubcategory($id)
     {
-        $category = Category::where('status', 'Active')->where('parent', $id)->where('is_delete', '=', 0)->get();;
+        $category = Category::where('status', 'Active')->where('parent', $id)->where('is_delete', '=', 0)->get();
         return Response::json(array(
                     'success' => true,
                     'data'   => $category
@@ -185,6 +185,7 @@ class BookController extends Controller
             $requestData['ebook_logo'] = $file->getClientOriginalName();
         }
         $book = Book::findOrFail($id);
+        $requestData['status'] = 1;
         $book->update($requestData);
         return redirect('book/'.$id.'/edit')->with('flash_message', 'E-Book updated !');
     }
@@ -431,6 +432,10 @@ class BookController extends Controller
     {   
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first(); 
+
+        $bookCategory = Category::findOrFail($book->category)->where('id', $book->category);
+        $bookCategory = $bookCategory->first(); 
+
         $author = null;
         if($book->author && !empty($book->author) && is_numeric($book->author)){
             $author = User::findOrFail($book->author);
@@ -469,7 +474,7 @@ class BookController extends Controller
             ->select('book_reviews.*', 'books.author', 'books.publisher', 'users.first_name', 'users.last_name', 'users.name')
             ->where('book_reviews.book_id', '=', $id)
             ->get();
-        return view('books.free_ebook', compact('book', 'related_book', 'paid', 'paidDiscount', 'bookReview', 'book_review_count', 'book_reviews', 'author'));
+        return view('books.free_ebook', compact('book', 'related_book', 'paid', 'paidDiscount', 'bookReview', 'book_review_count', 'book_reviews', 'author', 'bookCategory'));
     }
 
     public function readlater($bookid, $btitle){

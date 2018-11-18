@@ -13,13 +13,13 @@
 	<div ng-repeat="message in messages track by $index">
 		<div class="user-sec" ng-class="{active: isSet($index)}" style="cursor: pointer;">
 			<div class="image" ng-click="setTab($index)">
-				<img src="../images/user.png" />
-				<div class="icon">5</div>
+				<img src="@{{(message.avatar) ? '../uploads/avatar/'+message.avatar : '../images/user.png'}}" />
+				<!-- <div class="icon">5</div> -->
 			</div>
-			<div class="content">
+			<div class="content" ng-click="setTab($index)">
 				<div class="nameandtime">
-					<div class="name">@{{message.first_name}} @{{message.last_name}}</div>
-					<div class="time">@{{message.created_at}}</div>
+					<div class="name">@{{message.name}}</div>
+					<div class="time">@{{message.formattedDate}}</div>
 				</div>
 				<div class="discrip">@{{message.last_message}}</div>
 			</div>
@@ -57,8 +57,8 @@
 		$scope.messages = [];
         $scope.users = [];
         $scope.setTab = function(index) { 
-        	$scope.username = $scope.messages[index].first_name + ' ' + $scope.messages[index].last_name;
-			$scope.time = '05:00PM';
+        	$scope.username = $scope.messages[index].name;
+			$scope.time = $scope.messages[index].formattedDate;
         	$scope.tab = index;
         	$scope.userID = $scope.messages[index].user_id;
         	$scope.onGetUserMessages($scope.messages[index].id);
