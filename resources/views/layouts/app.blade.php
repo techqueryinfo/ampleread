@@ -63,7 +63,7 @@ if (isset($_SERVER['HTTPS']) &&
 else {
   $protocol = 'http://';
 }
-$notssl = 'https://';
+$notssl = 'http://';
 if($protocol==$notssl){
     $url = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";?>
     <script> 
