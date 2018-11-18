@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Country;
+use Auth;
 use Illuminate\Http\Request;
 use App\Mail\ContactEmail;
 use Mail;

@@ -241,7 +241,7 @@
                                         <!-- <div class="heading">Select Book</div> -->
                                         <div class="content">
                                             <input type="hidden" value="special_feature" name="type">
-                                            <select name="book_id" class="form-control" id="selectbook">
+                                            <select name="book_id" class="js-example-basic-single" id="selectbook">
                                                 <option value="">Please select Book</option>
                                                 @if(isset($books)) @foreach ($books as $optionKey => $optionValue)
                                                 <option data-value="{{ $optionValue->id }}" value="{{ $optionValue->id }}"> {{ $optionValue->ebooktitle }}</option>
@@ -337,7 +337,7 @@
                                 <div class="form-group">
                                     <div class="form-unit">
                                         <div class="content">
-                                            <select name="book_id" class="form-control" id="selectbook">
+                                            <select name="book_id" class="js-example-basic-single" id="selectbook">
                                                 <option value="">Please select Book</option>
                                                 @if(isset($books)) @foreach ($books as $optionKey => $optionValue)
                                                 <option data-value="{{ $optionValue->id }}" value="{{ $optionValue->id }}"> {{ $optionValue->ebooktitle }}</option>

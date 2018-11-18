@@ -5,6 +5,70 @@
 body{
     font-family:'GothamPro' !important
 }
+.links-container.browse:first-of-type {
+    padding-top: 16px;
+}
+
+.links-container.browse {
+    padding-top: 36px;
+    padding-bottom: 25px;
+}
+
+.links-container.browse ul {
+    margin-bottom: 15px;
+}
+
+.links-container.browse > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+.links-container.browse > ul li {
+    display: inline-block;
+    line-height: 2;
+    width: 20%;
+    vertical-align: top;
+    margin: 0 15px;
+    padding: 0;
+    font-family: Lato,sans-serif;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.links-container.browse h3 {
+    line-height: 1.618;
+    padding: 0;
+    margin: 0 0 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
+.links-container.browse > ul li ul {
+    padding: 0;
+}
+
+.links-container.browse > ul li ul li {
+    display: block;
+    width: 100%;
+    margin: 0 2px;
+}
+
+.links-container.browse > ul li ul li a {
+
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+    color: #ff7335;
+    text-decoration: none;
+    padding: 0;
+    line-height: 1;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: Lato,sans-serif;
+
+}
+
 
 .browser_subcategory{ margin: 0 0 20px 0; padding: 0; width: 100%;}
 .browser_subcategory ul { margin: 0; padding: 0;}
@@ -91,8 +155,9 @@ body{
 }
 .ample-header .ample-search .search-icon{
     position:absolute;
-    top:12px;
-    left:10px;
+    top:10px;
+    right:23px;
+    cursor: pointer;
     color:#959595
 }
 .ample-header .ample-login{
@@ -1332,7 +1397,7 @@ body{
 .ample-login-signup{
     width:100%;
     background:#fff;
-    padding:20px 25px;
+    padding:20px 18px 20px 44px;
     border-radius:4px
 }
 .ample-login-signup .ample-signup-login-text{
@@ -1420,17 +1485,36 @@ body{
     width:45%;
     height:auto;
     border-radius:4px;
-    background-color:#ffffff;
-    box-shadow:5px 10px 40px 0 rgba(0,0,0,0.1);
-    color:#8ea1b2;
+    background-color:#3c66c4;
+    box-shadow:0px 0px 0px 0 rgba(0,0,0,0.1);
+    color:#fff;
     padding:19px 16px;
     text-align:center;
     float:left;
     border-radius:4px;
-    border:solid 2px #8ea1b2;
+    border:solid 2px #3c66c4;
     cursor:pointer
 }
 .ample-login-signup .ample-login-section form .form-group .social a{
+    margin-left:10px;
+    color:#8ea1b2;
+    text-decoration:none
+}
+.ample-login-signup .ample-login-section form .form-group .gsocial{
+    width:45%;
+    height:auto;
+    border-radius:4px;
+    background-color:#cf4332;
+    box-shadow:0px 0px 0px 0 rgba(0,0,0,0.1);
+    color:#fff;
+    padding:19px 16px;
+    text-align:center;
+    float:right;
+    border-radius:4px;
+    border:solid 2px #cf4332;
+    cursor:pointer
+}
+.ample-login-signup .ample-login-section form .form-group .gsocial a{
     margin-left:10px;
     color:#8ea1b2;
     text-decoration:none
@@ -1507,17 +1591,36 @@ body{
     width:45%;
     height:auto;
     border-radius:4px;
-    background-color:#ffffff;
-    box-shadow:5px 10px 40px 0 rgba(0,0,0,0.1);
-    color:#8ea1b2;
+    background-color:#3c66c4;
+    box-shadow:0px 0px 0px 0 rgba(0,0,0,0.1);
+    color:#fff;
     padding:19px 16px;
     float:left;
     text-align:center;
     border-radius:4px;
-    border:solid 2px #8ea1b2;
+    border:solid 0px #8ea1b2;
     cursor:pointer
 }
 .ample-login-signup .ample-register-section form .form-group .social a{
+    margin-left:10px;
+    color:#8ea1b2;
+    text-decoration:none
+}
+.ample-login-signup .ample-register-section form .form-group .gsocial{
+    width:45%;
+    height:auto;
+    border-radius:4px;
+    background-color:#cf4332;
+    box-shadow:0px 0px 0px 0 rgba(0,0,0,0.1);
+    color:#fff;
+    padding:19px 16px;
+    float:right;
+    text-align:center;
+    border-radius:4px;
+    border:solid 0px #8ea1b2;
+    cursor:pointer
+}
+.ample-login-signup .ample-register-section form .form-group .gsocial a{
     margin-left:10px;
     color:#8ea1b2;
     text-decoration:none
@@ -2858,12 +2961,239 @@ body{
 .user-container .user-general.active,.user-container .user-password.active,.user-container .user-subscription.active{
     display:block
 }
+
 .plan-listing{
     display:none;
     width:calc(100% - 40px);
     float:left;
     margin:40px 20px
 }
+
+.plan-listing .plan-listing-padding{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.plan-listing .plan-listing-box{
+    width: 100%;
+    height: 630px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+}
+
+/*
+.plan-listing-box:nth-child(2){
+    height: 800px !important;
+}
+*/
+
+.plan-listing .plan-listing-box .plan-head{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #6b6b6b;
+    text-align: center;
+    color: #fff;
+}
+
+.plan-listing .plan-listing-box .plan-head1{
+
+    background: #fe7237 !important;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #fff;
+
+}
+
+.plan-listing .plan-listing-box .plan-head2{
+
+    background: #ff4844 !important;
+    width: 100%;
+    margin: -18px 0 0 0;
+    padding: 0;
+    text-align: center;
+    color: #fff;
+}
+
+.plan-listing .plan-listing-box .trangle{
+    width         : 0;
+    height        : 0;
+    border-left: 135px solid transparent;
+    border-right: 133px solid transparent;
+    border-top: 50px solid #6b6b6b;
+}
+
+.plan-listing .plan-listing-box .orange-trangle{
+    width         : 0;
+    height        : 0;
+    border-left: 135px solid transparent;
+    border-right: 133px solid transparent;
+    border-top: 50px solid #fe7237;
+}
+
+.plan-listing .plan-listing-box .red-trangle{
+    width         : 0;
+    height        : 0;
+    border-left: 135px solid transparent;
+    border-right: 133px solid transparent;
+    border-top: 50px solid #ff4844;
+}
+
+
+.plan-listing .plan-listing-box .plan-head .plan-membership {
+     font-size:14px;
+     font-weight:500;
+     font-weight:bold;
+     font-style:normal;
+     font-stretch:normal;
+     line-height:1.5;
+     letter-spacing:normal;
+     text-align:center;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    width: 85%;
+    margin: 0 auto;
+    border-bottom: 1px solid rgb(255, 255, 255, 0.4);
+ }
+
+.plan-listing .plan-listing-box .plan-head  .plan-price{
+    font-size: 45px;
+    padding: 15px 0 0;
+}
+
+.plan-listing .plan-listing-box .plan-head2  .plan-price .most{
+    font-size: 13px;
+    padding: 0px 0;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.plan-listing .plan-listing-box .plan-head2  .plan-price .save{
+    font-size: 16px !important;
+    color: #fcf135;
+    padding: 0 0;
+    font-weight: bold;
+}
+
+
+.plan-listing .plan-listing-box .plan-head1 .plan-membership {
+    font-size:14px;
+    font-weight:500;
+    font-weight:bold;
+    font-style:normal;
+    font-stretch:normal;
+    line-height:1.5;
+    letter-spacing:normal;
+    text-align:center;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    width: 85%;
+    margin: 0 auto;
+    border-bottom: 1px solid rgb(255, 255, 255, 0.4);
+}
+
+.plan-listing .plan-listing-box .plan-head1  .plan-price{
+    font-size: 45px;
+    padding: 15px 0 0;
+}
+
+.plan-listing .plan-listing-box .plan-head1  .plan-price > p{
+    font-size: 16px !important;
+    color: #fcf135;
+    padding: 0 0;
+    font-weight: bold;
+    margin: 0;
+}
+.plan-listing .plan-listing-box .plan-head  .plan-price > p{
+    font-size: 16px !important;
+    color: #fcf135;
+    padding: 0 0;
+    font-weight: bold;
+    margin: 0;
+}
+
+.plan-listing .plan-listing-box .plan-head2 .plan-membership {
+    font-size:14px;
+    font-weight:500;
+    font-weight:bold;
+    font-style:normal;
+    font-stretch:normal;
+    line-height:1.5;
+    letter-spacing:normal;
+    text-align:center;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    width: 85%;
+    margin: 0 auto;
+    border-bottom: 1px solid rgb(255, 255, 255, 0.4);
+}
+
+.plan-listing .plan-listing-box .plan-head2  .plan-price{
+    font-size: 45px;
+    padding: 15px 0 0px;
+}
+
+
+
+
+.plan-listing .plan-listing-box .plan-content{
+    width: 100%;
+    margin: 0;
+    padding: 30px 30px 30px 30px;
+}
+
+
+
+.plan-listing .plan-listing-box .plan-content ul{
+    margin: 0;
+    padding: 0;
+}
+
+.plan-listing .plan-listing-box .plan-content ul li{
+    list-style-type: none;
+    /*list-style-image: url("../images/right_click_icon.png");*/
+    background:url(../images/right_click_icon.png) no-repeat 0 0;
+    padding-left: 28px;
+    padding-top: 3px;
+    margin: 0;
+
+    font-size:14px;
+    font-weight:normal;
+    font-style:normal;
+    font-stretch:normal;
+    line-height:1.5;
+    letter-spacing:normal;
+    text-align:left;
+    color:#000000;
+    margin-bottom:20px
+}
+
+.plan-listing .plan-listing-box .foot{
+    text-align: center;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.plan-listing .plan-listing-box .foot input{
+    width:calc(100% - 40px);
+    height:50px;
+    border-radius:4px;
+    background-image:linear-gradient(102deg, #f95d49, #ff7335);
+    box-shadow:5px 10px 40px 0 rgba(249,93,73,0.2);
+    color:#ffffff;
+    border:1px solid #ff7335;
+    margin:20px
+}
+
+
+
+
 .plan-listing .listing{
     width:calc(25% - 40px);
     margin:0px 20px;

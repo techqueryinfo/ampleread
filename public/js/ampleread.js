@@ -15,6 +15,15 @@ $(document).ready(function() {
         return false;    // Add this line
       }
     });
+    $("#search_pointer").click(function(){
+        // $('form#login').submit();
+        //console.log($(this).val());
+        var stext = $("#bookSearchInput").val();
+        if(stext){
+            window.location.href='/book/search/'+stext;
+        }
+        return false;    // Add this line
+    });
 })
 
 

@@ -257,6 +257,16 @@ class BookController extends Controller
      *
      * @return \Illuminate\View\View
      */
+      public function show_all_category()
+    {
+        // $categories = Category::all();
+        $categories = Category::where('is_delete', 0)->where('parent', '=', null)->where('status', 'Active')->get();
+
+        $data = ['categories' => $categories];
+
+        return view('books.all_category')->with($data);
+
+    }
     public function show_books_by_category($category_name, $sub_category= '')
     {   
        $currentUser = Auth::user();

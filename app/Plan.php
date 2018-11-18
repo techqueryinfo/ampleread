@@ -25,7 +25,7 @@ class Plan extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'desc', 'amount', 'status', 'access_time_period', 'access_period_type', 'no_of_book_download', 'publish_submit_book', 'read_ebook_directly', 'create_books', 'share_books', 'access_discount'];
+    protected $fillable = ['name', 'desc', 'amount', 'status', 'access_time_period', 'access_period_type', 'no_of_book_download', 'publish_submit_book', 'read_ebook_directly', 'create_books', 'share_books', 'access_discount', 'online_reader', 'ebook_create', 'cloud_storage', 'priority'];
 
    
     
