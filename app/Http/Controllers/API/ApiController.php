@@ -5,6 +5,8 @@ use App\Category;
 use App\Book;
 use App\Role;
 use App\Models\User;
+use App\Paid;
+use App\PaidDiscount;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -86,7 +88,7 @@ class ApiController extends Controller
                       ->join('role_user', 'role_user.user_id', '=', 'users.id')
                       ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
 
-        $categories = Category::where('status', 'Active')->where('parent', 0)->where('is_delete', '=', 0)->get();
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
         
         foreach ($categories as $key => $value) {
           $abeKeyword = $value->name;
@@ -101,7 +103,7 @@ class ApiController extends Controller
             $element =(array)$row;
             if($element['bookId']){
               $book = DB::table('books')->where('ebooktitle', $element['title'])->first();
-              if(empty($book)){
+              if(empty((array)$book)){
                 $requestData = array(
                   'user_id' => $adminUsers->id,
                   'ebooktitle'=>($element['title']) ? $element['title'] : '',
@@ -115,7 +117,24 @@ class ApiController extends Controller
                   'asin' => ($element['isbn10']) ? $element['isbn10'] : '',
                   'ext_book_id' => ($element['bookId']) ? $element['bookId'] : ''
                 );
-                Book::create($requestData);
+                $newBook = Book::create($requestData);
+
+                $paidData = array(
+                  'book_id'=>$newBook->id,
+                  'store_name'=>'abebooks',
+                  'link' => ($element['listingUrl']) ? $element['listingUrl'] : '',
+                  'price' => ($element['totalListingPrice']) ? $element['totalListingPrice'] : '',
+                );
+                $pData = Paid::create($paidData);
+
+                $paidDiscountData = array(
+                  'book_id'=>$newBook->id,
+                  'paid_ebook_id'=>$pData->id,
+                  'discount'=>'0',
+                  'additional_options' => 'paid',
+                  'desc' => ($element['title']) ? $element['title'] : ''
+                );
+                PaidDiscount::create($paidDiscountData);
               }
             }
           }
@@ -127,6 +146,9 @@ class ApiController extends Controller
 
     public function cjbooks(Request $request, $cjKeyword='fiction', $cjMaxResults = 20){
       $cjWebsiteId= "8910566";
+      $adminUsers = DB::table('users')
+                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
       // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
       $CJ_DevKey= " 008af62e87369a214c3d0098c02df71f28a05cef378073e1645df4c6202a8868ab916e9e0e84b20f09b9acea1b7d9097f27569d5ffabc06cb23bf01df1ee69b773/008a594f398f4324a3a298557c004768de29ca5ce0052359e373279f99a6bee8756c7bfac403e07bbe1d56ae53c3e0cc26a91b77181bbafccaacc9f31c51efcc01";
       $currency="USD";
@@ -134,36 +156,77 @@ class ApiController extends Controller
       // begin building the URL and GETting variables passed
       $targeturl="https://product-search.api.cj.com/v2/product-search?";
       $targeturl.="website-id=$cjWebsiteId";
-      if (isset($cjKeyword))
-      {
-      $keywords = $cjKeyword;
-      $keywords = urlencode($keywords);
-      $targeturl.="&keywords=$keywords";
-      }
-      if (isset($cjMaxResults))
-      {
-      $maxresults = $cjMaxResults;
-      $targeturl.="&records-per-page=".$maxresults;
-      }
+      $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+      foreach ($categories as $ckey => $cvalue) {
+        $cjKeyword = $cvalue->name;
+        if (isset($cjKeyword))
+        {
+          $keywords = $cjKeyword;
+          $keywords = urlencode($keywords);
+          $targeturl.="&keywords=$keywords";
+        }
+        if (isset($cjMaxResults))
+        {
+          $maxresults = $cjMaxResults;
+          $targeturl.="&records-per-page=".$maxresults;
+        }
+        // end building targeturl
+        $ch = curl_init($targeturl);
+        curl_setopt($ch, CURLOPT_POST, FALSE);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey)); // send development key
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $response = curl_exec($ch);
+        $xml = new \SimpleXMLElement($response, true);
+        curl_close($ch);
 
-      $pperkeyword = 5;
-      $targeturl = "https://product-search.api.cj.com/v2/product-search?website-id=".$cjWebsiteId."&keywords=".$keywords."&records-per-page=".$pperkeyword."&serviceable-area=US";
+        if($xml->products && $xml->products->product){
+          foreach ($xml->products->product as $key => $row) {
+            
+            $element =(array)$row;
+            // echo $element['name']."<br>";
+            if($element['name']){
+              $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+              if(empty((array)$book)){
+                // echo "<br>========".$element['name']."<br>";
+                $requestData = array(
+                  'user_id' => $adminUsers->id,
+                  'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                  'subtitle'=>($element['name']) ? $element['name'] : '',
+                  'publisher' => '',
+                  'type' => 'paid',
+                  'desc' => ($element['description']) ? $element['description'] : '',
+                  'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                  'retailPrice' => ($element['sale-price']) ? $element['sale-price'] : '',
+                  'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                  'asin' => ($element['sku']) ? $element['sku'] : '',
+                  'ext_book_id' => ''
+                );
 
-      // end building targeturl
-      $ch = curl_init($targeturl);
-      curl_setopt($ch, CURLOPT_POST, FALSE);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey)); // send development key
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-      curl_setopt($ch, CURLOPT_HEADER, false);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-      $response = curl_exec($ch);
-      // echo $response;
-      $xml = new \SimpleXMLElement($response, true);
-      curl_close($ch);
-      // echo $xml;
-      // exit;
-      echo "<pre>";
-      print_r($xml->products);
+                $newBook = Book::create($requestData);
+
+                $paidData = array(
+                  'book_id'=>$newBook->id,
+                  'store_name'=>'cj',
+                  'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                  'price' => ($element['sale-price']) ? $element['sale-price'] : '',
+                );
+                $pData = Paid::create($paidData);
+
+                $paidDiscountData = array(
+                  'book_id'=>$newBook->id,
+                  'paid_ebook_id'=>$pData->id,
+                  'discount'=>'0',
+                  'additional_options' => 'paid',
+                  'desc' => ($element['name']) ? $element['name'] : ''
+                );
+                PaidDiscount::create($paidDiscountData);
+              }
+            }
+          }
+        }
+      }
       exit;
       // if ($xml)
       // {

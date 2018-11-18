@@ -186,7 +186,11 @@
     <div class="row-compare-one sec-two">
         <div class="unit-compare-sec">
             <div class="image-box">
-                <img src="/uploads/storeimage/{{ $val->store_logo }}" alt="image" width="100%">
+                @if($val->store_logo)
+                <img src="/uploads/storeimage/{{ $val->store_logo }}" width="100%" alt="image" />
+                @else
+                <img src="{{ $book->ebook_logo }}" width="100%" style="height:100%; padding:0px" alt="image" />
+                @endif
             </div>
         </div>
         <div class="unit-compare-sec">
@@ -221,7 +225,11 @@
     <div class="row-compare-one sec-two">
         <div class="unit-compare-sec">
             <div class="image-box">
+                @if($val->store_logo)
                 <img src="/uploads/storeimage/{{ $val->store_logo }}" width="100%" alt="image" />
+                @else
+                <img src="{{ $book->ebook_logo }}" width="100%" style="height:100%; padding:0px" alt="image" />
+                @endif
             </div>
         </div>
         <div class="unit-compare-sec-three">

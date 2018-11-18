@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="/css/free-book.css"> @endsection @section('content')
 <div class="free-ebook">
     <div class="page-path">
-        <span class="start-text">Category | </span><span class="end-text">Thriller & Crime</span>
+        <span class="start-text">Category | </span><span class="end-text">{{$bookCategory->name}}</span>
     </div>
     <div class="book-section">
         <div class="book">
@@ -63,23 +63,23 @@
                         <button type="submit" class="submit-button dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">FROM ${{$book->retailPrice}} <span class="caret"></span>
 
                         </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                           <li><a href="#">Amazon</a></li>
+                           <li><a href="#">Snapdeal </a></li>
+                           <li><a href="#">Flipkart</a></li>
+                           <li><a href="#">Big basket</a></li>
+                        </ul>
                     @endif
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                       <li><a href="#">Amazon</a></li>
-                                       <li><a href="#">Snapdeal </a></li>
-                                       <li><a href="#">Flipkart</a></li>
-                                       <li><a href="#">Big basket</a></li>
-                    </ul>
-
                      </div>
-                @if($book->type == 'free')
-                    <div class="text"><a href="{{url('book/readlater/'.$book->id.'/'.$book->ebooktitle)}}"><i class="far fa-clock"></i> SAVE FOR LATER</a></div>
-                    @if($book->book_ext && $book->book_ext !='')
-                    <div class="text"><a href="{{url('/uploads/ebook_logo/'.$book->buyLink)}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> DOWNLOAD </a></div>
+                    @if($book->type == 'free')
+                        <div class="text"><a href="{{url('book/readlater/'.$book->id.'/'.$book->ebooktitle)}}"><i class="far fa-clock"></i> SAVE FOR LATER</a></div>
+                        @if($book->book_ext && $book->book_ext !='')
+                        <div class="text"><a href="{{url('/uploads/ebook_logo/'.$book->buyLink)}}" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> DOWNLOAD </a></div>
+                        @endif
+                    @else
+                        <div class="text"><i class="fab fa-gitter"></i> <a name="comparePrice" href="#comparePrice">COMPARE PRICE</a></div>  
+                        <div class="text"><i class="far fa-dollar-sign"></i> <a href="{{$book->buyLink}}" target="_blank" aria-expanded="true">Buy Now</a> </div>
                     @endif
-                @else
-                    <div class="text"><i class="fab fa-gitter"></i> <a name="comparePrice" href="#comparePrice">COMPARE PRICE</a></div>    
-                @endif
             </div>
              <div class="book-description" id="see_more2">{{substr($book->desc,0, 250)}}<span style="color: #679cc9; cursor: pointer;" id="see_more"> ...Read more</span></div>
             <div class="book-description" id="see_more1">{{$book->desc}}<span style="color: #679cc9; cursor: pointer;" id="see_more3"> Less</span></div>
@@ -135,12 +135,12 @@
                 </ul>
             </div>
         </div>
-        @if($author)
+        @if($book->author && $author)
         <div class="author-description">
             <div class="author-details">
                 <div class="image">
                     <a href="{{ url("/book/$book->id/author/$book->author/$author->name") }}" style="text-decoration: none; color: #fff;">
-                        @if($author->profile->avatar)
+                        @if($author && $author->profile && $author->profile->avatar)
                         <img src="/uploads/avatar/{{$author->profile->avatar}}" alt="autor-image" border="0">
                         @else
                         <img src="/images/user.png" alt="autor-image" border="0">
