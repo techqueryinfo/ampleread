@@ -21,8 +21,8 @@ Route::post('/stayintouch', 'WelcomeController@stayintouch')->name('stayintouch'
 Route::get('/stayintouch', 'WelcomeController@stayintouch')->name('stayintouch');
 
 Route::get('/api', 'API\ApiController@index');
-Route::get('/abebooks/import/{keywork?}/{maxresults?}', 'API\ApiController@abebooks');
-Route::get('/cjbooks/import/{keywork?}/{maxresults?}', 'API\ApiController@cjbooks');
+Route::get('/abebooks/import/{maxresults?}', 'API\ApiController@abebooks');
+Route::get('/cjbooks/import/{maxresults?}', 'API\ApiController@cjbooks');
 // Authentication Routes
 Auth::routes();
 // Public Routes

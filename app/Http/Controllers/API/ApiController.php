@@ -90,12 +90,20 @@ class ApiController extends Controller
 
         $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
         
-        foreach ($categories as $key => $value) {
-          $abeKeyword = $value->name;
+        foreach ($categories as $ckey => $cvalue) {
+          $abeKeyword = $cvalue->name;
           $abeApiUrl = 'http://search2.abebooks.com/search?clientkey='.$abeClientKey.'&keyword='.$abeKeyword.'&maxresults='.$abeMaxResults;
           $xml_data = file_get_contents($abeApiUrl);
 
-
+          if($cvalue->parent == NULL || $cvalue->parent == 0){
+            $categoryId =  $cvalue->id;
+            $subCategoryId = null;
+          }
+          else
+          {
+            $categoryId =  $cvalue->parent;
+            $subCategoryId = $cvalue->id; 
+          }
           $xml = new \SimpleXMLElement($xml_data, true);
 
           foreach ($xml->Book as $row)
@@ -107,6 +115,8 @@ class ApiController extends Controller
                 $requestData = array(
                   'user_id' => $adminUsers->id,
                   'ebooktitle'=>($element['title']) ? $element['title'] : '',
+                  'category'=>$categoryId,
+                  'sub_category'=> $subCategoryId,
                   'subtitle'=>($element['title']) ? $element['title'] : '',
                   'publisher' => ($element['vendorName']) ? $element['vendorName'] : '',
                   'type' => 'paid',
@@ -144,7 +154,7 @@ class ApiController extends Controller
     }
 
 
-    public function cjbooks(Request $request, $cjKeyword='fiction', $cjMaxResults = 20){
+    public function cjbooks(Request $request, $cjMaxResults = 20){
       $cjWebsiteId= "8910566";
       $adminUsers = DB::table('users')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
@@ -159,6 +169,15 @@ class ApiController extends Controller
       $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
       foreach ($categories as $ckey => $cvalue) {
         $cjKeyword = $cvalue->name;
+        if($cvalue->parent == NULL || $cvalue->parent == 0){
+          $categoryId =  $cvalue->id;
+          $subCategoryId = null;
+        }
+        else
+        {
+          $categoryId =  $cvalue->parent;
+          $subCategoryId = $cvalue->id; 
+        }
         if (isset($cjKeyword))
         {
           $keywords = $cjKeyword;
@@ -194,6 +213,8 @@ class ApiController extends Controller
                   'user_id' => $adminUsers->id,
                   'ebooktitle'=>($element['name']) ? $element['name'] : '',
                   'subtitle'=>($element['name']) ? $element['name'] : '',
+                  'category'=>$categoryId,
+                  'sub_category'=> $subCategoryId,
                   'publisher' => '',
                   'type' => 'paid',
                   'desc' => ($element['description']) ? $element['description'] : '',
