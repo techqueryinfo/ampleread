@@ -34,7 +34,8 @@ class BookController extends Controller
         $categories = Category::all();
         if (!empty($keyword)) 
         {
-            $books = Book::where('ebooktitle', 'LIKE', "%$keyword%")
+            $books = Book::where('status', '=', 2)
+                ->where('ebooktitle', 'LIKE', "%$keyword%")
                 ->orWhere('subtitle', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } 
@@ -55,17 +56,27 @@ class BookController extends Controller
 
         if (!empty($keyword)) 
         {
-            $books = Book::where('ebooktitle', 'LIKE', "%$keyword%")
-                ->orWhere('subtitle', 'LIKE', "%$keyword%")
-                ->orWhere('asin', 'LIKE', "%$keyword%")
-                ->orWhere('subtitle', 'LIKE', "%$keyword%")
-                ->orwhereIn('author', $author_arr)
-                ->latest()->paginate($perPage);
+            $books = DB::table('books')->where('status', '=', 2)
+                ->where(function($query) use ($keyword){
+                     $query->orWhere('ebooktitle', 'LIKE', "%$keyword%");
+                     $query->orWhere('subtitle', 'LIKE', "%$keyword%");
+                     $query->orWhere('asin', 'LIKE', "%$keyword%");
+                 });
+            if(count($author_arr) > 0){
+              $books->whereIn('author', $author_arr);
+            }
+            $books = $books->get();
+
+            if(!$books->isEmpty()){
+                 foreach ($books as $k => $v) 
+                 {
+                      $book_review_star = BookReview::where('book_id', '=', $v->id)->avg('star');
+                      $v->star = $book_review_star;
+                 } 
+             }
+
         } 
-        else 
-        {
-            $books = Book::latest()->paginate($perPage);
-        }
+
         return view('books.search', compact('books', 'categories', 'search_text'));
     }
 

@@ -15,8 +15,9 @@ class BookReviewController extends Controller
      */
     public function index(Request $request)
     {
-    	$books = Book::where('status', 1)->get();
-    	return view('admin.bookreview.index',compact('books'));
+    	$created_books = Book::where('status', 0)->get();
+        $submitted_books = Book::where('status', 1)->get();
+    	return view('admin.bookreview.index',compact('created_books', 'submitted_books'));
     }
 
     /*
