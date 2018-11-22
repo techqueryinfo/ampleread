@@ -221,45 +221,187 @@ class BookController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function view_books_type($book_type, $category_slug='', $viewtype='')
-    {  
+    // public function view_books_type($book_type, $category_slug='', $viewtype='')
+    // {  
 
-       // $book_type = ($category_slug == 'free-books') ? 'free' : 'paid';
-       $currentUser = Auth::user();
-       $records = DB::table('books')
-          ->join('users', 'users.id', '=', 'books.user_id')
-          ->join('categories', 'books.category', '=', 'categories.id')
-          ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
-          ->where('categories.is_delete', '=', 0)
-          ->where('categories.status', '=', 'Active')
-          ->where('books.status', '=', 2)
-          ->where('books.type', '=', $book_type);
-       if(!empty($category_slug) && $category_slug != 'all-books')
-       {
-          $records->where('categories.category_slug', '=', $category_slug);
-       }
-       $records = $records->get();
+    //    $currentUser = Auth::user();
+    //    $records = DB::table('books')
+    //       ->join('users', 'users.id', '=', 'books.user_id')
+    //       ->join('categories', 'books.category', '=', 'categories.id')
+    //       ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+    //       ->where('categories.is_delete', '=', 0)
+    //       ->where('categories.status', '=', 'Active')
+    //       ->where('books.status', '=', 2)
+    //       ->where('books.type', '=', $book_type);
+    //    if(!empty($category_slug) && $category_slug != 'all-books')
+    //    {
+    //       $records->where('categories.category_slug', '=', $category_slug);
+    //    }
+    //    $records = $records->get();
        
-       $total = count($records);
+    //    $total = count($records);
 
-       if(!$records->isEmpty()){
-           foreach ($records as $k => $v) 
-           {
+    //    if(!$records->isEmpty()){
+    //        foreach ($records as $k => $v) 
+    //        {
+    //             $book_review_star = BookReview::where('book_id', '=', $v->id)->avg('star');
+    //             $v->star = $book_review_star;
+    //        } 
+    //    }
+    //    $categories = Category::all(); 
+    //    $page = $category_slug;
+    //    $category_name = ($book_type == 'free' || $book_type == 'paid') ? ucwords($book_type).' Books' : '';
+    //     $category = array();
+    //    if(!empty($category_slug)){
+    //      $category = Category::where('category_slug', '=', $category_slug)->first();
+    //      $category_slug = (!empty($category)) ? $category->category_slug : $category_name;
+    //      $category_name = (!empty($category)) ? $category->name : $category_name;
+    //    }
+    //    $data = [ 'category_name' => $category_name, 'category_slug' => $category_slug, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total, 'book_type' => $book_type, 'viewtype' => $viewtype ];
+    //    return view('books.show_books_by_type')->with($data);
+    // }
+    public function view_books_type($category_name, $sub_category= '')
+    {
+        //->where('books.type', '=', $book_type);
+        $currentUser = Auth::user();
+        if($sub_category == 'all-books')
+        {
+            //$type = ($category_name == 'free-books') ? 'free' : 'paid';
+            $records = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id')
+                ->join('categories', 'books.category', '=', 'categories.id')
+                ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->where('categories.status', '=', 'Active')
+                ->where('books.status', '=', 2)
+                ->where('books.type', '=', $category_name)
+                ->get();
+            $total = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id')
+                ->join('categories', 'books.category', '=', 'categories.id')
+                ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->where('categories.status', '=', 'Active')
+                ->where('books.status', '=', 2)
+                ->where('books.type', '=', $category_name)
+                ->count();
+        }
+        else if($category_name == 'free-books' || $category_name == 'paid-books')
+        {
+            $type = ($category_name == 'free-books') ? 'free' : 'paid';
+            $records = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id')
+                ->join('categories', 'books.category', '=', 'categories.id')
+                ->select('categories.*','books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->where('categories.status', '=', 'Active')
+                ->where('books.status', '=', 2)
+                ->where('books.type', '=', $type)
+                ->get();
+        }
+        else if($category_name == 'non-fiction')
+        {
+            $records = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id')
+                ->join('categories', 'books.category', '=', 'categories.id')
+                ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->where('categories.category_slug', '!=', 'fiction')
+                ->whereIn('books.status', array(2))
+                ->get();
+        }
+        // else if($category_name == 'fiction')
+        // {
+        //      $start_date = date("Y-m-d", strtotime("- 7 days"));
+        //      $records = DB::table('books')
+        //          ->join('users', 'users.id', '=', 'books.user_id')
+        //          ->join('categories', 'books.category', '=', 'categories.id')
+        //          ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+        //          ->where('categories.is_delete', '=', 0)
+        //          ->whereDate('publisher_date', '>', $start_date)
+        //          ->where('categories.category_slug', '=', 'fiction')
+        //          ->whereIn('books.status', array(2))
+        //          ->get();
+        // }
+        else if($category_name == 'new-releases' || $category_name == 'popular')
+        {
+            $start_date = date("Y-m-d", strtotime("- 7 days"));
+            $records = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id')
+                ->join('categories', 'books.category', '=', 'categories.id')
+                ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->whereDate('publisher_date', '>', $start_date)
+                // ->where('categories.category_slug', '!=', 'fiction')
+                ->whereIn('books.status', array(2))
+                ->get();
+        }
+        else
+        {
+            $tmp_slug = (!empty($sub_category)) ? $sub_category : $category_name;
+            $query = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id');
+            if(!empty($sub_category))
+            {
+                $query->join('categories', 'books.sub_category', '=', 'categories.id');
+            }
+            else
+            {
+                $query->join('categories', 'books.category', '=', 'categories.id');
+            }
+
+            $query->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->where('categories.category_slug', '=', $tmp_slug)
+                ->where('books.status', 2);
+            $records = $query->get();
+            $total = DB::table('books')
+                ->join('users', 'users.id', '=', 'books.user_id')
+                ->join('categories', 'books.category', '=', 'categories.id')
+                ->select('categories.*', 'books.*', 'users.first_name', 'users.last_name', 'users.name')
+                ->where('categories.is_delete', '=', 0)
+                ->where('categories.category_slug', '=', $category_name)
+                ->where('books.status', 2)
+                ->count();
+        }
+        $total = count($records);
+
+        if(!$records->isEmpty()){
+            foreach ($records as $k => $v)
+            {
                 $book_review_star = BookReview::where('book_id', '=', $v->id)->avg('star');
                 $v->star = $book_review_star;
-           } 
-       }
-       $categories = Category::all(); 
-       $page = $category_slug;
-       $category_name = ($book_type == 'free' || $book_type == 'paid') ? ucwords($book_type).' Books' : '';
-        $category = array();
-       if(!empty($category_slug)){
-         $category = Category::where('category_slug', '=', $category_slug)->first();
-         $category_slug = (!empty($category)) ? $category->category_slug : $category_name;
-         $category_name = (!empty($category)) ? $category->name : $category_name;
-       }
-       $data = [ 'category_name' => $category_name, 'category_slug' => $category_slug, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total, 'book_type' => $book_type, 'viewtype' => $viewtype ];
-       return view('books.show_books_by_type')->with($data);
+            }
+        }
+        // $categories = Category::all();
+        $categories = Category::where('is_delete', 0)->where('parent', '=', null)->where('status', 'Active')->get();
+        $page = $category_name;
+        $category_name = ($category_name == 'free-books' || $category_name == 'paid-books') ? str_replace('-', ' ', ucwords($category_name)) : $category_name;
+        $category = Category::where('category_slug', '=', $category_name)->first();
+        $category_slug = (!empty($category)) ? $category->category_slug : $category_name;
+        $category_name = (!empty($category)) ? $category->name : $category_name;
+
+
+        //get sub category
+        $subcategory = array();
+        if($category && $category->id){
+            $subcategory = Category::where('parent', '=', $category->id)->get();
+        }
+        // $edit_category = $category;
+        if(!empty($sub_category))
+        {
+            $category = Category::where('category_slug', '=', $sub_category)->first();
+            $category_name = $sub_category;
+        }
+        $data = [ 'category_name' => $category_name, 'category_slug' => $category_slug, 'category' => $category, 'categories' => $categories, 'records' => $records, 'total' => $total, 'subcategory' => $subcategory];
+        if(!empty($currentUser) && $currentUser->isAdmin() && $page != 'free-books' && $page != 'paid-books')
+        {
+            return view('books.book_category')->with($data);
+        }
+        else
+        {
+            return view('books.show_books_by_type')->with($data);
+        }
     }
 
     /**
