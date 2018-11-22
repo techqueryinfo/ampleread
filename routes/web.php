@@ -24,6 +24,8 @@ Route::get('/api', 'API\ApiController@index');
 Route::get('/abebooks/import/{maxresults?}', 'API\ApiController@abebooks');
 Route::get('/kobobooks/import/{maxresults?}', 'API\ApiController@kobobooks');
 Route::get('/cjbooks/import/{maxresults?}', 'API\ApiController@cjbooks');
+Route::get('/book/savebookmark/{user_id}/{book_id}/{chapter}', 'BookController@savebookmark');
+
 // Authentication Routes
 Auth::routes();
 // Public Routes
@@ -57,7 +59,6 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     Route::post('book/review', 'BookController@add_book_review');
     Route::post('book/author_review', 'BookController@add_author_review');
     Route::resource('book', 'BookController');
-    Route::post('paid/discountSave', 'PaidController@discountSave');
     Route::post('paid/deleteDiscount/{id}', 'PaidController@deleteDiscount');
     Route::resource('paid', 'PaidController');
     Route::get('book/readlater/{bookid}/{btitle}', 'BookController@readlater');
@@ -181,6 +182,7 @@ Route::get('book/{id}/author/{authorid}/{authorname}', 'BookController@author_vi
 Route::get('books/ebook/{id}/{ebooktitle}', 'BookController@view_free_ebook');
 Route::get('book/get/{id}', 'BookController@getBookDetail');
 Route::post('book/save', 'BookController@saveContent');
+
 Route::post('book/saveimage', 'BookController@saveImage');
 Route::get('book/reading/{id}/{ebooktitle}', 'BookController@read_ebook');
 Route::get('book/{id}/edit/', 'BookController@saved_ebook_edit');

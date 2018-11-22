@@ -63,9 +63,7 @@
                         <button type="submit">FROM ${{$book->retailPrice}} <span class="caret"></span>
 
                         </button>
-                    @endif
-
-                               <div class="button-form-wrapper" style="display: none;">
+                        <div class="button-form-wrapper" style="display: none;">
                                <ul>
                                        <li><a href="#">Amazon</a></li>
                                        <li><a href="#">Snapdeal </a></li>
@@ -73,6 +71,9 @@
                                        <li><a href="#">Big basket</a></li>
                                </ul>
                                </div>
+                    @endif
+
+                               
                      </div>
                     @if($book->type == 'free')
                         <div class="text"><a href="{{url('book/readlater/'.$book->id.'/'.$book->ebooktitle)}}"><i class="far fa-clock"></i> SAVE FOR LATER</a></div>

@@ -670,6 +670,31 @@ class BookController extends Controller
     }
 
     /**
+     * Save Bookmarks
+    */
+    public function savebookmark(Request $request, $user_id, $book_id, $chapter)
+    {   
+        if($user_id && $book_id && $chapter)
+        {
+          $bookCnt = Book::where('id', '=', $book_id)->where('status', '=', 2)->count();
+
+          $bookmCnt = Bookmark::where('book_id', '=', $book_id)->where('user_id', '=', $user_id)->where('chapter_index', '=', $chapter)->count();
+
+          if($bookCnt > 0 && $bookmCnt == 0){
+            $arrayChapter = [
+              'user_id' => $user_id,
+              'book_id' => $book_id,
+              'chapter_index' => $chapter-1
+            ];
+            return $bookContent  = Bookmark::create($arrayChapter);  
+          }
+          else{
+            return json_encode(['status' => false]);
+          }
+        }
+    }
+
+    /**
      * Save Book Chapters & Notes
     */
     public function saveContent(Request $request)
