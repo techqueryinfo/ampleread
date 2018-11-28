@@ -252,9 +252,9 @@
                                 <div class="label-signup">or sign in with</div>
                             </div>
                             <div class="form-group">
-                                {!! HTML::icon_link(route('social.redirect',['provider' => 'facebook']), 'fab fa-facebook-f', '  Sign up with Facebook', array('class' => 'social')) !!}
+                                {!! HTML::icon_link(route('social.redirect',['provider' => 'facebook']), 'fab fa-facebook-f', '  Signin with Facebook', array('class' => 'social')) !!}
 
-                                {!! HTML::icon_link(route('social.redirect',['provider' => 'google']), 'fab fa-google', '  Sign up with Google', array('class' => 'gsocial')) !!}
+                                {!! HTML::icon_link(route('social.redirect',['provider' => 'google']), 'fab fa-google', '  Signin with Google', array('class' => 'gsocial')) !!}
                             </div>
                         </form>
                     </div>

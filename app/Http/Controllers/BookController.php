@@ -196,7 +196,7 @@ class BookController extends Controller
             $requestData['ebook_logo'] = $file->getClientOriginalName();
         }
         $book = Book::findOrFail($id);
-        $requestData['status'] = 1;
+        $requestData['status'] = 2;
         $book->update($requestData);
         return redirect('book/'.$id.'/edit')->with('flash_message', 'E-Book updated !');
     }

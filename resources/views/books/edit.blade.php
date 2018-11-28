@@ -31,13 +31,22 @@
                     <div class="heading">Author</div>
                     <div class="content">
                         <select class="js-example-basic-single" id="author" name="author">
-                        @if(!$authors->isEmpty())
-                            @foreach($authors as $author)
-                            <option value="{{ $author->id }}" selected="{{$book->author == $author->id}}">{{ ucfirst($author->name) }} {{$book->author == $author->id}}</option>
-                            @endforeach
-                        @endif
-                    </select>
-                        <!-- <input type="text" name="author" id="author" class="form-control" value="{{$book->author}}"/> -->
+                            <?php
+                            $b = $book->author;
+                            $authors = DB::select("select * from users where id='$b'");
+                            foreach ($authors as $sKey => $author){
+                            ?>
+                            <option value="<?php echo $author->id; ?>" selected="selected"><?php echo $author->name; ?></option>
+                            <?php } ?>
+                                <?php
+                                $b = $book->author;
+                                $authors = DB::select("select * from users where id !='$b'");
+                                foreach ($authors as $sKey => $author){
+                                ?>
+                                <option value="<?php echo $author->id; ?>"><?php echo $author->name; ?></option>
+                                <?php } ?>
+                        </select>
+                       <!-- <input type="text" name="author" id="author" class="form-control" value="{{$book->author}}"/>-->
                     </div>
                 </div>
             </div>
@@ -117,7 +126,7 @@
                 <div class="form-unit">
                     <div class="heading">Publication Date</div>
                     <div class="content">
-                        <input type="text" name="created_at" class="form-control" id="publishDate" value="{{$book->publisher_date}}" disabled="disabled">
+                        <input type="text" name="created_at" class="docs-date" id="publishDate" value="{{$book->publisher_date}}">
                     </div>
                 </div>
             </div>
@@ -389,6 +398,72 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/js/datepicker.js"></script>
+<script type="text/javascript">
+	var $date = $('.docs-date');
+  // var $container = $('.docs-datepicker-container');
+  // var $trigger = $('.docs-datepicker-trigger');
+	  var options = {
+	  	autoHide:true,
+	  	format:'yyyy-mm-dd',
+	    show: function (e) {
+	      console.log(e.type, e.namespace);
+	    },
+	    hide: function (e) {
+	      console.log(e.type, e.namespace);
+	    },
+	    pick: function (e) {
+	      console.log(e.type, e.namespace, e.view);
+	    }
+	  };
+
+	  $date.on({
+	    'show.datepicker': function (e) {
+	      console.log(e.type, e.namespace);
+	    },
+	    'hide.datepicker': function (e) {
+	      console.log(e.type, e.namespace);
+	    },
+	    'pick.datepicker': function (e) {
+	      console.log(e.type, e.namespace, e.view);
+	    }
+	  }).datepicker(options);
+
+	function readURL(input) {
+
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+
+	    reader.onload = function(e) {
+	    	// console.log('e.target.result', e.target.result);
+	      $('#uploadbookImg').attr('src', e.target.result);
+	    }
+
+	    reader.readAsDataURL(input.files[0]);
+	  }
+	}
+
+	$("#uploadCover").change(function() {
+	  readURL(this);
+	});
+
+	$("#uploadBook").on("change",function(){
+        resizemenu();
+        var index=$("#uploadBook option:selected").index();
+        if(index==0){
+             $(".book-compare-price").addClass("inactive");
+             $(".button.upload-book").removeClass("inactive");
+             $('#submitBtn').val('Submit');
+             $('.bookAmt').hide();
+        }
+        if(index==1){
+            $(".book-compare-price").removeClass("inactive");
+            $(".button.upload-book").addClass("inactive");
+            $('#submitBtn').val('Next');
+            $('.bookAmt').show();
+        }
+    });
+</script>
 <script>
     $(document).ready(function() {
         $("#cc").hide();
@@ -415,4 +490,5 @@
     </div>
 </div>
 @endsection 
+
 @section('footer_scripts') @include('scripts.delete-modal-script') @endsection
