@@ -23,7 +23,8 @@ class PagesController extends Controller
 
     public function aboutus()
     {
-        return view('pages.aboutus');
+        $countries = Country::all();
+        return view('pages.aboutus',compact('countries'));
     }
 
     public function test()
@@ -34,27 +35,32 @@ class PagesController extends Controller
 
     public function contactus()
     {
-        return view('pages.contactus');
+        $countries = Country::all();
+        return view('pages.contactus',compact('countries'));
     }
 
     public function career()
     {
-        return view('pages.career');
+        $countries = Country::all();
+        return view('pages.career',compact('countries'));
     }
 
     public function terms()
     {
-        return view('pages.terms');
+        $countries = Country::all();
+        return view('pages.terms',compact('countries'));
     }
 
     public function privacy()
     {
-        return view('pages.privacy');
+        $countries = Country::all();
+        return view('pages.privacy',compact('countries'));
     }
 
     public function help()
     {
-        return view('pages.help');
+        $countries = Country::all();
+        return view('pages.help',compact('countries'));
     }
 
     /**
@@ -87,8 +93,9 @@ class PagesController extends Controller
      */
     public function subscription()
     {   
+        $countries = Country::all();
         $all_plans = Plan::all();
         $data = ['all_plans'    => $all_plans];
-        return view('pages.subscription')->with($data);
+        return view('pages.subscription',compact('countries'))->with($data);
     }
 }

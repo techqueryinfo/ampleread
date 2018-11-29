@@ -398,9 +398,8 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="/js/datepicker.js"></script>
 <script type="text/javascript">
-	var $date = $('.docs-date');
+	var $date = $('#publishDate');
   // var $container = $('.docs-datepicker-container');
   // var $trigger = $('.docs-datepicker-trigger');
 	  var options = {
@@ -428,6 +427,7 @@
 	      console.log(e.type, e.namespace, e.view);
 	    }
 	  }).datepicker(options);
+
 
 	function readURL(input) {
 

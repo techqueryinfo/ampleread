@@ -23,7 +23,7 @@
                     <ul style="padding-left: 50px">
                         @foreach ($subcategory as $sKey => $sValue) 
                         @if(!blank($sValue->is_delete) && $sValue->is_delete==0)
-                        <li @if($sValue->id == $category->id) class="active" @endif ><a style="color:black;" href="/books/category/{{$optionValue->category_slug}}/{{$sValue->category_slug}}">{{$sValue->name}}</a></li>
+                        <li @if($sValue->id == $category->id) class="active" @endif ><a style="color:#ff7335;font-size: 13px;" href="/books/category/{{$optionValue->category_slug}}/{{$sValue->category_slug}}">{{$sValue->name}}</a></li>
                         @endif @endforeach
                     </ul>
                     @endif
