@@ -25,5 +25,5 @@ class BookNotes extends Model
      *
      * @var array
      */
-    protected $fillable = ['id', 'book_id', 'note'];
+    protected $fillable = ['id', 'book_id', 'note', 'user_id', 'chapter'];
 }

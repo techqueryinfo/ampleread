@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth', 'activated', 'activity']], function () {
     Route::post('paid/deleteDiscount/{id}', 'PaidController@deleteDiscount');
     Route::resource('paid', 'PaidController');
     Route::get('book/readlater/{bookid}/{btitle}', 'BookController@readlater');
+    Route::post('/book/addnote', 'BookController@addnote');
 });
 
 // Registered and Activated User Routes

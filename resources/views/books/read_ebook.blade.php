@@ -5,9 +5,18 @@
 <link rel="stylesheet" type="text/css" href="/css/reader/bookblock.css" />
 <link rel="stylesheet" type="text/css" href="/css/reader/custom.css" /> 
 <link rel="stylesheet" href="/css/reader.css">
+<link rel="stylesheet" href="/sharing/selection-sharer.css">
+<link rel="stylesheet" type="text/css" href="/css/notestyles.css" />
 <script src="/js/reader/modernizr.custom.79639.js"></script>
 @endsection
 @section('content')
+<meta property="fb:app_id" content="187288694643718" />
+  <meta property="og:site_name" content="TechCrunch" />
+<meta property="og:site" content="social.techcrunch.com" />
+<meta property="og:title" content="TechCrunch" />
+<meta property="og:description" content="TechCrunch is a leading technology media property, dedicated to obsessively profiling startups, reviewing new Internet products, and breaking tech news." />
+<meta property="og:url" content="http://social.techcrunch.com/" value="this si testing" />
+<meta property="og:type" content="website" />
 <div id="container" class="readre-table-container">
     <div class="reader-left menu-panel" style="display: none;">
         @if(!empty($book->book_ext) && $book->book_ext == 'pdf')
@@ -66,6 +75,34 @@
           <div class="unit" >
             <div class="title">Table Book note</div>
             <div class="index"></div>
+            @if(!empty($book_notes))
+            <ul style="float: left; width: 100%">
+              @foreach($book_notes as $key=>$note)
+                @if(empty($note->user_id) || $note->user_id == 0)
+                  @php
+                  
+                  $bnotes = json_decode($note->note , true);
+                  
+                  @endphp
+                  @foreach($bnotes as $nkey=>$row)
+                    <li>{{$row['name']}}</li>
+                  @endforeach
+                @endif
+              @endforeach
+            </ul>
+            @endif  
+          </div>
+          <div class="unit userNotes" >
+            <div class="title">Users note</div>
+            @if(!empty($book_notes))
+            <ul style="float: left; width: 100%">
+              @foreach($book_notes as $key=>$note)
+                @if(!empty($note->user_id) && $note->user_id == $currentUser->id)
+                  <li>{{$note->note}}</li>
+                @endif
+              @endforeach
+            </ul>
+            @endif  
           </div>
         </div>
         @endif
@@ -125,6 +162,28 @@
     </div>
     
 </div>
+<div style="display:none">
+  <div id="notedata"><h3 class="popupTitle">Add a new note</h3>
+    <div id="noteData"> <!-- Holds the form -->
+      @if($currentUser)
+        <form action="" method="post" class="note-form">
+          <meta name="csrf-token" content="{{ csrf_token() }}">
+          <meta name="book-id-note" content="{{ $book->id }}">
+          {{ csrf_field() }}
+          <label for="note-body">Text of the note</label>
+          <textarea name="note-body" id="note-body" class="pr-body" cols="30" rows="5"></textarea>
+          <!-- <label for="note-name">Your name</label>
+          <input type="text" name="note-name" id="note-name" class="pr-author" value="" /> -->
+          <!-- The green submit button: -->
+          <a id="note-submit" href="" class="green-button noteBtn">Submit</a>
+          <img src="/images/ajax_load.gif" class="noteLoader" style="margin:30px auto; display:none" />
+        </form>
+      @else
+        <a  href="/" ><h4>Please Login to Add Note</h4></a>
+      @endif
+    </div>
+  </div>
+</div>
 @endsection 
 @section('footer_scripts') 
 
@@ -133,12 +192,21 @@
 <script src="/js/reader/jquerypp.custom.js"></script>
 <script src="/js/reader/jquery.bookblock.js"></script>
 <script src="/js/reader/page.js"></script>
+<script src="/sharing/selection-sharer.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css" />
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/notescript.js"></script>
 @if($chapters && !empty($chapters)) 
 <script>
     $(function() {
 
         Page.init();
 
+        $('.pagecontent p').selectionSharer();
+
+        $("a#inline").fancybox({
+            'hideOnContentClick': true
+        });
     });
 </script>
 @endif

@@ -89,6 +89,29 @@ class BookController extends Controller
                 )); 
     }
 
+    public function addnote(Request $request)
+    {   
+      $currentUser = Auth::user();
+      $requestData = $request->all();
+      if($currentUser){
+        $arrayNote    = array('book_id' => $requestData['book_id'], 'note' => $requestData['body'], 'chapter' => $requestData['chapter'], 'user_id' => $currentUser->id);
+        
+        $bookNotes = BookNotes::create($arrayNote);
+        return Response::json(array(
+          'success' => true,
+          'data'   => $bookNotes
+        )); 
+      }
+      else
+      {
+        return Response::json(array(
+            'success' => false,
+            'data'   => []
+        )); 
+      }       
+      exit;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -659,6 +682,7 @@ class BookController extends Controller
         }
         $bookmarks = array();
         $bm_arr = array();
+        $book_notes = $book->booknotes;
         if(!empty($book->bookmarks))
         {
             $bookmarks = $book->bookmarks;
@@ -666,7 +690,7 @@ class BookController extends Controller
                $bm_arr[] = $value->chapter_index+1;
             }
         }
-        return view('books.read_ebook', compact('book', 'chapters', 'currentUser', 'bookmarks', 'bm_arr'));
+        return view('books.read_ebook', compact('book', 'chapters', 'currentUser', 'bookmarks', 'bm_arr', 'book_notes'));
     }
 
     /**

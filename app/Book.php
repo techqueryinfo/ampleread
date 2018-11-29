@@ -66,4 +66,12 @@ class Book extends Model
     {
         return $this->hasMany('App\Bookmark');
     }
+
+    /**
+     * Get the book record associated with the bookmarks.
+     */
+    public function booknotes()
+    {
+        return $this->hasMany('App\BookNotes');
+    }
 }
