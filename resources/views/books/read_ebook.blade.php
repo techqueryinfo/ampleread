@@ -11,11 +11,11 @@
 @endsection
 @section('content')
 <meta property="fb:app_id" content="187288694643718" />
-  <meta property="og:site_name" content="TechCrunch" />
-<meta property="og:site" content="social.techcrunch.com" />
-<meta property="og:title" content="TechCrunch" />
-<meta property="og:description" content="TechCrunch is a leading technology media property, dedicated to obsessively profiling startups, reviewing new Internet products, and breaking tech news." />
-<meta property="og:url" content="http://social.techcrunch.com/" value="this si testing" />
+  <meta property="og:site_name" content="amplereads" />
+<meta property="og:site" content="https://amplereads.com/book/reading/{{$book->id}}/{{$book->ebooktitle}}" value="{{$book->ebooktitle}}" />
+<meta property="og:title" content="{{$book->ebooktitle}}" />
+<meta property="og:description" content="{{$book->ebooktitle}}" />
+<meta property="og:url" content="https://amplereads.com/book/reading/{{$book->id}}/{{$book->ebooktitle}}" value="{{$book->ebooktitle}}" />
 <meta property="og:type" content="website" />
 <div id="container" class="readre-table-container">
     <div class="reader-left menu-panel" style="display: none;">
