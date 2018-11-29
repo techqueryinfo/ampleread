@@ -609,6 +609,11 @@ class BookController extends Controller
         $book = Book::findOrFail($id)->where('id', $id);
         $book = $book->first(); 
 
+        $currentUser = Auth::user();
+        if($book->status != 2 && (!$currentUser || ($currentUser && !$currentUser->isAdmin())))
+        {
+          return redirect('/'); 
+        }
         $bookCategory = Category::findOrFail($book->category)->where('id', $book->category);
         $bookCategory = $bookCategory->first(); 
 
