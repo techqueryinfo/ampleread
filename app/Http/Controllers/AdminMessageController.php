@@ -114,7 +114,7 @@ class AdminMessageController extends Controller
         $users = User::where('status', '=', 'Active')->where('id', '!=', 1)->get();
         foreach ($users as $k => $v) 
         {
-            $array[] = ($v->name) ? $v->name : $v->first_name.' '.$v->last_name;
+            $array[] = $v;
         }
         //echo "<pre>"; print_r($array); echo "</pre>"; die();
         return $array;
