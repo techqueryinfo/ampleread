@@ -5,7 +5,7 @@
 <!-- <script src="/dist/autocomplete.js"></script> -->
 <link rel="stylesheet" type="text/css" href="/angular-auto-complete/angular-auto-complete.css" />
 <script type="text/javascript" src="/angular-auto-complete/angular-auto-complete.js"></script>
-<link rel="stylesheet" href="/dist/style.css">
+<!-- <link rel="stylesheet" href="/dist/style.css"> -->
 <!-- <link rel="stylesheet" href="/dist/autocomplete.css"> -->
 @endsection
 @section('content')
@@ -17,7 +17,7 @@
                    ng-model="selectedUser"
                    class="form-control"
                    style="width:300px"
-                   placeholder="Airport Name. Try 'a' or 'g'"
+                   placeholder="Name. Try 'a' or 'g'"
                    auto-complete="autoCompleteOptions" />
 	</div>
 	<div ng-repeat="message in messages track by $index">
@@ -114,7 +114,7 @@
 
 
 
-        $scope.airport = null;
+        $scope.userData = null;
 
         $scope.autoCompleteOptions = {
             minimumChars: 1,
@@ -125,11 +125,9 @@
                     .then(function (response) {
                         // ideally filtering should be done on the server
                         // searchTerm = searchTerm.toUpperCase();
-                        console.log('response.data', response.data);
-                        return _.filter(response.data, function (airport) {
-                            console.log('aaaaa', airport.name, searchTerm, airport.name.startsWith(searchTerm))
-                            return airport.name == searchTerm ||
-                                airport.name.startsWith(searchTerm);
+                        return _.filter(response.data, function (userData) {
+                            return userData.name == searchTerm ||
+                                userData.name.startsWith(searchTerm);
                         });
                     });
             },
@@ -140,8 +138,14 @@
                 };
             },
             itemSelected: function (e) {
-                $scope.airport = e.item;
-                console.log('aaa', $scope.airport);
+                $scope.userData = e.item;
+                $scope.messages.push($scope.userData);
+                $scope.userID = $scope.userData.id;
+                let index = ($scope.messages.length > 0) ? $scope.messages.length - 1 : 0;
+                $scope.username = $scope.messages[index].name;
+                $scope.tab = index;
+                $scope.userID = $scope.messages[index].user_id;
+                $scope.onGetUserMessages($scope.messages[index].id);
             }
         };
 
@@ -151,7 +155,6 @@
         	$http.get("/user_messages/"+user_id)
         	.then(function successCallback(response){
         		$scope.user_messages = response.data;
-        		//console.log($scope.user_messages);
         	}, function errorCallback(error){
         		console.log("Unable to perform get request");
         	});
@@ -161,7 +164,6 @@
         	$http.get("/message_data")
         	.then(function successCallback(response){
         		$scope.messages = response.data;
-        		//console.log($scope.messages);
         	}, function errorCallback(error){
         		console.log("Unable to perform get request");
         	});
@@ -174,7 +176,6 @@
         	var data = {'admin_id': adminid, 'user_id': $scope.userID, 'from_type': 'admin', 'message': $scope.sendtext };
         	$http.post("/save_message", data)
             .then(function successCallback(response){
-            	//console.log(response.data);
             	$scope.onGetUserMessages($scope.userID);
             	delete $scope.sendtext;
             }, function errorCallback(response){
@@ -186,20 +187,11 @@
             $http.get("/getusers")
             .then(function successCallback(response){
                 $scope.users = response.data;
-                //console.log($scope.users);
             }, function errorCallback(error){
                 console.log("Unable to perform get request");
             });
         };
         $scope.getUsersList();
-
-        $scope.doSomething = function(typedthings){
-            console.log("Do something like reload data with this: " + typedthings );
-        };
-
-        $scope.doSomethingElse = function(suggestion){
-            console.log("Suggestion selected: " + suggestion );
-        };
     }]);
     
 </script>@endsection
