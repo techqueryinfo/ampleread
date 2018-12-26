@@ -10,7 +10,9 @@ use App\PaidDiscount;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use Mail;
 use Exception;
+use App\Mail\StayInTouch;
 
 class ApiController extends Controller
 {
@@ -82,11 +84,10 @@ class ApiController extends Controller
         return $result;
     }
 
-
     public function abebooks(){
         $abeClientKey = '477226ef-f890-4821-87c4-72ee63b82c64';
         $abeKeyword = 'fiction';
-        $abeMaxResults = 20;
+        $abeMaxResults = 40;
         $adminUsers = DB::table('users')
                       ->join('role_user', 'role_user.user_id', '=', 'users.id')
                       ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
@@ -95,7 +96,8 @@ class ApiController extends Controller
         
         foreach ($categories as $ckey => $cvalue) {
           $abeKeyword = $cvalue->name;
-          $abeApiUrl = 'http://search2.abebooks.com/search?clientkey='.$abeClientKey.'&keyword='.$abeKeyword.'&maxresults='.$abeMaxResults;
+          $abeApiUrl = "http://search2.abebooks.com/search?clientkey=477226ef-f890-4821-87c4-72ee63b82c64&keyword=thriller&maxresults=20";
+          //$a = htmlspecialchars_decode($abeApiUrl);
           $xml_data = file_get_contents($abeApiUrl);
 
           if($cvalue->parent == NULL || $cvalue->parent == 0){
@@ -121,22 +123,26 @@ class ApiController extends Controller
                   'category'=>$categoryId,
                   'sub_category'=> $subCategoryId,
                   'subtitle'=>($element['title']) ? $element['title'] : '',
-                  'publisher' => ($element['vendorName']) ? $element['vendorName'] : '',
+                  'publisher' => ($element['publisherName']) ? $element['publisherName'] : '',
+                  'author' => ($element['author']) ? $element['author'] : '',
                   'type' => 'paid',
                   'desc' => ($element['title']) ? $element['title'] : '',
                   'ebook_logo' => ($element['catalogImage']) ? $element['catalogImage'] : '',
                   'retailPrice' => ($element['totalListingPrice']) ? $element['totalListingPrice'] : '',
                   'buyLink' =>($element['listingUrl']) ? $element['listingUrl'] : '',
                   'asin' => ($element['isbn10']) ? $element['isbn10'] : '',
+                  'status' => '2',
                   'ext_book_id' => ($element['bookId']) ? $element['bookId'] : ''
                 );
                 $newBook = Book::create($requestData);
 
                 $paidData = array(
                   'book_id'=>$newBook->id,
-                  'store_name'=>'abebooks',
+                  'store_name'=>'abebooks.com',
                   'link' => ($element['listingUrl']) ? $element['listingUrl'] : '',
                   'price' => ($element['totalListingPrice']) ? $element['totalListingPrice'] : '',
+                  'asin' => ($element['isbn10']) ? $element['isbn10'] : '',
+                  'store_logo' =>'4214212.png',
                 );
                 $pData = Paid::create($paidData);
 
@@ -156,19 +162,121 @@ class ApiController extends Controller
         exit;
     }
 
+    public function bookdepository(){
+        $abeClientKey = 'bef6326f';
+        $bdKeyword = 'fiction';
+        $apikey = '01feb9f86032a07e67c2cc3da97b93c3d47de366';
+        $ipAddress ='69.175.79.218';
+        $image = 'small';
+        $type = 'deep';
+        $abeMaxResults = 20;
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $abeKeyword = $cvalue->name;
+            $abeApiUrl = 'https://api.bookdepository.com/search/books?clientId=bef6326f&authenticationKey=01feb9f86032a07e67c2cc3da97b93c3d47de366&IP=69.175.79.218&keywords=fiction&images=medium&responseGroup=deep&page=1';
+           // https://api.bookdepository.com/search/books?clientId=bef6326f&authenticationKey=01feb9f86032a07e67c2cc3da97b93c3d47de366&IP=69.175.79.218&keywords=fiction
+            $xml_data = file_get_contents($abeApiUrl);
 
-    public function cjbooks(Request $request, $cjMaxResults = 20){
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            $xml = new \SimpleXMLElement($xml_data, true);
+
+            foreach ($xml->items as $row1)
+            {
+               foreach ($row1->item as $row) { 
+                   $element5 =(array)$row;
+                   foreach($row->identifiers as $a){
+                       $element =(array)$a;
+                      foreach($row->biblio as $b) {
+                          $element1 =(array)$b;
+                          foreach($row->contributors->contributor as $c){
+                              $element2 =(array)$c;
+                              foreach($row->images as $d){
+                                  $element3 =(array)$d;
+                                  foreach($row->pricing->price as $e){
+                                     $element4 =(array)$e;
+                                     foreach($row->biblio->languages as $f){
+                                         $element6 =(array)$f;
+                                     
+                    if($element['isbn10']){
+                    $book = DB::table('books')->where('ebooktitle', $element1['title'])->first();
+                    if(empty((array)$book)){
+                        $requestData = array(
+                            'user_id' => $adminUsers->id,
+                            'ebooktitle'=>($element1['title']) ? $element1['title'] : '',
+                            'category'=>$categoryId,
+                            'sub_category'=> $subCategoryId,
+                            //'subtitle'=>($element1['subtitle']) ? $element1['subtitle'] : '',
+                            'publisher' => ($element2['name']) ? $element2['name'] : '',
+                            'author' => ($element2['name']) ? $element2['name'] : '',
+                            'type' => 'paid',
+                            'desc' => ($element1['title']) ? $element1['title'] : '',
+                            'ebook_logo' => ($element3['image']) ? $element3['image'] : '',
+                            'retailPrice' => ($element4['retail']) ? $element4['retail'] : '',
+                            'buyLink' =>($element5['url']) ? $element5['url'] : '',
+                            'book_language' =>($element6['language']) ? $element6['language'] : '',
+                            'status' => '2',
+                            'asin' => ($element['isbn10']) ? $element['isbn10'] : ''
+                            //'ext_book_id' => ($element['bookId']) ? $element['bookId'] : ''
+                        );
+                        $newBook = Book::create($requestData);
+
+                        $paidData = array(
+                            'book_id'=>$newBook->id,
+                            'store_name'=>'bookdepository',
+                            'store_logo' =>'logo.svg',
+                            'link' => ($element5['url']) ? $element5['url'] : '',
+                            'price' => ($element4['retail']) ? $element4['retail'] : '',
+                            'asin' => ($element['isbn10']) ? $element['isbn10'] : ''
+                        );
+                        $pData = Paid::create($paidData);
+
+                        $paidDiscountData = array(
+                            'book_id'=>$newBook->id,
+                            'paid_ebook_id'=>$pData->id,
+                            'discount'=>'0',
+                            'additional_options' => 'paid',
+                            'desc' => ($element1['title']) ? $element1['title'] : ''
+                        );
+                        PaidDiscount::create($paidDiscountData);
+                    }
+                }
+                                }
+                                  }
+                              }
+                          }
+                      }
+                   }
+                //$element =(array)$row;
+            }
+            }
+        }
+        $result = json_encode(array('status' => 200, 'response' => 'abebooks imported successfuly !'));
+        exit;
+    }
+
+    public function cjbooks(Request $request, $cjMaxResults = 40){
       $cjWebsiteId= "8910566";
       $adminUsers = DB::table('users')
                     ->join('role_user', 'role_user.user_id', '=', 'users.id')
                     ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
       // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
-      $CJ_DevKey= " 008af62e87369a214c3d0098c02df71f28a05cef378073e1645df4c6202a8868ab916e9e0e84b20f09b9acea1b7d9097f27569d5ffabc06cb23bf01df1ee69b773/008a594f398f4324a3a298557c004768de29ca5ce0052359e373279f99a6bee8756c7bfac403e07bbe1d56ae53c3e0cc26a91b77181bbafccaacc9f31c51efcc01";
+      $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
       $currency="USD";
       $advs="joined"; // results from (joined), (CIDs), (Empty String), (notjoined)
       // begin building the URL and GETting variables passed
-      $targeturl="https://product-search.api.cj.com/v2/product-search?";
-      $targeturl.="website-id=$cjWebsiteId";
+     $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=904879&serviceable-area=US";
+        // $targeturl.="website-id=$cjWebsiteId";
       $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
       foreach ($categories as $ckey => $cvalue) {
         $cjKeyword = $cvalue->name;
@@ -193,21 +301,19 @@ class ApiController extends Controller
           $targeturl.="&records-per-page=".$maxresults;
         }
         // end building targeturl
-        $ch = curl_init($targeturl);
-        curl_setopt($ch, CURLOPT_POST, FALSE);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey)); // send development key
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        $response = curl_exec($ch);
-        $xml = new \SimpleXMLElement($response, true);
-        curl_close($ch);
+        $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
 
         if($xml->products && $xml->products->product){
           foreach ($xml->products->product as $key => $row) {
             
             $element =(array)$row;
-            // echo $element['name']."<br>";
+             echo $element['name']."<br>";
             if($element['name']){
               $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
               if(empty((array)$book)){
@@ -222,21 +328,25 @@ class ApiController extends Controller
                   'type' => 'paid',
                   'desc' => ($element['description']) ? $element['description'] : '',
                   'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
-                  'retailPrice' => ($element['sale-price']) ? $element['sale-price'] : '',
+                  'retailPrice' => ($element['price']) ? $element['price'] : '',
                   'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
                   'asin' => ($element['sku']) ? $element['sku'] : '',
+                  'status' => '2',
                   'ext_book_id' => ''
                 );
 
-                $newBook = Book::create($requestData);
+                $newBook = Book::create(array_unique($requestData));
 
                 $paidData = array(
                   'book_id'=>$newBook->id,
-                  'store_name'=>'cj',
+                  'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                  'store_logo' =>'ebooks-logo.png',
                   'link' => ($element['buy-url']) ? $element['buy-url'] : '',
-                  'price' => ($element['sale-price']) ? $element['sale-price'] : '',
+                  'asin' => ($element['sku']) ? $element['sku'] : '',
+                  'price' => ($element['price']) ? $element['price'] : '',
+                  'price_type' => ($element['currency']) ? $element['currency'] : '',
                 );
-                $pData = Paid::create($paidData);
+                $pData = Paid::create(array_unique($paidData));
 
                 $paidDiscountData = array(
                   'book_id'=>$newBook->id,
@@ -252,6 +362,1387 @@ class ApiController extends Controller
         }
       }
       exit;
+    }
+    
+    public function cjbooks1(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "4258829";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=4258829&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targ
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'barnes-and-noble.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create(array_unique($paidDiscountData));
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks2(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "129899";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=129899&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks3(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "2030865";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=2030865&keywords=fiction&records-per-page=20&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                //$targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create($requestData);
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'bwb_logo_black.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create(array_unique($paidDiscountData));
+                        }
+                    }
+                }
+            }
+        }foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks4(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "1666237";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=1666237&keywords=fiction&records-per-page=20&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks5(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "4762046";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=4762046&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks6(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "8190096";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=2190096&keywords=fiction&records-per-page=20&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+       foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks7(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "4509453";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=4509453&keywords=fiction&records-per-page=20&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks8(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "2056438";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=2056438&keywords=fiction&records-per-page=20&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks9(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "3035494";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=3035494&keywords=fiction&records-per-page=20&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks10(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "2842866";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=2842866&keywords=fiction&records-per-page=20&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks11(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "3553686";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=3553686&keywords=fiction&records-per-page=20&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks12(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "4170143";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=4170143&keywords=fiction&records-per-page=20&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+       foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
+    }
+    
+    public function cjbooks13(Request $request, $cjMaxResults = 50){
+        $cjWebsiteId= "8910566";
+        $cjAdvertiserId = "893475";
+        $adminUsers = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')->where('roles.name', 'admin')->first();
+        // register for your developer's key here: http://webservices.cj.com/ (input dev key below)
+        $CJ_DevKey= "Bearer q1p952wdwsw9j5xqq1nya5tse";
+        $currency="USD";
+        $advs="904879"; // results from (joined), (CIDs), (Empty String), (notjoined)
+        // begin building the URL and GETting variables passed
+        $targeturl="https://product-search.api.cj.com/v2/product-search?website-id=8910566&advertiser-ids=893475&keywords=fiction&records-per-page=20&serviceable-area=US";
+        //$targeturl.="website-id=$cjWebsiteId";
+        $categories = Category::where('status', 'Active')->where('parent', 0)->orWhere('parent', null)->where('is_delete', '=', 0)->get();
+        foreach ($categories as $ckey => $cvalue) {
+            $cjKeyword = $cvalue->name;
+            if($cvalue->parent == NULL || $cvalue->parent == 0){
+                $categoryId =  $cvalue->id;
+                $subCategoryId = null;
+            }
+            else
+            {
+                $categoryId =  $cvalue->parent;
+                $subCategoryId = $cvalue->id;
+            }
+            if (isset($cjKeyword))
+            {
+                $keywords = $cjKeyword;
+                $keywords = urlencode($keywords);
+                $targeturl.="&keywords=$keywords";
+            }
+            if (isset($cjMaxResults))
+            {
+                $maxresults = $cjMaxResults;
+                $targeturl.="&records-per-page=".$maxresults;
+            }
+            // end building targeturl
+            $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $targeturl);
+                curl_setopt($ch, CURLOPT_POST, FAlSE);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array('Authorization: '.$CJ_DevKey));
+                $curl_results = curl_exec($ch);
+                $xml = simplexml_load_string($curl_results);
+
+            if($xml->products && $xml->products->product){
+                foreach ($xml->products->product as $key => $row) {
+
+                    $element =(array)$row;
+                    // echo $element['name']."<br>";
+                    if($element['name']){
+                        $book = DB::table('books')->where('ebooktitle', $element['name'])->first();
+                        if(empty((array)$book)){
+                            // echo "<br>========".$element['name']."<br>";
+                            $requestData = array(
+                                'user_id' => $adminUsers->id,
+                                'ebooktitle'=>($element['name']) ? $element['name'] : '',
+                                'subtitle'=>($element['name']) ? $element['name'] : '',
+                                'category'=>$categoryId,
+                                'sub_category'=> $subCategoryId,
+                                'publisher' => '',
+                                'type' => 'paid',
+                                'desc' => ($element['description']) ? $element['description'] : '',
+                                'ebook_logo' => ($element['image-url']) ? $element['image-url'] : '',
+                                'retailPrice' => ($element['price']) ? $element['price'] : '',
+                                'buyLink' =>($element['buy-url']) ? $element['buy-url'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'status' => '2',
+                                'ext_book_id' => ''
+                            );
+
+                            $newBook = Book::create(array_unique($requestData));
+
+                            $paidData = array(
+                                'book_id'=>$newBook->id,
+                                'store_name'=>($element['advertiser-name']) ? $element['advertiser-name'] : '',
+                                'store_logo' =>'692.png',
+                                'link' => ($element['buy-url']) ? $element['buy-url'] : '',
+                                'price' => ($element['price']) ? $element['price'] : '',
+                                'asin' => ($element['sku']) ? $element['sku'] : '',
+                                'price_type' => ($element['currency']) ? $element['currency'] : '',
+                            );
+                            $pData = Paid::create(array_unique($paidData));
+
+                            $paidDiscountData = array(
+                                'book_id'=>$newBook->id,
+                                'paid_ebook_id'=>$pData->id,
+                                'discount'=>'0',
+                                'additional_options' => 'paid',
+                                'desc' => ($element['name']) ? $element['name'] : ''
+                            );
+                            PaidDiscount::create($paidDiscountData);
+                        }
+                    }
+                }
+            }
+        }
+        exit;
     }
     
     public function kobobooks(Request $request, $maxResults = 50){
@@ -293,21 +1784,25 @@ class ApiController extends Controller
                       'category'=>$categoryId,
                       'sub_category'=> $subCategoryId,
                       'publisher' => '',
+                      'publisher_date' => 'Created on',
+                      'author' => '',
                       'type' => 'paid',
-                      'desc' => ($element['description']['short']) ? $element['description']['short'] : '',
+                      'desc' => ($element['description']['long']) ? $element['description']['long'] : '',
                       'ebook_logo' => ($element['imageurl']) ? $element['imageurl'] : '',
                       'retailPrice' => ($element['saleprice']) ? $element['saleprice'] : '',
                       'buyLink' =>($element['linkurl']) ? $element['linkurl'] : '',
                       'asin' => ($element['sku']) ? $element['sku'] : '',
+                      'status' => '2',
                       'ext_book_id' => ''
                     );
                     $newBook = Book::create($requestData);
-
                     $paidData = array(
                       'book_id'=>$newBook->id,
                       'store_name'=>'Kobo Books',
+                      'store_logo' =>'kobo.png',
                       'link' => ($element['linkurl']) ? $element['linkurl'] : '',
                       'price' => ($element['saleprice']) ? $element['saleprice'] : '',
+                      'asin' => ($element['sku']) ? $element['sku'] : '',
                     );
                     $pData = Paid::create($paidData);
 
@@ -483,5 +1978,15 @@ class ApiController extends Controller
     public function destroy($id)
     {
         //
+    }
+     public function mail()
+    {
+            $data = array('name'=>"Virat Gandhi");
+   
+            $mailData['email'] = 'prashantrocks1990@gmail.com';
+            // Mail delivery logic goes here
+            Mail::to('prashantrocks1990@gmail.com')->send(new StayInTouch($mailData));
+            return view('stayintouch', compact('mailData'));
+            echo "Basic Email Sent. Check your inbox.";
     }
 }

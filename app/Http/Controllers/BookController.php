@@ -79,7 +79,29 @@ class BookController extends Controller
 
         return view('books.search', compact('books', 'categories', 'search_text'));
     }
+public function search1(Request $request, $search_text)
+    {
 
+        $keyword = $search_text;
+        $perPage = 25;
+        $categories = Category::all();
+        $author_arr = User::where('name', 'LIKE', "%$keyword%")->pluck('id');
+
+        if (!empty($keyword))
+        {
+            $books = Book::where('ebooktitle', 'LIKE', "%$keyword%")
+                ->orWhere('subtitle', 'LIKE', "%$keyword%")
+                ->orWhere('asin', 'LIKE', "%$keyword%")
+                ->orWhere('subtitle', 'LIKE', "%$keyword%")
+                ->orwhereIn('author', $author_arr)
+                ->latest()->paginate($perPage);
+        }
+        else
+        {
+            $books = Book::latest()->paginate($perPage);
+        }
+        return view('books.book_search', compact('books', 'categories', 'search_text'));
+    }
     public function getsubcategory($id)
     {
         $category = Category::where('status', 'Active')->where('parent', $id)->where('is_delete', '=', 0)->get();
@@ -298,6 +320,7 @@ class BookController extends Controller
                 ->where('categories.status', '=', 'Active')
                 ->where('books.status', '=', 2)
                 ->where('books.type', '=', $category_name)
+                ->groupBy('asin')
                 ->get();
             $total = DB::table('books')
                 ->join('users', 'users.id', '=', 'books.user_id')
@@ -620,10 +643,13 @@ class BookController extends Controller
         $author = null;
         if($book->author && !empty($book->author) && is_numeric($book->author)){
             $author = User::findOrFail($book->author);
+        }else{
+            $author = Book::findOrFail($id)->author;
         }
         $book_star = BookReview::where('book_id', '=', $book->id)->avg('star');
         $book->star = $book_star;
         $paid = Book::findOrFail($id)->paid;
+       // $paid1 = DB::table('paid_ebook')->where('asin', $book->asin);
         $paidDiscount = DB::table('paid_discount')
         ->join('paid_ebook', function($join){
             $join->on('paid_discount.book_id', '=', 'paid_ebook.book_id')
@@ -655,7 +681,7 @@ class BookController extends Controller
             ->select('book_reviews.*', 'books.author', 'books.publisher', 'users.first_name', 'users.last_name', 'users.name')
             ->where('book_reviews.book_id', '=', $id)
             ->get();
-        return view('books.free_ebook', compact('book', 'related_book', 'paid', 'paidDiscount', 'bookReview', 'book_review_count', 'book_reviews', 'author', 'bookCategory'));
+        return view('books.free_ebook', compact('book', 'related_book', 'paid','paid1', 'paidDiscount', 'bookReview', 'book_review_count', 'book_reviews', 'author', 'bookCategory'));
     }
 
     public function readlater($bookid, $btitle){

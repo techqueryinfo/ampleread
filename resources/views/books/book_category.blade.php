@@ -5,8 +5,24 @@
         <div class="search-icon">
             <i class="fas fa-search"></i>
         </div>
-        <input type="text" placeholder="Search by Title, Author, ISBN">
+        <input type="text"  placeholder="Search by Title, Author, ISBN" id="bookSearchInput1"  name="book_search" value="{{(!empty($search_text)) ? $search_text : ''}}">
     </div>
+    <!-- section three-->
+    <script>
+        $(document).ready(function() {
+            $('#bookSearchInput1').keypress(function (e) {
+                if (e.which == 13) {
+                    // $('form#login').submit();
+                    console.log($(this).val());
+                    var stext = $(this).val();
+                    if(stext){
+                        window.location.href='/book/search1/'+stext;
+                    }
+                    return false;    // Add this line
+                }
+            });
+        });
+    </script>
     <!-- section three-->
     <div class="section-three">
         <div class="left">

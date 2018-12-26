@@ -25,7 +25,7 @@ class Paid extends Model
      *
      * @var array
      */
-    protected $fillable = ['id','book_id', 'store_name', 'store_logo', 'link', 'price'];
+    protected $fillable = ['id','book_id', 'store_name', 'store_logo', 'link', 'price','asin','price_type'];
 
     /**
      * Get the discounts for the paid e-book stores.

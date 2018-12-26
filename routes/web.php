@@ -21,9 +21,25 @@ Route::post('/stayintouch', 'WelcomeController@stayintouch')->name('stayintouch'
 Route::get('/stayintouch', 'WelcomeController@stayintouch')->name('stayintouch');
 
 Route::get('/api', 'API\ApiController@index');
-Route::get('/abebooks/import/{maxresults?}', 'API\ApiController@abebooks');
-Route::get('/kobobooks/import/{maxresults?}', 'API\ApiController@kobobooks');
-Route::get('/cjbooks/import/{maxresults?}', 'API\ApiController@cjbooks');
+Route::get('/abebooks', 'API\ApiController@abebooks');
+Route::get('/bookdepository', 'API\ApiController@bookdepository');
+Route::get('/kobobooks', 'API\ApiController@kobobooks');
+Route::get('/cjbooks', 'API\ApiController@cjbooks');
+Route::get('/cjbooks1', 'API\ApiController@cjbooks1');
+Route::get('/cjbooks2', 'API\ApiController@cjbooks2');
+Route::get('/cjbooks3', 'API\ApiController@cjbooks3');
+Route::get('/cjbooks4', 'API\ApiController@cjbooks4');
+Route::get('/cjbooks5', 'API\ApiController@cjbooks5');
+Route::get('/cjbooks6', 'API\ApiController@cjbooks6');
+Route::get('/cjbooks7', 'API\ApiController@cjbooks7');
+Route::get('/cjbooks8', 'API\ApiController@cjbooks8');
+Route::get('/cjbooks9', 'API\ApiController@cjbooks9');
+Route::get('/cjbooks10', 'API\ApiController@cjbooks10');
+Route::get('/cjbooks11', 'API\ApiController@cjbooks11');
+Route::get('/cjbooks12', 'API\ApiController@cjbooks12');
+Route::get('/cjbooks13', 'API\ApiController@cjbooks13');
+Route::post('/mail', 'API\ApiController@mail');
+Route::get('/mail', 'API\ApiController@mail');
 Route::get('/book/savebookmark/{user_id}/{book_id}/{chapter}', 'BookController@savebookmark');
 
 // Authentication Routes
@@ -172,6 +188,7 @@ Route::get('privacy', 'PagesController@privacy');
 Route::get('help', 'PagesController@help');
 Route::get('subscription','PagesController@subscription');
 Route::get('book/search/{search_text}', 'BookController@search');
+Route::get('book/search1/{search_text}', 'BookController@search1');
 //show subscription plans in front end for users
 Route::get('plans', 'Admin\\PlansController@fe_view_plans');
 Route::post('profile/payment', 'Admin\\PlansController@do_payment');

@@ -17,8 +17,22 @@
         <ul>
             <li {{ Request::is('admin/dashboard') ? 'class=active' : null }}>{!! HTML::link(url('/admin/dashboard'), 'Stats') !!}</li>
             <li {{ Request::is('admin/homepage') ? 'class=active' : null }}>{!! HTML::link(url('/admin/homepage'), 'Homepage') !!}</li>
-            <li {{ Request::is('admin/books/category/{category_name}') ? 'class=active' : null }}>{!! HTML::link(url('/admin/books/category/all-books'), 'Books') !!}</li>
+            <!--<li {{ Request::is('admin/books/category/{category_name}') ? 'class=active' : null }}>{!! HTML::link(url('/admin/books/category/all-books'), 'Books') !!}</li>-->
+            <li id="book_id_click">
+                                  <a href="#">
+                                    Books
+                                    <span class="pull-right-container circle-padding" id="change_icon">
+                                      <i class="fa fa-angle-down pull-right"></i>
+                                    </span>
+                                  </a>
+                                  <ul class="treeview-menu" id="treeviewshow">
+                                    <li>{!! HTML::link(url('/books/type/free/all-books'), 'Free Books') !!}</li>
+                                    <li>{!! HTML::link(url('/books/type/paid/all-books'), 'Paid Books') !!}</li>
+
+                                  </ul>
+                                </li>
             <li {{ Request::is('users', 'users/' . Auth::user()->id, 'users/' . Auth::user()->id . '/edit') ? 'class=active' : null }}>{!! HTML::link(url('/users'), Lang::get('titles.adminUserList')) !!}</li>
+
             <!-- <li {{ Request::is('admin/categories') ? 'class=active' : null }}>{!! HTML::link(url('/admin/categories'), 'Category Management') !!}</li> -->
             <li {{ Request::is('admin/plans') ? 'class=active' : null }}>{!! HTML::link(url('/admin/plans'), 'Plan Management') !!}</li>
             <li {{ Request::is('/admin/transaction') ? 'class=active' : null }}>{!! HTML::link(url('/admin/transaction'), 'Transactions') !!}</li>
@@ -37,3 +51,15 @@
         </form>
     </div>
 </div>
+<script>
+$(document).ready(function(){
+    $("#book_id_click").click(function(){
+        $("i").toggleClass("fa fa-angle-up fa fa-angle-down");
+//        document.getElementById('treeviewshow').style.cssText = 'display: block;';
+        $("#treeviewshow").slideToggle("slow");
+
+
+
+    });
+});
+</script>

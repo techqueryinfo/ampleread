@@ -64,17 +64,13 @@ class WelcomeController extends Controller
 
     public function stayintouch(Request $request)
     {
-        $requestData = $request->all();
-        if(!empty($requestData)){
-            $mailData['email'] = $request->get('email');
+        //$requestData = $request->all();
+       
+            $mailData['email'] = 'prashantrocks1990@gmail.com';
             // Mail delivery logic goes here
-            Mail::to('vinod@mailinator.com')->send(new StayInTouch($mailData));
+            Mail::to('prashantrocks1990@gmail.com')->send(new StayInTouch($mailData));
             return view('stayintouch', compact('mailData'));
-        }
-        else
-        {
-            return redirect('welcome/');
-        }
+        
 
     }
     /*Temporary Controller till construction*/

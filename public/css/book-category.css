@@ -39,7 +39,8 @@
 .admin-book-category .second-row .row{
     display:inline-block;
     position:relative;
-    width:205px;
+    /*width:calc(25% - 30px);*/
+    width:calc(33.33% - 30px);
     /*height:398px;*/
     height:auto;
     float:left;
@@ -48,12 +49,19 @@
     margin-bottom: 20px;
 }
 .admin-book-category .second-row .row .edit-delete{
+    /*width:40px;
+    position:absolute;
+    top:9px;
+    height:40px;
+    float:right;
+    left:155px*/
+
     width:40px;
     position:absolute;
     top:9px;
     height:40px;
     float:right;
-    left:155px
+    left:98px;
 }
 
 .admin-book-category .second-row .row .edit-delete .edit{
@@ -66,16 +74,33 @@
 .admin-book-category .second-row .row .edit-delete .edit i{
     color:#8ea1b2;
     font-size:14px;
-    padding:14px;
+    padding:14px 12px;
     cursor:pointer
 }
+
+
+.admin-book-category .second-row .row .image{
+    width:150px;
+    height:225px;
+
+
+
+
+}
+
 .admin-book-category .second-row .row .image img{
-    width:205px;
-    height:307.5px
+    /*width:205px;*/
+    /*height:307.5px;*/
+    width:100%;
+    height:100%;
+
+
+
 }
 .admin-book-category .second-row .row .title{
-    width:205px;
-    height:44px;
+    width:150px;
+    /*width:205px;*/
+    height:auto;
     font-size:16px;
     font-weight:bold;
     font-style:normal;
@@ -88,8 +113,10 @@
     margin:20px 0px 5px 0px
 }
 .admin-book-category .second-row .row .writer{
-    width:205px;
-    float:left;
+    /*width:205px;*/
+    width:150px;
+    /*float:left;*/
+    float:none;
     opacity:0.6;
     font-family:GothamPro;
     font-size:16px;
@@ -102,16 +129,18 @@
     color:#000000
 }
 .admin-book-category .second-row .row input{
-    width:100%;
+    width:150px;
+    /*width:100%;*/
     height:35px;
     border-radius:4px;
     background-image:linear-gradient(102deg, #f95d49, #ff7335);
     box-shadow:5px 10px 40px 0 rgba(249,93,73,0.2);
     color:#ffffff;
     border:1px solid #ff7335;
-    margin-top:20px
+    margin-top:20px;
 }
 .admin-book-category .second-row .row label{
+    width: 150px;
     cursor:pointer;
     margin-top:20px;
     font-size:14px;
@@ -122,6 +151,7 @@
     letter-spacing:normal;
     text-align:center;
     color:#8ea1b2;
-    padding:0 32%
+    /*padding:0 32%*/
+    padding:0 0%;
 }
  

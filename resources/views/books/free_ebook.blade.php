@@ -60,20 +60,26 @@
                     @if($book->type == 'free')
                         <a lass="submit-button" href="{{url('book/reading/'.$book->id.'/'.$book->ebooktitle)}}">Read Book</a>
                     @else
-                        <button type="submit">FROM ${{$book->retailPrice}} <span class="caret"></span>
-
-                        </button>
+                    <?php
+                $asin = $book->asin;
+                $subcategory = DB::select("select * from paid_ebook where asin= $asin ORDER BY `paid_ebook`.`price` DESC LIMIT 1" );
+                foreach ($subcategory as $sKey => $val){
+                ?>
+                        <button type="submit">FROM {{$val->price}} {{$val->price_type}} <span class="caret"></span></button>
+                         <?php } ?>
                         <div class="button-form-wrapper" style="display: none;">
-                               <ul>
-                                       <li><a href="#">Amazon</a></li>
-                                       <li><a href="#">Snapdeal </a></li>
-                                       <li><a href="#">Flipkart</a></li>
-                                       <li><a href="#">Big basket</a></li>
-                               </ul>
-                               </div>
+                            <ul>
+                                <?php
+                         $asin = $book->asin;
+                $subcategory = DB::select("select * from paid_ebook where asin= $asin ORDER BY `paid_ebook`.`price` DESC");
+                foreach ($subcategory as $sKey => $val){
+                ?>
+                                <li><a href="{{ $val->link }}" target="_blank" aria-expanded="true">{{ $val->store_name }}</a></li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                        
                     @endif
-
-                               
                      </div>
                     @if($book->type == 'free')
                         <div class="text"><a href="{{url('book/readlater/'.$book->id.'/'.$book->ebooktitle)}}"><i class="far fa-clock"></i> SAVE FOR LATER</a></div>
@@ -82,10 +88,14 @@
                         @endif
                     @else
                         <div class="text"><i class="fab fa-gitter"></i> <a name="comparePrice" href="#comparePrice">COMPARE PRICE</a></div>  
-                        <div class="text"><i class="far fa-dollar-sign"></i> <a href="{{$book->buyLink}}" target="_blank" aria-expanded="true">Buy Now</a> </div>
+                        <!--<div class="text"><i class="far fa-dollar-sign"></i> <a href="{{$book->buyLink}}" target="_blank" aria-expanded="true">Buy Now</a> </div>-->
                     @endif
             </div>
-             <div class="book-description" id="see_more2">{{substr($book->desc,0, 250)}}<span style="color: #679cc9; cursor: pointer;" id="see_more"> ...Read more</span></div>
+             @if($book->desc == substr($book->desc,0, 250))
+              <div class="book-description">{{$book->desc}}</div>
+              @else
+              <div class="book-description" id="see_more2">{{substr($book->desc,0, 250)}}<span style="color: #679cc9; cursor: pointer;" id="see_more"> ...Read more</span></div>
+              @endif
             <div class="book-description" id="see_more1">{{$book->desc}}<span style="color: #679cc9; cursor: pointer;" id="see_more3"> Less</span></div>
         </div>
     </div>
@@ -139,7 +149,25 @@
                 </ul>
             </div>
         </div>
-        @if($book->author && $author)
+        @if($book->type =='paid')
+        <div class="author-description">
+            <div class="author-details">
+                <div class="image">
+                    <a href="#">
+                        <img src="/images/user.png" alt="autor-image" border="0">
+                    </a>
+                </div>
+                <div class="name">
+                    <div class="title"><a href="">{{$author}}</a></div>
+                    <div class="sub-title">Author</div>
+                </div>
+                <div class="author-des">
+                    
+                </div>
+            </div>
+            
+        </div>
+        @else
         <div class="author-description">
             <div class="author-details">
                 <div class="image">
@@ -176,7 +204,11 @@
                 <div class="unit-compare">Availability</div>
                 <div class="unit-compare">Price</div>
             </div>
-            @foreach($paid as $val)
+            <?php
+                $asin = $book->asin;
+                $subcategory = DB::select("select * from paid_ebook where asin= $asin ORDER BY `paid_ebook`.`price` DESC" );
+                foreach ($subcategory as $sKey => $val){
+                ?>
             <div class="row-compare-one sec-two">
                 <div class="unit-compare-sec">
                     <div class="image-box">
@@ -194,13 +226,13 @@
                 </div>
                 <div class="unit-compare-sec">
                     <div class="stock">In Stock</div>
-                    <div class="days">Free shipping 5 - 7 days</div>
+                    <!--<div class="days">{{ $book->availablity }}</div>-->
                 </div>
                 <div class="unit-compare-sec">
                     <div class="price">$ {{ $val->price }}</div>
                 </div>
             </div>
-            @endforeach
+            <?php } ?>
         </div>
         <div class="book-compare-price">
             <div class="heading">Available Discount</div>
@@ -217,7 +249,7 @@
                     <div class="content">{{ $val->desc }}</div>
                 </div>
                 <div class="unit-compare-sec-four">
-                    <button >Get this deal</button>
+                    <a href="{{$book->buyLink}}" target="_blank" aria-expanded="true"><button>Get this deal</button></a>
                 </div>
                 <div class="unit-compare-sec-five">
                     <i class="fas fa-thumbs-up"></i>
