@@ -38,7 +38,7 @@
             <li {{ Request::is('/admin/transaction') ? 'class=active' : null }}>{!! HTML::link(url('/admin/transaction'), 'Transactions') !!}</li>
             <li {{ Request::is('admin/settings') ? 'class=active' : null }}>{!! HTML::link(url('/admin/settings'), 'Admin Settings') !!}</li>
             <li {{ Request::is('admin/review') ? 'class=active' : null }}>{!! HTML::link(url('/admin/review'), 'Books for review') !!}</li>
-            <li {{ Request::is('admin/message') ? 'class=active' : null }}>{!! HTML::link(url('/admin/message'), 'Messages') !!}<span class="badge">5</span></li>
+            <li {{ Request::is('admin/message') ? 'class=active' : null }}>{!! HTML::link(url('/admin/message'), 'Messages') !!}<!-- <span class="badge">5</span> --></li>
         </ul>
     </div>
     <div class="logout">

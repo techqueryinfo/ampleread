@@ -210,6 +210,7 @@ Route::get('books/{category_name}/{category_id?}', 'BookController@view_all_book
 
 Route::get('message', 'AdminMessageController@front_message_view');
 Route::get('/getusers', 'AdminMessageController@get_all_users');
+Route::get('/getuser/{username}', 'AdminMessageController@getuser');
 Route::get('/message_data', 'AdminMessageController@get_all_messages');
 Route::get('/user_messages/{id}', 'AdminMessageController@get_user_messages');
 Route::post('save_message', 'AdminMessageController@save_admin_message');

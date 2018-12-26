@@ -1,182 +1,190 @@
 var Page = (function() {
 
-	var $container = $( '#container' ),
-		$bookBlock = $( '#bb-bookblock' ),
-		$items = $bookBlock.children(),
-		itemsCount = $items.length,
-		current = 0,
-		bb = $( '#bb-bookblock' ).bookblock( {
-			speed : 800,
-			perspective : 4000,
-			shadowSides	: 0.8,
-			shadowFlip	: 0.4,
-			onEndFlip : function(old, page, isLimit) {
-				
-				current = page;
-				// update TOC current
-				updateTOC();
-				// updateNavigation
-				updateNavigation( isLimit );
-				// initialize jScrollPane on the content div for the new item
-				setJSP( 'init' );
-				// destroy jScrollPane on the content div for the old item
-				setJSP( 'destroy', old );
+  var $container = $( '#container' ),
+    $bookBlock = $( '#bb-bookblock' ),
+    $items = $bookBlock.children(),
+    itemsCount = $items.length,
+    current = 0,
+    bb = $( '#bb-bookblock' ).bookblock( {
+      speed : 800,
+      perspective : 4000,
+      shadowSides : 0.8,
+      shadowFlip  : 0.4,
+      onEndFlip : function(old, page, isLimit) {
+        
+        current = page;
+        // update TOC current
+        updateTOC();
+        // updateNavigation
+        updateNavigation( isLimit );
+        // initialize jScrollPane on the content div for the new item
+        setJSP( 'init' );
+        // destroy jScrollPane on the content div for the old item
+        setJSP( 'destroy', old );
 
-			}
-		} ),
-		$navNext = $( '#bb-nav-next' ),
-		$navPrev = $( '#bb-nav-prev' ).hide(),
-		$menuItems = $container.find( 'div.menu-toc > div ' ),
-		$tblcontents = $( '#tblcontents' ),
-		transEndEventNames = {
-			'WebkitTransition': 'webkitTransitionEnd',
-			'MozTransition': 'transitionend',
-			'OTransition': 'oTransitionEnd',
-			'msTransition': 'MSTransitionEnd',
-			'transition': 'transitionend'
-		},
-		transEndEventName = transEndEventNames[Modernizr.prefixed('transition')],
-		supportTransitions = Modernizr.csstransitions;
-	function init() {
+      }
+    } ),
+    $navNext = $( '#bb-nav-next' ),
+    $navPrev = $( '#bb-nav-prev' ).hide(),
+    $menuItems = $container.find( 'div.menu-toc > div ' ),
+    $tblcontents = $( '#tblcontents' ),
+    transEndEventNames = {
+      'WebkitTransition': 'webkitTransitionEnd',
+      'MozTransition': 'transitionend',
+      'OTransition': 'oTransitionEnd',
+      'msTransition': 'MSTransitionEnd',
+      'transition': 'transitionend'
+    },
+    transEndEventName = transEndEventNames[Modernizr.prefixed('transition')],
+    supportTransitions = Modernizr.csstransitions;
+  function init() {
 
-		// initialize jScrollPane on the content div of the first item
-		setJSP( 'init' );
-		initEvents();
+    // initialize jScrollPane on the content div of the first item
+    setJSP( 'init' );
+    initEvents();
 
-	}
-	
-	function initEvents() {
+  }
+  
+  function initEvents() {
 
-		// add navigation events
-		$navNext.on( 'click', function() {
-			bb.next();
-			return false;
-		} );
+    // add navigation events
+    $navNext.on( 'click', function() {
+      bb.next();
+      setTimeout(function(){
+          var ckey = $('div.menu-toc-current').attr('data-chapter-id');
+          $('div.reader-page span').text(parseInt(ckey)+1);
+      }, 1000);
+      return false;
+    } );
 
-		$navPrev.on( 'click', function() {
-			bb.prev();
-			return false;
-		} );
-		
-		// add swipe events
-		$items.on( {
-			'swipeleft'		: function( event ) {
-				if( $container.data( 'opened' ) ) {
-					return false;
-				}
-				bb.next();
-				return false;
-			},
-			'swiperight'	: function( event ) {
-				if( $container.data( 'opened' ) ) {
-					return false;
-				}
-				bb.prev();
-				return false;
-			}
-		} );
+    $navPrev.on( 'click', function() {
+      bb.prev();
+      setTimeout(function(){
+          var ckey = $('div.menu-toc-current').attr('data-chapter-id');
+          $('div.reader-page span').text(parseInt(ckey)+1);
+      }, 1000);
+      return false;
+    } );
+    
+    // add swipe events
+    // $items.on( {
+    //  'swipeleft'   : function( event ) {
+    //    if( $container.data( 'opened' ) ) {
+    //      return false;
+    //    }
+    //    bb.next();
+    //    return false;
+    //  },
+    //  'swiperight'  : function( event ) {
+    //    if( $container.data( 'opened' ) ) {
+    //      return false;
+    //    }
+    //    bb.prev();
+    //    return false;
+    //  }
+    // } );
 
-		// show table of contents
-		$tblcontents.on( 'click', toggleTOC );
+    // show table of contents
+    $tblcontents.on( 'click', toggleTOC );
 
-		// click a menu item
-		$menuItems.on( 'click', function() {
-			var $el = $( this ),
-				idx = $el.index(),
-				jump = function() {
-					bb.jump( idx + 1 );
-				};
-			// console.log(idx, current, itemsCount);
-			var pagePer = ((idx+1)/itemsCount)*100;
-			$('.reader-page span').text(idx+1);
-			$('.reader-footer .bar').css({width:pagePer+'%'});
+    // click a menu item
+    $menuItems.on( 'click', function() {
+      var $el = $( this ),
+        idx = $el.index(),
+        jump = function() {
+          bb.jump( idx + 1 );
+        };
+      // console.log(idx, current, itemsCount);
+      var pagePer = ((idx+1)/itemsCount)*100;
+      $('.reader-page span').text(idx+1);
+      $('.reader-footer .bar').css({width:pagePer+'%'});
 
-			current !== idx ? closeTOC( jump ) : closeTOC();
+      current !== idx ? closeTOC( jump ) : closeTOC();
 
-			return false;
-			
-		} );
+      return false;
+      
+    } );
 
-		// reinit jScrollPane on window resize
-		$( window ).on( 'debouncedresize', function() {
-			// reinitialise jScrollPane on the content div
-			setJSP( 'reinit' );
-		} );
+    // reinit jScrollPane on window resize
+    $( window ).on( 'debouncedresize', function() {
+      // reinitialise jScrollPane on the content div
+      setJSP( 'reinit' );
+    } );
 
-	}
+  }
 
-	function setJSP( action, idx ) {
-		
-		var idx = idx === undefined ? current : idx,
-			$content = $items.eq( idx ).children( 'div.pagecontent' ),
-			apiJSP = $content.data( 'jsp' );
-		
-		if( action === 'init' && apiJSP === undefined ) {
-			$content.jScrollPane({verticalGutter : 0, hideFocus : true });
-		}
-		else if( action === 'reinit' && apiJSP !== undefined ) {
-			apiJSP.reinitialise();
-		}
-		else if( action === 'destroy' && apiJSP !== undefined ) {
-			apiJSP.destroy();
-		}
+  function setJSP( action, idx ) {
+    
+    var idx = idx === undefined ? current : idx,
+      $content = $items.eq( idx ).children( 'div.pagecontent' ),
+      apiJSP = $content.data( 'jsp' );
+    
+    if( action === 'init' && apiJSP === undefined ) {
+      $content.jScrollPane({verticalGutter : 0, hideFocus : true });
+    }
+    else if( action === 'reinit' && apiJSP !== undefined ) {
+      apiJSP.reinitialise();
+    }
+    else if( action === 'destroy' && apiJSP !== undefined ) {
+      apiJSP.destroy();
+    }
 
-	}
+  }
 
-	function updateTOC() {
-		$menuItems.removeClass( 'menu-toc-current active' ).eq( current ).addClass( 'menu-toc-current active' );
-	}
+  function updateTOC() {
+    $menuItems.removeClass( 'menu-toc-current active' ).eq( current ).addClass( 'menu-toc-current active' );
+  }
 
-	function updateNavigation( isLastPage ) {
-		
-		if( current === 0 ) {
-			$navNext.show();
-			$navPrev.hide();
-		}
-		else if( isLastPage ) {
-			$navNext.hide();
-			$navPrev.show();
-		}
-		else {
-			$navNext.show();
-			$navPrev.show();
-		}
+  function updateNavigation( isLastPage ) {
+    
+    if( current === 0 ) {
+      $navNext.show();
+      $navPrev.hide();
+    }
+    else if( isLastPage ) {
+      $navNext.hide();
+      $navPrev.show();
+    }
+    else {
+      $navNext.show();
+      $navPrev.show();
+    }
 
-	}
+  }
 
-	function toggleTOC() {
-		var opened = $container.data( 'opened' );
-		opened ? closeTOC() : openTOC();
-	}
+  function toggleTOC() {
+    var opened = $container.data( 'opened' );
+    opened ? closeTOC() : openTOC();
+  }
 
-	function openTOC() {
-		$navNext.hide();
-		$navPrev.hide();
-		$container.addClass( 'slideRight' ).data( 'opened', true );
-	}
+  function openTOC() {
+    $navNext.hide();
+    $navPrev.hide();
+    $container.addClass( 'slideRight' ).data( 'opened', true );
+  }
 
-	function closeTOC( callback ) {
-		updateNavigation( current === itemsCount - 1 );
-		$container.removeClass( 'slideRight' ).data( 'opened', false );
-		if( callback) {
-			if( supportTransitions ) {
-				$( this ).off( transEndEventName );
-				callback.call();
-				// console.log('rrrrrrrrr');
-				// console.log('wwww',$( this ), transEndEventName);
-				// $container.on( transEndEventName, function() {
-				// 	console.log('wwww',$( this ));
-				// 	$( this ).off( transEndEventName );
-				// 	callback.call();
-				// } );
-			}
-			else {
-				callback.call();
-			}
-		}
+  function closeTOC( callback ) {
+    updateNavigation( current === itemsCount - 1 );
+    $container.removeClass( 'slideRight' ).data( 'opened', false );
+    if( callback) {
+      if( supportTransitions ) {
+        $( this ).off( transEndEventName );
+        callback.call();
+        // console.log('rrrrrrrrr');
+        // console.log('wwww',$( this ), transEndEventName);
+        // $container.on( transEndEventName, function() {
+        //  console.log('wwww',$( this ));
+        //  $( this ).off( transEndEventName );
+        //  callback.call();
+        // } );
+      }
+      else {
+        callback.call();
+      }
+    }
 
-	}
+  }
 
-	return { init : init };
+  return { init : init };
 
 })();
